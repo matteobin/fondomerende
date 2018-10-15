@@ -23,7 +23,7 @@
         return json_encode($response);
     }
     
-    function buy() {
+    function buy($snackId, $options=null) { // options array: price, snack per box, expiration in days
         
     }
 ?>
