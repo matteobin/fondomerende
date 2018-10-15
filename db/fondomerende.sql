@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.1
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2018 at 05:06 PM
--- Server version: 10.1.33-MariaDB
--- PHP Version: 7.1.18
+-- Generation Time: Oct 15, 2018 at 10:52 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -171,7 +169,7 @@ CREATE TABLE `snacks` (
   `name` varchar(60) NOT NULL,
   `price` decimal(5,2) NOT NULL,
   `snack_per_box` int(2) NOT NULL,
-  `is_liquid` bit(1) NOT NULL,
+  `is_liquid` bit(1) NOT NULL DEFAULT b'0',
   `estimated_expiration_in_days` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -180,9 +178,9 @@ CREATE TABLE `snacks` (
 --
 
 INSERT INTO `snacks` (`id`, `name`, `price`, `snack_per_box`, `is_liquid`, `estimated_expiration_in_days`) VALUES
-(1, 'Taralli Coop', '1.99', 12, b'0', 0),
-(2, 'Baiocchi', '2.49', 6, b'0', 0),
-(3, 'Kinder Bueno', '3.45', 6, b'0', 0);
+(1, 'Taralli Coop', '1.99', 12, b'1111111111111111111111111111111', 0),
+(2, 'Baiocchi', '2.49', 6, b'1111111111111111111111111111111', 0),
+(3, 'Kinder Bueno', '3.45', 6, b'1111111111111111111111111111111', 0);
 
 -- --------------------------------------------------------
 
@@ -349,7 +347,6 @@ ALTER TABLE `users_funds`
 --
 ALTER TABLE `actions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- Constraints for dumped tables
 --
@@ -411,7 +408,6 @@ ALTER TABLE `users_alias`
 --
 ALTER TABLE `users_funds`
   ADD CONSTRAINT `users_funds_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
