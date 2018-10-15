@@ -9,7 +9,7 @@ $snackId = filter_input(INPUT_POST, 'snack-id', FILTER_SANITIZE_NUMBER_INT);
 $quantity = filter_input(INPUT_POST, 'quantity', FILTER_SANITIZE_NUMBER_INT);
 $dbManager = new DbManager('127.0.0.1', 'root', '', 'fondomerende');
 if ($command!='') {
-    eat($userId, $snackId, $quantity);
+    var_dump(eat($userId, $snackId, $quantity));
 }
 ?>
 </pre>

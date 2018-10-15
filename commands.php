@@ -8,7 +8,7 @@
             $outflow_id = $row['outflow_id'];
             $totalPrice = $quantity*$row['price_per_snack'];
         }
-        if isset($outflow_id) {
+        if (isset($outflow_id)) {
             $dbManager->runPreparedQuery('UPDATE crates SET quantity = quantity-? WHERE outflow_id=?', [$quantity, $outflow_id], 'ii');
             $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity = quantity-? WHERE snack_id=?', [$quantity, $snackId], 'ii');
             $dbManager->runPreparedQuery('UPDATE eaten SET quantity = quantity+? WHERE snack_id=?', [$quantity, $snackId], 'ii');
