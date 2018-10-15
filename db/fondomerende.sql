@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2018 at 03:03 PM
+-- Generation Time: Oct 15, 2018 at 05:06 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -35,8 +35,20 @@ CREATE TABLE `actions` (
   `snack_id` int(2) NOT NULL,
   `snack_quantity` int(2) NOT NULL,
   `funds_ammount` decimal(3,2) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `actions`
+--
+
+INSERT INTO `actions` (`id`, `user_id`, `command_id`, `snack_id`, `snack_quantity`, `funds_ammount`, `updated_at`) VALUES
+(1, 1, 1, 3, 1, '0.00', '2018-10-15 12:31:36'),
+(2, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:31'),
+(3, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:33'),
+(4, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:35'),
+(5, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:36'),
+(6, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:44');
 
 -- --------------------------------------------------------
 
@@ -104,15 +116,15 @@ CREATE TABLE `eaten` (
   `snack_id` int(2) NOT NULL,
   `user_id` int(2) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `eaten`
 --
 
-INSERT INTO `eaten` (`snack_id`, `user_id`, `quantity`, `last_updated`) VALUES
-(3, 1, 0, '2018-10-09 12:47:47');
+INSERT INTO `eaten` (`snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
+(3, 1, 6, '2018-10-15 12:32:44');
 
 -- --------------------------------------------------------
 
@@ -124,7 +136,7 @@ CREATE TABLE `inflows` (
   `id` int(11) NOT NULL,
   `user_id` int(2) NOT NULL,
   `amount` decimal(5,2) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -138,14 +150,14 @@ CREATE TABLE `outflows` (
   `amount` decimal(5,2) NOT NULL,
   `snack_id` int(2) NOT NULL,
   `quantity` int(3) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `outflows`
 --
 
-INSERT INTO `outflows` (`id`, `amount`, `snack_id`, `quantity`, `timestamp`) VALUES
+INSERT INTO `outflows` (`id`, `amount`, `snack_id`, `quantity`, `created_at`) VALUES
 (1, '3.45', 3, 1, '2018-10-09 12:37:33');
 
 -- --------------------------------------------------------
@@ -181,15 +193,15 @@ INSERT INTO `snacks` (`id`, `name`, `price`, `snack_per_box`, `is_liquid`, `esti
 CREATE TABLE `snacks_stock` (
   `snack_id` int(2) NOT NULL,
   `quantity` int(3) NOT NULL,
-  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `snacks_stock`
 --
 
-INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `last_updated`) VALUES
-(3, 6, '2018-10-09 13:01:43');
+INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `updated_at`) VALUES
+(3, 6, '2018-10-15 12:34:50');
 
 -- --------------------------------------------------------
 
@@ -233,15 +245,15 @@ CREATE TABLE `users_alias` (
 CREATE TABLE `users_funds` (
   `user_id` int(2) NOT NULL,
   `amount` decimal(5,2) NOT NULL,
-  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users_funds`
 --
 
-INSERT INTO `users_funds` (`user_id`, `amount`, `last_updated`) VALUES
-(1, '5.29', '2018-10-09 12:47:54');
+INSERT INTO `users_funds` (`user_id`, `amount`, `updated_at`) VALUES
+(1, '5.29', '2018-10-15 15:06:22');
 
 --
 -- Indexes for dumped tables
@@ -336,7 +348,7 @@ ALTER TABLE `users_funds`
 -- AUTO_INCREMENT for table `actions`
 --
 ALTER TABLE `actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
