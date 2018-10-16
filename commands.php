@@ -14,15 +14,15 @@
                 $dbManager->runPreparedQuery('UPDATE eaten SET quantity = quantity+? WHERE snack_id=?', array($quantity, $snackId), 'ii');
                 $dbManager->runPreparedQuery('UPDATE users_funds SET amount = amount-? WHERE user_id=?', array($totalPrice, $userId), 'si');
                 $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity) VALUES (?, ?, ?, ?)', array($userId, 1, $snackId, $quantity), 'iiii');
-                $response = array('success'=>true, 'code'=>204);
+                $response = array('success'=>true, 'status'=>204);
             } else {
-                $response = array('success'=>false, 'code'=>404, 'message'=>'No crates containing snack id '.$snackId.'.');
+                $response = array('success'=>false, 'status'=>404, 'message'=>'No crates containing snack id '.$snackId.'.');
             }
             $dbManager->endTransaction();
             $dbManager->delQueryRes();
         }
         catch (Exception $statementException) {
-            $response = array('success'=>false, 'code'=>500, 'message'=>$statementException->getMessage());
+            $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
         }
         if ($jsonResponse) {
             return json_encode($response);
