@@ -14,7 +14,7 @@
             $dbManager->runPreparedQuery('UPDATE eaten SET quantity = quantity+? WHERE snack_id=?', [$quantity, $snackId], 'ii');
             $dbManager->runPreparedQuery('UPDATE users_funds SET amount = amount-? WHERE user_id=?', [$totalPrice, $userId], 'si');
             $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity) VALUES (?, ?, ?, ?)', [$userId, 1, $snackId, $quantity], 'iiii');
-            $response = array('success'=>true, 'code'=>201);
+            $response = array('success'=>true, 'code'=>204);
         } else {
             $response = array('success'=>false, 'code'=>404, 'message'=>'No crates containing snack id '.$snackId.'.');
         }

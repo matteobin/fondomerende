@@ -54,7 +54,7 @@ class DbManager {
     }
     
     public function getLastError() {
-        return $this->connection-error;
+        return $this->connection->error;
     }
 
     public function __destruct() {
