@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2018 at 10:52 PM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 7.1.1
+-- Generation Time: Oct 16, 2018 at 02:52 PM
+-- Server version: 10.1.33-MariaDB
+-- PHP Version: 7.1.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -91,8 +93,7 @@ CREATE TABLE `commands_alias` (
 CREATE TABLE `crates` (
   `outflow_id` int(11) NOT NULL,
   `snack_id` int(2) NOT NULL,
-  `quantity` int(3) NOT NULL,
-  `snack_per_box` int(2) NOT NULL,
+  `snack_quantity` int(3) NOT NULL,
   `price_per_snack` decimal(5,2) NOT NULL,
   `expiration` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -101,8 +102,8 @@ CREATE TABLE `crates` (
 -- Dumping data for table `crates`
 --
 
-INSERT INTO `crates` (`outflow_id`, `snack_id`, `quantity`, `snack_per_box`, `price_per_snack`, `expiration`) VALUES
-(1, 3, 6, 6, '0.58', '2018-10-08');
+INSERT INTO `crates` (`outflow_id`, `snack_id`, `snack_quantity`, `price_per_snack`, `expiration`) VALUES
+(1, 3, 6, '0.58', '2018-10-08');
 
 -- --------------------------------------------------------
 
@@ -127,13 +128,25 @@ INSERT INTO `eaten` (`snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `fund_funds`
+--
+
+CREATE TABLE `fund_funds` (
+  `inflow` decimal(65,2) NOT NULL,
+  `outflow` decimal(65,2) NOT NULL,
+  `total` decimal(65,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `inflows`
 --
 
 CREATE TABLE `inflows` (
   `id` int(11) NOT NULL,
   `user_id` int(2) NOT NULL,
-  `amount` decimal(5,2) NOT NULL,
+  `amount` decimal(4,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -167,20 +180,20 @@ INSERT INTO `outflows` (`id`, `amount`, `snack_id`, `quantity`, `created_at`) VA
 CREATE TABLE `snacks` (
   `id` int(2) NOT NULL,
   `name` varchar(60) NOT NULL,
-  `price` decimal(5,2) NOT NULL,
+  `price` decimal(4,2) NOT NULL,
   `snack_per_box` int(2) NOT NULL,
   `is_liquid` bit(1) NOT NULL DEFAULT b'0',
-  `estimated_expiration_in_days` int(4) NOT NULL
+  `expiration_in_days` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `snacks`
 --
 
-INSERT INTO `snacks` (`id`, `name`, `price`, `snack_per_box`, `is_liquid`, `estimated_expiration_in_days`) VALUES
-(1, 'Taralli Coop', '1.99', 12, b'1111111111111111111111111111111', 0),
-(2, 'Baiocchi', '2.49', 6, b'1111111111111111111111111111111', 0),
-(3, 'Kinder Bueno', '3.45', 6, b'1111111111111111111111111111111', 0);
+INSERT INTO `snacks` (`id`, `name`, `price`, `snack_per_box`, `is_liquid`, `expiration_in_days`) VALUES
+(1, 'Taralli Coop', '1.99', 12, b'0', 0),
+(2, 'Baiocchi', '2.49', 6, b'0', 0),
+(3, 'Kinder Bueno', '3.45', 6, b'0', 0);
 
 -- --------------------------------------------------------
 
@@ -242,7 +255,7 @@ CREATE TABLE `users_alias` (
 
 CREATE TABLE `users_funds` (
   `user_id` int(2) NOT NULL,
-  `amount` decimal(5,2) NOT NULL,
+  `amount` decimal(4,2) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -284,7 +297,7 @@ ALTER TABLE `commands_alias`
 --
 ALTER TABLE `crates`
   ADD PRIMARY KEY (`outflow_id`),
-  ADD KEY `snack-id` (`snack_id`);
+  ADD KEY `snack_id` (`snack_id`);
 
 --
 -- Indexes for table `eaten`
@@ -347,6 +360,13 @@ ALTER TABLE `users_funds`
 --
 ALTER TABLE `actions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `outflows`
+--
+ALTER TABLE `outflows`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- Constraints for dumped tables
 --
@@ -408,6 +428,7 @@ ALTER TABLE `users_alias`
 --
 ALTER TABLE `users_funds`
   ADD CONSTRAINT `users_funds_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
