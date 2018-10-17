@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2018 at 02:55 PM
+-- Generation Time: Oct 17, 2018 at 04:51 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -34,7 +34,7 @@ CREATE TABLE `actions` (
   `command_id` int(2) NOT NULL,
   `snack_id` int(2) NOT NULL,
   `snack_quantity` int(2) NOT NULL,
-  `funds_ammount` decimal(3,2) NOT NULL,
+  `funds_amount` decimal(3,2) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -122,7 +122,7 @@ CREATE TABLE `fund_funds` (
 --
 
 INSERT INTO `fund_funds` (`total`, `updated_at`) VALUES
-('10.00', '2018-10-17 12:54:51');
+('10.00', '2018-10-17 14:49:06');
 
 -- --------------------------------------------------------
 
@@ -192,7 +192,7 @@ CREATE TABLE `snacks_stock` (
 --
 
 INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `updated_at`) VALUES
-(3, 0, '2018-10-17 12:55:36');
+(3, 0, '2018-10-17 14:49:21');
 
 -- --------------------------------------------------------
 
@@ -345,13 +345,13 @@ ALTER TABLE `users_funds`
 -- AUTO_INCREMENT for table `actions`
 --
 ALTER TABLE `actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `outflows`
 --
 ALTER TABLE `outflows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables

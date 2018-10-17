@@ -61,7 +61,7 @@
             $dbManager->runPreparedQuery('INSERT INTO crates (outflow_id, snack_id, snack_quantity, price_per_snack, expiration) VALUES (?, ?, ?, ?, ?)', array($outflowId, $snackId, $snackNumber, $unitPrice/$snackPerBox, date('Y-m-d', strtotime('+'.$expirationInDays.' days'))), 'iiiss');
             $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'si');
             $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total-?', array($totalPrice), 's');
-            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity) VALUES (?, ?, ?, ?)', array($userId, 2, $snackId, $snackNumber), 'iiii');
+            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 2, $snackId, $snackNumber, $totalPrice), 'iiiis');
             $response = array('success'=>true, 'status'=>204);
             $dbManager->endTransaction();
             $dbManager->delQueryRes();
