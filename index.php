@@ -19,6 +19,13 @@
             <input type="hidden" name="quantity" value="1">
 			<input type="submit" value="Matteo mangia 1 Kinder Bueno">
 		</form>
+        <form action="init-request.php" method="POST">
+            <input type="hidden" name="user-id" value="1">
+            <input type="hidden" name="command" value="buy">
+            <input type="hidden" name="snack-id" value="3">
+            <input type="hidden" name="quantity" value="1">
+			<input type="submit" value="Matteo compra 1 confezione di Kinder Bueno">
+		</form>
 	</div>
 </section>
 <footer></footer>

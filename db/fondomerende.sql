@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2018 at 02:52 PM
+-- Generation Time: Oct 17, 2018 at 02:55 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -37,18 +37,6 @@ CREATE TABLE `actions` (
   `funds_ammount` decimal(3,2) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `actions`
---
-
-INSERT INTO `actions` (`id`, `user_id`, `command_id`, `snack_id`, `snack_quantity`, `funds_ammount`, `updated_at`) VALUES
-(1, 1, 1, 3, 1, '0.00', '2018-10-15 12:31:36'),
-(2, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:31'),
-(3, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:33'),
-(4, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:35'),
-(5, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:36'),
-(6, 1, 1, 3, 1, '0.00', '2018-10-15 12:32:44');
 
 -- --------------------------------------------------------
 
@@ -98,13 +86,6 @@ CREATE TABLE `crates` (
   `expiration` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `crates`
---
-
-INSERT INTO `crates` (`outflow_id`, `snack_id`, `snack_quantity`, `price_per_snack`, `expiration`) VALUES
-(1, 3, 6, '0.58', '2018-10-08');
-
 -- --------------------------------------------------------
 
 --
@@ -123,7 +104,7 @@ CREATE TABLE `eaten` (
 --
 
 INSERT INTO `eaten` (`snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
-(3, 1, 6, '2018-10-15 12:32:44');
+(3, 1, 0, '2018-10-17 12:55:11');
 
 -- --------------------------------------------------------
 
@@ -132,10 +113,16 @@ INSERT INTO `eaten` (`snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
 --
 
 CREATE TABLE `fund_funds` (
-  `inflow` decimal(65,2) NOT NULL,
-  `outflow` decimal(65,2) NOT NULL,
-  `total` decimal(65,2) NOT NULL
+  `total` decimal(5,2) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `fund_funds`
+--
+
+INSERT INTO `fund_funds` (`total`, `updated_at`) VALUES
+('10.00', '2018-10-17 12:54:51');
 
 -- --------------------------------------------------------
 
@@ -164,13 +151,6 @@ CREATE TABLE `outflows` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `outflows`
---
-
-INSERT INTO `outflows` (`id`, `amount`, `snack_id`, `quantity`, `created_at`) VALUES
-(1, '3.45', 3, 1, '2018-10-09 12:37:33');
-
 -- --------------------------------------------------------
 
 --
@@ -193,7 +173,7 @@ CREATE TABLE `snacks` (
 INSERT INTO `snacks` (`id`, `name`, `price`, `snack_per_box`, `is_liquid`, `expiration_in_days`) VALUES
 (1, 'Taralli Coop', '1.99', 12, b'0', 0),
 (2, 'Baiocchi', '2.49', 6, b'0', 0),
-(3, 'Kinder Bueno', '3.45', 6, b'0', 0);
+(3, 'Kinder Bueno', '3.45', 6, b'0', 60);
 
 -- --------------------------------------------------------
 
@@ -212,7 +192,7 @@ CREATE TABLE `snacks_stock` (
 --
 
 INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `updated_at`) VALUES
-(3, 6, '2018-10-15 12:34:50');
+(3, 0, '2018-10-17 12:55:36');
 
 -- --------------------------------------------------------
 
@@ -307,6 +287,12 @@ ALTER TABLE `eaten`
   ADD UNIQUE KEY `user-id` (`user_id`);
 
 --
+-- Indexes for table `fund_funds`
+--
+ALTER TABLE `fund_funds`
+  ADD UNIQUE KEY `total` (`total`);
+
+--
 -- Indexes for table `inflows`
 --
 ALTER TABLE `inflows`
@@ -359,13 +345,13 @@ ALTER TABLE `users_funds`
 -- AUTO_INCREMENT for table `actions`
 --
 ALTER TABLE `actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `outflows`
 --
 ALTER TABLE `outflows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
