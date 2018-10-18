@@ -3,7 +3,7 @@
         global $dbManager;
         try {
             $dbManager->startTransaction();
-            $dbManager->runPreparedQuery('SELECT outflow_id, price_per_snack FROM crates WHERE snack_id=? AND quantity!=0 ORDER BY expiration ASC LIMIT 1', [$snackId], 'i');
+            $dbManager->runPreparedQuery('SELECT outflow_id, price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=0 ORDER BY expiration ASC LIMIT 1', [$snackId], 'i');
             while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
                 $outflowId = $row['outflow_id'];
                 $totalPrice = $quantity*$row['price_per_snack'];
