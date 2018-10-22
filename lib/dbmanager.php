@@ -25,7 +25,7 @@
             }
             $statement = $this->connection->prepare($query);
             if ($statement===false) {
-                throw new Exception('Statement ERROR!<br>'.$this->connection->error.'.');
+                throw new Exception('Statement error in '.$query.'.<br>'.$this->connection->error.'.');
             } else {
                 call_user_func_array(array($statement, 'bind_param'), $bindings);
                 $statement->execute();
@@ -36,7 +36,7 @@
         public function runQuery($query) {
             $this->queryRes = $this->connection->query($query);
             if ($this->queryRes===false) {
-                throw new Exception('Query ERROR!<br>'.$this->connection->error.'.');
+                throw new Exception('Query error in '.$query.'.<br>'.$this->connection->error.'.');
             }
         }
 
