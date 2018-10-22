@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2018 at 04:51 PM
+-- Generation Time: Oct 22, 2018 at 09:50 AM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -57,7 +57,11 @@ CREATE TABLE `commands` (
 INSERT INTO `commands` (`id`, `en`, `it`) VALUES
 (1, 'eat', 'mangia'),
 (2, 'buy', 'compra'),
-(3, 'supply', 'rifornisci');
+(3, 'deposit', 'versa'),
+(4, 'add snack', 'aggiungi snack'),
+(5, 'edit snack', 'modifica snack'),
+(6, 'add user', 'aggiungi utente'),
+(7, 'edit user', 'modifica utente');
 
 -- --------------------------------------------------------
 
@@ -104,7 +108,7 @@ CREATE TABLE `eaten` (
 --
 
 INSERT INTO `eaten` (`snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
-(3, 1, 0, '2018-10-17 12:55:11');
+(3, 1, 0, '2018-10-22 07:49:06');
 
 -- --------------------------------------------------------
 
@@ -122,7 +126,7 @@ CREATE TABLE `fund_funds` (
 --
 
 INSERT INTO `fund_funds` (`total`, `updated_at`) VALUES
-('10.00', '2018-10-17 14:49:06');
+('10.00', '2018-10-22 07:48:13');
 
 -- --------------------------------------------------------
 
@@ -192,7 +196,7 @@ CREATE TABLE `snacks_stock` (
 --
 
 INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `updated_at`) VALUES
-(3, 0, '2018-10-17 14:49:21');
+(3, 0, '2018-10-22 07:48:37');
 
 -- --------------------------------------------------------
 
@@ -204,16 +208,18 @@ CREATE TABLE `users` (
   `id` int(2) NOT NULL,
   `user` varchar(15) NOT NULL,
   `password` varchar(60) NOT NULL,
-  `name` varchar(30) NOT NULL
+  `name` varchar(30) NOT NULL,
+  `token` varchar(25) NOT NULL,
+  `token_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user`, `password`, `name`) VALUES
-(1, 'matteobin', '', 'Matteo Bini'),
-(2, 'francesco', '', 'Francesco');
+INSERT INTO `users` (`id`, `user`, `password`, `name`, `token`, `token_created_at`) VALUES
+(1, 'matteobin', '', 'Matteo Bini', '', '2018-10-22 07:47:32'),
+(2, 'francesco', '', 'Francesco', '', '2018-10-22 07:47:32');
 
 -- --------------------------------------------------------
 
@@ -244,7 +250,7 @@ CREATE TABLE `users_funds` (
 --
 
 INSERT INTO `users_funds` (`user_id`, `amount`, `updated_at`) VALUES
-(1, '5.29', '2018-10-15 15:06:22');
+(1, '4.71', '2018-10-18 12:41:24');
 
 --
 -- Indexes for dumped tables
@@ -345,13 +351,13 @@ ALTER TABLE `users_funds`
 -- AUTO_INCREMENT for table `actions`
 --
 ALTER TABLE `actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `outflows`
 --
 ALTER TABLE `outflows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
