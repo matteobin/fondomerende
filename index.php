@@ -14,17 +14,23 @@
 	<div>
 		<form action="init-request.php" method="POST">
             <input type="hidden" name="user-id" value="1">
-            <input type="hidden" name="command" value="eat">
+            <input type="hidden" name="command-id" value="1">
             <input type="hidden" name="snack-id" value="3">
             <input type="hidden" name="quantity" value="1">
 			<input type="submit" value="Matteo mangia 1 Kinder Bueno">
 		</form>
         <form action="init-request.php" method="POST">
             <input type="hidden" name="user-id" value="1">
-            <input type="hidden" name="command" value="buy">
+            <input type="hidden" name="command-id" value="2">
             <input type="hidden" name="snack-id" value="3">
             <input type="hidden" name="quantity" value="1">
 			<input type="submit" value="Matteo compra 1 confezione di Kinder Bueno">
+		</form>
+        <form action="init-request.php" method="POST">
+            <input type="hidden" name="user-id" value="1">
+            <input type="hidden" name="command-id" value="3">
+            <input type="hidden" name="amount" value="5.29">
+			<input type="submit" value="Matteo deposita 5.29">
 		</form>
 	</div>
 </section>

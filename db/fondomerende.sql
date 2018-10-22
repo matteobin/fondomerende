@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2018 at 09:50 AM
+-- Generation Time: Oct 22, 2018 at 02:19 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -32,9 +32,9 @@ CREATE TABLE `actions` (
   `id` int(11) NOT NULL,
   `user_id` int(2) NOT NULL,
   `command_id` int(2) NOT NULL,
-  `snack_id` int(2) NOT NULL,
-  `snack_quantity` int(2) NOT NULL,
-  `funds_amount` decimal(3,2) NOT NULL,
+  `snack_id` int(2) DEFAULT NULL,
+  `snack_quantity` int(2) DEFAULT NULL,
+  `funds_amount` decimal(3,2) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -250,7 +250,7 @@ CREATE TABLE `users_funds` (
 --
 
 INSERT INTO `users_funds` (`user_id`, `amount`, `updated_at`) VALUES
-(1, '4.71', '2018-10-18 12:41:24');
+(1, '5.29', '2018-10-22 12:11:58');
 
 --
 -- Indexes for dumped tables
@@ -351,14 +351,26 @@ ALTER TABLE `users_funds`
 -- AUTO_INCREMENT for table `actions`
 --
 ALTER TABLE `actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `inflows`
+--
+ALTER TABLE `inflows`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `outflows`
 --
 ALTER TABLE `outflows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT for table `snacks`
+--
+ALTER TABLE `snacks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  
 --
 -- Constraints for dumped tables
 --
