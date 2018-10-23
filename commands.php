@@ -12,7 +12,7 @@
                 $dbManager->runPreparedQuery('UPDATE crates SET snack_quantity = snack_quantity-? WHERE outflow_id=?', array($quantity, $outflowId), 'ii');
                 $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity = quantity-? WHERE snack_id=?', array($quantity, $snackId), 'ii');
                 $dbManager->runPreparedQuery('UPDATE eaten SET quantity = quantity+? WHERE snack_id=?', array($quantity, $snackId), 'ii');
-                $dbManager->runPreparedQuery('UPDATE users_funds SET amount = amount-? WHERE user_id=?', array($totalPrice, $userId), 'si');
+                $dbManager->runPreparedQuery('UPDATE users_funds SET amount = amount-? WHERE user_id=?', array($totalPrice, $userId), 'di');
                 $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity) VALUES (?, ?, ?, ?)', array($userId, 1, $snackId, $quantity), 'iiii');
                 $response = array('success'=>true, 'status'=>204);
             } else {
@@ -60,10 +60,10 @@
             while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
                 $outflowId = $row['id'];
             }
-            $dbManager->runPreparedQuery('INSERT INTO crates (outflow_id, snack_id, snack_quantity, price_per_snack, expiration) VALUES (?, ?, ?, ?, ?)', array($outflowId, $snackId, $snackNumber, $unitPrice/$snacksPerBox, date('Y-m-d', strtotime('+'.$expirationInDays.' days'))), 'iiiss');
-            $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'si');
-            $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total-?', array($totalPrice), 's');
-            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 2, $snackId, $snackNumber, $totalPrice), 'iiiis');
+            $dbManager->runPreparedQuery('INSERT INTO crates (outflow_id, snack_id, snack_quantity, price_per_snack, expiration) VALUES (?, ?, ?, ?, ?)', array($outflowId, $snackId, $snackNumber, $unitPrice/$snacksPerBox, date('Y-m-d', strtotime('+'.$expirationInDays.' days'))), 'iiids');
+            $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'ii');
+            $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total-?', array($totalPrice), 'd');
+            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 2, $snackId, $snackNumber, $totalPrice), 'iiiid');
             $response = array('success'=>true, 'status'=>204);
             $dbManager->endTransaction();
             $dbManager->delQueryRes();
@@ -81,10 +81,10 @@
         global $dbManager;
         try {
             $dbManager->startTransaction();
-            $dbManager->runPreparedQuery('INSERT INTO inflows (user_id, amount) VALUES (?,?)', array($userId, $amount), 'is');
-            $dbManager->runPreparedQuery('UPDATE users_funds SET amount=amount+? WHERE user_id=?', array($amount, $userId), 'si');
-            $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total+?', array($amount), 's');
-            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, funds_amount) VALUES (?,?,?)', array($userId, 3, $amount), 'iis');
+            $dbManager->runPreparedQuery('INSERT INTO inflows (user_id, amount) VALUES (?,?)', array($userId, $amount), 'id');
+            $dbManager->runPreparedQuery('UPDATE users_funds SET amount=amount+? WHERE user_id=?', array($amount, $userId), 'di');
+            $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total+?', array($amount), 'd');
+            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, funds_amount) VALUES (?,?,?)', array($userId, 3, $amount), 'iid');
             $response = array('success'=>true, 'status'=>204);
             $dbManager->endTransaction();
             $dbManager->delQueryRes();
@@ -101,7 +101,16 @@
     function addSnack($name, $price, $snacksPerBox, $isLiquid, $expirationInDays, $jsonResponse=true) {
         global $dbManager;
         try {
-            $dbManager->runPreparedQuery('INSERT INTO snacks');
+            $dbManager->runPreparedQuery('INSERT INTO snacks (name, price, snacks_per_box, is_liquid, expiration_in_days) VALUES (?, ?, ?, ?, ?)', array($name, $price, $snacksPerBox, $isLiquid, $expirationInDays), 'sdiii');
+            // to do: get inserted snack id and put it in $snackId
+            $dbManager->runPreparedQuery('INSERT INTO snacks_stock (snack_id) VALUES (?)', array($snackId), 'i');
+            $dbManager->runQuery('SELECT id FROM users');
+            while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+                $usersId[] = $row['id'];
+            }
+            foreach($usersId as $userId) {   
+                $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
+            }
         } catch {
             
         }

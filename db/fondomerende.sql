@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2018 at 02:19 PM
+-- Generation Time: Oct 23, 2018 at 02:47 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `actions` (
   `id` int(11) NOT NULL,
-  `user_id` int(2) NOT NULL,
+  `user_id` int(2) DEFAULT NULL,
   `command_id` int(2) NOT NULL,
   `snack_id` int(2) DEFAULT NULL,
   `snack_quantity` int(2) DEFAULT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE `crates` (
 CREATE TABLE `eaten` (
   `snack_id` int(2) NOT NULL,
   `user_id` int(2) NOT NULL,
-  `quantity` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT '0',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -117,7 +117,7 @@ INSERT INTO `eaten` (`snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
 --
 
 CREATE TABLE `fund_funds` (
-  `total` decimal(5,2) NOT NULL,
+  `total` decimal(5,2) NOT NULL DEFAULT '0.00',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -162,10 +162,10 @@ CREATE TABLE `outflows` (
 --
 
 CREATE TABLE `snacks` (
-  `id` int(2) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
   `price` decimal(4,2) NOT NULL,
-  `snack_per_box` int(2) NOT NULL,
+  `snacks_per_box` int(2) NOT NULL,
   `is_liquid` bit(1) NOT NULL DEFAULT b'0',
   `expiration_in_days` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -174,7 +174,7 @@ CREATE TABLE `snacks` (
 -- Dumping data for table `snacks`
 --
 
-INSERT INTO `snacks` (`id`, `name`, `price`, `snack_per_box`, `is_liquid`, `expiration_in_days`) VALUES
+INSERT INTO `snacks` (`id`, `name`, `price`, `snacks_per_box`, `is_liquid`, `expiration_in_days`) VALUES
 (1, 'Taralli Coop', '1.99', 12, b'0', 0),
 (2, 'Baiocchi', '2.49', 6, b'0', 0),
 (3, 'Kinder Bueno', '3.45', 6, b'0', 60);
@@ -187,7 +187,7 @@ INSERT INTO `snacks` (`id`, `name`, `price`, `snack_per_box`, `is_liquid`, `expi
 
 CREATE TABLE `snacks_stock` (
   `snack_id` int(2) NOT NULL,
-  `quantity` int(3) NOT NULL,
+  `quantity` int(3) DEFAULT '0',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -241,7 +241,7 @@ CREATE TABLE `users_alias` (
 
 CREATE TABLE `users_funds` (
   `user_id` int(2) NOT NULL,
-  `amount` decimal(4,2) NOT NULL,
+  `amount` decimal(4,2) NOT NULL DEFAULT '0.00',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -369,8 +369,8 @@ ALTER TABLE `outflows`
 -- AUTO_INCREMENT for table `snacks`
 --
 ALTER TABLE `snacks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-  
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- Constraints for dumped tables
 --
