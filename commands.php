@@ -101,8 +101,12 @@
     function addSnack($name, $price, $snacksPerBox, $isLiquid, $expirationInDays, $jsonResponse=true) {
         global $dbManager;
         try {
+            $dbManager->startTransaction();
             $dbManager->runPreparedQuery('INSERT INTO snacks (name, price, snacks_per_box, is_liquid, expiration_in_days) VALUES (?, ?, ?, ?, ?)', array($name, $price, $snacksPerBox, $isLiquid, $expirationInDays), 'sdiii');
-            // to do: get inserted snack id and put it in $snackId
+            $dbManger->runQuery('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
+            while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+                $snackId = $row['id'];
+            }
             $dbManager->runPreparedQuery('INSERT INTO snacks_stock (snack_id) VALUES (?)', array($snackId), 'i');
             $dbManager->runQuery('SELECT id FROM users');
             while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
@@ -111,13 +115,21 @@
             foreach($usersId as $userId) {   
                 $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
             }
-        } catch {
-            
+            $dbManager->runPreparedQuery('INSERT INTO actions (command_id, snack_id) VALUES (?, ?)', array(4, $snackId), 'ii');
+            $response = array('success'=>true, 'status'=>204);
+            $dbManager->endTransaction();
+            $dbManager->delQueryRes();
+        } catch (Exception $statementException) {
+            $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
         }
         if ($jsonResponse) {
             return json_encode($response);
         } else {
             return $response;
         }
+    }
+    
+    function editSnack($snackId, $values) {
+        
     }
 ?>

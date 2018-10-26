@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2018 at 02:47 PM
+-- Generation Time: Oct 26, 2018 at 02:22 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -34,7 +34,7 @@ CREATE TABLE `actions` (
   `command_id` int(2) NOT NULL,
   `snack_id` int(2) DEFAULT NULL,
   `snack_quantity` int(2) DEFAULT NULL,
-  `funds_amount` decimal(3,2) DEFAULT NULL,
+  `funds_amount` decimal(5,2) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
