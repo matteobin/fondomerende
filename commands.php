@@ -129,7 +129,10 @@
         }
     }
     
-    function editSnack($snackId, $values) {
-        
+    function editSnack($snackId, $values, $types) {
+        $query = 'UPDATE snacks SET ';
+        foreach ($values as $column=>$value) {
+            
+        }
     }
 ?>
