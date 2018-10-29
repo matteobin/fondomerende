@@ -34,6 +34,42 @@ class DbManager {
             $this->queryRes = $statement->get_result();
         }
     }
+    
+    public function runUpdateQuery($table, array $newValues, array $paramTypesArray, $whereColumn, $whereId, array $oldValues=null) {
+        $query = 'UPDATE '.$table.' SET ';
+        $params = array();
+        $paramTypes = '';
+        foreach ($newValues as $column=>$newValue) {
+            if (isset($oldValues[$column])) {
+                if ($newValue!=$oldValues[$column]) {
+                    if ($paramTypes=='') {
+                        $query .= $column.'=?';
+                    } else {
+                        $query .= ', '.$column.'=?';
+                    }
+                    $params[] = $newValue;
+                    $paramTypes .= $paramTypesArray[$column];
+                }
+            } else {
+                if ($paramTypes=='') {
+                    $query .= $column.'=?';
+                } else {
+                    $query .= ', '.$column.'=?';
+                }
+                $params[] = $newValue;
+                $paramTypes .= $paramTypesArray[$column];
+            }
+        }
+        if ($paramTypes!='') {
+            $query .= 'WHERE '.$whereColumn.'=?';
+            $params[] = $whereId;
+            $paramTypes .= 'i';
+            var_dump($query);
+            var_dump($params);
+            var_dump($paramTypes);
+            die();
+        }
+    }
 
     public function runQuery($query) {
         $this->queryRes = $this->connection->query($query);

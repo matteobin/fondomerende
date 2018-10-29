@@ -46,7 +46,7 @@ function getBuyOptions($column, $options, $snackId) {
     return $buyOption;
 }
 
-function buy($userId, $snackId, $quantity, $options, $jsonResponse=true) {
+function buy($userId, $snackId, $quantity, array $options, $jsonResponse=true) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -98,7 +98,7 @@ function deposit($userId, $amount, $jsonResponse=true) {
     }
 }
 
-function addSnack($name, $price, $snacksPerBox, $isLiquid, $expirationInDays, $jsonResponse=true) {
+function addSnack($userId, $name, $price, $snacksPerBox, $isLiquid, $expirationInDays, $jsonResponse=true) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -115,7 +115,7 @@ function addSnack($name, $price, $snacksPerBox, $isLiquid, $expirationInDays, $j
         foreach($usersId as $userId) {   
             $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
         }
-        $dbManager->runPreparedQuery('INSERT INTO actions (command_id, snack_id) VALUES (?, ?)', array(4, $snackId), 'ii');
+        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($userId, 4, $snackId), 'iii');
         $response = array('success'=>true, 'status'=>204);
         $dbManager->endTransaction();
         $dbManager->delQueryRes();
@@ -129,10 +129,21 @@ function addSnack($name, $price, $snacksPerBox, $isLiquid, $expirationInDays, $j
     }
 }
 
-function editSnack($snackId, $values, $types) {
+function editSnack($userId, $snackId, array $newValues, array $types, array $oldValues, $jsonResponse=true) {
     global $dbManager;
-    $query = 'UPDATE snacks SET ';
-    foreach ($values as $column=>$value) {
-        
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runUpdateQuery('snacks', $newValues, $typesArray, 'id', $snackId, $oldValues);
+        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($userId, 5, $snackId), 'iii');
+        $response = array('success'=>true, 'status'=>204);
+        $dbManager->endTransaction();
+        $dbManager->delQueryRes();
+    } catch (Exception $statementException) {
+        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    }
+    if ($jsonResponse) {
+        return json_encode($response);
+    } else {
+        return $response;
     }
 }
