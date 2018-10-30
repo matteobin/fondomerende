@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2018 at 02:22 PM
+-- Generation Time: Oct 30, 2018 at 11:15 AM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -97,6 +97,7 @@ CREATE TABLE `crates` (
 --
 
 CREATE TABLE `eaten` (
+  `id` int(11) NOT NULL,
   `snack_id` int(2) NOT NULL,
   `user_id` int(2) NOT NULL,
   `quantity` int(11) DEFAULT '0',
@@ -107,8 +108,8 @@ CREATE TABLE `eaten` (
 -- Dumping data for table `eaten`
 --
 
-INSERT INTO `eaten` (`snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
-(3, 1, 0, '2018-10-22 07:49:06');
+INSERT INTO `eaten` (`id`, `snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
+(1, 3, 1, 0, '2018-10-22 07:49:06');
 
 -- --------------------------------------------------------
 
@@ -276,7 +277,7 @@ ALTER TABLE `commands`
 --
 ALTER TABLE `commands_alias`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `command-id` (`command_id`);
+  ADD KEY `command_id` (`command_id`);
 
 --
 -- Indexes for table `crates`
@@ -289,8 +290,9 @@ ALTER TABLE `crates`
 -- Indexes for table `eaten`
 --
 ALTER TABLE `eaten`
-  ADD UNIQUE KEY `snack-id` (`snack_id`),
-  ADD UNIQUE KEY `user-id` (`user_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `eaten_ibfk_1` (`snack_id`),
+  ADD KEY `eaten_ibfk_2` (`user_id`);
 
 --
 -- Indexes for table `fund_funds`
@@ -303,14 +305,14 @@ ALTER TABLE `fund_funds`
 --
 ALTER TABLE `inflows`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user-id` (`user_id`);
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `outflows`
 --
 ALTER TABLE `outflows`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `snack-id` (`snack_id`);
+  ADD KEY `snack_id` (`snack_id`);
 
 --
 -- Indexes for table `snacks`
@@ -322,7 +324,7 @@ ALTER TABLE `snacks`
 -- Indexes for table `snacks_stock`
 --
 ALTER TABLE `snacks_stock`
-  ADD UNIQUE KEY `snack-id` (`snack_id`);
+  ADD UNIQUE KEY `snack_id` (`snack_id`);
 
 --
 -- Indexes for table `users`
@@ -335,13 +337,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `users_alias`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user-id` (`user_id`);
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users_funds`
 --
 ALTER TABLE `users_funds`
-  ADD UNIQUE KEY `user-id` (`user_id`);
+  ADD UNIQUE KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -352,6 +354,12 @@ ALTER TABLE `users_funds`
 --
 ALTER TABLE `actions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `eaten`
+--
+ALTER TABLE `eaten`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `inflows`

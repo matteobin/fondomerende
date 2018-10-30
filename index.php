@@ -32,6 +32,24 @@
             <input type="hidden" name="amount" value="5.29">
 			<input type="submit" value="Matteo deposita 5.29">
 		</form>
+        <form action="init-request.php" method="POST">
+            <input type="hidden" name="user-id" value="1">
+            <input type="hidden" name="command-id" value="4">
+            <input type="hidden" name="name" value="Oreo">
+            <input type="hidden" name="price" value="7.07">
+            <input type="hidden" name="snacks-per-box" value="7">
+            <input type="hidden" name="is-liquid" value="0">
+            <input type="hidden" name="expiration-in-days" value="700">
+			<input type="submit" value="Matteo aggiunge Oreo">
+		</form>
+        <form action="init-request.php" method="POST">
+            <input type="hidden" name="user-id" value="1">
+            <input type="hidden" name="command-id" value="5">
+            <input type="hidden" name="snack-id" value="4">
+            <input type="hidden" name="name" value="Oreo - nuovo nome">
+            <input type="hidden" name="price" value="5">
+			<input type="submit" value="Matteo rinomina Oreo in Oreo - nuovo nome">
+		</form>
 	</div>
 </section>
 <footer></footer>

@@ -101,9 +101,10 @@ function deposit($userId, $amount, $jsonResponse=true) {
 function addSnack($userId, $name, $price, $snacksPerBox, $isLiquid, $expirationInDays, $jsonResponse=true) {
     global $dbManager;
     try {
+        $subjectUserId = $userId;
         $dbManager->startTransaction();
         $dbManager->runPreparedQuery('INSERT INTO snacks (name, price, snacks_per_box, is_liquid, expiration_in_days) VALUES (?, ?, ?, ?, ?)', array($name, $price, $snacksPerBox, $isLiquid, $expirationInDays), 'sdiii');
-        $dbManger->runQuery('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
+        $dbManager->runQuery('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $snackId = $row['id'];
         }
@@ -115,7 +116,7 @@ function addSnack($userId, $name, $price, $snacksPerBox, $isLiquid, $expirationI
         foreach($usersId as $userId) {   
             $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
         }
-        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($userId, 4, $snackId), 'iii');
+        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 4, $snackId), 'iii');
         $response = array('success'=>true, 'status'=>204);
         $dbManager->endTransaction();
         $dbManager->delQueryRes();
@@ -133,7 +134,7 @@ function editSnack($userId, $snackId, array $newValues, array $types, array $old
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $dbManager->runUpdateQuery('snacks', $newValues, $typesArray, 'id', $snackId, $oldValues);
+        $dbManager->runUpdateQuery('snacks', $newValues, $types, 'id', $snackId, $oldValues);
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($userId, 5, $snackId), 'iii');
         $response = array('success'=>true, 'status'=>204);
         $dbManager->endTransaction();

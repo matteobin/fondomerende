@@ -61,13 +61,10 @@ class DbManager {
             }
         }
         if ($paramTypes!='') {
-            $query .= 'WHERE '.$whereColumn.'=?';
+            $query .= ' WHERE '.$whereColumn.'=?';
             $params[] = $whereId;
             $paramTypes .= 'i';
-            var_dump($query);
-            var_dump($params);
-            var_dump($paramTypes);
-            die();
+            $this->runPreparedQuery($query, $params, $paramTypes);
         }
     }
 
