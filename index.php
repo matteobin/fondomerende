@@ -50,6 +50,13 @@
             <input type="hidden" name="price" value="5">
 			<input type="submit" value="Matteo rinomina Oreo in Oreo - nuovo nome">
 		</form>
+        <form action="init-request.php" method="POST">
+            <input type="hidden" name="command-id" value="6">
+            <input type="hidden" name="name" value="pk9rocco">
+            <input type="hidden" name="password" value="rocchino">
+            <input type="hidden" name="friendly-name" value="Roberto Rocchini">
+			<input type="submit" value="Crea l'utente di Roberto R.">
+		</form>
 	</div>
 </section>
 <footer></footer>

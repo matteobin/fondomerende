@@ -13,6 +13,8 @@
     $snacksPerBox = filter_input(INPUT_POST, 'snacks-per-box', FILTER_SANITIZE_NUMBER_INT);
     $isLiquid = filter_input(INPUT_POST, 'is-liquid', FILTER_VALIDATE_BOOLEAN);
     $expirationInDays = filter_input(INPUT_POST, 'expiration-in-days', FILTER_SANITIZE_NUMBER_INT);
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+    $friendlyName = filter_input(INPUT_POST, 'friendly-name', FILTER_SANITIZE_STRING);
     $dbManager = new DbManager();
     switch ($commandId) {
         case '1':
@@ -29,6 +31,9 @@
             break;
         case '5':
             var_dump(editSnack($userId, $snackId, array('name'=>$name, 'price'=>$price), array('name'=>'s', 'price'=>'d'), array()));
+            break;
+        case '6':
+            var_dump(addUser($name, $password, $friendlyName));
             break;
     }
     ?>

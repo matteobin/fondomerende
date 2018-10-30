@@ -1,4 +1,13 @@
 <?php
+
+function getResponse($value, $json) {
+    if ($json) {
+        return json_encode($value);
+    } else {
+        return $value;
+    }
+}
+
 function eat($userId, $snackId, $quantity, $jsonResponse=true) {
     global $dbManager;
     try {
@@ -23,11 +32,7 @@ function eat($userId, $snackId, $quantity, $jsonResponse=true) {
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    if ($jsonResponse) {
-        return json_encode($response);
-    } else {
-        return $response;
-    }
+    return getResponse($response, $jsonResponse);
 }
 
 function getBuyOptions($column, $options, $snackId) {
@@ -70,11 +75,7 @@ function buy($userId, $snackId, $quantity, array $options, $jsonResponse=true) {
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    if ($jsonResponse) {
-        return json_encode($response);
-    } else {
-        return $response;
-    }
+    return getResponse($response, $jsonResponse);
 }
 
 function deposit($userId, $amount, $jsonResponse=true) {
@@ -91,11 +92,7 @@ function deposit($userId, $amount, $jsonResponse=true) {
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    if ($jsonResponse) {
-        return json_encode($response);
-    } else {
-        return $response;
-    }
+    return getResponse($response, $jsonResponse);
 }
 
 function addSnack($userId, $name, $price, $snacksPerBox, $isLiquid, $expirationInDays, $jsonResponse=true) {
@@ -123,11 +120,7 @@ function addSnack($userId, $name, $price, $snacksPerBox, $isLiquid, $expirationI
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    if ($jsonResponse) {
-        return json_encode($response);
-    } else {
-        return $response;
-    }
+    return getResponse($response, $jsonResponse);
 }
 
 function editSnack($userId, $snackId, array $newValues, array $types, array $oldValues, $jsonResponse=true) {
@@ -142,9 +135,32 @@ function editSnack($userId, $snackId, array $newValues, array $types, array $old
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    if ($jsonResponse) {
-        return json_encode($response);
-    } else {
-        return $response;
+    return getResponse($response, $jsonResponse);
+}
+
+function addUser($userName, $password, $friendlyName, $jsonResponse=true) {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runPreparedQuery('INSERT INTO users (user_name, password, friendly_name) VALUES (?, ?, ?)', array($userName, $password, $friendlyName), 'sss');
+        $dbManager->runQuery('SELECT id FROM users ORDER BY id DESC LIMIT 1');
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $userId = $row['id'];
+        }
+        $dbManager->runQuery('SELECT id FROM snacks');
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $snackIds[] = $row['id'];
+        }
+        foreach($snackIds as $snackId) {
+            $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
+        }
+        $dbManager->runPreparedQuery('INSERT INTO users_funds (user_id) VALUES (?)', array($userId), 'i');
+        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 6), 'ii');
+        $response = array('success'=>true, 'status'=>204);
+        $dbManager->endTransaction();
+        $dbManager->delQueryRes();
+    } catch (Exception $statementException) {
+        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
+    return getResponse($response, $jsonResponse);
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2018 at 11:15 AM
+-- Generation Time: Oct 30, 2018 at 02:55 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `actions` (
   `id` int(11) NOT NULL,
-  `user_id` int(2) DEFAULT NULL,
+  `user_id` int(2) NOT NULL,
   `command_id` int(2) NOT NULL,
   `snack_id` int(2) DEFAULT NULL,
   `snack_quantity` int(2) DEFAULT NULL,
@@ -206,19 +206,19 @@ INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `updated_at`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(2) NOT NULL,
-  `user` varchar(15) NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_name` varchar(15) NOT NULL,
   `password` varchar(60) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `token` varchar(25) NOT NULL,
-  `token_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `friendly_name` varchar(30) NOT NULL,
+  `token` varchar(25) DEFAULT NULL,
+  `token_created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user`, `password`, `name`, `token`, `token_created_at`) VALUES
+INSERT INTO `users` (`id`, `user_name`, `password`, `friendly_name`, `token`, `token_created_at`) VALUES
 (1, 'matteobin', '', 'Matteo Bini', '', '2018-10-22 07:47:32'),
 (2, 'francesco', '', 'Francesco', '', '2018-10-22 07:47:32');
 
@@ -330,7 +330,8 @@ ALTER TABLE `snacks_stock`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_name` (`user_name`);
 
 --
 -- Indexes for table `users_alias`
@@ -378,6 +379,12 @@ ALTER TABLE `outflows`
 --
 ALTER TABLE `snacks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
