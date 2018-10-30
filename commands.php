@@ -164,3 +164,18 @@ function addUser($userName, $password, $friendlyName, $jsonResponse=true) {
     }
     return getResponse($response, $jsonResponse);
 }
+
+function editUser($userId, array $newValues, array $types, array $oldValues, $jsonResponse=true) {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runUpdateQuery('users', $newValues, $types, 'id', $userId, $oldValues);
+        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 7), 'ii');
+        $response = array('success'=>true, 'status'=>204);
+        $dbManager->endTransaction();
+        $dbManager->delQueryRes();
+    } catch (Exception $statementException) {
+        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    }
+    return getResponse($response, $jsonResponse);
+}
