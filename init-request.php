@@ -30,10 +30,13 @@
             var_dump(addSnack($userId, $name, $price, $snacksPerBox, $isLiquid, $expirationInDays));
             break;
         case '5':
-            var_dump(editSnack($userId, $snackId, array('name'=>$name, 'price'=>$price), array('name'=>'s', 'price'=>'d'), array()));
+            var_dump(editSnackOrUser(array('user'=>$userId, 'snack'=>$snackId), array('name'=>$name, 'price'=>$price), array('name'=>'s', 'price'=>'d'), array('name'=>'Oreo', 'price'=>7.07)));
             break;
         case '6':
             var_dump(addUser($name, $password, $friendlyName));
+            break;
+        case '7':
+            var_dump(editSnackOrUser(array('user'=>$userId), array('name'=>$name), array('name'=>'s'), array('name'=>'pk9rocco')));
             break;
     }
     ?>

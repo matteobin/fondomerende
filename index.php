@@ -57,6 +57,12 @@
             <input type="hidden" name="friendly-name" value="Roberto Rocchini">
 			<input type="submit" value="Crea l'utente di Roberto R.">
 		</form>
+        <form action="init-request.php" method="POST">
+            <input type="hidden" name="user-id" value="3">
+            <input type="hidden" name="command-id" value="7">
+            <input type="hidden" name="name" value="pk9brocco">
+			<input type="submit" value="Cambia l'username di pk9rocco in pk9brocco">
+		</form>
 	</div>
 </section>
 <footer></footer>

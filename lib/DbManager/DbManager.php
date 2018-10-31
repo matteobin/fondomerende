@@ -65,7 +65,8 @@ class DbManager {
             $params[] = $whereId;
             $paramTypes .= 'i';
             $this->runPreparedQuery($query, $params, $paramTypes);
-        }
+            return true;
+        } else return false;
     }
 
     public function runQuery($query) {

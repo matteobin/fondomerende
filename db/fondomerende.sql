@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2018 at 02:55 PM
+-- Generation Time: Oct 31, 2018 at 06:48 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -35,7 +35,7 @@ CREATE TABLE `actions` (
   `snack_id` int(2) DEFAULT NULL,
   `snack_quantity` int(2) DEFAULT NULL,
   `funds_amount` decimal(5,2) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -110,6 +110,24 @@ CREATE TABLE `eaten` (
 
 INSERT INTO `eaten` (`id`, `snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
 (1, 3, 1, 0, '2018-10-22 07:49:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edits`
+--
+
+CREATE TABLE `edits` (
+  `id` int(11) NOT NULL,
+  `action_id` int(11) NOT NULL,
+  `column_name` varchar(30) NOT NULL,
+  `old_s_value` varchar(60) DEFAULT NULL,
+  `new_s_value` varchar(60) DEFAULT NULL,
+  `old_d_value` decimal(4,2) DEFAULT NULL,
+  `new_d_value` decimal(4,2) DEFAULT NULL,
+  `old_i_value` int(4) DEFAULT NULL,
+  `new_i_value` int(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -207,7 +225,7 @@ INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `updated_at`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `user_name` varchar(15) NOT NULL,
+  `name` varchar(15) NOT NULL,
   `password` varchar(60) NOT NULL,
   `friendly_name` varchar(30) NOT NULL,
   `token` varchar(25) DEFAULT NULL,
@@ -218,7 +236,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_name`, `password`, `friendly_name`, `token`, `token_created_at`) VALUES
+INSERT INTO `users` (`id`, `name`, `password`, `friendly_name`, `token`, `token_created_at`) VALUES
 (1, 'matteobin', '', 'Matteo Bini', '', '2018-10-22 07:47:32'),
 (2, 'francesco', '', 'Francesco', '', '2018-10-22 07:47:32');
 
@@ -295,6 +313,13 @@ ALTER TABLE `eaten`
   ADD KEY `eaten_ibfk_2` (`user_id`);
 
 --
+-- Indexes for table `edits`
+--
+ALTER TABLE `edits`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `action_id` (`action_id`);
+
+--
 -- Indexes for table `fund_funds`
 --
 ALTER TABLE `fund_funds`
@@ -331,7 +356,7 @@ ALTER TABLE `snacks_stock`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_name` (`user_name`);
+  ADD UNIQUE KEY `user_name` (`name`);
 
 --
 -- Indexes for table `users_alias`
@@ -361,6 +386,12 @@ ALTER TABLE `actions`
 --
 ALTER TABLE `eaten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `edits`
+--
+ALTER TABLE `edits`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `inflows`
@@ -417,6 +448,12 @@ ALTER TABLE `crates`
 ALTER TABLE `eaten`
   ADD CONSTRAINT `eaten_ibfk_1` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`),
   ADD CONSTRAINT `eaten_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `edits`
+--
+ALTER TABLE `edits`
+  ADD CONSTRAINT `edits_ibfk_1` FOREIGN KEY (`action_id`) REFERENCES `actions` (`id`);
 
 --
 -- Constraints for table `inflows`

@@ -1,5 +1,4 @@
 <?php
-
 function getResponse($value, $json) {
     if ($json) {
         return json_encode($value);
@@ -28,7 +27,6 @@ function eat($userId, $snackId, $quantity, $jsonResponse=true) {
             $response = array('success'=>false, 'status'=>404, 'message'=>'No crates containing snack id '.$snackId.'.');
         }
         $dbManager->endTransaction();
-        $dbManager->delQueryRes();
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
@@ -70,8 +68,7 @@ function buy($userId, $snackId, $quantity, array $options, $jsonResponse=true) {
         $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total-?', array($totalPrice), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 2, $snackId, $snackNumber, $totalPrice), 'iiiid');
         $response = array('success'=>true, 'status'=>204);
-        $dbManager->endTransaction();
-        $dbManager->delQueryRes();
+        $dbManager->endTransaction(); 
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
@@ -88,7 +85,6 @@ function deposit($userId, $amount, $jsonResponse=true) {
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, funds_amount) VALUES (?,?,?)', array($userId, 3, $amount), 'iid');
         $response = array('success'=>true, 'status'=>204);
         $dbManager->endTransaction();
-        $dbManager->delQueryRes();
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
@@ -116,33 +112,60 @@ function addSnack($userId, $name, $price, $snacksPerBox, $isLiquid, $expirationI
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 4, $snackId), 'iii');
         $response = array('success'=>true, 'status'=>204);
         $dbManager->endTransaction();
-        $dbManager->delQueryRes();
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
     return getResponse($response, $jsonResponse);
 }
 
-function editSnack($userId, $snackId, array $newValues, array $types, array $oldValues, $jsonResponse=true) {
+function insertEdits($newValues, $types, $oldValues) {
     global $dbManager;
+    $dbManager->runQuery('SELECT id FROM actions ORDER BY id DESC LIMIT 1');
+    while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+        $actionId = $row['id'];
+    }
+    foreach($newValues as $column=>$newValue) {
+        $type = $types[$column];
+        if (isset($oldValues[$column])) {
+            $dbManager->runPreparedQuery('INSERT INTO edits (action_id, column_name, old_'.$type.'_value, new_'.$type.'_value) VALUES (?, ?, ?, ?)', array($actionId, $column, $oldValues[$column], $newValue), 'is'.$type.$type);
+        } else {
+            $dbManager->runPreparedQuery('INSERT INTO edits (action_id, column_name, new_'.$type.'_value) VALUES (?, ?, ?)', array($actionId, $column, $newValue), 'is'.$type);
+        }
+    }
+}
+
+function editSnackOrUser(array $ids, array $newValues, array $types, array $oldValues, $jsonResponse=true) {
+    global $dbManager;
+    if (isset($ids['snack'])) {
+        $table = 'snacks';
+        $whereId = $ids['snack'];
+    } else {
+        $table = 'users';
+        $whereId = $ids['user'];
+    }
     try {
         $dbManager->startTransaction();
-        $dbManager->runUpdateQuery('snacks', $newValues, $types, 'id', $snackId, $oldValues);
-        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($userId, 5, $snackId), 'iii');
+        if ($dbManager->runUpdateQuery($table, $newValues, $types, 'id', $whereId, $oldValues)) {
+            if ($table=='snacks') {
+                $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($ids['user'], 5, $ids['snack']), 'iii');
+            } else {
+                $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($ids['user'], 7), 'ii');
+            }
+            insertEdits($newValues, $types, $oldValues);
+        }
         $response = array('success'=>true, 'status'=>204);
         $dbManager->endTransaction();
-        $dbManager->delQueryRes();
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
     return getResponse($response, $jsonResponse);
 }
 
-function addUser($userName, $password, $friendlyName, $jsonResponse=true) {
+function addUser($name, $password, $friendlyName, $jsonResponse=true) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('INSERT INTO users (user_name, password, friendly_name) VALUES (?, ?, ?)', array($userName, $password, $friendlyName), 'sss');
+        $dbManager->runPreparedQuery('INSERT INTO users (name, password, friendly_name) VALUES (?, ?, ?)', array($name, $password, $friendlyName), 'sss');
         $dbManager->runQuery('SELECT id FROM users ORDER BY id DESC LIMIT 1');
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $userId = $row['id'];
@@ -158,22 +181,6 @@ function addUser($userName, $password, $friendlyName, $jsonResponse=true) {
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 6), 'ii');
         $response = array('success'=>true, 'status'=>204);
         $dbManager->endTransaction();
-        $dbManager->delQueryRes();
-    } catch (Exception $statementException) {
-        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
-    }
-    return getResponse($response, $jsonResponse);
-}
-
-function editUser($userId, array $newValues, array $types, array $oldValues, $jsonResponse=true) {
-    global $dbManager;
-    try {
-        $dbManager->startTransaction();
-        $dbManager->runUpdateQuery('users', $newValues, $types, 'id', $userId, $oldValues);
-        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 7), 'ii');
-        $response = array('success'=>true, 'status'=>204);
-        $dbManager->endTransaction();
-        $dbManager->delQueryRes();
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
