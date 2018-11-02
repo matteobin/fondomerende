@@ -1,13 +1,5 @@
 <?php
-function getResponse($value, $json) {
-    if ($json) {
-        return json_encode($value);
-    } else {
-        return $value;
-    }
-}
-
-function eat($userId, $snackId, $quantity, $jsonResponse=true) {
+function eat($userId, $snackId, $quantity) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -30,7 +22,7 @@ function eat($userId, $snackId, $quantity, $jsonResponse=true) {
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    return getResponse($response, $jsonResponse);
+    return $response;
 }
 
 function getBuyOptions($column, $options, $snackId) {
@@ -49,7 +41,7 @@ function getBuyOptions($column, $options, $snackId) {
     return $buyOption;
 }
 
-function buy($userId, $snackId, $quantity, array $options, $jsonResponse=true) {
+function buy($userId, $snackId, $quantity, array $options) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -72,10 +64,10 @@ function buy($userId, $snackId, $quantity, array $options, $jsonResponse=true) {
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    return getResponse($response, $jsonResponse);
+    return $response;
 }
 
-function deposit($userId, $amount, $jsonResponse=true) {
+function deposit($userId, $amount) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -88,15 +80,15 @@ function deposit($userId, $amount, $jsonResponse=true) {
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    return getResponse($response, $jsonResponse);
+    return $response;
 }
 
-function addSnack($userId, $name, $price, $snacksPerBox, $isLiquid, $expirationInDays, $jsonResponse=true) {
+function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid) {
     global $dbManager;
     try {
         $subjectUserId = $userId;
         $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('INSERT INTO snacks (name, price, snacks_per_box, is_liquid, expiration_in_days) VALUES (?, ?, ?, ?, ?)', array($name, $price, $snacksPerBox, $isLiquid, $expirationInDays), 'sdiii');
+        $dbManager->runPreparedQuery('INSERT INTO snacks (name, price, snacks_per_box, expiration_in_days, is_liquid) VALUES (?, ?, ?, ?, ?)', array($name, $price, $snacksPerBox, $expirationInDays, $isLiquid), 'sdiii');
         $dbManager->runQuery('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $snackId = $row['id'];
@@ -115,7 +107,7 @@ function addSnack($userId, $name, $price, $snacksPerBox, $isLiquid, $expirationI
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    return getResponse($response, $jsonResponse);
+    return $response;
 }
 
 function insertEdits($newValues, $types, $oldValues) {
@@ -134,7 +126,7 @@ function insertEdits($newValues, $types, $oldValues) {
     }
 }
 
-function editSnackOrUser(array $ids, array $newValues, array $types, array $oldValues, $jsonResponse=true) {
+function editSnackOrUser(array $ids, array $newValues, array $types, array $oldValues) {
     global $dbManager;
     if (isset($ids['snack'])) {
         $table = 'snacks';
@@ -158,10 +150,10 @@ function editSnackOrUser(array $ids, array $newValues, array $types, array $oldV
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    return getResponse($response, $jsonResponse);
+    return $response;
 }
 
-function addUser($name, $password, $friendlyName, $jsonResponse=true) {
+function addUser($name, $password, $friendlyName) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -184,5 +176,5 @@ function addUser($name, $password, $friendlyName, $jsonResponse=true) {
     } catch (Exception $statementException) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
-    return getResponse($response, $jsonResponse);
+    return $response;
 }

@@ -80,10 +80,6 @@ class DbManager {
         return $this->queryRes;
     }
     
-    public function delQueryRes() {
-        unset($this->queryRes);
-    }
-    
     public function endTransaction() {
         $this->connection->commit();
         $this->connection->autocommit(true);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2018 at 06:48 PM
+-- Generation Time: Nov 02, 2018 at 11:09 AM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -185,18 +185,18 @@ CREATE TABLE `snacks` (
   `name` varchar(60) NOT NULL,
   `price` decimal(4,2) NOT NULL,
   `snacks_per_box` int(2) NOT NULL,
-  `is_liquid` bit(1) NOT NULL DEFAULT b'0',
-  `expiration_in_days` int(4) NOT NULL
+  `expiration_in_days` int(4) NOT NULL,
+  `is_liquid` bit(1) NOT NULL DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `snacks`
 --
 
-INSERT INTO `snacks` (`id`, `name`, `price`, `snacks_per_box`, `is_liquid`, `expiration_in_days`) VALUES
-(1, 'Taralli Coop', '1.99', 12, b'0', 0),
-(2, 'Baiocchi', '2.49', 6, b'0', 0),
-(3, 'Kinder Bueno', '3.45', 6, b'0', 60);
+INSERT INTO `snacks` (`id`, `name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
+(1, 'Taralli Coop', '1.99', 12, 0, b'0'),
+(2, 'Baiocchi', '2.49', 6, 0, b'0'),
+(3, 'Kinder Bueno', '3.45', 6, 60, b'0');
 
 -- --------------------------------------------------------
 
