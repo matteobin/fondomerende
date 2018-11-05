@@ -111,31 +111,31 @@ switch ($commandId) {
         if (isset($_POST['price'])) {
             $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION); 
             $checkResult = checkFilteredInputValidity($price, array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2));
-            if (!$checkResult['valid']) {
-                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid price. '.$checkResult['message']);
-                break;
+            if ($checkResult['valid']) {
+                $options['price'] = $price;
             } else {
-                $options['price'] = $price; 
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid price. '.$checkResult['message']);
+                break; 
             }
         }
-        if (isset($_POST['snacks_per_box'])) {
-            $snacksPerBox = filter_input(INPUT_POST, 'snacks_per_box', FILTER_SANITIZE_NUMBER_INT);
+        if (isset($_POST['snacks-per-box'])) {
+            $snacksPerBox = filter_input(INPUT_POST, 'snacks-per-box', FILTER_SANITIZE_NUMBER_INT);
             $checkResult = checkFilteredInputValidity($snacksPerBox, array('greaterThan'=>0, 'digitsNumber'=>2));
-            if (!$checkResult['valid']) {
+            if ($checkResult['valid']) {
+                $options['snacks_per_box'] = $snacksPerBox;
+            } else {
                 $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid snacks per box. '.$checkResult['message']);
                 break;
-            } else {
-                $options['snacks_per_box'] = $snacksPerBox; 
             }
         }
-        if (isset($_POST['expiration_in_days'])) {
+        if (isset($_POST['expiration-in-days'])) {
             $expirationInDays = filter_input(INPUT_POST, 'expiration-in-days', FILTER_SANITIZE_NUMBER_INT);
             $checkResult = checkFilteredInputValidity($checkResult, array('greaterThan'=>0, 'digitsNumber'=>4));
-            if (!$checkResult['valid']) {
+            if ($checkResult['valid']) {
+                $options['expiration_in_days'] = $expirationInDays;
+            } else {
                 $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid expiration in days. '.$checkResult['message']);
                 break;
-            } else {
-                $options['expiration_in_days'] = $expirationInDays; 
             }
         }
         $response = buy($userId, $snackId, $quantity, $options);
@@ -210,54 +210,132 @@ switch ($commandId) {
         $newValues = array();
         $oldValues = array();
         $types = array();
-        if isset($_POST['name']) {
-            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+        if (isset($_POST['new-name'])) {
+            $name = filter_input(INPUT_POST, 'new-name', FILTER_SANITIZE_STRING);
             $checkResult = checkFilteredInputValidity($name, array('length'=>60));
-            if (!$checkResult['valid']) {
-                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid name. '.$checkResult['message']);
-                break;
-            } else {
+            if ($checkResult['valid']) {
                 $newValues['name'] = $name;
                 $types['name'] = 's';
+            } else {
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid new name. '.$checkResult['message']);
+                break;
             }
         }
-        if isset($_POST['old-name']) {
-            $oldName = filter_input(INPUT_POST, 'old-name', FILTER_SANITIZE_STRING);
-            $checkResult = checkFilteredInputValidity($oldName, array('length'=>60));
-            if (!$checkResult['valid']) {
+        if (isset($_POST['old-name'])) {
+            $name = filter_input(INPUT_POST, 'old-name', FILTER_SANITIZE_STRING);
+            $checkResult = checkFilteredInputValidity($name, array('length'=>60));
+            if ($checkResult['valid']) {
+                $oldValues['name'] = $name;
+            } else {
                 $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid old name. '.$checkResult['message']);
                 break;
-            } else {
-                $oldValues['name'] = $oldName;
             }
         }
-        if (isset($_POST['price'])) {
-            $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION); 
+        if (isset($_POST['new-price'])) {
+            $price = filter_input(INPUT_POST, 'new-price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION); 
             $checkResult = checkFilteredInputValidity($price, array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2));
-            if (!$checkResult['valid']) {
-                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid price. '.$checkResult['message']);
-                break;
-            } else {
+            if ($checkResult['valid']) {
                 $newValues['price'] = $price;
                 $types['price'] = 'd';
+            } else {
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid new price. '.$checkResult['message']);
+                break;
             }
         }
         if (isset($_POST['old-price'])) {
-            $oldPrice = filter_input(INPUT_POST, 'old-price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION); 
-            $checkResult = checkFilteredInputValidity($oldPrice, array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2));
-            if (!$checkResult['valid']) {
+            $price = filter_input(INPUT_POST, 'old-price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION); 
+            $checkResult = checkFilteredInputValidity($price, array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2));
+            if ($checkResult['valid']) {
+                $oldValues['price'] = $price;
+            } else {
                 $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid old price. '.$checkResult['message']);
                 break;
+            }
+        }
+        if (isset($_POST['new-snacks-per-box'])) {
+            $snacksPerBox = filter_input(INPUT_POST, 'new-snacks-per-box', FILTER_SANITIZE_NUMBER_INT);
+            $checkResult = checkFilteredInputValidity($snacksPerBox, array('greaterThan'=>0, 'digitsNumber'=>2));
+            if ($checkResult['valid']) {
+                $newValues['snacks_per_box'] = $snacksPerBox;
+                $types['snacks_per_box'] = 'i';
             } else {
-                $oldValues['price'] = $oldPrice;
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid new snacks per box. '.$checkResult['message']);
+                break;
+            }
+        }
+        if (isset($_POST['old-snacks-per-box'])) {
+            $snacksPerBox = filter_input(INPUT_POST, 'old-snacks-per-box', FILTER_SANITIZE_NUMBER_INT);
+            $checkResult = checkFilteredInputValidity($snacksPerBox, array('greaterThan'=>0, 'digitsNumber'=>2));
+            if ($checkResult['valid']) {
+                $oldValues['snacks_per_box'] = $snacksPerBox;
+            } else {
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid old snacks per box. '.$checkResult['message']);
+                break;
+            }
+        }
+        if (isset($_POST['new-expiration-in-days'])) {
+            $expirationInDays = filter_input(INPUT_POST, 'new-expiration-in-days', FILTER_SANITIZE_NUMBER_INT);
+            $checkResult = checkFilteredInputValidity($expirationInDays, array('greaterThan'=>0, 'digitsNumber'=>4));
+            if ($checkResult['valid']) {
+                $newValues['expiration_in_days'] = $expirationInDays;
+                $types['expiration_in_days'] = 'i';
+            } else {
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid new expiration in days. '.$checkResult['message']);
+                break;
+            }
+        }
+        if (isset($_POST['old-expiration-in-days'])) {
+            $expirationInDays = filter_input(INPUT_POST, 'old-expiration-in-days', FILTER_SANITIZE_NUMBER_INT);
+            $checkResult = checkFilteredInputValidity($expirationInDays, array('greaterThan'=>0, 'digitsNumber'=>4));
+            if ($checkResult['valid']) {
+                $oldValues['expiration_in_days'] = $expirationInDays;
+            } else {
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid old expiration in days. '.$checkResult['message']);
+                break;
+            }
+        }
+        if (isset($_POST['new-is-liquid'])) {
+            $isLiquid = filter_input(INPUT_POST, 'new-is-liquid', FILTER_VALIDATE_BOOLEAN);
+            $checkResult = checkFilteredInputValidity($isLiquid);
+            if ($checkResult['valid']) {
+                $newValues['is_liquid'] = $isLiquid;
+                $types['is_liquid'] = 'i';
+            } else {
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid new is liquid. '.$checkResult['message']);
+                break;
+            }
+        }
+        if (isset($_POST['old-is-liquid'])) {
+            $isLiquid = filter_input(INPUT_POST, 'old-is-liquid', FILTER_VALIDATE_BOOLEAN);
+            $checkResult = checkFilteredInputValidity($isLiquid);
+            if ($checkResult['valid']) {
+                $oldValues['is_liquid'] = $isLiquid;
+            } else {
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid old is liquid. '.$checkResult['message']);
+                break;
             }
         }
         $response = editSnackOrUser(array('user'=>$userId, 'snack'=>$snackId), $newValues, $types, $oldValues);
         break;
     case '6':
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+        $checkResult = checkFilteredInputValidity($name, array('length'=>15));
+        if (!$checkResult['valid']) {
+            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid name. '.$checkResult['message']);
+            break;
+        }
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $checkResult = checkFilteredInputValidity($password, array('length'=>60));
+        if (!$checkResult['valid']) {
+            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid password. '.$checkResult['message']);
+            break;
+        }
         $friendlyName = filter_input(INPUT_POST, 'friendly-name', FILTER_SANITIZE_STRING);
+        $checkResult = checkFilteredInputValidity($friendlyName, array('length'=>60));
+        if (!$checkResult['valid']) {
+            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid friendly name. '.$checkResult['message']);
+            break;
+        }
         var_dump(addUser($name, $password, $friendlyName));
         break;
     case '7':
