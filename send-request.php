@@ -64,6 +64,35 @@ function checkFilteredInputValidity($value, $options=null) {
     return array('valid'=>$valid, 'message'=>$message);
 }
 
+function setInputValue(&$destination, $mandatory, $requestType, $valueName, array $inputFilters, array $checkOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
+    global &$response;
+    $requestType = strtoupper($requestType);
+    $dbColumnValueName = str_replace('-', '_', $valueName);
+    $filter = $inputFilters['filter'];
+    $filterOptions = null;
+    if (isset($inputFilters['options'])) {
+        $filterOptions = $inputFilters['options'];
+    }
+    if ($mandatory || isset(${'$_'.$requestType})) {
+        $value = filter_input(${'INPUT_'.$requestType}, $valueName, $filter, $filterOptions);
+        $checkResult = checkFilteredInputValidity($value, $checkOptions);
+        if ($checkResult['valid']) {
+            if (gettype($destination)=='array') {
+                $destination[$dbColumnValueName] = $value;
+                if ($checkOldValue) {
+                    $types[$dbColumnValueName] = $type;
+                }
+            }
+        } else {
+            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid user id. '.$checkResult['message']);
+            break;
+        }
+    }
+    if ($checkOldValue) {
+        
+    }
+}
+
 $commandId = filter_input(INPUT_POST, 'command-id', FILTER_SANITIZE_NUMBER_INT);
 $dbManager = new DbManager();
 switch ($commandId) {
