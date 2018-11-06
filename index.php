@@ -12,27 +12,27 @@
 </header>
 <section>
 	<div>
-		<form action="init-request.php" method="POST">
+		<form action="send-request.php" method="POST">
             <input type="hidden" name="user-id" value="1">
             <input type="hidden" name="command-id" value="1">
             <input type="hidden" name="snack-id" value="3">
             <input type="hidden" name="quantity" value="-1">
 			<input type="submit" value="Matteo mangia 1 Kinder Bueno">
 		</form>
-        <form action="init-request.php" method="POST">
+        <form action="send-request.php" method="POST">
             <input type="hidden" name="user-id" value="1">
             <input type="hidden" name="command-id" value="2">
             <input type="hidden" name="snack-id" value="3">
             <input type="hidden" name="quantity" value="1">
 			<input type="submit" value="Matteo compra 1 confezione di Kinder Bueno">
 		</form>
-        <form action="init-request.php" method="POST">
+        <form action="send-request.php" method="POST">
             <input type="hidden" name="user-id" value="1">
             <input type="hidden" name="command-id" value="3">
             <input type="hidden" name="amount" value="5.29">
 			<input type="submit" value="Matteo deposita 5.29">
 		</form>
-        <form action="init-request.php" method="POST">
+        <form action="send-request.php" method="POST">
             <input type="hidden" name="user-id" value="1">
             <input type="hidden" name="command-id" value="4">
             <input type="hidden" name="name" value="Oreo">
@@ -42,7 +42,7 @@
             <input type="hidden" name="expiration-in-days" value="700">
 			<input type="submit" value="Matteo aggiunge Oreo">
 		</form>
-        <form action="init-request.php" method="POST">
+        <form action="send-request.php" method="POST">
             <input type="hidden" name="user-id" value="1">
             <input type="hidden" name="command-id" value="5">
             <input type="hidden" name="snack-id" value="4">
@@ -50,14 +50,14 @@
             <input type="hidden" name="new-price" value="5">
 			<input type="submit" value="Matteo rinomina Oreo in Oreo - nuovo nome">
 		</form>
-        <form action="init-request.php" method="POST">
+        <form action="send-request.php" method="POST">
             <input type="hidden" name="command-id" value="6">
             <input type="hidden" name="name" value="pk9rocco">
             <input type="hidden" name="password" value="rocchino">
             <input type="hidden" name="friendly-name" value="Roberto Rocchini">
 			<input type="submit" value="Crea l'utente di Roberto R.">
 		</form>
-        <form action="init-request.php" method="POST">
+        <form action="send-request.php" method="POST">
             <input type="hidden" name="user-id" value="3">
             <input type="hidden" name="command-id" value="7">
             <input type="hidden" name="new-name" value="pk9brocco">

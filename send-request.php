@@ -64,8 +64,8 @@ function checkFilteredInputValidity($value, $options=null) {
     return array('valid'=>$valid, 'message'=>$message);
 }
 
-function setInputValue(&$destination, $mandatory, $requestType, $valueName, array $inputFilters, array $checkOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
-    global &$response;
+function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inputVariableName, array $inputFilters, array $validityOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
+    global $response;
     $requestType = strtoupper($requestType);
     $dbColumnValueName = str_replace('-', '_', $valueName);
     $filter = $inputFilters['filter'];
@@ -73,23 +73,24 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, arra
     if (isset($inputFilters['options'])) {
         $filterOptions = $inputFilters['options'];
     }
-    if ($mandatory || isset(${'$_'.$requestType})) {
-        $value = filter_input(${'INPUT_'.$requestType}, $valueName, $filter, $filterOptions);
-        $checkResult = checkFilteredInputValidity($value, $checkOptions);
+    if ($mandatory || isset(${'_'.$requestType}[$inputVariableName])) {
+        $value = filter_input(constant('INPUT_'.$requestType), $inputVariableName, $filter, $filterOptions);
+        $checkResult = checkFilteredInputValidity($value, $validityOptions);
         if ($checkResult['valid']) {
             if (gettype($destination)=='array') {
                 $destination[$dbColumnValueName] = $value;
                 if ($checkOldValue) {
                     $types[$dbColumnValueName] = $type;
                 }
+            } else {
+                $destination = $value;
             }
         } else {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid user id. '.$checkResult['message']);
-            break;
+            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $inputVariableName).'. '.$checkResult['message']);
         }
     }
     if ($checkOldValue) {
-        
+        setInputValue($oldValues, false, $requestType, $valueName, 'old-'.$valueName, $inputFilters, $validityOptions);
     }
 }
 
@@ -97,7 +98,14 @@ $commandId = filter_input(INPUT_POST, 'command-id', FILTER_SANITIZE_NUMBER_INT);
 $dbManager = new DbManager();
 switch ($commandId) {
     case '1':
-        $userId = filter_input(INPUT_POST, 'user-id', FILTER_SANITIZE_NUMBER_INT);
+        //$userId = filter_input(INPUT_POST, 'user-id', FILTER_SANITIZE_NUMBER_INT);
+        $userId;
+        setInputValue($userId, false, 'post', 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('dbCheck'=>array('table'=>'users', 'column'=>'id')));
+        var_dump(${'_POST'}['user-id']);
+        var_dump(isset($_POST['user-id']));
+        var_dump($userId);
+        var_dump($response);
+        die();
         $checkResult = checkFilteredInputValidity($userId, array('dbCheck'=>array('table'=>'users', 'column'=>'id')));
         if (!$checkResult['valid']) {
             $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid user id. '.$checkResult['message']);
