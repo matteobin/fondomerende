@@ -16,7 +16,7 @@
             <input type="hidden" name="user-id" value="1">
             <input type="hidden" name="command-id" value="1">
             <input type="hidden" name="snack-id" value="3">
-            <input type="hidden" name="quantity" value="-1">
+            <input type="hidden" name="quantity" value="1">
 			<input type="submit" value="Matteo mangia 1 Kinder Bueno">
 		</form>
         <form action="send-request.php" method="POST">

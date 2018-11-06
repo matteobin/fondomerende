@@ -14,9 +14,9 @@ function checkFilteredInputValidity($value, $options=null) {
         $valid = false;
         $message = 'Value longer than '.$options['length'].' characters.';
     }
-    else if (isset($options['greaterThan']) && $value<$options['greaterThan']) {
+    else if (isset($options['greaterThan']) && $value<=$options['greaterThan']) {
         $valid = false;
-        $message = 'Value lesser than '.$options['greaterThan'].'.';
+        $message = 'Value lesser than '.($options['greaterThan']+1).'.';
     }
     if ($valid && isset($options['contains'])) {
         foreach ($options['contains'] as $needle) {
@@ -66,13 +66,14 @@ function checkFilteredInputValidity($value, $options=null) {
 
 function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inputVariableName, array $inputFilters, array $validityOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
     global $response;
-    $requestType = strtoupper($requestType);
+    $requestType = mb_strtoupper($requestType);
     $dbColumnValueName = str_replace('-', '_', $valueName);
     $filter = $inputFilters['filter'];
     $filterOptions = null;
     if (isset($inputFilters['options'])) {
         $filterOptions = $inputFilters['options'];
     }
+	global ${'_'.$requestType};
     if ($mandatory || isset(${'_'.$requestType}[$inputVariableName])) {
         $value = filter_input(constant('INPUT_'.$requestType), $inputVariableName, $filter, $filterOptions);
         $checkResult = checkFilteredInputValidity($value, $validityOptions);
@@ -85,44 +86,35 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inp
             } else {
                 $destination = $value;
             }
+			$valueSet = true;
         } else {
             $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $inputVariableName).'. '.$checkResult['message']);
+			$valueSet = false;
+			if ($checkOldValue) {
+				$checkOldValue = false;
+			}
         }
     }
     if ($checkOldValue) {
         setInputValue($oldValues, false, $requestType, $valueName, 'old-'.$valueName, $inputFilters, $validityOptions);
-    }
+    } else {
+		return $valueSet;
+	}
 }
 
 $commandId = filter_input(INPUT_POST, 'command-id', FILTER_SANITIZE_NUMBER_INT);
 $dbManager = new DbManager();
 switch ($commandId) {
     case '1':
-        //$userId = filter_input(INPUT_POST, 'user-id', FILTER_SANITIZE_NUMBER_INT);
-        $userId;
-        setInputValue($userId, false, 'post', 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('dbCheck'=>array('table'=>'users', 'column'=>'id')));
-        var_dump(${'_POST'}['user-id']);
-        var_dump(isset($_POST['user-id']));
-        var_dump($userId);
-        var_dump($response);
-        die();
-        $checkResult = checkFilteredInputValidity($userId, array('dbCheck'=>array('table'=>'users', 'column'=>'id')));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid user id. '.$checkResult['message']);
-            break;
-        }
-        $snackId = filter_input(INPUT_POST, 'snack-id', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($snackId, array('dbCheck'=>array('table'=>'snacks', 'column'=>'id')));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid snack id. '.$checkResult['message']);
-            break;
-        }
-        $quantity = filter_input(INPUT_POST, 'quantity', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($quantity, array('greaterThan'=>0));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid quantity. '.$checkResult['message']);
-            break;
-        }
+        if (!setInputValue($userId, true, 'post', 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+			break;
+		}
+        if (!setInputValue($snackId, true, 'post', 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id')))) {
+			break;
+		}
+		if (!setInputValue($quantity, true, 'post', 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
+			break;
+		}
         $response = eat($userId, $snackId, $quantity);
         break;
     case '2':
