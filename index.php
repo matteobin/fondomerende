@@ -24,6 +24,7 @@
             <input type="hidden" name="command-id" value="2">
             <input type="hidden" name="snack-id" value="3">
             <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="price" value="1.5">
 			<input type="submit" value="Matteo compra 1 confezione di Kinder Bueno">
 		</form>
         <form action="send-request.php" method="POST">

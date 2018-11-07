@@ -22,7 +22,7 @@ function checkFilteredInputValidity($value, $options=null) {
         foreach ($options['contains'] as $needle) {
             if (strpos($value, $needle)===false) {
                 $valid = false;
-                $message = 'Value does not contain "'.$needle.'".';
+                $message = 'Value does not contain \''.$needle.'\'.';
                 break;
             }
         }
@@ -70,6 +70,7 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inp
     $dbColumnValueName = str_replace('-', '_', $valueName);
     $filter = $inputFilters['filter'];
     $filterOptions = null;
+    $valueSet = false;
     if (isset($inputFilters['options'])) {
         $filterOptions = $inputFilters['options'];
     }
@@ -89,7 +90,6 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inp
 			$valueSet = true;
         } else {
             $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $inputVariableName).'. '.$checkResult['message']);
-			$valueSet = false;
 			if ($checkOldValue) {
 				$checkOldValue = false;
 			}
@@ -118,55 +118,26 @@ switch ($commandId) {
         $response = eat($userId, $snackId, $quantity);
         break;
     case '2':
-        $userId = filter_input(INPUT_POST, 'user-id', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($userId, array('dbCheck'=>array('table'=>'users', 'column'=>'id')));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid user id. '.$checkResult['message']);
-            break;
-        }
-        $snackId = filter_input(INPUT_POST, 'snack-id', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($snackId, array('dbCheck'=>array('table'=>'snacks', 'column'=>'id')));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid snack id. '.$checkResult['message']);
-            break;
-        }
-        $quantity = filter_input(INPUT_POST, 'quantity', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($quantity, array('greaterThan'=>0));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid quantity. '.$checkResult['message']);
-            break;
-        }
-        $options = array();
-        if (isset($_POST['price'])) {
-            $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION); 
-            $checkResult = checkFilteredInputValidity($price, array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2));
-            if ($checkResult['valid']) {
-                $options['price'] = $price;
-            } else {
-                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid price. '.$checkResult['message']);
-                break; 
-            }
-        }
-        if (isset($_POST['snacks-per-box'])) {
-            $snacksPerBox = filter_input(INPUT_POST, 'snacks-per-box', FILTER_SANITIZE_NUMBER_INT);
-            $checkResult = checkFilteredInputValidity($snacksPerBox, array('greaterThan'=>0, 'digitsNumber'=>2));
-            if ($checkResult['valid']) {
-                $options['snacks_per_box'] = $snacksPerBox;
-            } else {
-                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid snacks per box. '.$checkResult['message']);
-                break;
-            }
-        }
-        if (isset($_POST['expiration-in-days'])) {
-            $expirationInDays = filter_input(INPUT_POST, 'expiration-in-days', FILTER_SANITIZE_NUMBER_INT);
-            $checkResult = checkFilteredInputValidity($checkResult, array('greaterThan'=>0, 'digitsNumber'=>4));
-            if ($checkResult['valid']) {
-                $options['expiration_in_days'] = $expirationInDays;
-            } else {
-                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid expiration in days. '.$checkResult['message']);
-                break;
-            }
-        }
+        if (!setInputValue($userId, true, 'post', 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+			break;
+		}
+        if (!setInputValue($snackId, true, 'post', 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id')))) {
+			break;
+		}
+        if (!setInputValue($quantity, true, 'post', 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
+			break;
+		}
+        if (!setInputValue($options, false, 'post', 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_INT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
+			break;
+		}
+        if (!setInputValue($options, false, 'post', 'snacks-per-box', 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>2))) {
+			break;
+		}
+        if (!setInputValue($options, false, 'post', 'expiration-in-days', 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>4))) {
+			break;
+		}
+        var_dump($options);
+        die();
         $response = buy($userId, $snackId, $quantity, $options);
         break;
     case '3':
