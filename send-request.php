@@ -70,7 +70,7 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
     $dbColumnValueName = str_replace('-', '_', $valueName);
     $filter = $inputFilters['filter'];
     $filterOptions = null;
-    $valueSet = true;
+    $noInputError = true;
     if (isset($inputFilters['options'])) {
         $filterOptions = $inputFilters['options'];
     }
@@ -89,16 +89,16 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
             }
         } else {
             $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).'. '.$checkResult['message']);
-			$valueSet = false;
+			$noInputError = false;
             if ($checkOldValue) {
 				$checkOldValue = false;
 			}
         }
     }
     if ($checkOldValue) {
-        setInputValue($oldValues, false, $requestType, $valueName, 'old-'.$valueName, $inputFilters, $validityOptions);
+        return setInputValue($oldValues, false, $requestType, $valueName, 'old-'.$valueName, $inputFilters, $validityOptions);
     } else {
-		return $valueSet;
+		return $noInputError;
 	}
 }
 
@@ -182,10 +182,6 @@ switch ($commandId) {
         if (!setInputValue($newValues, false, 'post', 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('length'=>60), true, $types, 's', $oldValues)) {
 			break;
 		}
-        var_dump($newValues);
-        var_dump($oldValues);
-        var_dump($types);
-        die('ciao');
         if (isset($_POST['new-name'])) {
             $name = filter_input(INPUT_POST, 'new-name', FILTER_SANITIZE_STRING);
             $checkResult = checkFilteredInputValidity($name, array('length'=>60));
