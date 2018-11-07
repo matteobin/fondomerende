@@ -70,7 +70,7 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inp
     $dbColumnValueName = str_replace('-', '_', $valueName);
     $filter = $inputFilters['filter'];
     $filterOptions = null;
-    $valueSet = false;
+    $valueSet = true;
     if (isset($inputFilters['options'])) {
         $filterOptions = $inputFilters['options'];
     }
@@ -87,10 +87,10 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inp
             } else {
                 $destination = $value;
             }
-			$valueSet = true;
         } else {
             $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $inputVariableName).'. '.$checkResult['message']);
-			if ($checkOldValue) {
+			$valueSet = false;
+            if ($checkOldValue) {
 				$checkOldValue = false;
 			}
         }
@@ -127,7 +127,8 @@ switch ($commandId) {
         if (!setInputValue($quantity, true, 'post', 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
 			break;
 		}
-        if (!setInputValue($options, false, 'post', 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_INT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
+        $options = array();
+        if (!setInputValue($options, false, 'post', 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
 			break;
 		}
         if (!setInputValue($options, false, 'post', 'snacks-per-box', 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>2))) {
@@ -136,8 +137,6 @@ switch ($commandId) {
         if (!setInputValue($options, false, 'post', 'expiration-in-days', 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>4))) {
 			break;
 		}
-        var_dump($options);
-        die();
         $response = buy($userId, $snackId, $quantity, $options);
         break;
     case '3':
