@@ -6,7 +6,7 @@ require_once(__ROOT__.'/commands.php');
 function checkFilteredInputValidity($value, $options=null) {
     $valid = true;
     $message = '';
-    if ($value=='') {
+    if ($value==='') {
         $valid = false;
         $message = 'Value in wrong format.';
     }
@@ -64,7 +64,7 @@ function checkFilteredInputValidity($value, $options=null) {
     return array('valid'=>$valid, 'message'=>$message);
 }
 
-function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inputVariableName, array $inputFilters, array $validityOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
+function setInputValue(&$destination, $mandatory, $requestType, $valueName, $requestVariableName, array $inputFilters, array $validityOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
     global $response;
     $requestType = mb_strtoupper($requestType);
     $dbColumnValueName = str_replace('-', '_', $valueName);
@@ -75,8 +75,8 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inp
         $filterOptions = $inputFilters['options'];
     }
 	global ${'_'.$requestType};
-    if ($mandatory || isset(${'_'.$requestType}[$inputVariableName])) {
-        $value = filter_input(constant('INPUT_'.$requestType), $inputVariableName, $filter, $filterOptions);
+    if ($mandatory || isset(${'_'.$requestType}[$requestVariableName])) {
+        $value = filter_input(constant('INPUT_'.$requestType), $requestVariableName, $filter, $filterOptions);
         $checkResult = checkFilteredInputValidity($value, $validityOptions);
         if ($checkResult['valid']) {
             if (gettype($destination)=='array') {
@@ -88,7 +88,7 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $inp
                 $destination = $value;
             }
         } else {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $inputVariableName).'. '.$checkResult['message']);
+            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).'. '.$checkResult['message']);
 			$valueSet = false;
             if ($checkOldValue) {
 				$checkOldValue = false;
@@ -140,75 +140,52 @@ switch ($commandId) {
         $response = buy($userId, $snackId, $quantity, $options);
         break;
     case '3':
-        $userId = filter_input(INPUT_POST, 'user-id', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($userId, array('dbCheck'=>array('table'=>'users', 'column'=>'id')));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid user id. '.$checkResult['message']);
-            break;
-        }
-        $amount = filter_input(INPUT_POST, 'amount', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $checkResult = checkFilteredInputValidity($amount, array('greaterThan'=>0, 'digitsNumber'=>4, 'decimalsNumber'=>2));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid amount. '.$checkResult['message']);
-            break;
-        }
-        var_dump(deposit($userId, $amount));
+        if (!setInputValue($userId, true, 'post', 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+			break;
+		}
+        if (!setInputValue($amount, true, 'post', 'amount', 'amount', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
+			break;
+		}
+        $response = deposit($userId, $amount);
         break;
     case '4':
-        $userId = filter_input(INPUT_POST, 'user-id', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($userId, array('dbCheck'=>array('table'=>'users', 'column'=>'id')));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid user id. '.$checkResult['message']);
-            break;
-        }
-        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $checkResult = checkFilteredInputValidity($name, array('length'=>60));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid name. '.$checkResult['message']);
-            break;
-        }
-        $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION); 
-        $checkResult = checkFilteredInputValidity($price, array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid price. '.$checkResult['message']);
-            break;
-        }
-        $snacksPerBox = filter_input(INPUT_POST, 'snacks-per-box', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($snacksPerBox, array('greaterThan'=>0, 'digitsNumber'=>2));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid snacks per box. '.$checkResult['message']);
-            break;
-        }
-        $expirationInDays = filter_input(INPUT_POST, 'expiration-in-days', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($expirationInDays, array('greaterThan'=>0, 'digitsNumber'=>4));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid expiration in days. '.$checkResult['message']);
-            break;
-        }
-        $isLiquid = filter_input(INPUT_POST, 'is-liquid', FILTER_VALIDATE_BOOLEAN);
-        $checkResult = checkFilteredInputValidity($isLiquid);
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid is liquid. '.$checkResult['message']);
-            break;
-        }
-        var_dump(addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid));
+        if (!setInputValue($userId, true, 'post', 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+			break;
+		}
+        if (!setInputValue($name, true, 'post', 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('length'=>60))) {
+			break;
+		}
+        if (!setInputValue($price, true, 'post', 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
+			break;
+		}
+        if (!setInputValue($snacksPerBox, true, 'post', 'snacks-per-box', 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>2))) {
+			break;
+		}
+        if (!setInputValue($expirationInDays, true, 'post', 'expiration-in-days', 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>4))) {
+			break;
+		}
+        if (!setInputValue($isLiquid, true, 'post', 'is-liquid', 'is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+			break;
+		}
+        $response = addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid);
         break;
     case '5':
-        $userId = filter_input(INPUT_POST, 'user-id', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($userId, array('dbCheck'=>array('table'=>'users', 'column'=>'id')));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid user id. '.$checkResult['message']);
-            break;
-        }
-        $snackId = filter_input(INPUT_POST, 'snack-id', FILTER_SANITIZE_NUMBER_INT);
-        $checkResult = checkFilteredInputValidity($snackId, array('dbCheck'=>array('table'=>'snacks', 'column'=>'id')));
-        if (!$checkResult['valid']) {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid snack id. '.$checkResult['message']);
-            break;
-        }
+        if (!setInputValue($userId, true, 'post', 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+			break;
+		}
+        if (!setInputValue($snackId, true, 'post', 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id')))) {
+			break;
+		}
         $newValues = array();
         $oldValues = array();
         $types = array();
+        if (!setInputValue($newValues, false, 'post', 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('length'=>60), true, $types, 's', $oldValues)) {
+			break;
+		}
+        var_dump($newValues);
+        var_dump($oldValues);
+        var_dump($types);
+        die('ciao');
         if (isset($_POST['new-name'])) {
             $name = filter_input(INPUT_POST, 'new-name', FILTER_SANITIZE_STRING);
             $checkResult = checkFilteredInputValidity($name, array('length'=>60));
