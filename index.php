@@ -48,7 +48,7 @@
             <input type="hidden" name="command-id" value="5">
             <input type="hidden" name="snack-id" value="4">
             <input type="hidden" name="new-name" value="Oreo - nuovo nome">
-            <input type="hidden" name="new-price" value="5">
+            <input type="hidden" name="new-price" value="5.00">
 			<input type="submit" value="Matteo rinomina Oreo in Oreo - nuovo nome">
 		</form>
         <form action="send-request.php" method="POST">
@@ -61,6 +61,7 @@
         <form action="send-request.php" method="POST">
             <input type="hidden" name="user-id" value="3">
             <input type="hidden" name="command-id" value="7">
+            <input type="hidden" name="old-name" value="pk9rocco">
             <input type="hidden" name="new-name" value="pk9brocco">
 			<input type="submit" value="Cambia l'username di pk9rocco in pk9brocco">
 		</form>

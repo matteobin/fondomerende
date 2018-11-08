@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2018 at 11:09 AM
+-- Generation Time: Nov 08, 2018 at 02:23 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -356,7 +356,7 @@ ALTER TABLE `snacks_stock`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_name` (`name`);
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `users_alias`
