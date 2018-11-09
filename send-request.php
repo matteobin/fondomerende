@@ -51,12 +51,17 @@ function checkFilteredInputValidity($value, $options=null) {
         global $dbManager;
         $column = $options['dbCheck']['column'];
         $table = $options['dbCheck']['table'];
+        if (isset($options['dbCheck']['unique'])) {
+            $unique = $options['dbCheck']['unique'];
+        } else {
+            $unique = false;
+        }
         $dbManager->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$column.'=?', array($value), 'i');
         $dbValue = null;
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $dbValue = $row[$column];
+            $dbValue[] = $row[$column];
         }
-        if ($dbValue!=$value) {
+        if ($dbValue[0]!=$value) {
             $valid = false;
             $message = 'Value is not present in database '.$table.' table at '.$column.' column.';
         }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2018 at 02:23 PM
+-- Generation Time: Nov 09, 2018 at 05:21 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -343,7 +343,8 @@ ALTER TABLE `outflows`
 -- Indexes for table `snacks`
 --
 ALTER TABLE `snacks`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `snacks_stock`
