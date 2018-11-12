@@ -56,20 +56,23 @@ function checkFilteredInputValidity($value, $options=null) {
         } else {
             $unique = false;
         }
-        $dbManager->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$column.'=?', array($value), 'i');
+        $dbManager->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$column.'=? LIMIT 2', array($value), 'i');
         $dbValue = null;
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $dbValue[] = $row[$column];
+            $dbValue = $row[$column];
         }
-        if ($dbValue[0]!=$value) {
+        if ($unique && $dbValue!=null) {
+            $message = 'Value is not unique in database '.$table.' table at '.$column.' column.';
+        } else if ($dbValue!=$value) {
             $valid = false;
             $message = 'Value is not present in database '.$table.' table at '.$column.' column.';
         }
+        
     }
     return array('valid'=>$valid, 'message'=>$message);
 }
 
-function setInputValue(&$destination, $mandatory, $requestType, $valueName, $requestVariableName, array $inputFilters, array $validityOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
+function setInputValue(&$destination, $mandatory, $requestType, $valueName, $requestVariableName, array $inputFilters, array &$validityOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
     global $response;
     $requestType = mb_strtoupper($requestType);
     $dbColumnValueName = str_replace('-', '_', $valueName);
@@ -101,6 +104,9 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
         }
     }
     if ($checkOldValue) {
+        if (isset($validityOptions['dbCheck']['unique']) && $validityOptions['dbCheck']['unique']) {
+            $validityOptions['dbCheck']['unique'] = false;
+        }
         return setInputValue($oldValues, false, $requestType, $valueName, 'old-'.$valueName, $inputFilters, $validityOptions);
     } else {
 		return $noInputError;
@@ -157,7 +163,7 @@ switch ($commandId) {
         if (!setInputValue($userId, true, 'post', 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
 			break;
 		}
-        if (!setInputValue($name, true, 'post', 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60))) {
+        if (!setInputValue($name, true, 'post', 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id', 'unique'=>true)))) {
 			break;
 		}
         if (!setInputValue($price, true, 'post', 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
@@ -184,7 +190,7 @@ switch ($commandId) {
         $newValues = array();
         $oldValues = array();
         $types = array();
-        if (!setInputValue($newValues, false, 'post', 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $types, 's', $oldValues)) {
+        if (!setInputValue($newValues, false, 'post', 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id', 'unique'=>true)), true, $types, 's', $oldValues)) {
 			break;
 		}
         if (!setInputValue($newValues, false, 'post', 'price', 'new-price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2), true, $types, 'd', $oldValues)) {
@@ -202,7 +208,7 @@ switch ($commandId) {
         $response = editSnackOrUser(array('user'=>$userId, 'snack'=>$snackId), $newValues, $types, $oldValues);
         break;
     case '6':
-        if (!setInputValue($name, true, 'post', 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15))) {
+        if (!setInputValue($name, true, 'post', 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'dbCheck'=>array('table'=>'users', 'column'=>'id', 'unique'=>true)))) {
 			break;
 		}
         if (!setInputValue($password, true, 'post', 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60))) {
@@ -219,7 +225,7 @@ switch ($commandId) {
 		}
         $newValues = array();
         $oldValues = array();
-        if (!setInputValue($newValues, false, 'post', 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15), true, $types, 's', $oldValues)) {
+        if (!setInputValue($newValues, false, 'post', 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'dbCheck'=>array('table'=>'users', 'column'=>'id', 'unique'=>true)), true, $types, 's', $oldValues)) {
 			break;
 		}
         if (!setInputValue($oldValues, false, 'post', 'password', 'old-password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $types, 's', $oldValues)) {
