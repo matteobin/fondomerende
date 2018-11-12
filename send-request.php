@@ -56,7 +56,7 @@ function checkFilteredInputValidity($value, $options=null) {
         } else {
             $unique = false;
         }
-        $dbManager->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$column.'=? LIMIT 2', array($value), 'i');
+        $dbManager->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$column.'=? LIMIT 1', array($value), 'i');
         $dbValue = null;
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $dbValue = $row[$column];
