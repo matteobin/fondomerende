@@ -72,7 +72,7 @@ function checkFilteredInputValidity($value, $options=null) {
     return array('valid'=>$valid, 'message'=>$message);
 }
 
-function setInputValue(&$destination, $mandatory, $requestType, $valueName, $requestVariableName, array $inputFilters, array &$validityOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
+function setInputValue(&$destination, $mandatory, $requestType, $valueName, $requestVariableName, array $inputFilters, array $validityOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
     global $response;
     $requestType = mb_strtoupper($requestType);
     $dbColumnValueName = str_replace('-', '_', $valueName);
