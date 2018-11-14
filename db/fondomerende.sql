@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2018 at 05:21 PM
+-- Generation Time: Nov 14, 2018 at 10:44 AM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -183,6 +183,7 @@ CREATE TABLE `outflows` (
 CREATE TABLE `snacks` (
   `id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
+  `friendly_name` varchar(60) NOT NULL,
   `price` decimal(4,2) NOT NULL,
   `snacks_per_box` int(2) NOT NULL,
   `expiration_in_days` int(4) NOT NULL,
@@ -193,10 +194,10 @@ CREATE TABLE `snacks` (
 -- Dumping data for table `snacks`
 --
 
-INSERT INTO `snacks` (`id`, `name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
-(1, 'Taralli Coop', '1.99', 12, 0, b'0'),
-(2, 'Baiocchi', '2.49', 6, 0, b'0'),
-(3, 'Kinder Bueno', '3.45', 6, 60, b'0');
+INSERT INTO `snacks` (`id`, `name`, `friendly_name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
+(1, 'taralli coop', 'Taralli Coop', '1.99', 12, 0, b'0'),
+(2, 'baiocchi', 'Baiocchi', '2.49', 6, 0, b'0'),
+(3, 'kinder bueno', 'Kinder Bueno', '3.45', 6, 60, b'0');
 
 -- --------------------------------------------------------
 
@@ -226,7 +227,7 @@ INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `updated_at`) VALUES
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(15) NOT NULL,
-  `password` varchar(60) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `friendly_name` varchar(30) NOT NULL,
   `token` varchar(25) DEFAULT NULL,
   `token_created_at` timestamp NULL DEFAULT NULL
@@ -288,13 +289,17 @@ ALTER TABLE `actions`
 -- Indexes for table `commands`
 --
 ALTER TABLE `commands`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `en` (`en`),
+  ADD UNIQUE KEY `it` (`it`);
 
 --
 -- Indexes for table `commands_alias`
 --
 ALTER TABLE `commands_alias`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `en_name` (`en_name`),
+  ADD UNIQUE KEY `it_name` (`it_name`),
   ADD KEY `command_id` (`command_id`);
 
 --

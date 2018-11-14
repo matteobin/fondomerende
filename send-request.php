@@ -218,7 +218,7 @@ if ($requestType!=null) {
                 if (!setInputValue($name, true, $requestType, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'dbCheck'=>array('table'=>'users', 'column'=>'id', 'unique'=>true)))) {
                     break;
                 }
-                if (!setInputValue($password, true, $requestType, 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60))) {
+                if (!setInputValue($password, true, $requestType, 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>255))) {
                     break;
                 }
                 if (!setInputValue($friendlyName, true, $requestType, 'friendly-name', 'friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60))) {
@@ -235,7 +235,10 @@ if ($requestType!=null) {
                 if (!setInputValue($newValues, false, $requestType, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'dbCheck'=>array('table'=>'users', 'column'=>'id', 'unique'=>true)), true, $types, 's', $oldValues)) {
                     break;
                 }
-                if (!setInputValue($oldValues, false, $requestType, 'password', 'old-password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $types, 's', $oldValues)) {
+                if (!setInputValue($newValues, false, $requestType, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>255), true, $types, 's', $oldValues)) {
+                    break;
+                }
+                if (!setInputValue($newValues, false, $requestType, 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $types, 's', $oldValues)) {
                     break;
                 }
                 $response = editSnackOrUser(array('user'=>$userId), $newValues, $types, $oldValues);
