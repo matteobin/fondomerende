@@ -13,26 +13,26 @@ function authRequest($requestType) {
     return $isAuth;
 }
 
-function checkFilteredInputValidity($value, $options=null) {
+function checkFilteredInputValidity($value, $valueName, $options=null) {
     $valid = true;
     $message = '';
     if ($value==='') {
         $valid = false;
-        $message = 'Value in wrong format.';
+        $message = $valueName.' missing or in wrong format.';
     }
     else if (isset($options['maxLength']) && strlen($value)>$options['maxLength']) {
         $valid = false;
-        $message = 'Value longer than '.$options['maxLength'].' characters.';
+        $message = $valueName.' longer than '.$options['maxLength'].' characters.';
     }
     else if (isset($options['greaterThan']) && $value<=$options['greaterThan']) {
         $valid = false;
-        $message = 'Value lesser than '.($options['greaterThan']+1).'.';
+        $message = $valueName.' lesser than '.($options['greaterThan']+1).'.';
     }
     if ($valid && isset($options['contains'])) {
         foreach ($options['contains'] as $needle) {
             if (strpos($value, $needle)===false) {
                 $valid = false;
-                $message = 'Value does not contain \''.$needle.'\'.';
+                $message = $valueName.' does not contain \''.$needle.'\'.';
                 break;
             }
         }
@@ -50,12 +50,12 @@ function checkFilteredInputValidity($value, $options=null) {
         }
         if (strlen($value)-$dotsNumber-$signsNumber>$options['digitsNumber']) {
             $valid = false;
-            $message = 'Value has more digits than '.$options['digitsNumber'].'.';
+            $message = $valueName.' has more digits than '.$options['digitsNumber'].'.';
         }
     }
     if ($valid && isset($options['decimalsNumber']) && strlen($value)-(strpos($value, '.')+1)>$options['decimalsNumber']) {
         $valid = false;
-        $message = 'Value has more decimals than '.$options['decimalsNumber'].'.'; 
+        $message = $valueName.' has more decimals than '.$options['decimalsNumber'].'.'; 
     }
     if ($valid && isset($options['dbCheck'])) {
         global $dbManager;
@@ -72,10 +72,10 @@ function checkFilteredInputValidity($value, $options=null) {
             $dbValue = $row[$column];
         }
         if ($unique && $dbValue!=null) {
-            $message = 'Value is not unique in database '.$table.' table at '.$column.' column.';
+            $message = $valueName.' is not unique in database '.$table.' table at '.$column.' column.';
         } else if ($dbValue!=$value) {
             $valid = false;
-            $message = 'Value is not present in database '.$table.' table at '.$column.' column.';
+            $message = $valueName.' is not present in database '.$table.' table at '.$column.' column.';
         }
         
     }
@@ -94,7 +94,7 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
 	global ${'_'.$requestType};
     if ($mandatory || isset(${'_'.$requestType}[$requestVariableName])) {
         $value = filter_input(constant('INPUT_'.$requestType), $requestVariableName, $filter, $filterOptions);
-        $checkResult = checkFilteredInputValidity($value, $validityOptions);
+        $checkResult = checkFilteredInputValidity($value, $valueName, $validityOptions);
         if ($checkResult['valid']) {
             if (gettype($destination)=='array') {
                 $destination[$dbColumnValueName] = $value;
@@ -255,8 +255,6 @@ if ($requestType==null) {
                 $response = editSnackOrUser(array('user'=>$userId), $newValues, $types, $oldValues);
                 break;
         }
-    } else {
-        $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. Missing command.');
     }
 } else {
     $response = array('success'=>false, 'status'=>401, 'message'=>'Invalid request. Missing or wrong auth key.');
