@@ -1,7 +1,17 @@
 <?php
 define('__ROOT__', dirname(__FILE__));
+require_once(__ROOT__.'/auth-key.php');
 require_once(__ROOT__.'/lib/DbManager/DbManager.php');
 require_once(__ROOT__.'/commands.php');
+
+function authRequest($requestType) {
+    $isAuth = false;
+    $authKey = filter_input(constant('INPUT_'.$requestType), 'auth-key', FILTER_SANITIZE_STRING);
+    if ($authKey==AUTH_KEY) {
+        $isAuth = true;
+    }
+    return $isAuth;
+}
 
 function checkFilteredInputValidity($value, $options=null) {
     $valid = true;
@@ -118,8 +128,9 @@ if (isset($_GET['command-id'])) {
 } else if (isset($_POST['command-id'])) {
     $requestType = 'POST';
 }
-$response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. No parameters were sent.');
-if ($requestType!=null) {
+if ($requestType==null) {
+    $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. No parameters were sent.');
+} else if (authRequest($requestType)) {
     if (setInputValue($commandId, true, $requestType, 'command-id', 'command-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'commands', 'column'=>'id')))) {
         $dbManager = new DbManager();
         switch ($commandId) {
@@ -244,7 +255,11 @@ if ($requestType!=null) {
                 $response = editSnackOrUser(array('user'=>$userId), $newValues, $types, $oldValues);
                 break;
         }
+    } else {
+        $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. Missing command.');
     }
+} else {
+    $response = array('success'=>false, 'status'=>401, 'message'=>'Invalid request. Missing or wrong auth key.');
 }
 header('Content-Type: application/json');
 echo(json_encode($response));
