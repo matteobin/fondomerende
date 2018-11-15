@@ -13,26 +13,29 @@ function authRequest($requestType) {
     return $isAuth;
 }
 
-function checkFilteredInputValidity($value, $valueName, $options=null) {
+function checkFilteredInputValidity($value, $options=null) {
     $valid = true;
     $message = '';
-    if ($value==='') {
+    if ($value==null) {
         $valid = false;
-        $message = $valueName.' missing or in wrong format.';
+        $message = 'value missing.';
+    } else if ($value==='') {
+        $valid = false;
+        $message = 'value in wrong format.';
     }
     else if (isset($options['maxLength']) && strlen($value)>$options['maxLength']) {
         $valid = false;
-        $message = $valueName.' longer than '.$options['maxLength'].' characters.';
+        $message = '\''.$value.'\' longer than '.$options['maxLength'].' characters.';
     }
     else if (isset($options['greaterThan']) && $value<=$options['greaterThan']) {
         $valid = false;
-        $message = $valueName.' lesser than '.($options['greaterThan']+1).'.';
+        $message = '\''.$value.'\' lesser than '.($options['greaterThan']+1).'.';
     }
     if ($valid && isset($options['contains'])) {
         foreach ($options['contains'] as $needle) {
             if (strpos($value, $needle)===false) {
                 $valid = false;
-                $message = $valueName.' does not contain \''.$needle.'\'.';
+                $message = '\''.$value.'\' does not contain \''.$needle.'\'.';
                 break;
             }
         }
@@ -50,12 +53,12 @@ function checkFilteredInputValidity($value, $valueName, $options=null) {
         }
         if (strlen($value)-$dotsNumber-$signsNumber>$options['digitsNumber']) {
             $valid = false;
-            $message = $valueName.' has more digits than '.$options['digitsNumber'].'.';
+            $message = '\''.$value.'\' has more digits than '.$options['digitsNumber'].'.';
         }
     }
     if ($valid && isset($options['decimalsNumber']) && strlen($value)-(strpos($value, '.')+1)>$options['decimalsNumber']) {
         $valid = false;
-        $message = $valueName.' has more decimals than '.$options['decimalsNumber'].'.'; 
+        $message = '\''.$value.'\' has more decimals than '.$options['decimalsNumber'].'.'; 
     }
     if ($valid && isset($options['dbCheck'])) {
         global $dbManager;
@@ -72,10 +75,10 @@ function checkFilteredInputValidity($value, $valueName, $options=null) {
             $dbValue = $row[$column];
         }
         if ($unique && $dbValue!=null) {
-            $message = $valueName.' is not unique in database '.$table.' table at '.$column.' column.';
+            $message = '\''.$value.'\' is not unique in database '.$table.' table at '.$column.' column.';
         } else if ($dbValue!=$value) {
             $valid = false;
-            $message = $valueName.' is not present in database '.$table.' table at '.$column.' column.';
+            $message = '\''.$value.'\' is not present in database '.$table.' table at '.$column.' column.';
         }
         
     }
@@ -94,7 +97,7 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
 	global ${'_'.$requestType};
     if ($mandatory || isset(${'_'.$requestType}[$requestVariableName])) {
         $value = filter_input(constant('INPUT_'.$requestType), $requestVariableName, $filter, $filterOptions);
-        $checkResult = checkFilteredInputValidity($value, $valueName, $validityOptions);
+        $checkResult = checkFilteredInputValidity($value, $validityOptions);
         if ($checkResult['valid']) {
             if (gettype($destination)=='array') {
                 $destination[$dbColumnValueName] = $value;
@@ -105,7 +108,7 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
                 $destination = $value;
             }
         } else {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).'. '.$checkResult['message']);
+            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
 			$noInputError = false;
             if ($checkOldValue) {
 				$checkOldValue = false;
@@ -122,15 +125,9 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
 	}
 }
 
-$requestType = null;
-if (isset($_GET['command-id'])) {
-    $requestType = 'GET';
-} else if (isset($_POST['command-id'])) {
-    $requestType = 'POST';
-}
-if ($requestType==null) {
-    $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. No parameters were sent.');
-} else if (authRequest($requestType)) {
+$requestType = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
+$response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. No parameters were sent.');
+if (authRequest($requestType)) {
     if (setInputValue($commandId, true, $requestType, 'command-id', 'command-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'commands', 'column'=>'id')))) {
         $dbManager = new DbManager();
         switch ($commandId) {
