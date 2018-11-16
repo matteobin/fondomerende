@@ -60,27 +60,46 @@ function checkFilteredInputValidity($value, $options=null) {
         $valid = false;
         $message = '\''.$value.'\' has more decimals than '.$options['decimalsNumber'].'.'; 
     }
-    if ($valid && isset($options['dbCheck'])) {
-        global $dbManager;
-        $column = $options['dbCheck']['column'];
-        $table = $options['dbCheck']['table'];
-        if (isset($options['dbCheck']['unique'])) {
-            $unique = $options['dbCheck']['unique'];
-        } else {
-            $unique = false;
+    if ($valid && isset($options['database'])) {
+        $isException = false;
+        if (isset($options['database']['exceptions'])) {
+            foreach ($options['database']['exceptions'] as $exception) {
+                if ($value==$exception) {
+                    $isException = true;
+                    break;
+                }
+            }
         }
-        $dbManager->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$column.'=? LIMIT 1', array($value), 'i');
-        $dbValue = null;
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $dbValue = $row[$column];
+        if (!$isException) {
+            global $dbManager;
+            $selectColumn = $options['database']['select-column'];
+            $table = $options['database']['table'];
+            $whereColumn = $options['database']['where-column'];
+            if (isset($options['database']['where-value'])) {
+                $whereValue = $options['database']['where-value'];
+            } else {
+                $whereValue = $value;
+            }
+            $valueType = $options['database']['value-type'];
+            $checkType = $options['database']['check-type'];
+            if ($checkType=='insert-unique') {
+                $insertUnique = true; 
+            } else {
+                $insertUnique = false;
+            }
+            $dbManager->runPreparedQuery('SELECT '.$selectColumn.' FROM '.$table.' WHERE '.$whereColumn.'=? LIMIT 1', array($whereValue), $valueType);
+            $dbValue = null;
+            while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+                $dbValue = $row[$selectColumn];
+            }
+            if ($insertUnique && $dbValue!=null) {
+                $valid = false;
+                $message = '\''.$value.'\' is already present in database '.$table.' table at '.$whereColumn.' column.';
+            } else if ($dbValue===null) {
+                $valid = false;
+                $message = '\''.$value.'\' is not present in database '.$table.' table at '.$whereColumn.' column.';
+            }
         }
-        if ($unique && $dbValue!=null) {
-            $message = '\''.$value.'\' is not unique in database '.$table.' table at '.$column.' column.';
-        } else if ($dbValue!=$value) {
-            $valid = false;
-            $message = '\''.$value.'\' is not present in database '.$table.' table at '.$column.' column.';
-        }
-        
     }
     return array('valid'=>$valid, 'message'=>$message);
 }
@@ -116,8 +135,8 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
         }
     }
     if ($checkOldValue) {
-        if (isset($validityOptions['dbCheck']['unique']) && $validityOptions['dbCheck']['unique']) {
-            $validityOptions['dbCheck']['unique'] = false;
+        if (isset($validityOptions['database']['unique']) && $validityOptions['database']['unique']) {
+            $validityOptions['database']['unique'] = false;
         }
         return setInputValue($oldValues, false, $requestType, $valueName, 'old-'.$valueName, $inputFilters, $validityOptions);
     } else {
@@ -128,14 +147,14 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
 $requestType = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
 $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. No parameters were sent.');
 if (authRequest($requestType)) {
-    if (setInputValue($commandId, true, $requestType, 'command-id', 'command-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'commands', 'column'=>'id')))) {
+    if (setInputValue($commandId, true, $requestType, 'command-id', 'command-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'commands', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
         $dbManager = new DbManager();
         switch ($commandId) {
             case '1':
-                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'users', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
                     break;
                 }
-                if (!setInputValue($snackId, true, $requestType, 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id')))) {
+                if (!setInputValue($snackId, true, $requestType, 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'snacks', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
                     break;
                 }
                 if (!setInputValue($quantity, true, $requestType, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
@@ -144,10 +163,10 @@ if (authRequest($requestType)) {
                 $response = eat($userId, $snackId, $quantity);
                 break;
             case '2':
-                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'users', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
                     break;
                 }
-                if (!setInputValue($snackId, true, $requestType, 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id')))) {
+                if (!setInputValue($snackId, true, $requestType, 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'snacks', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
                     break;
                 }
                 if (!setInputValue($quantity, true, $requestType, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
@@ -166,7 +185,7 @@ if (authRequest($requestType)) {
                 $response = buy($userId, $snackId, $quantity, $options);
                 break;
             case '3':
-                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'users', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
                     break;
                 }
                 if (!setInputValue($amount, true, $requestType, 'amount', 'amount', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
@@ -175,10 +194,10 @@ if (authRequest($requestType)) {
                 $response = deposit($userId, $amount);
                 break;
             case '4':
-                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'users', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
                     break;
                 }
-                if (!setInputValue($name, true, $requestType, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id', 'unique'=>true)))) {
+                if (!setInputValue($name, true, $requestType, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'column'=>'id', 'check-type'=>'insert-unique', 'value-type'=>'s')))) {
                     break;
                 }
                 if (!setInputValue($price, true, $requestType, 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
@@ -196,16 +215,16 @@ if (authRequest($requestType)) {
                 $response = addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid);
                 break;
             case '5':
-                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'users', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
                     break;
                 }
-                if (!setInputValue($snackId, true, $requestType, 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id')))) {
+                if (!setInputValue($snackId, true, $requestType, 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'snacks', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
                     break;
                 }
                 $newValues = array();
                 $oldValues = array();
                 $types = array();
-                if (!setInputValue($newValues, false, $requestType, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'dbCheck'=>array('table'=>'snacks', 'column'=>'id', 'unique'=>true)), true, $types, 's', $oldValues)) {
+                if (!setInputValue($newValues, false, $requestType, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'column'=>'id', 'check-type'=>'insert-unique', 'value-type'=>'s')), true, $types, 's', $oldValues)) {
                     break;
                 }
                 if (!setInputValue($newValues, false, $requestType, 'price', 'new-price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2), true, $types, 'd', $oldValues)) {
@@ -223,7 +242,7 @@ if (authRequest($requestType)) {
                 $response = editSnackOrUser(array('user'=>$userId, 'snack'=>$snackId), $newValues, $types, $oldValues);
                 break;
             case '6':
-                if (!setInputValue($name, true, $requestType, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'dbCheck'=>array('table'=>'users', 'column'=>'id', 'unique'=>true)))) {
+                if (!setInputValue($name, true, $requestType, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'column'=>'id', 'check-type'=>'insert-unique', 'value-type'=>'s')))) {
                     break;
                 }
                 if (!setInputValue($password, true, $requestType, 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>255))) {
@@ -235,12 +254,12 @@ if (authRequest($requestType)) {
                 $response = addUser($name, $password, $friendlyName);
                 break;
             case '7':
-                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'dbCheck'=>array('table'=>'users', 'column'=>'id')))) {
+                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'users', 'column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
                     break;
                 }
                 $newValues = array();
                 $oldValues = array();
-                if (!setInputValue($newValues, false, $requestType, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'dbCheck'=>array('table'=>'users', 'column'=>'id', 'unique'=>true)), true, $types, 's', $oldValues)) {
+                if (!setInputValue($newValues, false, $requestType, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'column'=>'id', 'check-type'=>'insert-unique', 'value-type'=>'s')), true, $types, 's', $oldValues)) {
                     break;
                 }
                 if (!setInputValue($newValues, false, $requestType, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>255), true, $types, 's', $oldValues)) {
