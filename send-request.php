@@ -13,6 +13,15 @@ function authRequest($requestType) {
     return $isAuth;
 }
 
+function getIdByUniqueName($table, $name) {
+    global $dbManager;
+    $dbManager->runPreparedQuery('SELECT id FROM '.$table.' WHERE name=? LIMIT 1', array($name), 's');
+    while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+        $id = $row['id'];
+    }
+    return $id;
+}
+
 function checkFilteredInputValidity($value, $options=null) {
     $valid = true;
     $message = '';
@@ -155,12 +164,14 @@ if (authRequest($requestType)) {
         $dbManager = new DbManager();
         switch ($commandId) {
             case '1':
-                if (!setInputValue($userId, true, $requestType, 'user-id', 'user-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'users', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
+                if (!setInputValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
-                if (!setInputValue($snackId, true, $requestType, 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
+                $userId = getIdByUniqueName('users', $userName);
+                if (!setInputValue($snackName, true, $requestType, 'snack-name', 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
+                $snackId = getIdByUniqueName('snacks', $snackName);
                 if (!setInputValue($quantity, true, $requestType, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
                     break;
                 }
@@ -252,9 +263,10 @@ if (authRequest($requestType)) {
                 if (!setInputValue($name, true, $requestType, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                     break;
                 }
-                if (!setInputValue($password, true, $requestType, 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>255))) {
+                if (!setInputValue($password, true, $requestType, 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>125))) {
                     break;
                 }
+                $password = password_hash($password, PASSWORD_DEFAULT);
                 if (!setInputValue($friendlyName, true, $requestType, 'friendly-name', 'friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60))) {
                     break;
                 }
@@ -269,8 +281,11 @@ if (authRequest($requestType)) {
                 if (!setInputValue($newValues, false, $requestType, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')), true, $types, 's', $oldValues)) {
                     break;
                 }
-                if (!setInputValue($newValues, false, $requestType, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>255), true, $types, 's', $oldValues)) {
+                if (!setInputValue($newValues, false, $requestType, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>125))) {
                     break;
+                }
+                if (isset($newValues['password'])) {
+                    $newValues['password'] = password_hash($newValues['password'], PASSWORD_DEFAULT);
                 }
                 if (!setInputValue($newValues, false, $requestType, 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $types, 's', $oldValues)) {
                     break;
