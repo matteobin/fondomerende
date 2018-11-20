@@ -13,6 +13,7 @@
 <section>
 	<div>
 		<form action="send-request.php" method="POST">
+            <input type="hidden" name="auth-key" value="sekrit_PaSSWoRD">
             <input type="hidden" name="user-name" value="matteobin">
             <input type="hidden" name="command-name" value="eat">
             <input type="hidden" name="snack-name" value="kinder bueno">
@@ -20,6 +21,7 @@
 			<input type="submit" value="Matteo mangia 1 Kinder Bueno">
 		</form>
         <form action="send-request.php" method="POST">
+            <input type="hidden" name="auth-key" value="sekrit_PaSSWoRD">
             <input type="hidden" name="user-name" value="matteobin">
             <input type="hidden" name="command-name" value="buy">
             <input type="hidden" name="snack-name" value="kinder bueno">
@@ -28,12 +30,14 @@
 			<input type="submit" value="Matteo compra 1 confezione di Kinder Bueno">
 		</form>
         <form action="send-request.php" method="POST">
+            <input type="hidden" name="auth-key" value="sekrit_PaSSWoRD">
             <input type="hidden" name="user-name" value="matteobin">
             <input type="hidden" name="command-name" value="deposit">
             <input type="hidden" name="amount" value="5.29">
 			<input type="submit" value="Matteo deposita 5.29">
 		</form>
         <form action="send-request.php" method="POST">
+            <input type="hidden" name="auth-key" value="sekrit_PaSSWoRD">
             <input type="hidden" name="user-name" value="matteobin">
             <input type="hidden" name="command-name" value="add snack">
             <input type="hidden" name="name" value="Oreo">
@@ -44,6 +48,7 @@
 			<input type="submit" value="Matteo aggiunge Oreo">
 		</form>
         <form action="send-request.php" method="POST">
+            <input type="hidden" name="auth-key" value="sekrit_PaSSWoRD">
             <input type="hidden" name="user-name" value="matteobin">
             <input type="hidden" name="command-name" value="edit snack">
             <input type="hidden" name="snack-name" value="oreo">
@@ -52,6 +57,7 @@
 			<input type="submit" value="Matteo rinomina Oreo in Oreo - nuovo nome">
 		</form>
         <form action="send-request.php" method="POST">
+            <input type="hidden" name="auth-key" value="sekrit_PaSSWoRD">
             <input type="hidden" name="command-name" value="add user">
             <input type="hidden" name="name" value="pk9rocco">
             <input type="hidden" name="password" value="rocchino">
@@ -59,6 +65,7 @@
 			<input type="submit" value="Crea l'utente di Roberto R.">
 		</form>
         <form action="send-request.php" method="POST">
+            <input type="hidden" name="auth-key" value="sekrit_PaSSWoRD">
             <input type="hidden" name="user-name" value="pk9rocco">
             <input type="hidden" name="command-name" value="edit user">
             <input type="hidden" name="old-name" value="pk9rocco">

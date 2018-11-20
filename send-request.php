@@ -13,9 +13,9 @@ function authRequest($requestType) {
     return $isAuth;
 }
 
-function getIdByUniqueName($table, $name) {
+function getIdByUniqueName($table, $column, $name) {
     global $dbManager;
-    $dbManager->runPreparedQuery('SELECT id FROM '.$table.' WHERE name=? LIMIT 1', array($name), 's');
+    $dbManager->runPreparedQuery('SELECT id FROM '.$table.' WHERE '.$column.'=? LIMIT 1', array($name), 's');
     while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
         $id = $row['id'];
     }
@@ -83,24 +83,24 @@ function checkFilteredInputValidity($value, $options=null) {
             global $dbManager;
             $selectColumn = $options['database']['select-column'];
             $table = $options['database']['table'];
+            $valueType = $options['database']['value-type'];
+            $query = 'SELECT '.$selectColumn.' FROM '.$table.' WHERE '.$selectColumn.'=?';
+            $params[] = $value;
+            $types = $valueType;
             if (isset($options['database']['where-column'])) {
                 $whereColumn = $options['database']['where-column'];
-            } else {
-                $whereColumn = $selectColumn;
-            }
-            if (isset($options['database']['where-value'])) {
+                $query .= ' AND '.$whereColumn.'=?';
                 $whereValue = $options['database']['where-value'];
-            } else {
-                $whereValue = $value;
+                $params[] = $whereValue;
+                $types .= $valueType;
             }
-            $valueType = $options['database']['value-type'];
             $checkType = $options['database']['check-type'];
             if ($checkType=='insert-unique') {
                 $insertUnique = true; 
             } else {
                 $insertUnique = false;
             }
-            $dbManager->runPreparedQuery('SELECT '.$selectColumn.' FROM '.$table.' WHERE '.$whereColumn.'=? LIMIT 1', array($whereValue), $valueType);
+            $dbManager->runPreparedQuery($query, $params, $types);
             $dbValue = null;
             while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
                 $dbValue = $row[$selectColumn];
@@ -110,8 +110,12 @@ function checkFilteredInputValidity($value, $options=null) {
                 $message = '\''.$value.'\' is already present in database '.$table.' table at '.$whereColumn.' column.';
             } else if ($dbValue===null) {
                 $valid = false;
-                $message = '\''.$value.'\' is not present in database '.$table.' table at '.$whereColumn.' column.';
-            }
+                $message = '\''.$value.'\' is not present in database '.$table.' table at '.$selectColumn.' column';
+                if (isset($whereColumn)) {
+                    $message .= ', where '.$whereColumn.' column is \''.$whereValue.'\'';
+                }
+                $message .= '.';
+            } 
         }
     }
     return array('valid'=>$valid, 'message'=>$message);
@@ -160,11 +164,8 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
 $requestType = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
 $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. No parameters were sent.');
 if (authRequest($requestType)) {
-    if (!setInputValue($commandName, true, $requestType, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
-        break;
-    }
-    $commandId = getIdByUniqueName('commands', $commandName);
-    if (setInputValue($commandId, true, $requestType, 'command-id', 'command-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'commands', 'select-column'=>'id', 'check-type'=>'existence', 'value-type'=>'i')))) {
+    if (setInputValue($commandName, true, $requestType, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15))) {
+        $commandId = getIdByUniqueName('commands', 'en', $commandName);
         $dbManager = new DbManager();
         switch ($commandId) {
             case '1':
