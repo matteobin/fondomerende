@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.1
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2018 at 03:16 PM
--- Server version: 10.1.33-MariaDB
--- PHP Version: 7.1.18
+-- Generation Time: Nov 20, 2018 at 11:56 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -46,35 +44,21 @@ CREATE TABLE `actions` (
 
 CREATE TABLE `commands` (
   `id` int(2) NOT NULL,
-  `en` varchar(15) NOT NULL,
-  `it` varchar(15) NOT NULL
+  `name` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `commands`
 --
 
-INSERT INTO `commands` (`id`, `en`, `it`) VALUES
-(1, 'eat', 'mangia'),
-(2, 'buy', 'compra'),
-(3, 'deposit', 'versa'),
-(4, 'add snack', 'aggiungi snack'),
-(5, 'edit snack', 'modifica snack'),
-(6, 'add user', 'aggiungi utente'),
-(7, 'edit user', 'modifica utente');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `commands_alias`
---
-
-CREATE TABLE `commands_alias` (
-  `id` int(11) NOT NULL,
-  `command_id` int(2) NOT NULL,
-  `en_name` varchar(30) NOT NULL,
-  `it_name` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `commands` (`id`, `name`) VALUES
+(4, 'add snack'),
+(6, 'add user'),
+(2, 'buy'),
+(3, 'deposit'),
+(1, 'eat'),
+(5, 'edit snack'),
+(7, 'edit user');
 
 -- --------------------------------------------------------
 
@@ -186,7 +170,7 @@ CREATE TABLE `snacks` (
   `price` decimal(4,2) NOT NULL,
   `snacks_per_box` int(2) NOT NULL,
   `expiration_in_days` int(4) NOT NULL,
-  `is_liquid` bit(1) NOT NULL DEFAULT b'0'
+  `is_liquid` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -194,9 +178,9 @@ CREATE TABLE `snacks` (
 --
 
 INSERT INTO `snacks` (`id`, `name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
-(1, 'Taralli Coop', '1.99', 12, 0, b'0'),
-(2, 'Baiocchi', '2.49', 6, 0, b'0'),
-(3, 'Kinder Bueno', '3.45', 6, 60, b'0');
+(1, 'Taralli Coop', '1.99', 12, 0, 0),
+(2, 'Baiocchi', '2.49', 6, 0, 0),
+(3, 'Kinder Bueno', '3.45', 6, 60, 0);
 
 -- --------------------------------------------------------
 
@@ -243,18 +227,6 @@ INSERT INTO `users` (`id`, `name`, `password`, `friendly_name`, `token`, `token_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users_alias`
---
-
-CREATE TABLE `users_alias` (
-  `id` int(11) NOT NULL,
-  `user_id` int(2) NOT NULL,
-  `name` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users_funds`
 --
 
@@ -289,17 +261,7 @@ ALTER TABLE `actions`
 --
 ALTER TABLE `commands`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `en` (`en`),
-  ADD UNIQUE KEY `it` (`it`);
-
---
--- Indexes for table `commands_alias`
---
-ALTER TABLE `commands_alias`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `en_name` (`en_name`),
-  ADD UNIQUE KEY `it_name` (`it_name`),
-  ADD KEY `command_id` (`command_id`);
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `crates`
@@ -364,13 +326,6 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Indexes for table `users_alias`
---
-ALTER TABLE `users_alias`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
 -- Indexes for table `users_funds`
 --
 ALTER TABLE `users_funds`
@@ -385,43 +340,36 @@ ALTER TABLE `users_funds`
 --
 ALTER TABLE `actions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `eaten`
 --
 ALTER TABLE `eaten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `edits`
 --
 ALTER TABLE `edits`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `inflows`
 --
 ALTER TABLE `inflows`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `outflows`
 --
 ALTER TABLE `outflows`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `snacks`
 --
 ALTER TABLE `snacks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- Constraints for dumped tables
 --
@@ -433,12 +381,6 @@ ALTER TABLE `actions`
   ADD CONSTRAINT `actions_ibfk_1` FOREIGN KEY (`command_id`) REFERENCES `commands` (`id`),
   ADD CONSTRAINT `actions_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`),
   ADD CONSTRAINT `actions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `commands_alias`
---
-ALTER TABLE `commands_alias`
-  ADD CONSTRAINT `commands_alias_ibfk_1` FOREIGN KEY (`command_id`) REFERENCES `commands` (`id`);
 
 --
 -- Constraints for table `crates`
@@ -479,17 +421,10 @@ ALTER TABLE `snacks_stock`
   ADD CONSTRAINT `snacks_stock_ibfk_1` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`);
 
 --
--- Constraints for table `users_alias`
---
-ALTER TABLE `users_alias`
-  ADD CONSTRAINT `users_alias_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
 -- Constraints for table `users_funds`
 --
 ALTER TABLE `users_funds`
   ADD CONSTRAINT `users_funds_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

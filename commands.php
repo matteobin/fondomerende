@@ -14,13 +14,13 @@ function eat($userId, $snackId, $quantity) {
             $dbManager->runPreparedQuery('UPDATE eaten SET quantity = quantity+? WHERE snack_id=?', array($quantity, $snackId), 'ii');
             $dbManager->runPreparedQuery('UPDATE users_funds SET amount = amount-? WHERE user_id=?', array($totalPrice, $userId), 'di');
             $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity) VALUES (?, ?, ?, ?)', array($userId, 1, $snackId, $quantity), 'iiii');
-            $response = array('success'=>true, 'status'=>200);
+            $response['response'] = array('success'=>true, 'status'=>200);
         } else {
-            $response = array('success'=>false, 'status'=>404, 'message'=>'No crates containing snack id '.$snackId.'.');
+            $response['response'] = array('success'=>false, 'status'=>404, 'message'=>'No crates containing snack id '.$snackId.'.');
         }
         $dbManager->endTransaction();
     } catch (Exception $statementException) {
-        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
     return $response;
 }
@@ -59,10 +59,10 @@ function buy($userId, $snackId, $quantity, array $options) {
         $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'ii');
         $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total-?', array($totalPrice), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 2, $snackId, $snackNumber, $totalPrice), 'iiiid');
-        $response = array('success'=>true, 'status'=>200);
+        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction(); 
     } catch (Exception $statementException) {
-        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
     return $response;
 }
@@ -75,10 +75,10 @@ function deposit($userId, $amount) {
         $dbManager->runPreparedQuery('UPDATE users_funds SET amount=amount+? WHERE user_id=?', array($amount, $userId), 'di');
         $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total+?', array($amount), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, funds_amount) VALUES (?,?,?)', array($userId, 3, $amount), 'iid');
-        $response = array('success'=>true, 'status'=>200);
+        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
     } catch (Exception $statementException) {
-        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
     return $response;
 }
@@ -102,10 +102,10 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isL
             $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
         }
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 4, $snackId), 'iii');
-        $response = array('success'=>true, 'status'=>200);
+        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
     } catch (Exception $statementException) {
-        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
     return $response;
 }
@@ -145,10 +145,10 @@ function editSnackOrUser(array $ids, array $newValues, array $types, array $oldV
             }
             insertEdits($newValues, $types, $oldValues);
         }
-        $response = array('success'=>true, 'status'=>200);
+        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
     } catch (Exception $statementException) {
-        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
     return $response;
 }
@@ -171,10 +171,10 @@ function addUser($name, $password, $friendlyName) {
         }
         $dbManager->runPreparedQuery('INSERT INTO users_funds (user_id) VALUES (?)', array($userId), 'i');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 6), 'ii');
-        $response = array('success'=>true, 'status'=>200);
+        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
     } catch (Exception $statementException) {
-        $response = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
     }
     return $response;
 }

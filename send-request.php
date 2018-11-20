@@ -1,8 +1,6 @@
 <?php
 define('__ROOT__', dirname(__FILE__));
 require_once(__ROOT__.'/auth-key.php');
-require_once(__ROOT__.'/lib/DbManager/DbManager.php');
-require_once(__ROOT__.'/commands.php');
 
 function authRequest($requestType) {
     $isAuth = false;
@@ -13,9 +11,9 @@ function authRequest($requestType) {
     return $isAuth;
 }
 
-function getIdByUniqueName($table, $column, $name) {
+function getIdByUniqueName($table, $name) {
     global $dbManager;
-    $dbManager->runPreparedQuery('SELECT id FROM '.$table.' WHERE '.$column.'=? LIMIT 1', array($name), 's');
+    $dbManager->runPreparedQuery('SELECT id FROM '.$table.' WHERE name=? LIMIT 1', array($name), 's');
     while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
         $id = $row['id'];
     }
@@ -144,7 +142,7 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
                 $destination = $value;
             }
         } else {
-            $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
+            $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
 			$noInputError = false;
             if ($checkOldValue) {
 				$checkOldValue = false;
@@ -162,13 +160,15 @@ function setInputValue(&$destination, $mandatory, $requestType, $valueName, $req
 }
 
 $requestType = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
-$response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. No parameters were sent.');
+$response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Invalid request. No parameters were sent.');
 if (authRequest($requestType)) {
-    if (setInputValue($commandName, true, $requestType, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15))) {
-        $commandId = getIdByUniqueName('commands', 'en', $commandName);
-        $dbManager = new DbManager();
-        switch ($commandId) {
-            case '1':
+	require_once(__ROOT__.'/lib/DbManager/DbManager.php');
+	$dbManager = new DbManager();
+    if (setInputValue($commandName, true, $requestType, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
+		require_once(__ROOT__.'/commands.php');
+        $commandId = getIdByUniqueName('commands', $commandName);
+        switch ($commandName) {
+            case 'eat':
                 if (!setInputValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
@@ -182,7 +182,7 @@ if (authRequest($requestType)) {
                 }
                 $response = eat($userId, $snackId, $quantity);
                 break;
-            case '2':
+            case 'buy':
                 if (!setInputValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
@@ -206,7 +206,7 @@ if (authRequest($requestType)) {
                 }
                 $response = buy($userId, $snackId, $quantity, $options);
                 break;
-            case '3':
+            case 'deposit':
                 if (!setInputValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
@@ -216,7 +216,7 @@ if (authRequest($requestType)) {
                 }
                 $response = deposit($userId, $amount);
                 break;
-            case '4':
+            case 'add snack':
                 if (!setInputValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
@@ -238,7 +238,7 @@ if (authRequest($requestType)) {
                 }
                 $response = addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid);
                 break;
-            case '5':
+            case 'edit snack':
                 if (!setInputValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
@@ -266,7 +266,7 @@ if (authRequest($requestType)) {
                 }
                 $response = editSnackOrUser(array('user'=>$userId, 'snack'=>$snackId), $newValues, $types, $oldValues);
                 break;
-            case '6':
+            case 'add user':
                 if (!setInputValue($name, true, $requestType, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                     break;
                 }
@@ -279,7 +279,7 @@ if (authRequest($requestType)) {
                 }
                 $response = addUser($name, $password, $friendlyName);
                 break;
-            case '7':
+            case 'edit user':
                 if (!setInputValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
@@ -303,7 +303,7 @@ if (authRequest($requestType)) {
         }
     }
 } else {
-    $response = array('success'=>false, 'status'=>401, 'message'=>'Invalid request. Missing or wrong auth key.');
+    $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid request. Missing or wrong auth key.');
 }
 header('Content-Type: application/json');
 echo(json_encode($response));
