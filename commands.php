@@ -83,12 +83,12 @@ function deposit($userId, $amount) {
     return $response;
 }
 
-function addSnack($userId, $name, $friendlyName, $price, $snacksPerBox, $expirationInDays, $isLiquid) {
+function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid) {
     global $dbManager;
     try {
         $subjectUserId = $userId;
         $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('INSERT INTO snacks (name, friendly_name, price, snacks_per_box, expiration_in_days, is_liquid) VALUES (?, ?, ?, ?, ?)', array($name, $friendlyName, $price, $snacksPerBox, $expirationInDays, $isLiquid), 'ssdiii');
+        $dbManager->runPreparedQuery('INSERT INTO snacks (name, price, snacks_per_box, expiration_in_days, is_liquid) VALUES (?, ?, ?, ?, ?)', array($name, $price, $snacksPerBox, $expirationInDays, $isLiquid), 'sdiii');
         $dbManager->runQuery('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $snackId = $row['id'];

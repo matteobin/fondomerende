@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2018 at 10:44 AM
+-- Generation Time: Nov 20, 2018 at 03:16 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -183,7 +183,6 @@ CREATE TABLE `outflows` (
 CREATE TABLE `snacks` (
   `id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
-  `friendly_name` varchar(60) NOT NULL,
   `price` decimal(4,2) NOT NULL,
   `snacks_per_box` int(2) NOT NULL,
   `expiration_in_days` int(4) NOT NULL,
@@ -194,10 +193,10 @@ CREATE TABLE `snacks` (
 -- Dumping data for table `snacks`
 --
 
-INSERT INTO `snacks` (`id`, `name`, `friendly_name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
-(1, 'taralli coop', 'Taralli Coop', '1.99', 12, 0, b'0'),
-(2, 'baiocchi', 'Baiocchi', '2.49', 6, 0, b'0'),
-(3, 'kinder bueno', 'Kinder Bueno', '3.45', 6, 60, b'0');
+INSERT INTO `snacks` (`id`, `name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
+(1, 'Taralli Coop', '1.99', 12, 0, b'0'),
+(2, 'Baiocchi', '2.49', 6, 0, b'0'),
+(3, 'Kinder Bueno', '3.45', 6, 60, b'0');
 
 -- --------------------------------------------------------
 
