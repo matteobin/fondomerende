@@ -1,4 +1,37 @@
 <?php
+function login($userName, $password) {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runPreparedQuery('SELECT password FROM users WHERE name=?', array($userName), 's');
+        $hashedPassword = '';
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $hashedPassword = $row['password'];
+        }
+        if (password_verify($password, $hashedPassword)) {
+            $tokenCreatedAt = null;
+            $dbManager->runPreparedQuery('SELECT token_created_at FROM users WHERE name=?', array($userName), 's');
+            while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+                $tokenCreatedAt = $row['token_created_at'];
+            }
+            if ($tokenCreatedAt==null || time()-strtotime($tokenCreatedAt)>1800) {
+                $token = bin2hex(random_bytes(25));
+                $dbManager->runPreparedQuery('UPDATE users SET token=?, token_created_at=? WHERE name=?', array($token, $date(DATE_ISO8601), $userName), 'sss');
+            } else {
+                $dbManager->runPreparedQuery('SELECT token FROM users WHERE name=?', array($userName), 's');
+                while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+                    $token = $row['token'];
+                }
+            }
+            $response['response'] = array('success'=>true, 'status'=>200);
+            $response['data'] = array('token'=>$token);
+        }
+        $dbManager->endTransaction();
+    } catch (Exception $statementException) {
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    }
+}
+
 function eat($userId, $snackId, $quantity) {
     global $dbManager;
     try {

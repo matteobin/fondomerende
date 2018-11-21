@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2018 at 11:56 PM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 7.1.1
+-- Generation Time: Nov 21, 2018 at 02:48 PM
+-- Server version: 10.1.33-MariaDB
+-- PHP Version: 7.1.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -213,7 +215,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `friendly_name` varchar(30) NOT NULL,
   `token` varchar(25) DEFAULT NULL,
-  `token_created_at` timestamp NULL DEFAULT NULL
+  `token_created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -221,8 +223,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `password`, `friendly_name`, `token`, `token_created_at`) VALUES
-(1, 'matteobin', '', 'Matteo Bini', '', '2018-10-22 07:47:32'),
-(2, 'francesco', '', 'Francesco', '', '2018-10-22 07:47:32');
+(1, 'matteobin', '', 'Matteo Bini', NULL, NULL),
+(2, 'francesco', '', 'Francesco', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -340,36 +342,43 @@ ALTER TABLE `users_funds`
 --
 ALTER TABLE `actions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `eaten`
 --
 ALTER TABLE `eaten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `edits`
 --
 ALTER TABLE `edits`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `inflows`
 --
 ALTER TABLE `inflows`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `outflows`
 --
 ALTER TABLE `outflows`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `snacks`
 --
 ALTER TABLE `snacks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- Constraints for dumped tables
 --
@@ -425,6 +434,7 @@ ALTER TABLE `snacks_stock`
 --
 ALTER TABLE `users_funds`
   ADD CONSTRAINT `users_funds_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

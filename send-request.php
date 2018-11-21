@@ -166,8 +166,16 @@ if (authRequest($requestType)) {
 	$dbManager = new DbManager();
     if (setInputValue($commandName, true, $requestType, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
 		require_once(__ROOT__.'/commands.php');
-        $commandId = getIdByUniqueName('commands', $commandName);
         switch ($commandName) {
+            case 'login':
+                if (!setInputValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array())) {
+                    break;
+                }
+                if (!setInputValue($password, true, $requestType, 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array())) {
+                    break;
+                }
+                $response = login($userName, $password);
+                break;
             case 'eat':
                 if (!setInputValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
