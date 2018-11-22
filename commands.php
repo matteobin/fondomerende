@@ -3,28 +3,21 @@ function login($userName, $password) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('SELECT password FROM users WHERE name=?', array($userName), 's');
+        $dbManager->runPreparedQuery('SELECT id, password FROM users WHERE name=?', array($userName), 's');
         $hashedPassword = '';
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $id = $row['id'];
             $hashedPassword = $row['password'];
         }
+        $dbManager->endTransaction();
         if (password_verify($password, $hashedPassword)) {
-            $tokenCreatedAt = null;
-            $dbManager->runPreparedQuery('SELECT token_created_at FROM users WHERE name=?', array($userName), 's');
-            while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-                $tokenCreatedAt = $row['token_created_at'];
-            }
-            if ($tokenCreatedAt==null || time()-strtotime($tokenCreatedAt)>1800) {
-                $token = bin2hex(random_bytes(25));
-                $dbManager->runPreparedQuery('UPDATE users SET token=?, token_created_at=? WHERE name=?', array($token, $date(DATE_ISO8601), $userName), 'sss');
-            } else {
-                $dbManager->runPreparedQuery('SELECT token FROM users WHERE name=?', array($userName), 's');
-                while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-                    $token = $row['token'];
-                }
-            }
-            $response['response'] = array('success'=>true, 'status'=>200);
+            $token = bin2hex(random_bytes(25)); 
+            session_start();
+            $_SESSION['users'][$token]['id'] = $id;
+            $response['response'] = array('success'=>true, 'status'=>201);
             $response['data'] = array('token'=>$token);
+        } else {
+            $response['response'] = array('success'=>false, 'status'=>403, 'message'=>'Wrong password.');
         }
         $dbManager->endTransaction();
     } catch (Exception $statementException) {

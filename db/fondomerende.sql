@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2018 at 02:48 PM
+-- Generation Time: Nov 22, 2018 at 02:45 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -213,18 +213,16 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(15) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `friendly_name` varchar(30) NOT NULL,
-  `token` varchar(25) DEFAULT NULL,
-  `token_created_at` datetime DEFAULT NULL
+  `friendly_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `password`, `friendly_name`, `token`, `token_created_at`) VALUES
-(1, 'matteobin', '', 'Matteo Bini', NULL, NULL),
-(2, 'francesco', '', 'Francesco', NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `password`, `friendly_name`) VALUES
+(1, 'matteobin', '', 'Matteo Bini'),
+(2, 'francesco', '', 'Francesco');
 
 -- --------------------------------------------------------
 
