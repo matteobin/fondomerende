@@ -199,7 +199,8 @@ if (checkAuth()) {
                     break;
                 }
                 $snackId = getIdByUniqueName('snacks', $snackName);
-                if (!setRequestValue($quantity, true, $requestType, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
+                $quantity = 1;
+                if (!setRequestValue($quantity, false, $requestType, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
                     break;
                 }
                 $response = eat($userId, $snackId, $quantity);
