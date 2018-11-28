@@ -20,8 +20,9 @@ function login($userName, $password) {
             $response['response'] = array('success'=>false, 'status'=>403, 'message'=>'Wrong password.');
         }
         $dbManager->endTransaction();
-    } catch (Exception $statementException) {
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
 }
 
@@ -45,8 +46,9 @@ function eat($userId, $snackId, $quantity) {
             $response['response'] = array('success'=>false, 'status'=>404, 'message'=>'No crates containing snack id '.$snackId.'.');
         }
         $dbManager->endTransaction();
-    } catch (Exception $statementException) {
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -87,8 +89,9 @@ function buy($userId, $snackId, $quantity, array $options) {
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 2, $snackId, $snackNumber, $totalPrice), 'iiiid');
         $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction(); 
-    } catch (Exception $statementException) {
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -103,8 +106,9 @@ function deposit($userId, $amount) {
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, funds_amount) VALUES (?,?,?)', array($userId, 3, $amount), 'iid');
         $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
-    } catch (Exception $statementException) {
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -130,8 +134,9 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isL
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 4, $snackId), 'iii');
         $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
-    } catch (Exception $statementException) {
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -173,8 +178,9 @@ function editSnackOrUser(array $ids, array $newValues, array $types, array $oldV
         }
         $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
-    } catch (Exception $statementException) {
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -199,8 +205,9 @@ function addUser($name, $password, $friendlyName) {
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 6), 'ii');
         $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
-    } catch (Exception $statementException) {
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$statementException->getMessage());
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }

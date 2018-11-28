@@ -86,6 +86,10 @@ class DbManager {
         $this->connection->commit();
         $this->connection->autocommit(true);
     }
+    
+    public function rollbackTransaction() {
+        $this->connection->rollback();
+    }
 
     public function __destruct() {
         if ($this->connection!=null) {
