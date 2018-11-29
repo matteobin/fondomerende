@@ -1,9 +1,9 @@
 <?php
-function login($userName, $password) {
+function login($name, $password) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('SELECT id, password FROM users WHERE name=?', array($userName), 's');
+        $dbManager->runPreparedQuery('SELECT id, password FROM users WHERE name=?', array($name), 's');
         $hashedPassword = '';
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $id = $row['id'];
