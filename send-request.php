@@ -181,6 +181,19 @@ if (checkAuth()) {
     if (setRequestValue($commandName, true, $requestType, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
 		require_once(__ROOT__.'/commands.php');
         switch ($commandName) {
+            case 'add-user':
+                if (!setRequestValue($name, true, $requestType, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
+                    break;
+                }
+                if (!setRequestValue($password, true, $requestType, 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>125))) {
+                    break;
+                }
+                $password = password_hash($password, PASSWORD_DEFAULT);
+                if (!setRequestValue($friendlyName, true, $requestType, 'friendly-name', 'friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60))) {
+                    break;
+                }
+                $response = addUser($name, $password, $friendlyName);
+                break;
             case 'login':
                 if (!setRequestValue($userName, true, $requestType, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15))) {
                     break;
@@ -190,42 +203,25 @@ if (checkAuth()) {
                 }
                 $response = login($userName, $password);
                 break;
-            case 'eat':
+            case 'edit-user':
                 if (!checkCustomerToken()) {
                     break;
                 }
-                if (!setRequestValue($snackName, true, $requestType, 'snack-name', 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
+                $newValues = array();
+                $oldValues = array();
+                if (!setRequestValue($newValues, false, $requestType, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')), true, $types, 's', $oldValues)) {
                     break;
                 }
-                $snackId = getIdByUniqueName('snacks', $snackName);
-                $quantity = 1;
-                if (!setRequestValue($quantity, false, $requestType, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
+                if (!setRequestValue($newValues, false, $requestType, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>125))) {
                     break;
                 }
-                $response = eat($_SESSION['users'][$userToken]['id'], $snackId, $quantity);
-                break;
-            case 'buy':
-                if (!checkCustomerToken()) {
+                if (isset($newValues['password'])) {
+                    $newValues['password'] = password_hash($newValues['password'], PASSWORD_DEFAULT);
+                }
+                if (!setRequestValue($newValues, false, $requestType, 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $types, 's', $oldValues)) {
                     break;
                 }
-                if (!setRequestValue($snackName, true, $requestType, 'snack-name', 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
-                    break;
-                }
-                $snackId = getIdByUniqueName('snacks', $snackName);
-                if (!setRequestValue($quantity, true, $requestType, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
-                    break;
-                }
-                $options = array();
-                if (!setRequestValue($options, false, $requestType, 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
-                    break;
-                }
-                if (!setRequestValue($options, false, $requestType, 'snacks-per-box', 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>2))) {
-                    break;
-                }
-                if (!setRequestValue($options, false, $requestType, 'expiration-in-days', 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>4))) {
-                    break;
-                }
-                $response = buy($_SESSION['users'][$userToken]['id'], $snackId, $quantity, $options);
+                $response = editSnackOrUser(array('user'=>$_SESSION['users'][$userToken]['id']), $newValues, $types, $oldValues);
                 break;
             case 'deposit':
                 if (!checkCustomerToken()) {
@@ -284,38 +280,42 @@ if (checkAuth()) {
                 }
                 $response = editSnackOrUser(array('user'=>$_SESSION['users'][$userToken]['id'], 'snack'=>$snackId), $newValues, $types, $oldValues);
                 break;
-            case 'add-user':
-                if (!setRequestValue($name, true, $requestType, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
-                    break;
-                }
-                if (!setRequestValue($password, true, $requestType, 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>125))) {
-                    break;
-                }
-                $password = password_hash($password, PASSWORD_DEFAULT);
-                if (!setRequestValue($friendlyName, true, $requestType, 'friendly-name', 'friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60))) {
-                    break;
-                }
-                $response = addUser($name, $password, $friendlyName);
-                break;
-            case 'edit-user':
+            case 'buy':
                 if (!checkCustomerToken()) {
                     break;
                 }
-                $newValues = array();
-                $oldValues = array();
-                if (!setRequestValue($newValues, false, $requestType, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')), true, $types, 's', $oldValues)) {
+                if (!setRequestValue($snackName, true, $requestType, 'snack-name', 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
-                if (!setRequestValue($newValues, false, $requestType, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>125))) {
+                $snackId = getIdByUniqueName('snacks', $snackName);
+                if (!setRequestValue($quantity, true, $requestType, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
                     break;
                 }
-                if (isset($newValues['password'])) {
-                    $newValues['password'] = password_hash($newValues['password'], PASSWORD_DEFAULT);
-                }
-                if (!setRequestValue($newValues, false, $requestType, 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $types, 's', $oldValues)) {
+                $options = array();
+                if (!setRequestValue($options, false, $requestType, 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
                     break;
                 }
-                $response = editSnackOrUser(array('user'=>$_SESSION['users'][$userToken]['id']), $newValues, $types, $oldValues);
+                if (!setRequestValue($options, false, $requestType, 'snacks-per-box', 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>2))) {
+                    break;
+                }
+                if (!setRequestValue($options, false, $requestType, 'expiration-in-days', 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>4))) {
+                    break;
+                }
+                $response = buy($_SESSION['users'][$userToken]['id'], $snackId, $quantity, $options);
+                break;
+            case 'eat':
+                if (!checkCustomerToken()) {
+                    break;
+                }
+                if (!setRequestValue($snackName, true, $requestType, 'snack-name', 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
+                    break;
+                }
+                $snackId = getIdByUniqueName('snacks', $snackName);
+                $quantity = 1;
+                if (!setRequestValue($quantity, false, $requestType, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
+                    break;
+                }
+                $response = eat($_SESSION['users'][$userToken]['id'], $snackId, $quantity);
                 break;
         }
     }

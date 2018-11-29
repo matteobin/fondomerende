@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2018 at 02:45 PM
+-- Generation Time: Nov 29, 2018 at 02:55 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -54,13 +54,13 @@ CREATE TABLE `commands` (
 --
 
 INSERT INTO `commands` (`id`, `name`) VALUES
-(4, 'add snack'),
-(6, 'add user'),
+(4, 'add-snack'),
+(6, 'add-user'),
 (2, 'buy'),
 (3, 'deposit'),
 (1, 'eat'),
-(5, 'edit snack'),
-(7, 'edit user');
+(5, 'edit-snack'),
+(7, 'edit-user');
 
 -- --------------------------------------------------------
 
