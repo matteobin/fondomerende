@@ -119,10 +119,10 @@ function checkFilteredInputValidity($value, $options=null) {
             }
             if ($insertUnique && $dbValue!=null) {
                 $valid = false;
-                $message = '\''.$value.'\' is already present in database '.$table.' table at '.$whereColumn.' column.';
+                $message = $value.' is already present in database '.$table.' table at '.$selectColumn.' column.';
             } else if ($dbValue===null) {
                 $valid = false;
-                $message = '\''.$value.'\' is not present in database '.$table.' table at '.$selectColumn.' column';
+                $message = $value.' is not present in database '.$table.' table at '.$selectColumn.' column';
                 if (isset($whereColumn)) {
                     $message .= ', where '.$whereColumn.' column is \''.$whereValue.'\'';
                 }
