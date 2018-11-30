@@ -50,10 +50,10 @@ function getIdByUniqueName($table, $name) {
 function checkFilteredInputValidity($value, $options=null) {
     $valid = true;
     $message = '';
-    if ($value==null) {
+    if ($value===null) {
         $valid = false;
         $message = 'value missing.';
-    } else if ($value==='') {
+    } else if ($value==='' && (isset($options['can-be-empty']) && !$options['can-be-empty'])) {
         $valid = false;
         $message = 'value in wrong format.';
     }
