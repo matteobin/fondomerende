@@ -112,12 +112,14 @@ function checkFilteredInputValidity($value, $options=null) {
             $query = 'SELECT '.$selectColumn.' FROM '.$table.' WHERE '.$selectColumn.'=?';
             $params[] = $value;
             $types = $valueType;
-            if (isset($options['database']['where-column'])) {
-                $whereColumn = $options['database']['where-column'];
-                $query .= ' AND '.$whereColumn.'=?';
-                $whereValue = $options['database']['where-value'];
-                $params[] = $whereValue;
-                $types .= $valueType;
+            $additionalWheres = false;
+            if (isset($options['database']['wheres'])) {
+                $additionalWheres = true;
+                foreach($options['database']['wheres'] as $where) {
+                    $query .= ' AND '.$where['column'].'=?';
+                    $params[] = $where['value'];
+                    $types .= $where['type'];
+                }
             }
             $checkType = $options['database']['check-type'];
             if ($checkType=='insert-unique') {
@@ -136,8 +138,10 @@ function checkFilteredInputValidity($value, $options=null) {
             } else if ($dbValue===null) {
                 $valid = false;
                 $message = $value.' is not present in database '.$table.' table at '.$selectColumn.' column';
-                if (isset($whereColumn)) {
-                    $message .= ', where '.$whereColumn.' column is \''.$whereValue.'\'';
+                if ($additionalWheres) {
+                    foreach($options['database']['wheres'] as $where) {
+                        $message .= ', where '.$where['column'].' column is '.$where['value'];
+                    }
                 }
                 $message .= '.';
             } 
