@@ -195,7 +195,7 @@ $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Inval
 if (checkAuth()) {
 	require_once(__ROOT__.'/lib/DbManager/DbManager.php');
 	$dbManager = new DbManager();
-    if (setRequestValue($commandName, true, $requestType, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
+    if (setRequestValue($commandName, true, $requestType, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login'))))) {
 		require_once(__ROOT__.'/commands.php');
         switch ($commandName) {
             case 'add-user':

@@ -11,7 +11,7 @@ function login($name, $password) {
         }
         $dbManager->endTransaction();
         if (password_verify($password, $hashedPassword)) {
-            $token = bin2hex(random_bytes(25)); 
+            $token = bin2hex(random_bytes(12.5)); 
             session_start();
             $_SESSION['users'][$token]['id'] = $id;
             $response['response'] = array('success'=>true, 'status'=>201);
@@ -24,13 +24,14 @@ function login($name, $password) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
+    return $response;
 }
 
 function eat($userId, $snackId, $quantity) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('SELECT outflow_id, price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=0 ORDER BY expiration ASC LIMIT 1', [$snackId], 'i');
+        $dbManager->runPreparedQuery('SELECT outflow_id, price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snackId, 0), 'ii');
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $outflowId = $row['outflow_id'];
             $totalPrice = $quantity*$row['price_per_snack'];
@@ -87,8 +88,8 @@ function buy($userId, $snackId, $quantity, array $options) {
         $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'ii');
         $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total-?', array($totalPrice), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 2, $snackId, $snackNumber, $totalPrice), 'iiiid');
-        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction(); 
+        $response['response'] = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -104,8 +105,8 @@ function deposit($userId, $amount) {
         $dbManager->runPreparedQuery('UPDATE users_funds SET amount=amount+? WHERE user_id=?', array($amount, $userId), 'di');
         $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total+?', array($amount), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, funds_amount) VALUES (?,?,?)', array($userId, 3, $amount), 'iid');
-        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -132,8 +133,8 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isL
             $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
         }
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 4, $snackId), 'iii');
-        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -176,8 +177,8 @@ function editSnackOrUser(array $ids, array $newValues, array $types, array $oldV
             }
             insertEdits($newValues, $types, $oldValues);
         }
-        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -203,11 +204,38 @@ function addUser($name, $password, $friendlyName) {
         }
         $dbManager->runPreparedQuery('INSERT INTO users_funds (user_id) VALUES (?)', array($userId), 'i');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 6), 'ii');
-        $response['response'] = array('success'=>true, 'status'=>200);
         $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
+}
+
+function getEatable() {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runPreparedQuery('SELECT snack_id, quantity FROM snacks WHERE quantity!=?', array(0), 'i');
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $snacks = array('id'=>$row['id'], 'quantity'=>$row['quantity']);
+        }
+        foreach ($snacks as $snack) {
+            $dbManager->runPreparedQuery('SELECT price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snack['id'], 0), 'ii');
+            while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+                $snack['price-per-snack'] = $row['price_per_snack'];
+            }
+            $dbManager->runPreparedQuery('SELECT name FROM snacks WHERE id=?', array($snack['id']), 'i');
+            while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+                $snack['name'] = $row['name'];
+            }
+        }
+        $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>200);
+        $response['data'] = array('snacks'=>$snacks);
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2018 at 02:55 PM
+-- Generation Time: Dec 07, 2018 at 01:56 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -221,8 +221,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `password`, `friendly_name`) VALUES
-(1, 'matteobin', '', 'Matteo Bini'),
-(2, 'francesco', '', 'Francesco');
+(1, 'matteobin', 'd94c1b1402a81fadc0fdc31ebb1050a8', 'Matteo Bini'),
+(2, 'francesco', 'd94c1b1402a81fadc0fdc31ebb1050a8', 'Francesco');
 
 -- --------------------------------------------------------
 

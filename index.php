@@ -1,3 +1,6 @@
+<?php
+    setcookie('auth-key', 'sekrit_PaSSWoRD');
+?>
 <!doctype html>
 <html lang="it">
 <head>
@@ -12,6 +15,12 @@
 </header>
 <section>
 	<div>
+        <form action="send-request.php" method="POST">
+            <input type="hidden" name="command-name" value="login">
+            <input type="hidden" name="user-name" value="matteobin">
+            <input type="hidden" name="password" value="Password007">
+			<input type="submit" value="Login Matteo">
+		</form>
 		<form action="send-request.php" method="POST">
             <input type="hidden" name="auth-key" value="sekrit_PaSSWoRD">
             <input type="hidden" name="user-name" value="matteobin">
