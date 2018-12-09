@@ -26,7 +26,7 @@ function addUser($name, $password, $friendlyName) {
     return $response;
 }
 
-function login($name, $password) {
+function login($name, $password, $rememberUser) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -36,15 +36,19 @@ function login($name, $password) {
             $id = $row['id'];
             $hashedPassword = $row['password'];
         }
-        $dbManager->endTransaction();
         if (password_verify($password, $hashedPassword)) {
+            $dbManager->runPreparedQuery('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
             $token = bin2hex(random_bytes(12.5)); 
-            session_start();
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
             $_SESSION['users'][$token]['id'] = $id;
+			setcookie('user-token', $token);
+			setcookie('remember-user', $rememberUser);
             $response['response'] = array('success'=>true, 'status'=>201);
             $response['data'] = array('token'=>$token);
         } else {
-            $response['response'] = array('success'=>false, 'status'=>403, 'message'=>'Wrong password.');
+            $response['response'] = array('success'=>false, 'status'=>403, 'message'=>'Invalid login: wrong credentials.');
         }
         $dbManager->endTransaction();
     } catch (Exception $exception) {
@@ -52,6 +56,12 @@ function login($name, $password) {
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
+}
+
+function logout($userToken) {
+	unset($_SESSION['users'][$userToken]);
+	$response['response'] = array('success'=>true, 'status'=>200);
+	return $response;
 }
 
 function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid) {
