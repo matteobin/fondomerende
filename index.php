@@ -21,18 +21,22 @@
 			if ($currentViewName==$view['name']) {
 				$noView = false;
 				$currentView = $view;
+                break;
 			}
 		}
 		if ($noView) {
+            die();
 			if ($currentViewName=='') {
 				$currentView = $views[0];
 			} else {
 				$currentView = array('name'=>'404', 'path'=>'views/404.php', 'title'=>'404', 'description'=>'Not found.');
 			}
 		}
-	} else {
-		$currentView = array('name'=>'login', 'path'=>'views/login.php', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.');
-	}
+	} else  if ($currentViewName=='add-user') {
+        $currentView = array('name'=>'add-user', 'path'=>'views/add-user.php', 'title'=>'Add user', 'description'=>'Fondo Merende add user form.');
+    } else {
+        $currentView = array('name'=>'login', 'path'=>'views/login.php', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.');
+    }
 ?>
 <!doctype html>
 <html lang="en">
@@ -47,7 +51,7 @@
 			<h1>Fondo Merende</h1>
 		</header>
 		<section>
-			<?php include_once($currentView['path']); ?>
+			<?php require_once($currentView['path']); ?>
 		</section>
 		<footer>
 		</footer>
