@@ -1,6 +1,7 @@
 <?php
 	if (isset($_POST['user-name'])) {
-		$jsonResponse = false;
+		setcookie('auth-key', 'sekrit_PaSSWoRD');
+        $jsonResponse = false;
 		require_once('send-request.php');
 	}
 	if (isset($response['response']['status']) && $response['response']['status']==201) {
