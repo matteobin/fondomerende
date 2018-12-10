@@ -7,8 +7,8 @@
 		$userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
 		$rememberUser = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
 		session_start();
-		if (isset($_SESSION['users'][$userToken]) && ($currentViewName!='' || $rememberUser)) {
-			$userLogged = true;
+		if (isset($_SESSION['user-logged']) && $_SESSION['user-logged']===true && ($currentViewName!='' || $rememberUser)) {
+            $userLogged = true;
 		}
 		return $userLogged;
 	}

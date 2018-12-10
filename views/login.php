@@ -1,11 +1,9 @@
 <?php
 	if (isset($_POST['user-name'])) {
-		setcookie('auth-key', 'sekrit_PaSSWoRD');
-        $jsonResponse = false;
 		require_once('send-request.php');
 	}
 	if (isset($response['response']['status']) && $response['response']['status']==201) {
-		header('location: index.php?view=test');
+        header('location: index.php?view=test');
 		exit();
 	} 
 	if (isset($response['response']['message'])): ?> 

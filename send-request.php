@@ -1,6 +1,10 @@
 <?php
 define('__ROOT__', dirname(__FILE__));
 require_once(__ROOT__.'/auth-key.php');
+$appRequest = false;
+if (basename($_SERVER['SCRIPT_FILENAME'])=='send-request.php') {
+    $appRequest = true;
+}
 
 function checkAuth() {
     $isAuth = false;
@@ -10,7 +14,6 @@ function checkAuth() {
     }
     return $isAuth;
 }
-
 
 function checkRequestType($acceptedType) {
     $acceptedType = strtoupper($acceptedType);
@@ -24,18 +27,18 @@ function checkRequestType($acceptedType) {
     return $requestTypeRight;
 }
 
-function checkCustomerToken() {
+function checkUserToken() {
     $isAuth = false;
     global $userToken;
     $userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    if (isset($_SESSION['users'][$userToken])) {
+    if (isset($_SESSION['user-logged']) && $_SESSION['user-logged']===true && $_SESSION['user-token']==$userToken) {
         $isAuth = true;
     } else {
         global $response;
-        $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid customer token: missing or expired.');
+        $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid user token: missing or expired.');
     }
     return $isAuth;
 }
@@ -230,13 +233,13 @@ if (checkAuth()) {
 				if (!setRequestInputValue($rememberUser, false, 'POST', 'remember-user', 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
 					break;
 				}
-                $response = login($userName, $password, $rememberUser);
+                $response = login($userName, $password, $rememberUser, $appRequest);
                 break;
 			case 'logout':
 				if (!checkRequestType('POST')) {
                     break;
                 }
-                if (!checkCustomerToken()) {
+                if (!checkUserToken()) {
                     break;
                 }
 				$response = logout($userToken);
@@ -245,7 +248,7 @@ if (checkAuth()) {
                 if (!checkRequestType('POST')) {
                     break;
                 }
-                if (!checkCustomerToken()) {
+                if (!checkUserToken()) {
                     break;
                 }
                 $newValues = array();
@@ -262,25 +265,25 @@ if (checkAuth()) {
                 if (!setRequestInputValue($newValues, false, 'POST', 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $types, 's', $oldValues)) {
                     break;
                 }
-                $response = editSnackOrUser(array('user'=>$_SESSION['users'][$userToken]['id']), $newValues, $types, $oldValues);
+                $response = editSnackOrUser(array('user'=>$_SESSION['user']['id']), $newValues, $types, $oldValues);
                 break;
             case 'deposit':
                 if (!checkRequestType('POST')) {
                     break;
                 }
-                if (!checkCustomerToken()) {
+                if (!checkUserToken()) {
                     break;
                 }
                 if (!setRequestInputValue($amount, true, 'POST', 'amount', 'amount', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2))) {
                     break;
                 }
-                $response = deposit($_SESSION['users'][$userToken]['id'], $amount);
+                $response = deposit($_SESSION['user']['id'], $amount);
                 break;
             case 'add-snack':
                 if (!checkRequestType('POST')) {
                     break;
                 }
-                if (!checkCustomerToken()) {
+                if (!checkUserToken()) {
                     break;
                 }
                 if (!setRequestInputValue($name, true, 'POST', 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
@@ -298,13 +301,13 @@ if (checkAuth()) {
                 if (!setRequestInputValue($isLiquid, true, 'POST', 'is-liquid', 'is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
                     break;
                 }
-                $response = addSnack($_SESSION['users'][$userToken]['id'], $name, $price, $snacksPerBox, $expirationInDays, $isLiquid);
+                $response = addSnack($_SESSION['user']['id'], $name, $price, $snacksPerBox, $expirationInDays, $isLiquid);
                 break;
             case 'edit-snack':
                 if (!checkRequestType('POST')) {
                     break;
                 }
-                if (!checkCustomerToken()) {
+                if (!checkUserToken()) {
                     break;
                 }
                 if (!setRequestInputValue($snackId, true, 'POST', 'snack-id', 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
@@ -328,13 +331,13 @@ if (checkAuth()) {
                 if (!setRequestInputValue($newValues, false, 'POST', 'is-liquid', 'new-is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array(), true, $types, 'i', $oldValues)) {
                     break;
                 }
-                $response = editSnackOrUser(array('user'=>$_SESSION['users'][$userToken]['id'], 'snack'=>$snackId), $newValues, $types, $oldValues);
+                $response = editSnackOrUser(array('user'=>$_SESSION['user']['id'], 'snack'=>$snackId), $newValues, $types, $oldValues);
                 break;
             case 'buy':
                 if (!checkRequestType('POST')) {
                     break;
                 }
-                if (!checkCustomerToken()) {
+                if (!checkUserToken()) {
                     break;
                 }
                 if (!setRequestInputValue($snackName, true, 'POST', 'snack-name', 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
@@ -354,13 +357,13 @@ if (checkAuth()) {
                 if (!setRequestInputValue($options, false, 'POST', 'expiration-in-days', 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>4))) {
                     break;
                 }
-                $response = buy($_SESSION['users'][$userToken]['id'], $snackId, $quantity, $options);
+                $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                 break;
             case 'get-eatable':
                 if (!checkRequestType('GET')) {
                     break;
                 }
-                if (!checkCustomerToken()) {
+                if (!checkUserToken()) {
                     break;
                 }
                 $response = getEatable();
@@ -369,7 +372,7 @@ if (checkAuth()) {
                 if (!checkRequestType('POST')) {
                     break;
                 }
-                if (!checkCustomerToken()) {
+                if (!checkUserToken()) {
                     break;
                 }
                 if (!setRequestInputValue($snackName, true, 'POST', 'snack-name', 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
@@ -380,14 +383,16 @@ if (checkAuth()) {
                 if (!setRequestInputValue($quantity, false, 'POST', 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0))) {
                     break;
                 }
-                $response = eat($_SESSION['users'][$userToken]['id'], $snackId, $quantity);
+                $response = eat($_SESSION['user-id'], $snackId, $quantity);
                 break;
         }
     }
 } else {
     $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid request: missing or wrong auth key.');
 }
-if (!isset($jsonResponse) || $jsonResponse) {
+if ($appRequest) {
+    setcookie('auth-key', null);
+    setcookie('user-token', null);
 	header('Content-Type: application/json');
 	echo(json_encode($response));
 }

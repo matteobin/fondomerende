@@ -26,7 +26,7 @@ function addUser($name, $password, $friendlyName) {
     return $response;
 }
 
-function login($name, $password, $rememberUser) {
+function login($name, $password, $rememberUser, $appRequest) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -42,9 +42,14 @@ function login($name, $password, $rememberUser) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
-            $_SESSION['users'][$token]['id'] = $id;
-			setcookie('user-token', $token);
-			setcookie('remember-user', $rememberUser);
+            $_SESSION['user-logged'] = true;
+            $_SESSION['user-id'] = $id;
+            $_SESSION['user-token'] = $token;
+            if (!$appRequest) {
+                setcookie('auth-key', 'sekrit_PaSSWoRD');
+                setcookie('user-token', $token);
+                setcookie('remember-user', $rememberUser);
+            }
             $response['response'] = array('success'=>true, 'status'=>201);
             $response['data'] = array('token'=>$token);
         } else {
