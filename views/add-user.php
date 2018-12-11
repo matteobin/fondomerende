@@ -6,5 +6,5 @@
     <input type="type" name="frienly-name" id="friendly-name-input" placeholder="Arturo" value="<?php if (isset($friendlyName)) {echo($friendlyName);} ?>" required>
     <label for="password-input">Password</label>
     <input type="password" name="password" id="password-input" placeholder="long is better" value="<?php if (isset($password)) {echo($password);} ?>" required>
-    <input type="submit" value="Create">
+    <input type="submit" value="Save">
 </form>
