@@ -154,7 +154,7 @@ function checkFilteredInputValidity($value, $options=null) {
     return array('valid'=>$valid, 'message'=>$message);
 }
 
-function setRequestInputValue(&$destination, $mandatory, $valueName, $requestVariableName, array $inputFilters, array $validityOptions, $checkOldValue=false, &$types=null, $type=null, &$oldValues=null) {
+function setRequestInputValue(&$valueDestination, $mandatory, $valueName, $requestVariableName, array $inputFilters, array $validityOptions, $checkOldValue=false, &$typesDestination=null, $type=null, &$oldValuesDestination=null) {
     $dbColumnValueName = str_replace('-', '_', $valueName);
     $filter = $inputFilters['filter'];
     $filterOptions = null;
@@ -167,13 +167,13 @@ function setRequestInputValue(&$destination, $mandatory, $valueName, $requestVar
         $value = filter_input(constant('INPUT_'.$requestMethod), $requestVariableName, $filter, $filterOptions);
         $checkResult = checkFilteredInputValidity($value, $validityOptions);
         if ($checkResult['valid']) {
-            if (gettype($destination)=='array') {
-                $destination[$dbColumnValueName] = $value;
+            if (gettype($valueDestination)=='array') {
+                $valueDestination[$dbColumnValueName] = $value;
                 if ($checkOldValue) {
-                    $types[$dbColumnValueName] = $type;
+                    $typesDestination[$dbColumnValueName] = $type;
                 }
             } else {
-                $destination = $value;
+                $valueDestination = $value;
             }
         } else {
             global $response;
@@ -188,7 +188,7 @@ function setRequestInputValue(&$destination, $mandatory, $valueName, $requestVar
         if (isset($validityOptions['database']['unique']) && $validityOptions['database']['unique']) {
             $validityOptions['database']['unique'] = false;
         }
-        return setRequestInputValue($oldValues, false, $valueName, 'old-'.$valueName, $inputFilters, $validityOptions);
+        return setRequestInputValue($oldValuesDestination, false, $valueName, 'old-'.$valueName, $inputFilters, $validityOptions);
     } else {
 		return $noInputError;
 	}
@@ -252,7 +252,7 @@ if (checkAuth()) {
                 }
                 $newValues = array();
                 $oldValues = array();
-                if (!setRequestInputValue($newValues, false, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')), true, $types, 's', $oldValues)) {
+                if (!setRequestInputValue($newValues, false, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')), true, $typesDestination, 's', $oldValues)) {
                     break;
                 }
                 if (!setRequestInputValue($newValues, false, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>125))) {
@@ -261,10 +261,10 @@ if (checkAuth()) {
                 if (isset($newValues['password'])) {
                     $newValues['password'] = password_hash($newValues['password'], PASSWORD_DEFAULT);
                 }
-                if (!setRequestInputValue($newValues, false, 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $types, 's', $oldValues)) {
+                if (!setRequestInputValue($newValues, false, 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60), true, $typesDestination, 's', $oldValues)) {
                     break;
                 }
-                $response = editSnackOrUser(array('user'=>$_SESSION['user']['id']), $newValues, $types, $oldValues);
+                $response = editSnackOrUser(array('user'=>$_SESSION['user']['id']), $newValues, $typesDestination, $oldValues);
                 break;
             case 'deposit':
                 if (!checkrequestMethod('POST')) {
@@ -314,23 +314,23 @@ if (checkAuth()) {
                 }
                 $newValues = array();
                 $oldValues = array();
-                $types = array();
-                if (!setRequestInputValue($newValues, false, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')), true, $types, 's', $oldValues)) {
+                $typesDestination = array();
+                if (!setRequestInputValue($newValues, false, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('maxLength'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')), true, $typesDestination, 's', $oldValues)) {
                     break;
                 }
-                if (!setRequestInputValue($newValues, false, 'price', 'new-price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2), true, $types, 'd', $oldValues)) {
+                if (!setRequestInputValue($newValues, false, 'price', 'new-price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greaterThan'=>0, 'contains'=>array('.'), 'digitsNumber'=>4, 'decimalsNumber'=>2), true, $typesDestination, 'd', $oldValues)) {
                     break;
                 }
-                if (!setRequestInputValue($newValues, false, 'snacks-per-box', 'new-snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>2), true, $types, 'i', $oldValues)) {
+                if (!setRequestInputValue($newValues, false, 'snacks-per-box', 'new-snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>2), true, $typesDestination, 'i', $oldValues)) {
                     break;
                 }
-                if (!setRequestInputValue($newValues, false, 'expiration-in-days', 'new-expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>4), true, $types, 'i', $oldValues)) {
+                if (!setRequestInputValue($newValues, false, 'expiration-in-days', 'new-expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greaterThan'=>0, 'digitsNumber'=>4), true, $typesDestination, 'i', $oldValues)) {
                     break;
                 }
-                if (!setRequestInputValue($newValues, false, 'is-liquid', 'new-is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array(), true, $types, 'i', $oldValues)) {
+                if (!setRequestInputValue($newValues, false, 'is-liquid', 'new-is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array(), true, $typesDestination, 'i', $oldValues)) {
                     break;
                 }
-                $response = editSnackOrUser(array('user'=>$_SESSION['user']['id'], 'snack'=>$snackId), $newValues, $types, $oldValues);
+                $response = editSnackOrUser(array('user'=>$_SESSION['user']['id'], 'snack'=>$snackId), $newValues, $typesDestination, $oldValues);
                 break;
             case 'buy':
                 if (!checkrequestMethod('POST')) {
