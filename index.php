@@ -1,5 +1,6 @@
 <?php
-	$currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
+    setcookie('auth-key', 'sekrit_PaSSWoRD');
+    $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
 	
 	function checkLogin() {
 		global $currentViewName;

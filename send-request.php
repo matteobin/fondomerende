@@ -15,7 +15,7 @@ function checkAuth() {
     return $isAuth;
 }
 
-function checkRequestType($acceptedMethod) {
+function checkRequestMethod($acceptedMethod) {
     $requestMethodRight = true;
     global $requestMethod;
     if ($requestMethod!=$acceptedMethod) {
@@ -199,27 +199,26 @@ $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Inval
 if (checkAuth()) {
 	require_once(__ROOT__.'/lib/DbManager/DbManager.php');
 	$dbManager = new DbManager();
-    if (setRequestInputValue($commandName, true, $requestMethod, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-eatable'))))) {
+    if (setRequestInputValue($commandName, true, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-eatable'))))) {
 		require_once(__ROOT__.'/commands.php');
         switch ($commandName) {
             case 'add-user':
-                if (!checkrequestMethod('POST')) {
+                if (!checkRequestMethod('POST')) {
                     break;
                 }
-                if (!setRequestInputValue($name, true, 'POST', 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
+                if (!setRequestInputValue($name, true, 'name', 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                     break;
                 }
                 if (!setRequestInputValue($password, true, 'password', 'password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
                     break;
                 }
-                $password = password_hash($password, PASSWORD_DEFAULT);
                 if (!setRequestInputValue($friendlyName, true, 'friendly-name', 'friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60))) {
                     break;
                 }
-                $response = addUser($name, $password, $friendlyName);
+                $response = addUser($name, $password, $friendlyName, $appRequest);
                 break;
             case 'login':
-                if (!checkrequestMethod('POST')) {
+                if (!checkRequestMethod('POST')) {
                     break;
                 }
                 if (!setRequestInputValue($userName, true, 'user-name', 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15))) {
@@ -235,7 +234,7 @@ if (checkAuth()) {
                 $response = login($userName, $password, $rememberUser, $appRequest);
                 break;
 			case 'logout':
-				if (!checkrequestMethod('POST')) {
+				if (!checkRequestMethod('POST')) {
                     break;
                 }
                 if (!checkUserToken()) {
@@ -244,7 +243,7 @@ if (checkAuth()) {
 				$response = logout($userToken);
 				break;
             case 'edit-user':
-                if (!checkrequestMethod('POST')) {
+                if (!checkRequestMethod('POST')) {
                     break;
                 }
                 if (!checkUserToken()) {
@@ -267,7 +266,7 @@ if (checkAuth()) {
                 $response = editSnackOrUser(array('user'=>$_SESSION['user']['id']), $newValues, $typesDestination, $oldValues);
                 break;
             case 'deposit':
-                if (!checkrequestMethod('POST')) {
+                if (!checkRequestMethod('POST')) {
                     break;
                 }
                 if (!checkUserToken()) {
@@ -279,7 +278,7 @@ if (checkAuth()) {
                 $response = deposit($_SESSION['user']['id'], $amount);
                 break;
             case 'add-snack':
-                if (!checkrequestMethod('POST')) {
+                if (!checkRequestMethod('POST')) {
                     break;
                 }
                 if (!checkUserToken()) {
@@ -303,7 +302,7 @@ if (checkAuth()) {
                 $response = addSnack($_SESSION['user']['id'], $name, $price, $snacksPerBox, $expirationInDays, $isLiquid);
                 break;
             case 'edit-snack':
-                if (!checkrequestMethod('POST')) {
+                if (!checkRequestMethod('POST')) {
                     break;
                 }
                 if (!checkUserToken()) {
@@ -333,7 +332,7 @@ if (checkAuth()) {
                 $response = editSnackOrUser(array('user'=>$_SESSION['user']['id'], 'snack'=>$snackId), $newValues, $typesDestination, $oldValues);
                 break;
             case 'buy':
-                if (!checkrequestMethod('POST')) {
+                if (!checkRequestMethod('POST')) {
                     break;
                 }
                 if (!checkUserToken()) {
@@ -359,7 +358,7 @@ if (checkAuth()) {
                 $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                 break;
             case 'get-eatable':
-                if (!checkrequestMethod('GET')) {
+                if (!checkRequestMethod('GET')) {
                     break;
                 }
                 if (!checkUserToken()) {
@@ -368,7 +367,7 @@ if (checkAuth()) {
                 $response = getEatable();
                 break;
             case 'eat':
-                if (!checkrequestMethod('POST')) {
+                if (!checkRequestMethod('POST')) {
                     break;
                 }
                 if (!checkUserToken()) {

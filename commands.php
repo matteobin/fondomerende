@@ -1,9 +1,62 @@
 <?php
-function addUser($name, $password, $friendlyName) {
+function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
+    global $dbManager;
+    try {
+        if ($apiCall) {
+            $dbManager->startTransaction();
+        }
+        $dbManager->runPreparedQuery('SELECT id, password FROM users WHERE name=?', array($name), 's');
+        $hashedPassword = '';
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $id = $row['id'];
+            $hashedPassword = $row['password'];
+        }
+        var_dump($password);
+        if (password_verify($password, $hashedPassword)) {
+            $dbManager->runPreparedQuery('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
+            $token = bin2hex(random_bytes(12.5)); 
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            $_SESSION['user-logged'] = true;
+            $_SESSION['user-id'] = $id;
+            $_SESSION['user-token'] = $token;
+            if (!$appRequest) {
+                setcookie('user-token', $token);
+                setcookie('remember-user', $rememberUser);
+            }
+            if ($apiCall) {
+                $response['response'] = array('success'=>true, 'status'=>201);
+                if ($appRequest) {
+                    $response['data'] = array('token'=>$token);   
+                }
+            }
+        } else if ($apiCall) {
+            $response['response'] = array('success'=>false, 'status'=>403, 'message'=>'Invalid login: wrong credentials.');
+        }
+        if ($apiCall) {
+            $dbManager->endTransaction();          
+        }
+    } catch (Exception $exception) {
+        if ($apiCall) {
+            $dbManager->rollbackTransaction();
+            $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage()); 
+        } else {
+            throw new Exception($exception->getMessage());
+        }
+    }
+    if ($apiCall) {
+        return $response;
+    } else {
+        return $token;
+    }
+}
+
+function addUser($name, $password, $friendlyName, $appRequest) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('INSERT INTO users (name, password, friendly_name) VALUES (?, ?, ?)', array($name, $password, $friendlyName), 'sss');
+        $dbManager->runPreparedQuery('INSERT INTO users (name, password, friendly_name) VALUES (?, ?, ?)', array($name, password_hash($password, PASSWORD_DEFAULT), $friendlyName), 'sss');
         $dbManager->runQuery('SELECT id FROM users ORDER BY id DESC LIMIT 1');
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $userId = $row['id'];
@@ -18,44 +71,8 @@ function addUser($name, $password, $friendlyName) {
         $dbManager->runPreparedQuery('INSERT INTO users_funds (user_id) VALUES (?)', array($userId), 'i');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 6), 'ii');
         $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>200);
-    } catch (Exception $exception) {
-        $dbManager->rollbackTransaction();
-		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
-    }
-    return $response;
-}
-
-function login($name, $password, $rememberUser, $appRequest) {
-    global $dbManager;
-    try {
-        $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('SELECT id, password FROM users WHERE name=?', array($name), 's');
-        $hashedPassword = '';
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $id = $row['id'];
-            $hashedPassword = $row['password'];
-        }
-        if (password_verify($password, $hashedPassword)) {
-            $dbManager->runPreparedQuery('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
-            $token = bin2hex(random_bytes(12.5)); 
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
-            $_SESSION['user-logged'] = true;
-            $_SESSION['user-id'] = $id;
-            $_SESSION['user-token'] = $token;
-            if (!$appRequest) {
-                setcookie('auth-key', 'sekrit_PaSSWoRD');
-                setcookie('user-token', $token);
-                setcookie('remember-user', $rememberUser);
-            }
-            $response['response'] = array('success'=>true, 'status'=>201);
-            $response['data'] = array('token'=>$token);
-        } else {
-            $response['response'] = array('success'=>false, 'status'=>403, 'message'=>'Invalid login: wrong credentials.');
-        }
-        $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>201);
+        $response['data'] = array('token'=>login($name, $password, false, $appRequest, false));
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
