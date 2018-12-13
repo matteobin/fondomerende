@@ -3,7 +3,7 @@
 		require_once('send-request.php');
 	}
 	if (isset($response['response']['status']) && $response['response']['status']==201) {
-        header('location: index.php?view=test');
+        header('location: index.php?view=main');
 		exit();
 	} 
 	if (isset($response['response']['message'])): ?> 

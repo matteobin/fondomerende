@@ -14,7 +14,7 @@
 		return $userLogged;
 	}
 	
-	$views = array(array('name'=>'test', 'path'=>'views/test.php', 'title'=>'Made in App', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'));
+	$views = array(array('name'=>'main', 'path'=>'views/main.php', 'title'=>'Made in App', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'));
 	
 	if (checkLogin()) {
 		$noView = true;
