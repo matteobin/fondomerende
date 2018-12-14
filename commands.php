@@ -81,7 +81,7 @@ function addUser($name, $password, $friendlyName, $appRequest) {
 }
 
 function logout($userToken) {
-	unset($_SESSION['users'][$userToken]);
+	$_SESSION['user-logged'] = false;
 	$response['response'] = array('success'=>true, 'status'=>200);
 	return $response;
 }
