@@ -357,14 +357,14 @@ if (checkAuth()) {
                 }
                 $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                 break;
-            case 'get-eatable':
+            case 'get-eatable-and-funds':
                 if (!checkRequestMethod('GET')) {
                     break;
                 }
                 if (!checkUserToken()) {
                     break;
                 }
-                $response = getEatable();
+                $response = getEatableAndFunds($_SESSION['user-id']);
                 break;
             case 'eat':
                 if (!checkRequestMethod('POST')) {

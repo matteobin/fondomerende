@@ -218,31 +218,31 @@ function buy($userId, $snackId, $quantity, array $options) {
     return $response;
 }
 
-function getEatable() {
+function getEatableAndFunds($userId) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
+		$snacks = array();
         $dbManager->runPreparedQuery('SELECT snack_id, quantity FROM snacks_stock WHERE quantity!=?', array(0), 'i');
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $snacks[] = array('id'=>$row['snack_id'], 'quantity'=>$row['quantity']);
+        while ($snacksStockRow = $dbManager->getQueryRes()->fetch_assoc()) {
+			$dbManager->runPreparedQuery('SELECT price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snacksStockRow['snack_id'], 0), 'ii');
+			while ($cratesRow = $dbManager->getQueryRes()->fetch_assoc()) {
+				$pricePerSnack = $cratesRow['price_per_snack'];
+			}
+			$dbManager->runPreparedQuery('SELECT name FROM snacks WHERE id=?', array($snacksStockRow['snack_id']), 'i');
+			while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
+				$name = $snacksRow['name'];
+			}
+            $snacks[] = array('id'=>$snacksStockRow['snack_id'], 'name'=>$name, 'price-per-snack'=>$pricePerSnack, 'quantity'=>$snacksStockRow['quantity']);
         }
-        if (isset($snacks)) {
-            foreach ($snacks as &$snack) {
-                $dbManager->runPreparedQuery('SELECT price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snack['id'], 0), 'ii');
-                while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-                    $snack['price-per-snack'] = $row['price_per_snack'];
-                }
-                $dbManager->runPreparedQuery('SELECT name FROM snacks WHERE id=?', array($snack['id']), 'i');
-                while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-                    $snack['name'] = $row['name'];
-                }
-            }
-            $response['response'] = array('success'=>true, 'status'=>200);
-            $response['data'] = array('snacks'=>$snacks);
-        } else {
-            $response['response'] = array('success'=>true, 'status'=>204);
-        }
+		$dbManager->runPreparedQuery('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
+		while ($usersFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {
+			$userFundsAmount = $usersFundsRow['amount'];
+		}
         $dbManager->endTransaction();
+		$response['response'] = array('success'=>true, 'status'=>200);
+		$response['data']['user-funds-amount'] = $userFundsAmount;
+		$response['data']['snacks'] = $snacks;
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
