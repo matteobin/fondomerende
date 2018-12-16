@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "342d86a6-e39e-4365-8ba5-fef48843ff46",
+		"name": "Fondo Merende",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "command-name",
+							"value": "login",
+							"type": "text"
+						},
+						{
+							"key": "user-name",
+							"value": "matteobin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Password007",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/fondomerende/process-request.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"fondomerende",
+						"process-request.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deposit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"type": "text",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=317265dda91415a6eb5ac2fd"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "command-name",
+							"value": "deposit",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "5.29",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/fondomerende/process-request.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"fondomerende",
+						"process-request.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=317265dda91415a6eb5ac2fd",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "command-name",
+							"value": "buy",
+							"type": "text"
+						},
+						{
+							"key": "snack-name",
+							"value": "kinder-bueno",
+							"type": "text"
+						},
+						{
+							"key": "quantity",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/fondomerende/process-request.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"fondomerende",
+						"process-request.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
