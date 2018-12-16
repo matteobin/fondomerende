@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.1
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2018 at 03:19 PM
--- Server version: 10.1.33-MariaDB
--- PHP Version: 7.1.18
+-- Generation Time: Dec 16, 2018 at 06:44 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -169,6 +167,7 @@ CREATE TABLE `outflows` (
 CREATE TABLE `snacks` (
   `id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
+  `friendly_name` varchar(60) NOT NULL,
   `price` decimal(4,2) NOT NULL,
   `snacks_per_box` int(2) NOT NULL,
   `expiration_in_days` int(4) NOT NULL,
@@ -179,10 +178,10 @@ CREATE TABLE `snacks` (
 -- Dumping data for table `snacks`
 --
 
-INSERT INTO `snacks` (`id`, `name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
-(1, 'Taralli Coop', '1.99', 12, 0, 0),
-(2, 'Baiocchi', '2.49', 6, 0, 0),
-(3, 'Kinder Bueno', '3.45', 6, 60, 0);
+INSERT INTO `snacks` (`id`, `name`, `friendly_name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
+(1, 'taralli-coop', 'Taralli Coop', '1.99', 12, 0, 0),
+(2, 'baiocchi', 'Baiocchi', '2.49', 6, 0, 0),
+(3, 'kinder-bueno', 'Kinder Bueno', '3.45', 6, 60, 0);
 
 -- --------------------------------------------------------
 
@@ -340,43 +339,36 @@ ALTER TABLE `users_funds`
 --
 ALTER TABLE `actions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `eaten`
 --
 ALTER TABLE `eaten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `edits`
 --
 ALTER TABLE `edits`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `inflows`
 --
 ALTER TABLE `inflows`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `outflows`
 --
 ALTER TABLE `outflows`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `snacks`
 --
 ALTER TABLE `snacks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- Constraints for dumped tables
 --
@@ -432,7 +424,6 @@ ALTER TABLE `snacks_stock`
 --
 ALTER TABLE `users_funds`
   ADD CONSTRAINT `users_funds_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

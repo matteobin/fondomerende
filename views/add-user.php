@@ -1,6 +1,6 @@
 <?php
 	if (isset($_POST['name'])) {
-		require_once('send-request.php');
+		require_once('process-request.php');
 	}
 	if (isset($response['response']['status']) && $response['response']['status']==201) {
         header('location: index.php?view=test');

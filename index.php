@@ -1,5 +1,6 @@
 <?php
-    setcookie('auth-key', 'sekrit_PaSSWoRD');
+    ini_set('display_errors', '1');
+	setcookie('auth-key', 'sekrit_PaSSWoRD');
     $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
 	
 	function checkLogin() {
@@ -8,13 +9,13 @@
 		$userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
 		$rememberUser = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
 		session_start();
-		if (isset($_SESSION['user-logged']) && $_SESSION['user-logged']===true && ($currentViewName!='' || $rememberUser)) {
+		if (isset($_SESSION['user-logged']) && $_SESSION['user-logged']===true && $_SESSION['user-token']==$userToken && ($currentViewName!='' || $rememberUser)) {
             $userLogged = true;
 		}
 		return $userLogged;
 	}
 	
-	$views = array(array('name'=>'main', 'path'=>'views/main.php', 'title'=>'Made in App', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'));
+	$views = array(array('name'=>'main', 'path'=>'views/main.php', 'title'=>'Made in App', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'eat', 'path'=>'views/eat.php', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
 	
 	if (checkLogin()) {
 		$noView = true;
@@ -26,7 +27,6 @@
 			}
 		}
 		if ($noView) {
-            die();
 			if ($currentViewName=='') {
 				$currentView = $views[0];
 			} else {

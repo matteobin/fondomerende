@@ -229,11 +229,12 @@ function getEatableAndFunds($userId) {
 			while ($cratesRow = $dbManager->getQueryRes()->fetch_assoc()) {
 				$pricePerSnack = $cratesRow['price_per_snack'];
 			}
-			$dbManager->runPreparedQuery('SELECT name FROM snacks WHERE id=?', array($snacksStockRow['snack_id']), 'i');
+			$dbManager->runPreparedQuery('SELECT name, friendly_name FROM snacks WHERE id=?', array($snacksStockRow['snack_id']), 'i');
 			while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
 				$name = $snacksRow['name'];
+				$friendlyName = $snacksRow['friendly_name'];
 			}
-            $snacks[] = array('id'=>$snacksStockRow['snack_id'], 'name'=>$name, 'price-per-snack'=>$pricePerSnack, 'quantity'=>$snacksStockRow['quantity']);
+            $snacks[] = array('id'=>$snacksStockRow['snack_id'], 'name'=>$name, 'friendly-name'=>$friendlyName, 'price-per-snack'=>$pricePerSnack, 'quantity'=>$snacksStockRow['quantity']);
         }
 		$dbManager->runPreparedQuery('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
 		while ($usersFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {

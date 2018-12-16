@@ -1,15 +1,15 @@
 <?php
-	if (isset($_POST['user-name'])) {
-		require_once('send-request.php');
+	if (isset($_POST['command-name'])) {
+		require_once('process-request.php');
 	}
 	if (isset($response['response']['status']) && $response['response']['status']==201) {
         header('location: index.php?view=main');
 		exit();
 	} 
 	if (isset($response['response']['message'])): ?> 
-	<p>
-		<?php echo($response['response']['message']); ?>
-	</p>
+		<p>
+			<?php echo($response['response']['message']); ?>
+		</p>
 <?php endif; ?>
 <form action="./" method="POST">
 	<input type="hidden" name="command-name" value="login">

@@ -2,7 +2,7 @@
 define('__ROOT__', dirname(__FILE__));
 require_once(__ROOT__.'/auth-key.php');
 $appRequest = false;
-if (basename($_SERVER['SCRIPT_FILENAME'])=='send-request.php') {
+if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
     $appRequest = true;
 }
 
@@ -199,7 +199,7 @@ $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Inval
 if (checkAuth()) {
 	require_once(__ROOT__.'/lib/DbManager/DbManager.php');
 	$dbManager = new DbManager();
-    if (setRequestInputValue($commandName, true, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-eatable'))))) {
+    if (setRequestInputValue($commandName, true, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-eatable-and-funds'))))) {
 		require_once(__ROOT__.'/commands.php');
         switch ($commandName) {
             case 'add-user':
@@ -275,7 +275,7 @@ if (checkAuth()) {
                 if (!setRequestInputValue($amount, true, 'amount', 'amount', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greater-than'=>0, 'contains'=>array('.'), 'digits-number'=>4, 'decimals-number'=>2))) {
                     break;
                 }
-                $response = deposit($_SESSION['user']['id'], $amount);
+                $response = deposit($_SESSION['user-id'], $amount);
                 break;
             case 'add-snack':
                 if (!checkRequestMethod('POST')) {
