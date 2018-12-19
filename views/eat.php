@@ -10,7 +10,7 @@
 			<?php echo($response['response']['message']); ?>
 		</p>
 <?php endif; ?>
-<h1>Money: <?php echo($response['data']['user-funds-amount']) ?> €	</h1>
+<h1>Moolah: <?php echo($response['data']['user-funds-amount']) ?> €	</h1>
 </section>
 <section>
 <h1>Pantry</h1>

@@ -158,6 +158,24 @@ function editSnackOrUser(array $ids, array $newValues, array $types, array $oldV
     return $response;
 }
 
+function getUserFunds($userId) {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runPreparedQuery('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
+        while ($usersFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {
+            $userFundsAmount = $usersFundsRow['amount'];
+        }
+        $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>200);
+        $response['data']['user-funds-amount'] = $userFundsAmount;
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    }
+    return $response;
+}
+
 function deposit($userId, $amount) {
     global $dbManager;
     try {
@@ -167,7 +185,7 @@ function deposit($userId, $amount) {
         $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total+?', array($amount), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, funds_amount) VALUES (?,?,?)', array($userId, 3, $amount), 'iid');
         $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>200);
+        $response['response'] = array('success'=>true, 'status'=>201);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -181,8 +199,8 @@ function getBuyOptions($column, $options, $snackId) {
         $buyOption = $options[$column];
     } else {
         $dbManager->runPreparedQuery('SELECT '.$column.' FROM snacks WHERE id=?', array($snackId), 'i');
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $buyOption = $row[$column];
+        while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
+            $buyOption = $snacksRow[$column];
         }
         if (!isset($buyOption)) {
             throw new Exception('Statement error in SELECT '.$column.' FROM snacks WHERE id='.$snackId.'.<br>Column or id not found.');

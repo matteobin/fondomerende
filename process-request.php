@@ -199,7 +199,7 @@ $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Inval
 if (checkAuth()) {
 	require_once(__ROOT__.'/lib/DbManager/DbManager.php');
 	$dbManager = new DbManager();
-    if (setRequestInputValue($commandName, true, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-eatable-and-funds'))))) {
+    if (setRequestInputValue($commandName, true, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-user-funds', 'get-eatable-and-funds'))))) {
 		require_once(__ROOT__.'/commands.php');
         switch ($commandName) {
             case 'add-user':
@@ -265,12 +265,26 @@ if (checkAuth()) {
                 }
                 $response = editSnackOrUser(array('user'=>$_SESSION['user']['id']), $newValues, $typesDestination, $oldValues);
                 break;
+            case 'get-user-funds':
+                if (!checkRequestMethod('GET')) {
+                    break;
+                }
+                if (!checkUserToken()) {
+                    break;
+                }
+                $response = getUserFunds($_SESSION['user-id']);
+                break;
             case 'deposit':
                 if (!checkRequestMethod('POST')) {
                     break;
                 }
                 if (!checkUserToken()) {
                     break;
+                }
+                if (!$appRequest) {
+                   if (!setRequestInputValue($userFundsAmount, false, 'user-funds-amount', 'user-funds-amount', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('contains'=>array('.'), 'digits-number'=>4, 'decimals-number'=>2))) {
+                        break;
+                    } 
                 }
                 if (!setRequestInputValue($amount, true, 'amount', 'amount', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greater-than'=>0, 'contains'=>array('.'), 'digits-number'=>4, 'decimals-number'=>2))) {
                     break;
