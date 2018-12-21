@@ -199,7 +199,7 @@ $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Inval
 if (checkAuth()) {
 	require_once(__ROOT__.'/lib/DbManager/DbManager.php');
 	$dbManager = new DbManager();
-    if (setRequestInputValue($commandName, true, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-user-funds', 'get-buyable', 'get-eatable-and-funds'))))) {
+    if (setRequestInputValue($commandName, true, 'command-name', 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-user-funds', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
 		require_once(__ROOT__.'/commands.php');
         switch ($commandName) {
             case 'add-user':
@@ -345,14 +345,14 @@ if (checkAuth()) {
                 }
                 $response = editSnackOrUser(array('user'=>$_SESSION['user']['id'], 'snack'=>$snackId), $newValues, $typesDestination, $oldValues);
                 break;
-            case 'get-buyable':
+            case 'get-to-buy':
                 if (!checkRequestMethod('GET')) {
                     break;
                 }
                 if (!checkUserToken()) {
                     break;
                 }
-                $response = getBuyable();
+                $response = getToBuy();
                 break;
             case 'buy':
                 if (!checkRequestMethod('POST')) {
@@ -380,14 +380,14 @@ if (checkAuth()) {
                 }
                 $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                 break;
-            case 'get-eatable-and-funds':
+            case 'get-to-eat-and-user-funds':
                 if (!checkRequestMethod('GET')) {
                     break;
                 }
                 if (!checkUserToken()) {
                     break;
                 }
-                $response = getEatableAndFunds($_SESSION['user-id']);
+                $response = getToEatAndFunds($_SESSION['user-id']);
                 break;
             case 'eat':
                 if (!checkRequestMethod('POST')) {

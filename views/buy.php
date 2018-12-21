@@ -7,7 +7,7 @@
 		</p>
 <?php 
     elseif (isset($_POST['command-name']) && $_POST['command-name']=='buy'):
-		header('location: index.php?view=deposit&command-name=get-buyable');
+		header('location: index.php?view=deposit&command-name=get-to-buy');
 		exit();
 	endif;
 ?>

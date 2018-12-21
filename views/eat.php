@@ -2,7 +2,7 @@
 <section>
 <?php
 	if (isset($_POST['command-name']) && $_POST['command-name']=='eat') {
-		header('location: index.php?view=eat&command-name=get-eatable-and-funds');
+		header('location: index.php?view=eat&command-name=get-to-eat-and-user-funds');
 		exit();
 	}
 	if (isset($response['response']['message'])): ?> 
