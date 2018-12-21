@@ -15,7 +15,7 @@
 		return $userLogged;
 	}
 	
-	$views = array(array('name'=>'main', 'path'=>'views/main.php', 'title'=>'Made in App', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'deposit', 'path'=>'views/deposit.php', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'eat', 'path'=>'views/eat.php', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
+	$views = array(array('name'=>'main', 'path'=>'views/main.php', 'title'=>'Made in App', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'deposit', 'path'=>'views/deposit.php', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'buy', 'path'=>'views/buy.php', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'path'=>'views/eat.php', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
 	
 	if (checkLogin()) {
 		$noView = true;

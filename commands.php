@@ -193,6 +193,29 @@ function deposit($userId, $amount) {
     return $response;
 }
 
+function getBuyable() {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runQuery('SELECT id, name, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks');
+        while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
+            $snacks[] = array('id'=>$snacksRow['id'], 'name'=>$snacksRow['name'], 'friendly_name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
+        }
+        $dbManager->endTransaction();
+        $response['response']['success'] = true;
+        if (isset($snacks)) {
+            $response['response']['status'] = 200;
+            $response['data']['snacks'] = $snacks;
+        } else {
+            $response['response']['status'] = 204;
+        }
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    }
+    return $response;
+}
+
 function getBuyOptions($column, $options, $snackId) {
     global $dbManager;
     if (isset($options[$column])) {
