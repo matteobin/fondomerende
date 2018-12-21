@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "342d86a6-e39e-4365-8ba5-fef48843ff46",
+		"_postman_id": "cbaebb2a-3013-47bf-ad1d-893f05905408",
 		"name": "Fondo Merende",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -37,17 +37,114 @@
 					]
 				},
 				"url": {
-					"raw": "localhost/fondomerende/process-request.php",
+					"raw": "{{host}}/process-request.php",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
 					"path": [
-						"fondomerende",
 						"process-request.php"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "command-name",
+									"value": "login",
+									"type": "text"
+								},
+								{
+									"key": "user-name",
+									"value": "matteobin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Password007",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/process-request.php",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"process-request.php"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 21 Dec 2018 16:14:32 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.33 (Win32) OpenSSL/1.0.2o PHP/7.1.18"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.18"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "111"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 201\n    },\n    \"data\": {\n        \"token\": \"7c9a1c89806d1a0f2ee3437a\"\n    }\n}"
+				}
+			]
 		},
 		{
 			"name": "Deposit",
@@ -76,12 +173,11 @@
 					]
 				},
 				"url": {
-					"raw": "localhost/fondomerende/process-request.php",
+					"raw": "{{host}}/process-request.php",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
 					"path": [
-						"fondomerende",
 						"process-request.php"
 					]
 				}
@@ -95,7 +191,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=317265dda91415a6eb5ac2fd",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=b6b253b4fa18cb8a62ee86b4",
 						"type": "text"
 					}
 				],
@@ -120,12 +216,11 @@
 					]
 				},
 				"url": {
-					"raw": "localhost/fondomerende/process-request.php",
+					"raw": "{{host}}/process-request.php",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
 					"path": [
-						"fondomerende",
 						"process-request.php"
 					]
 				}
