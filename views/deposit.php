@@ -6,7 +6,7 @@
 			<?php echo($response['response']['message']); ?>
 		</p>
 <?php 
-    elseif (isset($_POST['command-name']) && $_POST['command-name']=='deposit'):
+    elseif (isset($_POST['command-name']) && $_POST['command-name']=='deposit' && $response['response']['status']==200):
 		header('location: index.php?view=deposit&command-name=get-user-funds');
 		exit();
 	endif;

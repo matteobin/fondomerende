@@ -106,7 +106,8 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isL
         }
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 4, $snackId), 'iii');
         $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>200);
+        $response['response'] = array('success'=>true, 'status'=>201);
+        $response['response']['data']['snack-id'] = $snackId;
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -185,7 +186,7 @@ function deposit($userId, $amount) {
         $dbManager->runPreparedQuery('UPDATE fund_funds SET total=total+?', array($amount), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, funds_amount) VALUES (?,?,?)', array($userId, 3, $amount), 'iid');
         $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>201);
+        $response['response'] = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -266,16 +267,18 @@ function getToEatAndUserFunds($userId) {
 		$snacks = array();
         $dbManager->runPreparedQuery('SELECT snack_id, quantity FROM snacks_stock WHERE quantity!=?', array(0), 'i');
         while ($snacksStockRow = $dbManager->getQueryRes()->fetch_assoc()) {
-			$dbManager->runPreparedQuery('SELECT price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snacksStockRow['snack_id'], 0), 'ii');
+			$snacks[] = array('id'=>$snacksStockRow['snack_id'], 'quantity'=>$snacksStockRow['quantity']);
+		}
+		foreach ($snacks as &$snack) {
+			$dbManager->runPreparedQuery('SELECT price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snack['id'], 0), 'ii');
 			while ($cratesRow = $dbManager->getQueryRes()->fetch_assoc()) {
-				$pricePerSnack = $cratesRow['price_per_snack'];
+				$snack['price-per-snack'] = $cratesRow['price_per_snack'];
 			}
-			$dbManager->runPreparedQuery('SELECT name, friendly_name FROM snacks WHERE id=?', array($snacksStockRow['snack_id']), 'i');
+			$dbManager->runPreparedQuery('SELECT name, friendly_name FROM snacks WHERE id=?', array($snack['id']), 'i');
 			while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
-				$name = $snacksRow['name'];
-				$friendlyName = $snacksRow['friendly_name'];
+				$snack['name'] = $snacksRow['name'];
+				$snack['friendly-name'] = $snacksRow['friendly_name'];
 			}
-            $snacks[] = array('id'=>$snacksStockRow['snack_id'], 'name'=>$name, 'friendly-name'=>$friendlyName, 'price-per-snack'=>$pricePerSnack, 'quantity'=>$snacksStockRow['quantity']);
         }
 		$dbManager->runPreparedQuery('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
 		while ($usersFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {

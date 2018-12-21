@@ -54,10 +54,13 @@ function getIdByUniqueName($table, $name) {
 function checkFilteredInputValidity($value, $options=null) {
     $valid = true;
     $message = '';
+	if (!isset($options['can-be-empty'])) {
+		$options['can-be-empty'] = false;
+	}
     if ($value===null) {
         $valid = false;
         $message = 'value missing.';
-    } else if ($value==='' && (isset($options['can-be-empty']) && !$options['can-be-empty'])) {
+    } else if ($value==='' && !$options['can-be-empty']) {
         $valid = false;
         $message = 'value in wrong format.';
     }
@@ -368,16 +371,24 @@ if (checkAuth()) {
                 if (!setRequestInputValue($quantity, true, 'quantity', 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0))) {
                     break;
                 }
+				$customiseBuyOptions = false;
+				if (!$appRequest) {
+					if (!setRequestInputValue($customiseBuyOptions, false, 'customise-buy-options', 'customise-buy-options', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+						break;
+					}
+				}
                 $options = array();
-                if (!setRequestInputValue($options, false, 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greater-than'=>0, 'contains'=>array('.'), 'digits-number'=>4, 'decimals-number'=>2))) {
-                    break;
-                }
-                if (!setRequestInputValue($options, false, 'snacks-per-box', 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>2))) {
-                    break;
-                }
-                if (!setRequestInputValue($options, false, 'expiration-in-days', 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>4))) {
-                    break;
-                }
+				if ($appRequest || $customiseBuyOptions) {
+					if (!setRequestInputValue($options, false, 'price', 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greater-than'=>0, 'contains'=>array('.'), 'digits-number'=>4, 'decimals-number'=>2))) {
+						break;
+					}
+					if (!setRequestInputValue($options, false, 'snacks-per-box', 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>2))) {
+						break;
+					}
+					if (!setRequestInputValue($options, false, 'expiration-in-days', 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>4))) {
+						break;
+					}
+				}
                 $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                 break;
             case 'get-to-eat-and-user-funds':
@@ -387,7 +398,7 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-                $response = getToEatAndFunds($_SESSION['user-id']);
+                $response = getToEatAndUserFunds($_SESSION['user-id']);
                 break;
             case 'eat':
                 if (!checkRequestMethod('POST')) {

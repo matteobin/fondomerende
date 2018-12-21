@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2018 at 06:44 PM
+-- Generation Time: Dec 21, 2018 at 09:47 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -200,6 +200,8 @@ CREATE TABLE `snacks_stock` (
 --
 
 INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `updated_at`) VALUES
+(1, 0, '2018-12-21 20:47:29'),
+(2, 0, '2018-12-21 20:47:29'),
 (3, 0, '2018-10-22 07:48:37');
 
 -- --------------------------------------------------------
