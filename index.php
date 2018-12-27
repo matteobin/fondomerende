@@ -9,7 +9,7 @@
 		$userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
 		$rememberUser = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
 		session_start();
-		if (isset($_SESSION['user-logged']) && $_SESSION['user-logged']===true && $_SESSION['user-token']==$userToken && ($currentViewName!='' || $rememberUser)) {
+		if (isset($_SESSION['user-logged']) && $_SESSION['user-logged']===true && $_SESSION['user-token']==$userToken && ($currentViewName!='add-user' && $currentViewName!='' || $rememberUser)) {
             $userLogged = true;
 		}
 		return $userLogged;
