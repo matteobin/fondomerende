@@ -39,7 +39,6 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
             $id = $row['id'];
             $hashedPassword = $row['password'];
         }
-        var_dump($password);
         if (password_verify($password, $hashedPassword)) {
             $dbManager->runPreparedQuery('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
             $token = bin2hex(random_bytes(12.5)); 
