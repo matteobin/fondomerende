@@ -313,10 +313,11 @@ if (checkAuth()) {
                 if (!setRequestInputValue($expirationInDays, true, 'expiration-in-days', 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>4))) {
                     break;
                 }
-                if (!setRequestInputValue($isLiquid, true, 'is-liquid', 'is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                $isLiquid = false;
+                if (!setRequestInputValue($isLiquid, false, 'is-liquid', 'is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
                     break;
                 }
-                $response = addSnack($_SESSION['user']['id'], $name, $price, $snacksPerBox, $expirationInDays, $isLiquid);
+                $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $isLiquid);
                 break;
             case 'edit-snack':
                 if (!checkRequestMethod('POST')) {

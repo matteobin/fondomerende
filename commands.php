@@ -90,7 +90,7 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isL
     try {
         $subjectUserId = $userId;
         $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('INSERT INTO snacks (name, friendly_name, price, snacks_per_box, expiration_in_days, is_liquid) VALUES (?, ?, ?, ?, ?, ?)', array(str_replace(' ', '-', strtolower($name)), $name, $price, $snacksPerBox, $expirationInDays, $isLiquid), 'sdiii');
+        $dbManager->runPreparedQuery('INSERT INTO snacks (name, friendly_name, price, snacks_per_box, expiration_in_days, is_liquid) VALUES (?, ?, ?, ?, ?, ?)', array(str_replace(' ', '-', strtolower($name)), $name, $price, $snacksPerBox, $expirationInDays, $isLiquid), 'ssdiii');
         $dbManager->runQuery('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $snackId = $row['id'];
