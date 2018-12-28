@@ -59,7 +59,7 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
                 }
             }
         } else if ($apiCall) {
-            $response['response'] = array('success'=>false, 'status'=>403, 'message'=>'Invalid login: wrong credentials.');
+            $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid login: wrong credentials.');
         }
         if ($apiCall) {
             $dbManager->endTransaction();          
