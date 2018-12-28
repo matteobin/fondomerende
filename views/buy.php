@@ -6,24 +6,27 @@
 	$custumiseBuyOptionsCheckboxStatus = '';
 ?>
 <section>
-<?php
-	if (isset($response['response']['message'])) { ?> 
-		<p>
-			<?php echo($response['response']['message']); ?>
-		</p>
-<?php
-		$snacks = $_SESSION['snacks'];
-		if ($customiseBuyOptions) {
-			$custumiseBuyOptionsCheckboxStatus = 'checked';
-		}
-	} else if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && $response['response']['status']==200) {
-		unset($_SESSION['snacks']);
-		header('location: index.php?view=main');
-		exit();
-	}
-?>
-<h1>Shop</h1>
-	<form action="index.php?view=buy" method="POST">
+    <?php
+        if (isset($response['response']['message'])) { ?> 
+            <p>
+                <?php echo($response['response']['message']); ?>
+            </p>
+    <?php
+            $snacks = $_SESSION['snacks'];
+            if ($customiseBuyOptions) {
+                $custumiseBuyOptionsCheckboxStatus = 'checked';
+            }
+        } else if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && $response['response']['status']==200) {
+            unset($_SESSION['snacks']);
+            header('location: index.php?view=buy&command-name=get-to-buy-and-fund-funds');
+            exit();
+        }
+    ?>
+    <h1>Fund Moolah: <?php echo($response['data']['fund-funds-amount']) ?> €</h1>
+</section>
+<section>
+    <h1>Shop</h1>
+	<form action="index.php?view=buy&command-name=get-to-buy-and-fund-funds" method="POST">
 		<input type="hidden" name="command-name" value="buy">
 		<select name="snack-name" required>
             <?php foreach($snacks as $snack): ?>
