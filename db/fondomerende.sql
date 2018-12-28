@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 21, 2018 at 09:47 PM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 7.1.1
+-- Generation Time: Dec 28, 2018 at 02:50 PM
+-- Server version: 10.1.33-MariaDB
+-- PHP Version: 7.1.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -120,7 +122,7 @@ CREATE TABLE `edits` (
 --
 
 CREATE TABLE `fund_funds` (
-  `total` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `amount` decimal(5,2) NOT NULL DEFAULT '0.00',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -128,7 +130,7 @@ CREATE TABLE `fund_funds` (
 -- Dumping data for table `fund_funds`
 --
 
-INSERT INTO `fund_funds` (`total`, `updated_at`) VALUES
+INSERT INTO `fund_funds` (`amount`, `updated_at`) VALUES
 ('10.00', '2018-10-22 07:48:13');
 
 -- --------------------------------------------------------
@@ -290,7 +292,7 @@ ALTER TABLE `edits`
 -- Indexes for table `fund_funds`
 --
 ALTER TABLE `fund_funds`
-  ADD UNIQUE KEY `total` (`total`);
+  ADD UNIQUE KEY `total` (`amount`);
 
 --
 -- Indexes for table `inflows`
@@ -341,36 +343,43 @@ ALTER TABLE `users_funds`
 --
 ALTER TABLE `actions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `eaten`
 --
 ALTER TABLE `eaten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `edits`
 --
 ALTER TABLE `edits`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `inflows`
 --
 ALTER TABLE `inflows`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `outflows`
 --
 ALTER TABLE `outflows`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `snacks`
 --
 ALTER TABLE `snacks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- Constraints for dumped tables
 --
@@ -426,6 +435,7 @@ ALTER TABLE `snacks_stock`
 --
 ALTER TABLE `users_funds`
   ADD CONSTRAINT `users_funds_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
