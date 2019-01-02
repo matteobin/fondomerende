@@ -158,22 +158,34 @@ function editSnackOrUser(array $ids, array $newValues, array $types, array $oldV
     return $response;
 }
 
-function getUserFunds($userId) {
+function getUserFunds($userId, $apiCall=true) {
     global $dbManager;
     try {
-        $dbManager->startTransaction();
+        if ($apiCall) {
+			$dbManager->startTransaction();
+		}
         $dbManager->runPreparedQuery('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
         while ($usersFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $userFundsAmount = $usersFundsRow['amount'];
         }
-        $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>200);
-        $response['data']['user-funds-amount'] = $userFundsAmount;
+		if ($apiCall) {
+			$dbManager->endTransaction();
+			$response['response'] = array('success'=>true, 'status'=>200);
+			$response['data']['user-funds-amount'] = $userFundsAmount;
+		}
     } catch (Exception $exception) {
-        $dbManager->rollbackTransaction();
-		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+		if ($apiCall) {
+			$dbManager->rollbackTransaction();
+			$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+		} else {
+			throw new Exception($exception->getMessage());
+		}
     }
-    return $response;
+	if ($apiCall) {
+		return $response;
+	} else {
+		return $userFundsAmount;
+	}
 }
 
 function deposit($userId, $amount) {
@@ -193,32 +205,41 @@ function deposit($userId, $amount) {
     return $response;
 }
 
-function getFundFunds() {
+function getFundFunds($apiCall=true) {
     global $dbManager;
     try {
-        $dbManager->startTransaction();
+        if ($apiCall) {
+			$dbManager->startTransaction();
+		}
         $dbManager->runQuery('SELECT amount FROM fund_funds');
         while ($fundFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $fundFundsAmount = $fundFundsRow['amount'];
         }
-        $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>200);
-        $response['data']['fund-funds-amount'] = $fundFundsAmount;
+		if ($apiCall) {
+			$dbManager->endTransaction();
+			$response['response'] = array('success'=>true, 'status'=>200);
+			$response['data']['fund-funds-amount'] = $fundFundsAmount;
+		}
     } catch (Exception $exception) {
-        $dbManager->rollbackTransaction();
-		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+		if ($apiCall) {
+			$dbManager->rollbackTransaction();
+			$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+		} else {
+			throw new Exception($exception->getMessage());
+		}
     }
-    return $response;
+	if ($apiCall) {
+		return $response;
+	} else {
+		return $fundFundsAmount;
+	}
 }
 
 function getToBuyAndFundFunds() {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $dbManager->runQuery('SELECT amount FROM fund_funds');
-        while ($fundFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $fundFundsAmount = $fundFundsRow['amount'];
-        }
+        $fundFundsAmount = getFundFunds(false);
         $dbManager->runQuery('SELECT id, name, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks');
         while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $snacks[] = array('id'=>$snacksRow['id'], 'name'=>$snacksRow['name'], 'friendly_name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
@@ -286,6 +307,7 @@ function getToEatAndUserFunds($userId) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
+		$userFundsAmount = getUserFunds($userId, false);
 		$snacks = array();
         $dbManager->runPreparedQuery('SELECT snack_id, quantity FROM snacks_stock WHERE quantity!=?', array(0), 'i');
         while ($snacksStockRow = $dbManager->getQueryRes()->fetch_assoc()) {
@@ -302,10 +324,6 @@ function getToEatAndUserFunds($userId) {
 				$snack['friendly-name'] = $snacksRow['friendly_name'];
 			}
         }
-		$dbManager->runPreparedQuery('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
-		while ($usersFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {
-			$userFundsAmount = $usersFundsRow['amount'];
-		}
         $dbManager->endTransaction();
 		$response['response'] = array('success'=>true, 'status'=>200);
 		$response['data']['user-funds-amount'] = $userFundsAmount;
