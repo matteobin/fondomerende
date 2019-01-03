@@ -85,6 +85,40 @@ function logout($userToken) {
 	return $response;
 }
 
+function decodeActions() {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->endTransaction();
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    }
+    return $response;
+}
+
+function getLastActions($actionsNumber) {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runPreparedQuery('SELECT * FROM actions ORDER BY created_at DESC LIMIT ?', array($actionsNumber), 'i');
+        while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
+            $actions[] = array('id'=>$actionsRow['id'], 'user-id'=>$actionsRow['user_id'], 'command-id'=>$actionsRow['command_id'], 'snack-id'=>$actionsRow['snack_id'], 'snack-quantity'=>$actionsRow['snack_quantity'], 'funds-amount'=>$actionsRow['funds_amount'], 'created-at'=>$actionsRow['created_at']);
+        }
+        $dbManager->endTransaction();
+        $response['response']['success'] = true;
+        if (isset($actions)) {
+            $response['response']['status'] = 200;
+        } else {
+            $response['response']['status'] = 204;
+        }
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    }
+    return $response;
+}   
+
 function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid) {
     global $dbManager;
     try {
