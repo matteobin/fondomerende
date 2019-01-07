@@ -85,16 +85,23 @@ function logout($userToken) {
 	return $response;
 }
 
-function decodeActions() {
+function getNameByUniqueId($table, $id) {
     global $dbManager;
-    try {
-        $dbManager->startTransaction();
-        $dbManager->endTransaction();
-    } catch (Exception $exception) {
-        $dbManager->rollbackTransaction();
-		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    $dbManager->runPreparedQuery('SELECT name FROM '.$table.' WHERE id=?', array($id), 'i');
+    while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+        $name = $row['name']; 
     }
-    return $response;
+    return $name;
+}
+
+function decodeActions($actions) {
+    foreach($actions as $action) {
+        $commandName = getNameByUniqueId('commands', $action['command-id']);
+        switch ($commandName) {
+            case 'add-user':
+                $decodedActions[] = 'Added '.getNameByUniqueId('users', $action['user-id']);
+        }
+    }
 }
 
 function getLastActions($actionsNumber) {
@@ -108,6 +115,7 @@ function getLastActions($actionsNumber) {
         $dbManager->endTransaction();
         $response['response']['success'] = true;
         if (isset($actions)) {
+            $decodedActions = decodeActions($actions);
             $response['response']['status'] = 200;
         } else {
             $response['response']['status'] = 204;
