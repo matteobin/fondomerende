@@ -100,6 +100,7 @@ function decodeActions($actions) {
         switch ($commandName) {
             case 'add-user':
                 $decodedActions[] = 'Added '.getNameByUniqueId('users', $action['user-id']);
+                break;
         }
     }
 }
