@@ -95,14 +95,28 @@ function getNameByUniqueId($table, $id) {
 }
 
 function decodeActions($actions) {
+    $decodedActions = array();
     foreach($actions as $action) {
         $commandName = getNameByUniqueId('commands', $action['command-id']);
         switch ($commandName) {
             case 'add-user':
-                $decodedActions[] = 'Added '.getNameByUniqueId('users', $action['user-id']);
+                $decodedActions[] = $action['created-at'].': added '.getNameByUniqueId('users', $action['user-id']).'.';
+                break;
+            case 'deposit':
+                $decodedActions[] = $action['created-at'].': '.getNameByUniqueId('users', $action['user-id']).' deposited '.$actions['funds-amount'].'.';
+                break;
+            case 'add-snack':
+                $decodedActions[] = $action['created-at'].': '.getNameByUniqueId('users', $action['user-id']).' added snack '.getNameByUniqueId('snacks', $action['snack-id']).'.';
+                break;
+            case 'buy':
+                $decodedActions[] = $action['created-at'].': '.getNameByUniqueId('users', $action['user-id']).' bought '.$action['snack-quantity'].' '.getNameByUniqueId('snacks', $action['snack-id']).'.';
+                break;
+            case 'eat':
+                $decodedActions[] = $action['created-at'].': '.getNameByUniqueId('users', $action['user-id']).' ate '.$action['snack-quantity'].' '.getNameByUniqueId('snacks', $action['snack-id']).'.';
                 break;
         }
     }
+    return $decodedActions;
 }
 
 function getLastActions($actionsNumber) {
@@ -118,6 +132,7 @@ function getLastActions($actionsNumber) {
         if (isset($actions)) {
             $decodedActions = decodeActions($actions);
             $response['response']['status'] = 200;
+            $response['data']['actions'] = $decodedActions;
         } else {
             $response['response']['status'] = 204;
         }
