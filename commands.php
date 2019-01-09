@@ -119,29 +119,60 @@ function decodeActions($actions) {
     return $decodedActions;
 }
 
-function getLastActions($actionsNumber) {
+function getLastActions($actionsNumber, $apiCall=true) {
     global $dbManager;
     try {
-        $dbManager->startTransaction();
+        if ($apiCall) {
+            $dbManager->startTransaction();   
+        }
         $dbManager->runPreparedQuery('SELECT * FROM actions ORDER BY created_at DESC LIMIT ?', array($actionsNumber), 'i');
         while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $actions[] = array('id'=>$actionsRow['id'], 'user-id'=>$actionsRow['user_id'], 'command-id'=>$actionsRow['command_id'], 'snack-id'=>$actionsRow['snack_id'], 'snack-quantity'=>$actionsRow['snack_quantity'], 'funds-amount'=>$actionsRow['funds_amount'], 'created-at'=>$actionsRow['created_at']);
         }
-        $dbManager->endTransaction();
-        $response['response']['success'] = true;
-        if (isset($actions)) {
-            $decodedActions = decodeActions($actions);
-            $response['response']['status'] = 200;
-            $response['data']['actions'] = $decodedActions;
-        } else {
-            $response['response']['status'] = 204;
+        if ($apiCall) {
+            $dbManager->endTransaction();
+            $response['response']['success'] = true;
+            if (isset($actions)) {
+                $decodedActions = decodeActions($actions);
+                $response['response']['status'] = 200;
+                $response['data']['actions'] = $decodedActions;
+            } else {
+                $response['response']['status'] = 204;
+            } 
         }
     } catch (Exception $exception) {
-        $dbManager->rollbackTransaction();
-		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        if ($apiCall) {
+            $dbManager->rollbackTransaction();
+            $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        } else {
+            throw new Exception($exception->getMessage());
+        }
     }
-    return $response;
-}   
+    if ($apiCall) {
+       return $response; 
+    } else {
+        $decodedActions;
+    }
+}
+
+function getMainViewData($userId) {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $fundFundsAmount = getFundFunds(false);
+        $userFundsAmount = getUserFunds($userId, false);
+        $actions = getLastActions(5, false);
+        $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>200);
+        $response['data']['fund-funds-amount'] = $fundFundsAmount;
+        $response['data']['user-funds-amount'] = $userFundsAmount;
+        $response['data']['actions'] = $actions;
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    }
+    return $response
+} 
 
 function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid) {
     global $dbManager;
