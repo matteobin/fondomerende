@@ -171,8 +171,8 @@ function getMainViewData($userId) {
         $dbManager->rollbackTransaction();
         $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
-    return $response
-} 
+    return $response;
+}
 
 function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid) {
     global $dbManager;
