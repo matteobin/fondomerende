@@ -3,7 +3,7 @@
 		require_once('process-request.php');
 	}
 	if (isset($response['response']['status']) && $response['response']['status']==201) {
-        header('location: index.php?view=main');
+        header('location: index.php?view=main&command-name=get-main-view-data');
 		exit();
 	} 
 	if (isset($response['response']['message'])): ?> 
