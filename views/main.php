@@ -1,3 +1,10 @@
+<?php require_once('process-request.php'); ?>
+<article>
+    <h1>Fund Moolah: <?php echo($response['data']['fund-funds-amount']); ?> €</h1>
+</article>
+<article>
+    <h1>User Moolah: <?php echo($response['data']['user-funds-amount']); ?> €</h1>
+</article>
 <article>
     <h1>Hello beauty!</h1>
     <p>Welcome to the wonderfully edible world of Fondo Merende.<br>Here's a list of tasty activities you can choose between, to start your journey in this sexy web-based office pantry:</p>
@@ -11,7 +18,9 @@
 <article>
     <h1>Neighbourhood happenings:</h1>
     <ul>
-        
+        <?php foreach ($response['data']['actions'] as $action): ?>
+            <li><?php echo($action); ?></li>
+        <?php endforeach; ?>
     </ul>
 </article>
 <article>

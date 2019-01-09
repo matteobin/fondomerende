@@ -94,25 +94,34 @@ function getNameByUniqueId($table, $id) {
     return $name;
 }
 
+function getFriendlyNameByUniqueId($table, $id) {
+    global $dbManager;
+    $dbManager->runPreparedQuery('SELECT friendly_name FROM '.$table.' WHERE id=?', array($id), 'i');
+    while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+        $name = $row['friendly_name']; 
+    }
+    return $name;
+}
+
 function decodeActions($actions) {
     $decodedActions = array();
     foreach($actions as $action) {
         $commandName = getNameByUniqueId('commands', $action['command-id']);
         switch ($commandName) {
             case 'add-user':
-                $decodedActions[] = $action['created-at'].': added '.getNameByUniqueId('users', $action['user-id']).'.';
+                $decodedActions[] = $action['created-at'].': added '.getFriendlyNameByUniqueId('users', $action['user-id']).'.';
                 break;
             case 'deposit':
-                $decodedActions[] = $action['created-at'].': '.getNameByUniqueId('users', $action['user-id']).' deposited '.$actions['funds-amount'].'.';
+                $decodedActions[] = $action['created-at'].': '.getFriendlyNameByUniqueId('users', $action['user-id']).' deposited '.$action['funds-amount'].' €.';
                 break;
             case 'add-snack':
-                $decodedActions[] = $action['created-at'].': '.getNameByUniqueId('users', $action['user-id']).' added snack '.getNameByUniqueId('snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getFriendlyNameByUniqueId('users', $action['user-id']).' added snack '.getFriendlyNameByUniqueId('snacks', $action['snack-id']).'.';
                 break;
             case 'buy':
-                $decodedActions[] = $action['created-at'].': '.getNameByUniqueId('users', $action['user-id']).' bought '.$action['snack-quantity'].' '.getNameByUniqueId('snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getFriendlyNameByUniqueId('users', $action['user-id']).' bought '.$action['snack-quantity'].' '.getFriendlyNameByUniqueId('snacks', $action['snack-id']).'.';
                 break;
             case 'eat':
-                $decodedActions[] = $action['created-at'].': '.getNameByUniqueId('users', $action['user-id']).' ate '.$action['snack-quantity'].' '.getNameByUniqueId('snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getFriendlyNameByUniqueId('users', $action['user-id']).' ate '.$action['snack-quantity'].' '.getFriendlyNameByUniqueId('snacks', $action['snack-id']).'.';
                 break;
         }
     }
@@ -129,15 +138,15 @@ function getLastActions($actionsNumber, $apiCall=true) {
         while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $actions[] = array('id'=>$actionsRow['id'], 'user-id'=>$actionsRow['user_id'], 'command-id'=>$actionsRow['command_id'], 'snack-id'=>$actionsRow['snack_id'], 'snack-quantity'=>$actionsRow['snack_quantity'], 'funds-amount'=>$actionsRow['funds_amount'], 'created-at'=>$actionsRow['created_at']);
         }
+        $decodedActions = decodeActions($actions);
         if ($apiCall) {
             $dbManager->endTransaction();
             $response['response']['success'] = true;
-            if (isset($actions)) {
-                $decodedActions = decodeActions($actions);
+            if (empty($decodedActions)) {
+                $response['response']['status'] = 204;
+            } else {
                 $response['response']['status'] = 200;
                 $response['data']['actions'] = $decodedActions;
-            } else {
-                $response['response']['status'] = 204;
             } 
         }
     } catch (Exception $exception) {
@@ -151,7 +160,7 @@ function getLastActions($actionsNumber, $apiCall=true) {
     if ($apiCall) {
        return $response; 
     } else {
-        $decodedActions;
+        return $decodedActions;
     }
 }
 
