@@ -1,4 +1,9 @@
-<?php require_once('process-request.php'); ?>
+<?php 
+    require_once('process-request.php');
+    if (isset($response['response']['message'])) {
+        echo($response['response']['message']);
+    }
+?>
 <article>
     <h1>Fund Moolah: <?php echo($response['data']['fund-funds-amount']); ?> €</h1>
 </article>

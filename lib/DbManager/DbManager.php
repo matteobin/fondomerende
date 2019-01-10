@@ -82,6 +82,19 @@ class DbManager {
         return $this->queryRes;
     }
     
+    public function getByUniqueId($column, $table, $id) {
+        try {
+        $this->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE id=?', array($id), 'i');
+        while ($row = $this->getQueryRes()->fetch_assoc()) {
+            $result = $row[$column];
+        }
+        }
+        catch (Exception $exception) {
+            echo $exception->getMessage();
+        }
+        return $result;
+    }
+    
     public function endTransaction() {
         $this->connection->commit();
         $this->connection->autocommit(true);
