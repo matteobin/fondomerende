@@ -197,6 +197,21 @@ function setRequestInputValue(&$valueDestination, $mandatory, $valueName, $reque
 	}
 }
 
+function checkUserPassword($userId, $password) {
+    global $dbManager;
+    $passwordVerified = false;
+    $dbManager->startTransaction();
+    $dbManager->runPreparedQuery('SELECT password FROM users WHERE id=?', array($userId), 'i');
+    while ($usersRow = $dbManager->getQueryRes()->fetch_assoc()) {
+        $hashedPassword = $usersRow['password'];
+    }
+    $dbManager->endTransaction();
+    if (password_verify($password, $hashedPassword)) {
+        $passwordVerified = true;
+    }
+    return $passwordVerified;
+}
+
 $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
 $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Invalid request: no parameters were sent.');
 if (checkAuth()) {
@@ -285,11 +300,30 @@ if (checkAuth()) {
                 }
                 $newValues = array();
                 $oldValues = array();
-                if (!setRequestInputValue($newValues, false, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')), true, $typesDestination, 's', $oldValues)) {
+                if (!setRequestInputValue($newValues, false, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array($dbManager->getByUniqueId('name', 'users', $_SESSION['user-id'])))), true, $typesDestination, 's', $oldValues)) {
                     break;
                 }
-                if (!setRequestInputValue($newValues, false, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
-                    break;
+                if ($appRequest) {
+                    if (!setRequestInputValue($newValues, false, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
+                        break;
+                    }
+                } else {
+                    if (!setRequestInputValue($newValues, false, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125, 'can-be-empty'=>true))) {
+                        break;
+                    }
+                    if ($newValues['password']=='') {
+                        unset($newValues['password']);
+                    }
+                }
+                if (!$appRequest) {
+                    if (!setRequestInputValue($oldValues, true, 'password', 'old-password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
+                        break;
+                    }
+                    if (!checkUserPassword($_SESSION['user-id'], $oldValues['password'])) {
+                        $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Wrong password!');
+                        break;
+                    }
+                    
                 }
                 if (isset($newValues['password'])) {
                     $newValues['password'] = password_hash($newValues['password'], PASSWORD_DEFAULT);
@@ -297,7 +331,7 @@ if (checkAuth()) {
                 if (!setRequestInputValue($newValues, false, 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60), true, $typesDestination, 's', $oldValues)) {
                     break;
                 }
-                $response = editSnackOrUser(array('user'=>$_SESSION['user']['id']), $newValues, $typesDestination, $oldValues);
+                $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $newValues, $typesDestination, $oldValues);
                 break;
             case 'get-user-funds':
                 if (!checkRequestMethod('GET')) {

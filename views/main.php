@@ -19,6 +19,10 @@
         <li>Move your lazy butt, get out to <a href="index.php?view=buy&command-name=get-to-buy-and-fund-funds"><strong>BUY</strong></a> the damn snacks.</li>
         <li>Done? Now chill: open the fridge and <a href="index.php?view=eat&command-name=get-to-eat-and-user-funds"><strong>EAT</strong></a> them all.</li>
     </ul>
+    <p>You don't like the world you live in? Maybe it's time to start doing something about it:</p>
+    <ul>
+        <li>Change what you see in the mirror: <a href="index.php?view=edit-user&command-name=get-user-names"><strong>EDIT USER</strong></a>.</li>
+    </ul>
 </article>
 <article>
     <h1>Neighbourhood happenings:</h1>
