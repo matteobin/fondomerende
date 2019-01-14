@@ -15,7 +15,7 @@
 		return $userLogged;
 	}
 	
-	$views = array(array('name'=>'main', 'path'=>'views/main.php', 'title'=>'Made in App', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'deposit', 'path'=>'views/deposit.php', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'add-snack', 'path'=>'views/add-snack.php', 'title'=>'Add', 'description'=>'Add the snack of your dreams to Fondo Merende special reserve.'), array('name'=>'buy', 'path'=>'views/buy.php', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'path'=>'views/eat.php', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
+	$views = array(array('name'=>'login', 'path'=>'views/login.php', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.'), array('name'=>'main', 'path'=>'views/main.php', 'title'=>'Made in App', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'deposit', 'path'=>'views/deposit.php', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'add-snack', 'path'=>'views/add-snack.php', 'title'=>'Add', 'description'=>'Add the snack of your dreams to Fondo Merende special reserve.'), array('name'=>'buy', 'path'=>'views/buy.php', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'path'=>'views/eat.php', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
 	
 	if (checkLogin()) {
 		$noView = true;
@@ -28,7 +28,7 @@
 		}
 		if ($noView) {
 			if ($currentViewName=='') {
-				$currentView = $views[0];
+				$currentView = $views[1];
 			} else {
 				$currentView = array('name'=>'404', 'path'=>'views/404.php', 'title'=>'404', 'description'=>'Not found.');
 			}
@@ -36,7 +36,7 @@
 	} else  if ($currentViewName=='add-user') {
         $currentView = array('name'=>'add-user', 'path'=>'views/add-user.php', 'title'=>'Add user', 'description'=>'Fondo Merende add user form.');
     } else {
-        $currentView = array('name'=>'login', 'path'=>'views/login.php', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.');
+        $currentView = $views[0];
     }
 ?>
 <!doctype html>

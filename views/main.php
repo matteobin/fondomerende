@@ -31,7 +31,7 @@
 <article>
     <h1>Tired of our little community?</h1>
     <p>Log the hell out of here, slut.</p>
-    <form action="./" method="POST">
+    <form action="index.php?view=login" method="POST">
         <input type="hidden" name="command-name" value="logout">
         <input type="submit" value="See ya">
     </form>
