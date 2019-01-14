@@ -1,22 +1,27 @@
+<section>
+<h1>Edit user</h1>
 <?php
     require_once('process-request.php');
     if (isset($response['data']['name'])) {
         $name = $response['data']['name'];
-        $friendlyName = $response['data']['friendly-name'];
+        
     } else if (isset($newValues['name'])) {
-        var_dump($newValues);
         $name = $newValues['name'];
-        $friendlyName = $newValues['friendly_name'];
     } else {
         $name = $_SESSION['user-name'];
-        $friendlyName = $_SESSION['user-friendly-name'];
     }
+	if (isset($response['data']['friendly-name'])) {
+		$friendlyName = $response['data']['friendly-name'];
+	} else if (isset($newValues['friendly_name'])) {
+		$friendlyName = $newValues['friendly_name'];
+	} else {
+		$friendlyName = $_SESSION['user-friendly-name'];
+	}
     if (isset($response['response']['message'])) { ?> 
         <p>
             <?php echo($response['response']['message']); ?>
         </p>
 <?php
-
     }
 	if (isset($_POST['command-name']) && $_POST['command-name']=='edit-user' && isset($response['response']['status']) && $response['response']['status']==200) {
         unset($_SESSION['user-name']);
@@ -26,7 +31,7 @@
 	}
     $_SESSION['user-name'] = $name;
     $_SESSION['user-friendly-name'] = $friendlyName;
-var_dump($response); ?>
+?>
 <form action="index.php?view=edit-user&command-name=get-user-names" method="POST">
     <input type="hidden" name="command-name" value="edit-user">
     <label for="user-name-input">User</label>
@@ -39,3 +44,4 @@ var_dump($response); ?>
     <input type="password" name="old-password" id="old-password-input" placeholder="the good ol' one" required>
     <input type="submit" value="Save">
 </form>
+</section>
