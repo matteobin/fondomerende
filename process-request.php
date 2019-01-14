@@ -303,6 +303,9 @@ if (checkAuth()) {
                 if (!setRequestInputValue($newValues, false, 'name', 'new-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array($dbManager->getByUniqueId('name', 'users', $_SESSION['user-id'])))), true, $typesDestination, 's', $oldValues)) {
                     break;
                 }
+                if (!setRequestInputValue($newValues, false, 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60), true, $typesDestination, 's', $oldValues)) {
+                    break;
+                }
                 if ($appRequest) {
                     if (!setRequestInputValue($newValues, false, 'password', 'new-password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
                         break;
@@ -327,9 +330,6 @@ if (checkAuth()) {
                 }
                 if (isset($newValues['password'])) {
                     $newValues['password'] = password_hash($newValues['password'], PASSWORD_DEFAULT);
-                }
-                if (!setRequestInputValue($newValues, false, 'friendly-name', 'new-friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60), true, $typesDestination, 's', $oldValues)) {
-                    break;
                 }
                 $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $newValues, $typesDestination, $oldValues);
                 break;

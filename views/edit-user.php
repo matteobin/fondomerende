@@ -3,14 +3,20 @@
     if (isset($response['data']['name'])) {
         $name = $response['data']['name'];
         $friendlyName = $response['data']['friendly-name'];
+    } else if (isset($newValues['name'])) {
+        var_dump($newValues);
+        $name = $newValues['name'];
+        $friendlyName = $newValues['friendly_name'];
+    } else {
+        $name = $_SESSION['user-name'];
+        $friendlyName = $_SESSION['user-friendly-name'];
     }
     if (isset($response['response']['message'])) { ?> 
         <p>
             <?php echo($response['response']['message']); ?>
         </p>
 <?php
-    $name = $_SESSION['user-name'];
-    $friendlyName = $_SESSION['user-friendly-name'];
+
     }
 	if (isset($_POST['command-name']) && $_POST['command-name']=='edit-user' && isset($response['response']['status']) && $response['response']['status']==200) {
         unset($_SESSION['user-name']);
