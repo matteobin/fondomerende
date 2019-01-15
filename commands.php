@@ -149,7 +149,6 @@ function getUserFunds($userId, $apiCall=true) {
 
 function decodeActions($actions) {
     global $dbManager;
-    $decodedActions = array();
     foreach($actions as $action) {
         $commandName = $dbManager->getByUniqueId('name', 'commands', $action['command-id']);
         switch ($commandName) {
@@ -179,11 +178,14 @@ function getLastActions($actionsNumber, $apiCall=true) {
         if ($apiCall) {
             $dbManager->startTransaction();   
         }
-        $dbManager->runPreparedQuery('SELECT * FROM actions ORDER BY created_at DESC LIMIT ?', array($actionsNumber), 'i');
+        $dbManager->runPreparedQuery('SELECT * FROM actions WHERE command_id!=? AND command_id!=? ORDER BY created_at DESC LIMIT ?', array(5, 7, $actionsNumber), 'iii');
         while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $actions[] = array('id'=>$actionsRow['id'], 'user-id'=>$actionsRow['user_id'], 'command-id'=>$actionsRow['command_id'], 'snack-id'=>$actionsRow['snack_id'], 'snack-quantity'=>$actionsRow['snack_quantity'], 'funds-amount'=>$actionsRow['funds_amount'], 'created-at'=>$actionsRow['created_at']);
         }
-        $decodedActions = decodeActions($actions);
+        $decodedActions = array();
+        if (isset($actions)) {
+            $decodedActions = decodeActions($actions);
+        }
         if ($apiCall) {
             $dbManager->endTransaction();
             $response['response']['success'] = true;

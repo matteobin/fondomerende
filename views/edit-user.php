@@ -2,21 +2,20 @@
 <h1>Edit user</h1>
 <?php
     require_once('process-request.php');
-    if (isset($response['data']['name'])) {
-        $name = $response['data']['name'];
-        
-    } else if (isset($newValues['name'])) {
-        $name = $newValues['name'];
-    } else {
-        $name = $_SESSION['user-name'];
+    function storeUserNames($value) {
+        $variableName = $value[0].str_replace('-', '', substr(mb_convert_case($value, MB_CASE_TITLE), 1));
+        $newValuesName = str_replace('-', '_', $value);
+        global $response, ${$variableName};
+        if (isset($response['data'][$value])) {
+            ${$variableName} = $response['data'][$value];
+        } else if (isset($newValues[$newValuesName])) {
+            ${$variableName} = $newValues[$newValuesName];
+        } else {
+            ${$variableName} = $_SESSION['user-'.$value];
+        }
     }
-	if (isset($response['data']['friendly-name'])) {
-		$friendlyName = $response['data']['friendly-name'];
-	} else if (isset($newValues['friendly_name'])) {
-		$friendlyName = $newValues['friendly_name'];
-	} else {
-		$friendlyName = $_SESSION['user-friendly-name'];
-	}
+    storeUserNames('name');
+    storeUserNames('friendly-name');
     if (isset($response['response']['message'])) { ?> 
         <p>
             <?php echo($response['response']['message']); ?>
