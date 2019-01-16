@@ -156,6 +156,11 @@ function getUserFunds($userId, $apiCall=true) {
 	}
 }
 
+function decodeUserEdits($actionId) {
+    global $dbManager;
+    $dbManager->runPreparedQuery('SELECT column_name, old_s_value, new_s_value FROM edits WHERE id=?', array($actionId), 'i');
+}
+
 function decodeActions($actions) {
     global $dbManager;
     foreach($actions as $action) {
@@ -163,6 +168,9 @@ function decodeActions($actions) {
         switch ($commandName) {
             case 'add-user':
                 $decodedActions[] = $action['created-at'].': added '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).'.';
+                break;
+            case 'edit-user':
+                $decodedActions[] = decodeUserEdits($action['id']);
                 break;
             case 'deposit':
                 $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).' deposited '.$action['funds-amount'].' €.';
@@ -187,7 +195,7 @@ function getLastActions($actionsNumber, $apiCall=true) {
         if ($apiCall) {
             $dbManager->startTransaction();   
         }
-        $dbManager->runPreparedQuery('SELECT * FROM actions WHERE command_id!=? AND command_id!=? ORDER BY created_at DESC LIMIT ?', array(5, 7, $actionsNumber), 'iii');
+        $dbManager->runPreparedQuery('SELECT * FROM actions WHERE command_id!=? ORDER BY created_at DESC LIMIT ?', array(5, $actionsNumber), 'ii');
         while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $actions[] = array('id'=>$actionsRow['id'], 'user-id'=>$actionsRow['user_id'], 'command-id'=>$actionsRow['command_id'], 'snack-id'=>$actionsRow['snack_id'], 'snack-quantity'=>$actionsRow['snack_quantity'], 'funds-amount'=>$actionsRow['funds_amount'], 'created-at'=>$actionsRow['created_at']);
         }
@@ -297,7 +305,9 @@ function insertEdits($newValues, $types, $oldValues) {
     foreach($newValues as $column=>$newValue) {
         $type = $types[$column];
         if (isset($oldValues[$column])) {
-            $dbManager->runPreparedQuery('INSERT INTO edits (action_id, column_name, old_'.$type.'_value, new_'.$type.'_value) VALUES (?, ?, ?, ?)', array($actionId, $column, $oldValues[$column], $newValue), 'is'.$type.$type);
+            if ($oldValues[$column]!=$newValue) {
+                $dbManager->runPreparedQuery('INSERT INTO edits (action_id, column_name, old_'.$type.'_value, new_'.$type.'_value) VALUES (?, ?, ?, ?)', array($actionId, $column, $oldValues[$column], $newValue), 'is'.$type.$type);
+            }
         } else {
             $dbManager->runPreparedQuery('INSERT INTO edits (action_id, column_name, new_'.$type.'_value) VALUES (?, ?, ?)', array($actionId, $column, $newValue), 'is'.$type);
         }
