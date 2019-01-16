@@ -6,10 +6,14 @@
 	function checkLogin() {
 		global $currentViewName;
 		$userLogged = false;
-		$userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
-		$rememberUser = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
+		$userIdCookie = filter_input(INPUT_COOKIE, 'user-id', FILTER_SANITIZE_STRING);
+		$userTokenCookie = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
 		session_start();
-		if (isset($_SESSION['user-logged']) && $_SESSION['user-logged']===true && $_SESSION['user-token']==$userToken && ($currentViewName!='add-user' && $currentViewName!='' || $rememberUser)) {
+		if (isset($_SESSION['user-id']) || !is_null($userIdCookie)) {
+            if (!isset($_SESSION['user-id'])) {
+                $_SESSION['user-id'] = $userIdCookie;
+                $_SESSION['user-token'] = $userTokenCookie;
+            }
             $userLogged = true;
 		}
 		return $userLogged;
@@ -28,7 +32,7 @@
 		}
 		if ($noView) {
 			if ($currentViewName=='') {
-				$currentView = $views[1];
+				header('location: index.php?view=main&command-name=get-main-view-data');
 			} else {
 				$currentView = array('name'=>'404', 'path'=>'views/404.php', 'title'=>'404', 'description'=>'Not found.');
 			}

@@ -45,12 +45,16 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
-            $_SESSION['user-logged'] = true;
             $_SESSION['user-id'] = $id;
             $_SESSION['user-token'] = $token;
             if (!$appRequest) {
-                setcookie('user-token', $token);
-                setcookie('remember-user', $rememberUser);
+                if ($rememberUser) {
+                    setcookie('user-id', $id, time()+86400);
+                    setcookie('user-token', $token, time()+86400);
+                } else {
+                    setcookie('user-id', $id, 0);
+                    setcookie('user-token', $token, 0);
+                }
             }
             if ($apiCall) {
                 $response['response'] = array('success'=>true, 'status'=>201);
@@ -79,8 +83,11 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
     }
 }
 
-function logout($userToken) {
-	$_SESSION['user-logged'] = false;
+function logout($appRequest) {
+    if (!$appRequest) {
+        setcookie('user-id', '', time()-3600);
+        setcookie('user-token', '', time()-3600);
+    }
     session_unset();
     session_destroy();
 	$response['response'] = array('success'=>true, 'status'=>200);

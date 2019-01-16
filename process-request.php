@@ -33,7 +33,7 @@ function checkUserToken() {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    if (isset($_SESSION['user-logged']) && $_SESSION['user-logged']===true && $_SESSION['user-token']==$userToken) {
+    if ($_SESSION['user-token']==$userToken) {
         $isAuth = true;
     } else {
         global $response;
@@ -258,7 +258,7 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-				$response = logout($userToken);
+				$response = logout($appRequest);
 				break;
             case 'get-last-actions':
                 if (!checkRequestMethod('GET')) {
@@ -498,8 +498,8 @@ if (checkAuth()) {
     $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid request: missing or wrong auth key.');
 }
 if ($appRequest) {
-    setcookie('auth-key', null);
-    setcookie('user-token', null);
+    setcookie('auth-key', '', time()-3600);
+    setcookie('user-token', '', time()-3600);
 	header('Content-Type: application/json');
 	echo(json_encode($response));
 }
