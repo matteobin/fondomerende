@@ -156,13 +156,36 @@ function getUserFunds($userId, $apiCall=true) {
 	}
 }
 
-function decodeUserEdits($actionId) {
+function decodeUserEdits($actionId, $userId) {
     global $dbManager;
     $dbManager->runPreparedQuery('SELECT column_name, old_s_value, new_s_value FROM edits WHERE id=?', array($actionId), 'i');
+    while ($editsRow = $dbManager->getQueryRes()->fetch_assoc()) {
+        $edits[$editsRow['column_name']] = array('old-s-value'=>$editsRow['old_s_value'], 'new-s-value'=>$editsRow['new_s_value']);
+    }
+    $decodedEdits = array();
+    if (isset($edits)) {
+        foreach($edits as $columnName=>$edit) {
+            $editSentence = '';
+            if ($columnName=='name') {
+                if (isset($edits['friendly_name'])) {
+                    $editSentence .= $edits['friendly_name']['old-s-value'].' ';
+                } else {
+                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).' ';
+                }
+                $editSentence .= 'changed his user name from '.$edit['old-s-value'].' to '.$edit['new-s-value'].'.';
+                $decodedEdits[] = $editSentence;
+            } else if ($columnName=='friendly_name') {
+                $editSentence .= $edit['old-s-value'].' changed his friendly name from '.$edit['old-s-value'].' to '.$edit['new-s-value'].'.';
+                $decodedEdits[] = $editSentence;
+            }
+        }
+    }
+    return $decodedEdits;
 }
 
 function decodeActions($actions) {
     global $dbManager;
+    $decodedActions = array();
     foreach($actions as $action) {
         $commandName = $dbManager->getByUniqueId('name', 'commands', $action['command-id']);
         switch ($commandName) {
@@ -170,7 +193,10 @@ function decodeActions($actions) {
                 $decodedActions[] = $action['created-at'].': added '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).'.';
                 break;
             case 'edit-user':
-                $decodedActions[] = decodeUserEdits($action['id']);
+                $decodedEdits = decodeUserEdits($action['id'], $action['user-id']);
+                foreach($decodedEdits as $decodedEdit) {
+                    $decodedActions[] = $action['created-at'].': '.$decodedEdit;
+                }
                 break;
             case 'deposit':
                 $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).' deposited '.$action['funds-amount'].' €.';
