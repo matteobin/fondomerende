@@ -85,8 +85,10 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
 
 function logout($appRequest) {
     if (!$appRequest) {
-        setcookie('user-id', '', time()-3600);
-        setcookie('user-token', '', time()-3600);
+        unset($_COOKIE['user-id']);
+        unset($_COOKIE['user-token']);
+        setcookie('user-id', null, time()-3600);
+        setcookie('user-token', null, time()-3600);
     }
     session_unset();
     session_destroy();
