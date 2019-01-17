@@ -322,13 +322,13 @@ function getUserData($userId) {
     return $response;
 }
 
-function getSnackNames() {
+function getSnacksData() {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $dbManager->runQuery('SELECT name, friendly_name FROM snacks');
+        $dbManager->runQuery('SELECT id, name, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks');
         while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $snacks[] = array('name'=>$snacksRow['name'], 'friendly-name'=>$snacksRow['friendly_name']);
+            $snacks[] = array('id'=>$snacksRow['id'], 'name'=>$snacksRow['name'], 'friendly-name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
         }
         $dbManager->endTransaction();
         $response['response']['success'] = true; 
@@ -339,6 +339,22 @@ function getSnackNames() {
             $response['response']['status'] = 204;
         }
 
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    }
+    return $response;
+}
+
+function getSnackData($snackId) {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runPreparedQuery('SELECT friendly_name, price, snacks_per_box, expiration_in_days FROM snacks WHERE id=?', array($snackId), 'i');
+        while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
+            $snack = array('friendly-name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
+        }
+        $dbManager->endTransaction();
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
         $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
