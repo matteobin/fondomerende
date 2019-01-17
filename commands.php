@@ -322,6 +322,30 @@ function getUserData($userId) {
     return $response;
 }
 
+function getSnackNames() {
+    global $dbManager;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runQuery('SELECT name, friendly_name FROM snacks');
+        while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
+            $snacks[] = array('name'=>$snacksRow['name'], 'friendly-name'=>$snacksRow['friendly_name']);
+        }
+        $dbManager->endTransaction();
+        $response['response']['success'] = true; 
+        if (isset($snacks)) {
+            $response['response']['status'] = 200;
+            $response['data']['snacks'] = $snacks;
+        } else {
+            $response['response']['status'] = 204;
+        }
+
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    }
+    return $response;
+}
+
 function insertEdits($newValues, $types, $oldValues) {
     global $dbManager;
     $dbManager->runQuery('SELECT id FROM actions ORDER BY id DESC LIMIT 1');
