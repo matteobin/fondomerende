@@ -21,7 +21,8 @@
     </ul>
     <p>You don't like the world you live in? Maybe it's time to start doing something about it:</p>
     <ul>
-        <li>Change what you see in the mirror: <a href="index.php?view=edit-user&command-name=get-user-names"><strong>EDIT USER</strong></a>.</li>
+        <li>Change what you see in the mirror: <a href="index.php?view=edit-user&command-name=get-user-data"><strong>EDIT USER</strong></a>.</li>
+        <li>Modify your full fat diet: <a href="index.php?view=list-snacks-to-edit&command-name=get-snack-names"><strong>EDIT SNACKS</strong></a>.</li>
     </ul>
 </article>
 <article>

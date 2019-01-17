@@ -302,7 +302,7 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isL
     return $response;
 }
 
-function getUserNames($userId) {
+function getUserData($userId) {
     global $dbManager;
     try {
         $dbManager->startTransaction();

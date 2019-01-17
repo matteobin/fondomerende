@@ -2,7 +2,7 @@
 <h1>Edit user</h1>
 <?php
     require_once('process-request.php');
-    function storeUserNames($value) {
+    function storeUserData($value) {
         $variableName = str_replace('-', '', mb_convert_case($value, MB_CASE_TITLE));
         $oldAndNewValuesName = str_replace('-', '_', $value);
         global $response, ${'old'.$variableName}, ${'new'.$variableName};
@@ -17,8 +17,8 @@
             ${'new'.$variableName} = $_SESSION['user-new-'.$value];
         }
     }
-    storeUserNames('name');
-    storeUserNames('friendly-name');
+    storeUserData('name');
+    storeUserData('friendly-name');
     if (isset($response['response']['message'])) { ?> 
         <p>
             <?php echo($response['response']['message']); ?>

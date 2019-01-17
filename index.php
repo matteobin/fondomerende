@@ -34,7 +34,8 @@
 			if ($currentViewName=='') {
 				header('location: index.php?view=main&command-name=get-main-view-data');
 			} else {
-				$currentView = array('name'=>'404', 'path'=>'views/404.php', 'title'=>'404', 'description'=>'Not found.');
+				http_response_code(404);
+                $currentView = array('name'=>'404', 'path'=>'views/404.php', 'title'=>'404', 'description'=>'Not found.');
 			}
 		}
 	} else  if ($currentViewName=='add-user') {
