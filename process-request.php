@@ -204,7 +204,7 @@ $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Inval
 if (checkAuth()) {
 	require_once(__ROOT__.'/lib/DbManager/DbManager.php');
 	$dbManager = new DbManager();
-    if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
+    if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
 		require_once(__ROOT__.'/commands.php');
         switch ($commandName) {
             case 'add-user':
@@ -381,6 +381,19 @@ if (checkAuth()) {
                 }
                 $response = getSnacksData();
                 break;
+            case 'get-snack-data':
+                if (!checkRequestMethod('GET')) {
+                    break;
+                }
+                if (!checkUserToken()) {
+                    break;
+                }
+                if (!setRequestInputValue($snackName, true, 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
+                    break;
+                }
+                $snackId = getIdByUniqueName('snacks', $snackName);
+                $response = getSnackData($snackId);
+                break;
             case 'edit-snack':
                 if (!checkRequestMethod('POST')) {
                     break;
@@ -396,6 +409,9 @@ if (checkAuth()) {
                     break;
                 } else if (isset($values['name'])) {
                     $types['name'] = 's';
+                    $values['friendly_name'] = $values['name'];
+                    $types['friendly_name'] = 's';
+                    $values['name'] = str_replace(' ', '-', strtolower($values['name']));
                 }
                 if (!setRequestInputValue($values, false, 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greater-than'=>0, 'contains'=>array('.'), 'digits-number'=>4, 'decimals-number'=>2))) {
                     break;
@@ -417,7 +433,7 @@ if (checkAuth()) {
                 } else if (isset($values['is_liquid'])) {
                     $types['is_liquid'] = 'i';
                 }
-                $response = editSnackOrUser(array('user'=>$_SESSION['user']['id'], 'snack'=>$snackId), $values, $types);
+                $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                 break;
             case 'get-fund-funds':
                 if (!checkRequestMethod('GET')) {
@@ -444,10 +460,9 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-                if (!setRequestInputValue($snackName, true, 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
+                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                     break;
                 }
-                $snackId = getIdByUniqueName('snacks', $snackName);
                 if (!setRequestInputValue($quantity, true, 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0))) {
                     break;
                 }

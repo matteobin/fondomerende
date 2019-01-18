@@ -350,11 +350,13 @@ function getSnackData($snackId) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('SELECT friendly_name, price, snacks_per_box, expiration_in_days FROM snacks WHERE id=?', array($snackId), 'i');
+        $dbManager->runPreparedQuery('SELECT id, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks WHERE id=?', array($snackId), 'i');
         while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $snack = array('friendly-name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
+            $snack = array('id'=>$snacksRow['id'], 'friendly-name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
         }
         $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>200);
+        $response['data']['snack'] = $snack;
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
         $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -436,9 +438,9 @@ function getToBuyAndFundFunds() {
     try {
         $dbManager->startTransaction();
         $fundFundsAmount = getFundFunds(false);
-        $dbManager->runQuery('SELECT id, name, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks');
+        $dbManager->runQuery('SELECT id, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks');
         while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $snacks[] = array('id'=>$snacksRow['id'], 'name'=>$snacksRow['name'], 'friendly_name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
+            $snacks[] = array('id'=>$snacksRow['id'], 'friendly_name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
         }
         $dbManager->endTransaction();
         $response['response']['success'] = true;
