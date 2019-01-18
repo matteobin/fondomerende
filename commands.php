@@ -380,17 +380,21 @@ function insertEdits($newValues, $types, $oldValues) {
     }
 }
 
-function editSnackOrUser(array $ids, array $newValues, array $types, array $oldValues) {
+function editSnackOrUser(array $ids, array $newValues, array $types) {
     global $dbManager;
     if (isset($ids['snack'])) {
         $table = 'snacks';
         $whereId = $ids['snack'];
+        $oldValueCheckExceptions = null;
     } else {
         $table = 'users';
         $whereId = $ids['user'];
+        $oldValueCheckExceptions = array('password');
     }
     try {
         $dbManager->startTransaction();
+        $oldValues = $dbManager->getOldValues($newValues, $table, 'id', $whereId, $oldValueCheckExceptions);
+        var_dump($oldValues);
         if ($dbManager->runUpdateQuery($table, $newValues, $types, 'id', $whereId, $oldValues)) {
             if ($table=='snacks') {
                 $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($ids['user'], 5, $ids['snack']), 'iii');

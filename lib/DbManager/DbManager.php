@@ -37,6 +37,19 @@ class DbManager {
         }
     }
     
+    public function getOldValues(array $newValues, $table, $whereColumn, $whereId, array $exceptions=null) {
+        $oldValues = array();
+        foreach($newValues as $column=>$newValue) {
+            if (!isset($exceptions[$column])) {
+                $this->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$whereColumn.'=?', array($whereId), 'i');
+                while ($row = $this->getQueryRes()->fetch_assoc()) {
+                    $oldValues[$column] = $row[$column];
+                }
+            }
+        }
+        return $oldValues;
+    }
+    
     public function runUpdateQuery($table, array $newValues, array $paramTypesArray, $whereColumn, $whereId, array $oldValues=null) {
         $query = 'UPDATE '.$table.' SET ';
         $params = array();

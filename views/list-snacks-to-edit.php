@@ -1,6 +1,10 @@
 <?php
     require_once('process-request.php');
-?>
+    if (isset($response['response']['message'])): ?> 
+        <p>
+            <?php echo($response['response']['message']); ?>
+        </p>
+    <?php endif; ?>
 <article>
     <h1>Snacks</h1>
     <ul>

@@ -23,7 +23,7 @@
                 <li>Available: <?php echo($snack['quantity']) ?></li>
                 <li>Price: <?php echo($snack['price-per-snack']) ?> €</li>
             </ul>
-            <input type="hidden" name="snack-name" value="<?php echo($snack['name']) ?>">
+            <input type="hidden" name="snack-id" value="<?php echo($snack['id']) ?>">
             <input type="submit" value="Eat <?php echo($snack['friendly-name']) ?>">
         </form>
     <?php endforeach; ?>
