@@ -5,7 +5,7 @@
     function storeSnackData($value) {
         $variableName = $value[0].substr(str_replace('-', '', mb_convert_case($value, MB_CASE_TITLE)), 1);
         $valuesName = str_replace('-', '_', $value);
-        global $response, ${$variableName};
+        global $response, ${$variableName}, $values;
         if (isset($response['data']['snack'][$value])) {
             ${$variableName} = $response['data']['snack'][$value];
         } else if (isset($values[$valuesName])) {
@@ -35,7 +35,6 @@
     $_SESSION['snack']['price'] = $price;
     $_SESSION['snack']['snacks-per-box'] = $snacksPerBox;
     $_SESSION['snack']['expiration-in-days'] = $expirationInDays;
-    var_dump($_SESSION['snack']);
 ?>
 <form action="index.php?view=edit-snack&command-name=get-snack-data&snack-name=<?php echo($snackName) ?>" method="POST">
     <input type="hidden" name="command-name" value="edit-snack">

@@ -420,7 +420,7 @@ if (checkAuth()) {
                 }
                 if (!setRequestInputValue($values, false, 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>2))) {
                     break;
-                } else if (isset($values['snacks-per-box'])) {
+                } else if (isset($values['snacks_per_box'])) {
                     $types['snacks_per_box'] = 'i';
                 }
                 if (!setRequestInputValue($values, false, 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>4))) {

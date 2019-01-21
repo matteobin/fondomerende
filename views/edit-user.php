@@ -5,7 +5,7 @@
     function storeUserData($value) {
         $variableName = $value[0].substr(str_replace('-', '', mb_convert_case($value, MB_CASE_TITLE)), 1);
         $valuesName = str_replace('-', '_', $value);
-        global $response, ${$variableName};
+        global $response, ${$variableName}, $values;
         if (isset($response['data'][$value])) {
             ${$variableName} = $response['data'][$value];
         } else if (isset($values[$valuesName])) {

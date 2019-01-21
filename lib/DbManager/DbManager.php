@@ -63,7 +63,12 @@ class DbManager {
                         $query .= ', '.$column.'=?';
                     }
                     $params[] = $newValue;
-                    $paramTypes .= $paramTypesArray[$column];
+                    if (isset($paramTypesArray[$column])) {
+                        $paramTypes .= $paramTypesArray[$column];
+                    } else {
+                        $backtrace = debug_backtrace();
+                        throw new Exception($column.' type is missing in types array at line '.$backtrace[1]['line'].' in '.$backtrace[1]['file'].'.');
+                    }
                 }
             } else {
                 if ($paramTypes=='') {
@@ -96,14 +101,9 @@ class DbManager {
     }
     
     public function getByUniqueId($column, $table, $id) {
-        try {
         $this->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE id=?', array($id), 'i');
         while ($row = $this->getQueryRes()->fetch_assoc()) {
             $result = $row[$column];
-        }
-        }
-        catch (Exception $exception) {
-            echo $exception->getMessage();
         }
         return $result;
     }
