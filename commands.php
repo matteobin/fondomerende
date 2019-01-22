@@ -201,6 +201,10 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
                     $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).' changed '.$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).' snack per box number from '.$edit['old-i-value'].' to '.$edit['new-i-value'].'.';
                     $decodedEdits[] = $editSentence;
                     break;
+                case 'expiration_in_days':
+                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).' changed '.$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).' expiration days from '.$edit['old-i-value'].' to '.$edit['new-i-value'].'.';
+                    $decodedEdits[] = $editSentence;
+                    break;
             }
         }
     }

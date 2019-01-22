@@ -405,7 +405,9 @@ if (checkAuth()) {
                     break;
                 }
                 $values = array();
-                if (!setRequestInputValue($values, false, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
+                if (!setRequestInputValue($values, false, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'friendly_name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array($dbManager->getByUniqueId('friendly_name', 'snacks', $snackId)))))) {
+                    echo('ciao');
+                    var_dump($dbManager->getByUniqueId('name', 'snacks', $snackId));
                     break;
                 } else if (isset($values['name'])) {
                     $types['name'] = 's';

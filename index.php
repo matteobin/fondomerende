@@ -31,7 +31,7 @@
 			}
 		}
 		if ($noView) {
-			if ($currentViewName=='') {
+			if ($currentViewName=='' || $currentViewName=='add-user') {
 				header('location: index.php?view=main&command-name=get-main-view-data');
 			} else {
 				http_response_code(404);
