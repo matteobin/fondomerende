@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2018 at 02:50 PM
+-- Generation Time: Jan 23, 2019 at 02:45 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -90,13 +90,6 @@ CREATE TABLE `eaten` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `eaten`
---
-
-INSERT INTO `eaten` (`id`, `snack_id`, `user_id`, `quantity`, `updated_at`) VALUES
-(1, 3, 1, 0, '2018-10-22 07:49:06');
-
 -- --------------------------------------------------------
 
 --
@@ -131,7 +124,7 @@ CREATE TABLE `fund_funds` (
 --
 
 INSERT INTO `fund_funds` (`amount`, `updated_at`) VALUES
-('10.00', '2018-10-22 07:48:13');
+('0.00', '2019-01-23 13:45:13');
 
 -- --------------------------------------------------------
 
@@ -181,7 +174,7 @@ CREATE TABLE `snacks` (
 --
 
 INSERT INTO `snacks` (`id`, `name`, `friendly_name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
-(1, 'taralli-coop', 'Taralli Coop', '1.99', 12, 0, 0),
+(1, 'taralli', 'Taralli', '1.99', 12, 0, 0),
 (2, 'baiocchi', 'Baiocchi', '2.49', 6, 0, 0),
 (3, 'kinder-bueno', 'Kinder Bueno', '3.45', 6, 60, 0);
 
@@ -219,14 +212,6 @@ CREATE TABLE `users` (
   `friendly_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `password`, `friendly_name`) VALUES
-(1, 'matteobin', '$2y$10$Cie6iIMYvtUvVNpiXsp67.84h/DMqZPsGBoSw8xqWPmmBy0R63rgK', 'Matteo Bini'),
-(2, 'francesco', '$2y$10$Cie6iIMYvtUvVNpiXsp67.84h/DMqZPsGBoSw8xqWPmmBy0R63rgK', 'Francesco');
-
 -- --------------------------------------------------------
 
 --
@@ -238,13 +223,6 @@ CREATE TABLE `users_funds` (
   `amount` decimal(4,2) NOT NULL DEFAULT '0.00',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `users_funds`
---
-
-INSERT INTO `users_funds` (`user_id`, `amount`, `updated_at`) VALUES
-(1, '5.29', '2018-10-22 12:11:58');
 
 --
 -- Indexes for dumped tables
@@ -319,6 +297,7 @@ ALTER TABLE `snacks`
 -- Indexes for table `snacks_stock`
 --
 ALTER TABLE `snacks_stock`
+  ADD PRIMARY KEY (`snack_id`),
   ADD UNIQUE KEY `snack_id` (`snack_id`);
 
 --
@@ -332,6 +311,7 @@ ALTER TABLE `users`
 -- Indexes for table `users_funds`
 --
 ALTER TABLE `users_funds`
+  ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `user_id` (`user_id`);
 
 --
@@ -348,7 +328,7 @@ ALTER TABLE `actions`
 -- AUTO_INCREMENT for table `eaten`
 --
 ALTER TABLE `eaten`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `edits`
@@ -378,7 +358,7 @@ ALTER TABLE `snacks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -388,53 +368,53 @@ ALTER TABLE `users`
 -- Constraints for table `actions`
 --
 ALTER TABLE `actions`
-  ADD CONSTRAINT `actions_ibfk_1` FOREIGN KEY (`command_id`) REFERENCES `commands` (`id`),
-  ADD CONSTRAINT `actions_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`),
-  ADD CONSTRAINT `actions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `actions_ibfk_1` FOREIGN KEY (`command_id`) REFERENCES `commands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `actions_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `actions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `crates`
 --
 ALTER TABLE `crates`
-  ADD CONSTRAINT `crates_ibfk_1` FOREIGN KEY (`outflow_id`) REFERENCES `outflows` (`id`),
-  ADD CONSTRAINT `crates_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`);
+  ADD CONSTRAINT `crates_ibfk_1` FOREIGN KEY (`outflow_id`) REFERENCES `outflows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `crates_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `eaten`
 --
 ALTER TABLE `eaten`
-  ADD CONSTRAINT `eaten_ibfk_1` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`),
-  ADD CONSTRAINT `eaten_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `eaten_ibfk_1` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `eaten_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `edits`
 --
 ALTER TABLE `edits`
-  ADD CONSTRAINT `edits_ibfk_1` FOREIGN KEY (`action_id`) REFERENCES `actions` (`id`);
+  ADD CONSTRAINT `edits_ibfk_1` FOREIGN KEY (`action_id`) REFERENCES `actions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `inflows`
 --
 ALTER TABLE `inflows`
-  ADD CONSTRAINT `inflows_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `inflows_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `outflows`
 --
 ALTER TABLE `outflows`
-  ADD CONSTRAINT `outflows_ibfk_1` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`);
+  ADD CONSTRAINT `outflows_ibfk_1` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `snacks_stock`
 --
 ALTER TABLE `snacks_stock`
-  ADD CONSTRAINT `snacks_stock_ibfk_1` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`);
+  ADD CONSTRAINT `snacks_stock_ibfk_1` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users_funds`
 --
 ALTER TABLE `users_funds`
-  ADD CONSTRAINT `users_funds_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `users_funds_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

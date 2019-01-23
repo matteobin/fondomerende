@@ -19,7 +19,7 @@
 		<input type="hidden" name="command-name" value="deposit">
 		<input type="hidden" name="user-funds-amount" value="<?php if (isset($response['data']['user-funds-amount'])) {echo($response['data']['user-funds-amount']);} else {echo($userFundsAmount);} ?>">
 		<label>Amount</label>
-		<input type="number" name="amount" value="<?php if (isset($amount)) {echo($amount);} ?>">
+		<input type="number" name="amount" min="0.01" step="0.01" max="99.99" value="<?php if (isset($amount)) {echo($amount);} ?>">
 		<input type="submit" value="Deposit">
 	</form>
 </section>
