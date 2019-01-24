@@ -54,9 +54,9 @@
 	</head>
 	<body>
 		<header>
-			<h1>Fondo Merende</h1>
+			<h1 style="float:left">Fondo Merende</h1><h2 style="float:left">&nbsp;v1.0.0b</h2>
 		</header>
-		<section>
+		<section style="clear:left">
 			<?php require_once($currentView['path']); ?>
 		</section>
 		<footer>
