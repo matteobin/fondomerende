@@ -32,7 +32,7 @@
 		}
 		if ($noView) {
 			if ($currentViewName=='' || $currentViewName=='add-user') {
-				header('location: index.php?view=main&command-name=get-main-view-data');
+				header('location: /index.php?view=main&command-name=get-main-view-data');
 			} else {
 				http_response_code(404);
                 $currentView = array('name'=>'404', 'path'=>'views/404.php', 'title'=>'404', 'description'=>'Not found.');

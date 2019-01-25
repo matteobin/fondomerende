@@ -3,7 +3,7 @@
 		require_once('process-request.php');
 	}
 	if (isset($response['response']['status']) && $response['response']['status']==201) {
-        header('location: index.php?view=main&command-name=get-main-view-data');
+        header('location: /index.php?view=main&command-name=get-main-view-data');
 		exit();
 	} 
 	if (isset($response['response']['message'])): ?> 
@@ -11,7 +11,7 @@
 		<?php echo($response['response']['message']); ?>
 	</p>
 <?php endif; ?>
-<form action="index.php?view=add-snack" method="POST">
+<form action="/index.php?view=add-snack" method="POST">
     <input type="hidden" name="command-name" value="add-snack">
     <label for="snack-name-input">Snack name</label>
     <input type="text" name="name" id="snack-name-input" placeholder="name" value="<?php if (isset($name)) {echo($name);} ?>" required>

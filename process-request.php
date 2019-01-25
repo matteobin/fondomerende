@@ -72,15 +72,6 @@ function checkFilteredInputValidity($value, $options=null) {
         $valid = false;
         $message = '\''.$value.'\' lesser than '.($options['greater-than']+1).'.';
     }
-    if ($valid && isset($options['contains'])) {
-        foreach ($options['contains'] as $needle) {
-            if (strpos($value, $needle)===false) {
-                $valid = false;
-                $message = '\''.$value.'\' does not contain \''.$needle.'\'.';
-                break;
-            }
-        }
-    }
     if ($valid && isset($options['digits-number'])) {
         if (strpos($value, '.')===false) {
             $dotsNumber = 0;

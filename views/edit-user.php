@@ -25,13 +25,13 @@
 	if (isset($_POST['command-name']) && $_POST['command-name']=='edit-user' && isset($response['response']['status']) && $response['response']['status']==200) {
         unset($_SESSION['user-name']);
         unset($_SESSION['user-friendly-name']);
-        header('location: index.php?view=main&command-name=get-main-view-data');
+        header('location: /index.php?view=main&command-name=get-main-view-data');
 		exit();
 	}
     $_SESSION['user-name'] = $name;
     $_SESSION['user-friendly-name'] = $friendlyName;
 ?>
-<form action="index.php?view=edit-user&command-name=get-user-names" method="POST">
+<form action="/index.php?view=edit-user&command-name=get-user-names" method="POST">
     <input type="hidden" name="command-name" value="edit-user">
     <label for="user-name-input">User</label>
     <input type="text" name="name" id="user-name-input" placeholder="artu95_4evah" value="<?php echo($name); ?>">
