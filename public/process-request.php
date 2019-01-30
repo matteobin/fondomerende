@@ -1,6 +1,6 @@
 <?php
-define('__ROOT__', dirname(__FILE__));
-require_once(__ROOT__.'/auth-key.php');
+define('ROOT', dirname(__FILE__).'/../');
+require_once(ROOT.'/auth-key.php');
 $appRequest = false;
 if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
     $appRequest = true;
@@ -193,10 +193,10 @@ function checkUserPassword($userId, $password) {
 $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
 $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Invalid request: no parameters were sent.');
 if (checkAuth()) {
-	require_once(__ROOT__.'/lib/DbManager/DbManager.php');
+	require_once(ROOT.'/lib/DbManager/DbManager.php');
 	$dbManager = new DbManager();
     if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
-		require_once(__ROOT__.'/commands.php');
+		require_once(ROOT.'/commands.php');
         switch ($commandName) {
             case 'add-user':
                 if (!checkRequestMethod('POST')) {
