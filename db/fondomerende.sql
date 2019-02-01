@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2019 at 02:45 PM
+-- Generation Time: Feb 01, 2019 at 02:29 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -55,12 +55,12 @@ CREATE TABLE `commands` (
 
 INSERT INTO `commands` (`id`, `name`) VALUES
 (4, 'add-snack'),
-(6, 'add-user'),
-(2, 'buy'),
+(1, 'add-user'),
+(6, 'buy'),
 (3, 'deposit'),
-(1, 'eat'),
+(7, 'eat'),
 (5, 'edit-snack'),
-(7, 'edit-user');
+(2, 'edit-user');
 
 -- --------------------------------------------------------
 
@@ -174,9 +174,9 @@ CREATE TABLE `snacks` (
 --
 
 INSERT INTO `snacks` (`id`, `name`, `friendly_name`, `price`, `snacks_per_box`, `expiration_in_days`, `is_liquid`) VALUES
-(1, 'taralli', 'Taralli', '1.99', 12, 0, 0),
-(2, 'baiocchi', 'Baiocchi', '2.49', 6, 0, 0),
-(3, 'kinder-bueno', 'Kinder Bueno', '3.45', 6, 60, 0);
+(1, 'taralli', 'Taralli', '1.99', 12, 270, 0),
+(2, 'baiocchi', 'Baiocchi', '2.49', 6, 195, 0),
+(3, 'kinder-bueno', 'Kinder Bueno', '3.45', 6, 140, 0);
 
 -- --------------------------------------------------------
 
@@ -322,31 +322,31 @@ ALTER TABLE `users_funds`
 -- AUTO_INCREMENT for table `actions`
 --
 ALTER TABLE `actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `eaten`
 --
 ALTER TABLE `eaten`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `edits`
 --
 ALTER TABLE `edits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `inflows`
 --
 ALTER TABLE `inflows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `outflows`
 --
 ALTER TABLE `outflows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `snacks`
@@ -358,7 +358,7 @@ ALTER TABLE `snacks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
