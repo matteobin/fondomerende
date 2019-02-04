@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 01, 2019 at 02:29 PM
+-- Generation Time: Feb 04, 2019 at 02:26 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -207,7 +207,7 @@ INSERT INTO `snacks_stock` (`snack_id`, `quantity`, `updated_at`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `name` varchar(15) NOT NULL,
+  `name` varchar(30) NOT NULL,
   `password` varchar(255) NOT NULL,
   `friendly_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

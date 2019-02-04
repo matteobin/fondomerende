@@ -58,9 +58,10 @@ function checkFilteredInputValidity($value, $options=null) {
 		$options['can-be-empty'] = false;
 	}
     if ($value===null) {
+        echo('ciao');
         $valid = false;
         $message = 'value missing.';
-    } else if ($value==='' && !$options['can-be-empty']) {
+    } else if (($value===false || $value==='') && !$options['can-be-empty']) {
         $valid = false;
         $message = 'value in wrong format.';
     }
@@ -202,7 +203,7 @@ if (checkAuth()) {
                 if (!checkRequestMethod('POST')) {
                     break;
                 }
-                if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
+                if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                     break;
                 }
                 if (!setRequestInputValue($password, true, 'password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
@@ -246,7 +247,7 @@ if (checkAuth()) {
                     break;
                 }
                 $actionsNumber = 5;
-                if (!setRequestInputValue($actionsNumber, false, 'actions-number', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0))) {
+                if (!setRequestInputValue($actionsNumber, false, 'actions-number', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                     break;
                 }
                 $response = getLastActions($actionsNumber);
@@ -277,7 +278,7 @@ if (checkAuth()) {
                     break;
                 }
                 $values = array();
-                if (!setRequestInputValue($values, false, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array($dbManager->getByUniqueId('name', 'users', $_SESSION['user-id'])))))) {
+                if (!setRequestInputValue($values, false, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array($dbManager->getByUniqueId('name', 'users', $_SESSION['user-id'])))))) {
                     break;
                 } else if (isset($values['name'])) {
                     $types['name'] = 's';
@@ -329,11 +330,11 @@ if (checkAuth()) {
                     break;
                 }
                 if (!$appRequest) {
-                   if (!setRequestInputValue($userFundsAmount, false, 'user-funds-amount', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('digits-number'=>4, 'decimals-number'=>2))) {
+                   if (!setRequestInputValue($userFundsAmount, false, 'user-funds-amount', array('filter'=>FILTER_VALIDATE_FLOAT), array('digits-number'=>4, 'decimals-number'=>2))) {
                         break;
                     } 
                 }
-                if (!setRequestInputValue($amount, true, 'amount', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
+                if (!setRequestInputValue($amount, true, 'amount', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
                     break;
                 }
                 $response = deposit($_SESSION['user-id'], $amount);
@@ -348,13 +349,13 @@ if (checkAuth()) {
                 if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                     break;
                 }
-                if (!setRequestInputValue($price, true, 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
+                if (!setRequestInputValue($price, true, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
                     break;
                 }
-                if (!setRequestInputValue($snacksPerBox, true, 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>2))) {
+                if (!setRequestInputValue($snacksPerBox, true, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>2))) {
                     break;
                 }
-                if (!setRequestInputValue($expirationInDays, true, 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>4))) {
+                if (!setRequestInputValue($expirationInDays, true, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>4))) {
                     break;
                 }
                 $isLiquid = false;
@@ -392,13 +393,11 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
+                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                     break;
                 }
                 $values = array();
                 if (!setRequestInputValue($values, false, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'friendly_name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array($dbManager->getByUniqueId('friendly_name', 'snacks', $snackId)))))) {
-                    echo('ciao');
-                    var_dump($dbManager->getByUniqueId('name', 'snacks', $snackId));
                     break;
                 } else if (isset($values['name'])) {
                     $types['name'] = 's';
@@ -406,17 +405,17 @@ if (checkAuth()) {
                     $types['friendly_name'] = 's';
                     $values['name'] = str_replace(' ', '-', strtolower($values['name']));
                 }
-                if (!setRequestInputValue($values, false, 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
+                if (!setRequestInputValue($values, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
                     break;
                 } else if (isset($values['price'])) {
                     $types['price'] = 'd';
                 }
-                if (!setRequestInputValue($values, false, 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>2))) {
+                if (!setRequestInputValue($values, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>2))) {
                     break;
                 } else if (isset($values['snacks_per_box'])) {
                     $types['snacks_per_box'] = 'i';
                 }
-                if (!setRequestInputValue($values, false, 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>4))) {
+                if (!setRequestInputValue($values, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>4))) {
                     break;
                 } else if (isset($values['expiration_in_days'])) {
                     $types['expiration_in_days'] = 'i';
@@ -453,10 +452,10 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
+                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                     break;
                 }
-                if (!setRequestInputValue($quantity, true, 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0))) {
+                if (!setRequestInputValue($quantity, true, 'quantity', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                     break;
                 }
 				$customiseBuyOptions = false;
@@ -467,13 +466,13 @@ if (checkAuth()) {
 				}
                 $options = array();
 				if ($appRequest || $customiseBuyOptions) {
-					if (!setRequestInputValue($options, false, 'price', array('filter'=>FILTER_SANITIZE_NUMBER_FLOAT, 'options'=>FILTER_FLAG_ALLOW_FRACTION), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
+					if (!setRequestInputValue($options, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
 						break;
 					}
-					if (!setRequestInputValue($options, false, 'snacks-per-box', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>2))) {
+					if (!setRequestInputValue($options, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>2))) {
 						break;
 					}
-					if (!setRequestInputValue($options, false, 'expiration-in-days', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'digits-number'=>4))) {
+					if (!setRequestInputValue($options, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>4))) {
 						break;
 					}
 				}
@@ -495,11 +494,11 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
+                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                     break;
                 }
                 $quantity = 1;
-                if (!setRequestInputValue($quantity, false, 'quantity', array('filter'=>FILTER_SANITIZE_NUMBER_INT), array('greater-than'=>0))) {
+                if (!setRequestInputValue($quantity, false, 'quantity', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                     break;
                 }
                 $response = eat($_SESSION['user-id'], $snackId, $quantity);
