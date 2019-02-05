@@ -49,8 +49,8 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
             $_SESSION['user-token'] = $token;
             if (!$appRequest) {
                 if ($rememberUser) {
-                    setcookie('user-id', $id, time()+86400);
-                    setcookie('user-token', $token, time()+86400);
+                    setcookie('user-id', $id, time()+86400*30);
+                    setcookie('user-token', $token, time()+86400*30);
                 } else {
                     setcookie('user-id', $id, 0);
                     setcookie('user-token', $token, 0);
