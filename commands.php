@@ -1,3 +1,4 @@
+
 <?php
 function addUser($name, $password, $friendlyName, $appRequest) {
     global $dbManager;
