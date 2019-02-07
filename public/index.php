@@ -1,6 +1,6 @@
 <?php
-    ini_set('display_errors', '1');
-    define('DIR', '/fondomerende/public/');
+    ini_set('display_errors', true);
+    define('DIR', '/');
 	setcookie('auth-key', 'sekrit_PaSSWoRD');
     $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
 	
@@ -9,11 +9,17 @@
 		$userLogged = false;
 		$userIdCookie = filter_input(INPUT_COOKIE, 'user-id', FILTER_SANITIZE_STRING);
 		$userTokenCookie = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
+		$rememberUserCookie = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
 		session_start();
-		if (isset($_SESSION['user-id']) || !is_null($userIdCookie)) {
-            if (!isset($_SESSION['user-id'])) {
+		if ((isset($_SESSION['user-id']) && isset($_SESSION['user-token'])) || (!is_null($userIdCookie) && !is_null($userTokenCookie))) {
+            if (!isset($_SESSION['user-id']) || !isset($_SESSION['user-token'])) {
                 $_SESSION['user-id'] = $userIdCookie;
                 $_SESSION['user-token'] = $userTokenCookie;
+            }
+            if ($rememberUserCookie) {
+                setCookie('user-id', $userIdCookie, time()+86400*5);
+                setCookie('user-token', $userTokenCookie, time()+86400*5);
+                setCookie('remember-user', true, time()+86400*5);
             }
             $userLogged = true;
 		}
@@ -39,7 +45,7 @@
                 $currentView = array('name'=>'404', 'path'=>'../views/404.php', 'title'=>'404', 'description'=>'Not found.');
 			}
 		}
-	} else  if ($currentViewName=='add-user') {
+	} else if ($currentViewName=='add-user') {
         $currentView = array('name'=>'add-user', 'path'=>'../views/add-user.php', 'title'=>'Add user', 'description'=>'Fondo Merende add user form.');
     } else {
         $currentView = $views[0];
