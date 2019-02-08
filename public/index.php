@@ -61,7 +61,7 @@
 	</head>
 	<body>
 		<header>
-			<h1 style="float:left">Fondo Merende</h1><h2 style="float:left">&nbsp;v1.0.0b</h2>
+			<h1 style="float:left">Fondo Merende</h1><h2 style="float:left">&nbsp;v1.0.1b</h2>
 		</header>
 		<section style="clear:left">
 			<?php require_once($currentView['path']); ?>
