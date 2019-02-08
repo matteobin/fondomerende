@@ -218,7 +218,7 @@ if (checkAuth()) {
                 if (!checkRequestMethod('POST')) {
                     break;
                 }
-                if (!setRequestInputValue($userName, true, 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>15))) {
+                if (!setRequestInputValue($userName, true, 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30))) {
                     break;
                 }
                 if (!setRequestInputValue($password, true, 'password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>255))) {
