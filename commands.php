@@ -16,7 +16,7 @@ function addUser($name, $password, $friendlyName, $appRequest) {
             $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
         }
         $dbManager->runPreparedQuery('INSERT INTO users_funds (user_id) VALUES (?)', array($userId), 'i');
-        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 6), 'ii');
+        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 1), 'ii');
         $dbManager->endTransaction();
         $response['response'] = array('success'=>true, 'status'=>201);
         $response['data'] = array('token'=>login($name, $password, false, $appRequest, false));
@@ -49,8 +49,9 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
             $_SESSION['user-token'] = $token;
             if (!$appRequest) {
                 if ($rememberUser) {
-                    setcookie('user-id', $id, time()+86400);
-                    setcookie('user-token', $token, time()+86400);
+                    setcookie('user-id', $id, time()+86400*5);
+                    setcookie('user-token', $token, time()+86400*5);
+                    setcookie('remember-user', true, time()+86400*5);
                 } else {
                     setcookie('user-id', $id, 0);
                     setcookie('user-token', $token, 0);
@@ -215,33 +216,32 @@ function decodeActions($actions) {
     global $dbManager;
     $decodedActions = array();
     foreach($actions as $action) {
-        $commandName = $dbManager->getByUniqueId('name', 'commands', $action['command-id']);
-        switch ($commandName) {
-            case 'add-user':
+        switch ($action['command-id']) {
+            case 1:
                 $decodedActions[] = $action['created-at'].': added '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).'.';
                 break;
-            case 'edit-user':
+            case 2:
                 $decodedEdits = decodeEdits('user', $action['id'], $action['user-id']);
                 foreach($decodedEdits as $decodedEdit) {
                     $decodedActions[] = $action['created-at'].': '.$decodedEdit;
                 }
                 break;
-            case 'deposit':
+            case 3:
                 $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).' deposited '.$action['funds-amount'].' €.';
                 break;
-            case 'add-snack':
+            case 4:
                 $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).' added snack '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
-            case 'edit-snack':
+            case 5:
                 $decodedEdits = decodeEdits('snack', $action['id'], $action['user-id'], $action['snack-id']);
                 foreach($decodedEdits as $decodedEdit) {
                     $decodedActions[] = $action['created-at'].': '.$decodedEdit;
                 }
                 break;
-            case 'buy':
+            case 6:
                 $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).' bought '.$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
-            case 'eat':
+            case 7:
                 $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).' ate '.$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
         }
@@ -303,35 +303,6 @@ function getMainViewData($userId) {
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
         $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
-    }
-    return $response;
-}
-
-function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid) {
-    global $dbManager;
-    try {
-        $subjectUserId = $userId;
-        $dbManager->startTransaction();
-        $dbManager->runPreparedQuery('INSERT INTO snacks (name, friendly_name, price, snacks_per_box, expiration_in_days, is_liquid) VALUES (?, ?, ?, ?, ?, ?)', array(str_replace(' ', '-', strtolower($name)), $name, $price, $snacksPerBox, $expirationInDays, $isLiquid), 'ssdiii');
-        $dbManager->runQuery('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $snackId = $row['id'];
-        }
-        $dbManager->runPreparedQuery('INSERT INTO snacks_stock (snack_id) VALUES (?)', array($snackId), 'i');
-        $dbManager->runQuery('SELECT id FROM users');
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $usersId[] = $row['id'];
-        }
-        foreach($usersId as $userId) {   
-            $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
-        }
-        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 4, $snackId), 'iii');
-        $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>201);
-        $response['response']['data']['snack-id'] = $snackId;
-    } catch (Exception $exception) {
-        $dbManager->rollbackTransaction();
-		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -434,7 +405,7 @@ function editSnackOrUser(array $ids, array $newValues, array $types) {
             if ($table=='snacks') {
                 $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($ids['user'], 5, $ids['snack']), 'iii');
             } else {
-                $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($ids['user'], 7), 'ii');
+                $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($ids['user'], 2), 'ii');
             }
             insertEdits($newValues, $types, $oldValues);
         }
@@ -447,8 +418,6 @@ function editSnackOrUser(array $ids, array $newValues, array $types) {
     return $response;
 }
 
-
-
 function deposit($userId, $amount) {
     global $dbManager;
     try {
@@ -459,6 +428,35 @@ function deposit($userId, $amount) {
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, funds_amount) VALUES (?,?,?)', array($userId, 3, $amount), 'iid');
         $dbManager->endTransaction();
         $response['response'] = array('success'=>true, 'status'=>200);
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    }
+    return $response;
+}
+
+function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $isLiquid) {
+    global $dbManager;
+    try {
+        $subjectUserId = $userId;
+        $dbManager->startTransaction();
+        $dbManager->runPreparedQuery('INSERT INTO snacks (name, friendly_name, price, snacks_per_box, expiration_in_days, is_liquid) VALUES (?, ?, ?, ?, ?, ?)', array(str_replace(' ', '-', strtolower($name)), $name, $price, $snacksPerBox, $expirationInDays, $isLiquid), 'ssdiii');
+        $dbManager->runQuery('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $snackId = $row['id'];
+        }
+        $dbManager->runPreparedQuery('INSERT INTO snacks_stock (snack_id) VALUES (?)', array($snackId), 'i');
+        $dbManager->runQuery('SELECT id FROM users');
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $usersId[] = $row['id'];
+        }
+        foreach($usersId as $userId) {   
+            $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
+        }
+        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 4, $snackId), 'iii');
+        $dbManager->endTransaction();
+        $response['response'] = array('success'=>true, 'status'=>201);
+        $response['response']['data']['snack-id'] = $snackId;
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -524,7 +522,7 @@ function buy($userId, $snackId, $quantity, array $options) {
         $dbManager->runPreparedQuery('INSERT INTO crates (outflow_id, snack_id, snack_quantity, price_per_snack, expiration) VALUES (?, ?, ?, ?, ?)', array($outflowId, $snackId, $snackNumber, $unitPrice/$snacksPerBox, date('Y-m-d', strtotime('+'.$expirationInDays.' days'))), 'iiids');
         $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'ii');
         $dbManager->runPreparedQuery('UPDATE fund_funds SET amount=amount-?', array($totalPrice), 'd');
-        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 2, $snackId, $snackNumber, $totalPrice), 'iiiid');
+        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 6, $snackId, $snackNumber, $totalPrice), 'iiiid');
         $dbManager->endTransaction(); 
         $response['response'] = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
@@ -580,7 +578,7 @@ function eat($userId, $snackId, $quantity) {
             $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity = quantity-? WHERE snack_id=?', array($quantity, $snackId), 'ii');
             $dbManager->runPreparedQuery('UPDATE eaten SET quantity = quantity+? WHERE snack_id=?', array($quantity, $snackId), 'ii');
             $dbManager->runPreparedQuery('UPDATE users_funds SET amount = amount-? WHERE user_id=?', array($totalPrice, $userId), 'di');
-            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity) VALUES (?, ?, ?, ?)', array($userId, 1, $snackId, $quantity), 'iiii');
+            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity) VALUES (?, ?, ?, ?)', array($userId, 7, $snackId, $quantity), 'iiii');
             $response['response'] = array('success'=>true, 'status'=>200);
         } else {
             $response['response'] = array('success'=>false, 'status'=>404, 'message'=>'No crates containing snack id '.$snackId.'.');

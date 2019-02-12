@@ -1,2 +1,3 @@
-/lib/DbManager/config.php
 auth-key.php
+config.php
+/lib/DbManager/config.php

@@ -7,7 +7,7 @@
             </p>
     <?php 
         elseif (isset($_POST['command-name']) && $_POST['command-name']=='eat' && $response['response']['status']==200):
-            header('location: /index.php?view=eat&command-name=get-to-eat-and-user-funds');
+            header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
             exit();
         endif; 
     ?>
@@ -16,7 +16,7 @@
 <section>
     <h1>Pantry</h1>
     <?php foreach($response['data']['snacks'] as $snack): ?>
-        <form action="/index.php?view=eat&command-name=get-to-eat-and-funds" method="POST">
+        <form action="<?php echo(BASE_DIR); ?>index.php?view=eat&command-name=get-to-eat-and-funds" method="POST">
             <input type="hidden" name="command-name" value="eat"></label>
             <label><?php echo($snack['friendly-name']) ?></label>
             <ul>
