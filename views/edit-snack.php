@@ -27,7 +27,7 @@
     }
 	if (isset($_POST['command-name']) && $_POST['command-name']=='edit-snack' && isset($response['response']['status']) && $response['response']['status']==200) {
         unset($_SESSION['snack']);
-        header('location: '.DIR.'index.php?view=main&command-name=get-main-view-data');
+        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
 		exit();
 	}
     $_SESSION['snack']['id'] = $id;
@@ -36,7 +36,7 @@
     $_SESSION['snack']['snacks-per-box'] = $snacksPerBox;
     $_SESSION['snack']['expiration-in-days'] = $expirationInDays;
 ?>
-<form action="<?php echo(DIR); ?>index.php?view=edit-snack&command-name=get-snack-data&snack-name=<?php echo($snackName) ?>" method="POST">
+<form action="<?php echo(BASE_DIR); ?>index.php?view=edit-snack&command-name=get-snack-data&snack-name=<?php echo($snackName) ?>" method="POST">
     <input type="hidden" name="command-name" value="edit-snack">
     <input type="hidden" name="snack-id" value="<?php echo($id); ?>">
     <label for="snack-name-input">Name</label>

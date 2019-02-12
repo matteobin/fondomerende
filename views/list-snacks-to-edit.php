@@ -9,7 +9,7 @@
     <h1>Snacks</h1>
     <ul>
     <?php foreach($response['data']['snacks'] as $snack): ?>
-       <li><?php echo($snack['friendly-name']); ?> <a href="<?php echo(DIR); ?>index.php?view=edit-snack&command-name=get-snack-data&snack-name=<?php echo($snack['name']); ?>">EDIT</a></li>
+       <li><?php echo($snack['friendly-name']); ?> <a href="<?php echo(BASE_DIR); ?>index.php?view=edit-snack&command-name=get-snack-data&snack-name=<?php echo($snack['name']); ?>">EDIT</a></li>
         <ul>
             <li>Price: <?php echo($snack['price']); ?> €</li>
             <li>Snacks per box: <?php echo($snack['snacks-per-box']); ?></li>

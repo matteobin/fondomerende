@@ -18,7 +18,7 @@
             }
         } else if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && $response['response']['status']==200) {
             unset($_SESSION['snacks']);
-            header('location: '.DIR.'index.php?view=buy&command-name=get-to-buy-and-fund-funds');
+            header('location: '.BASE_DIR.'index.php?view=buy&command-name=get-to-buy-and-fund-funds');
             exit();
         }
     ?>
@@ -26,7 +26,7 @@
 </section>
 <section>
     <h1>Shop</h1>
-	<form action="<?php echo(DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds" method="POST">
+	<form action="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds" method="POST">
 		<input type="hidden" name="command-name" value="buy">
 		<select name="snack-id" required>
             <?php foreach($snacks as $snack): ?>

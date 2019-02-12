@@ -1,0 +1,4 @@
+<?php
+ini_set('display_errors', true);
+define('MAINTENANCE', false);
+define('BASE_DIR', '/');

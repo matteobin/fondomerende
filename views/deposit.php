@@ -7,7 +7,7 @@
 		</p>
 <?php 
     elseif (isset($_POST['command-name']) && $_POST['command-name']=='deposit' && $response['response']['status']==200):
-		header('location: '.DIR.'index.php?view=main&command-name=get-main-view-data');
+		header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
 		exit();
 	endif;
 ?>
@@ -15,7 +15,7 @@
 </section>
 <section>
 <h1>Deposit</h1>
-	<form action="<?php echo(DIR); ?>index.php?view=deposit" method="POST">
+	<form action="<?php echo(BASE_DIR); ?>index.php?view=deposit" method="POST">
 		<input type="hidden" name="command-name" value="deposit">
 		<input type="hidden" name="user-funds-amount" value="<?php if (isset($response['data']['user-funds-amount'])) {echo($response['data']['user-funds-amount']);} else {echo($userFundsAmount);} ?>">
 		<label>Amount</label>
