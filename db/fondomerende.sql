@@ -54,13 +54,13 @@ CREATE TABLE `commands` (
 --
 
 INSERT INTO `commands` (`id`, `name`) VALUES
-(4, 'add-snack'),
 (1, 'add-user'),
-(6, 'buy'),
+(2, 'edit-user'),
 (3, 'deposit'),
-(7, 'eat'),
+(4, 'add-snack'),
 (5, 'edit-snack'),
-(2, 'edit-user');
+(6, 'buy'),
+(7, 'eat');
 
 -- --------------------------------------------------------
 
