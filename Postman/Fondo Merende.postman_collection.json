@@ -497,7 +497,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=9545254c8b8b6e49f59b8e7a",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
 						"type": "text"
 					}
 				],
@@ -519,6 +519,721 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get main view data",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/process-request.php?command-name=get-main-view-data",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"process-request.php"
+					],
+					"query": [
+						{
+							"key": "command-name",
+							"value": "get-main-view-data"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get main view data",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/process-request.php?command-name=get-main-view-data",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"process-request.php"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-main-view-data"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Feb 2019 14:16:16 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"fund-funds-amount\": \"0.00\",\n        \"user-funds-amount\": \"0.00\",\n        \"actions\": [\n            \"2019-02-08 15:28:06: added Guybrush Threepwood.\"\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get user data",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/process-request.php?command-name=get-user-data",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"process-request.php"
+					],
+					"query": [
+						{
+							"key": "command-name",
+							"value": "get-user-data"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get user data",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/process-request.php?command-name=get-user-data",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"process-request.php"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-user-data"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Feb 2019 14:18:30 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"name\": \"guybrush-threepwood\",\n        \"friendly-name\": \"Guybrush Threepwood\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "command-name",
+							"value": "edit-user",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "peppo",
+							"type": "text"
+						},
+						{
+							"key": "friendly-name",
+							"value": "Peppo",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "cazzoDritto",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/process-request.php",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"process-request.php"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Edit user",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "command-name",
+									"value": "edit-user",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "peppo",
+									"type": "text"
+								},
+								{
+									"key": "friendly-name",
+									"value": "Peppo",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "cazzoDritto",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/process-request.php",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"process-request.php"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Feb 2019 14:22:07 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get user funds",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/process-request.php?command-name=get-user-funds",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"process-request.php"
+					],
+					"query": [
+						{
+							"key": "command-name",
+							"value": "get-user-funds"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get user funds",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/process-request.php?command-name=get-user-funds",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"process-request.php"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-user-funds"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Feb 2019 14:26:32 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"user-funds-amount\": \"0.00\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Deposit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "command-name",
+							"value": "deposit",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/process-request.php",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"process-request.php"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Deposit",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "command-name",
+									"value": "deposit",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/process-request.php",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"process-request.php"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Add snack",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "command-name",
+							"value": "add-snack",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Patatine",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "snacks-per-box",
+							"value": "7",
+							"type": "text"
+						},
+						{
+							"key": "expiration-in-days",
+							"value": "90",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/process-request.php",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"process-request.php"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add snack",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "command-name",
+									"value": "add-snack",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Patatine",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "snacks-per-box",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "expiration-in-days",
+									"value": "90",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/process-request.php",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"process-request.php"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Feb 2019 14:33:21 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 201,\n        \"data\": {\n            \"snack-id\": \"4\"\n        }\n    }\n}"
+				}
+			]
 		}
 	]
 }
