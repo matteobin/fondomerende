@@ -58,7 +58,6 @@ function checkFilteredInputValidity($value, $options=null) {
 		$options['can-be-empty'] = false;
 	}
     if ($value===null) {
-        echo('ciao');
         $valid = false;
         $message = 'value missing.';
     } else if (($value===false || $value==='') && !$options['can-be-empty']) {
