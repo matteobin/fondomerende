@@ -14,7 +14,7 @@
 <form action="<?php echo(BASE_DIR); ?>" method="POST">
 	<input type="hidden" name="command-name" value="login">
     <label for="user-name-input">User</label>
-	<input type="text" name="user-name" placeholder="name" value="<?php if (isset($userName)) {echo($userName);} ?>" required>
+	<input type="text" name="name" placeholder="name" value="<?php if (isset($userName)) {echo($userName);} ?>" required>
     <label for="password-input">Password</label>
 	<input type="password" name="password" placeholder="long is better" value="<?php if (isset($password)) {echo($password);} ?>" required>
 	<label for="remember-login-checkbox">Remember me</label>

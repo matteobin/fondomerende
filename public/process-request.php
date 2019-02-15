@@ -217,7 +217,7 @@ if (checkAuth()) {
                 if (!checkRequestMethod('POST')) {
                     break;
                 }
-                if (!setRequestInputValue($userName, true, 'user-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30))) {
+                if (!setRequestInputValue($userName, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30))) {
                     break;
                 }
                 if (!setRequestInputValue($password, true, 'password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>255))) {
@@ -238,6 +238,24 @@ if (checkAuth()) {
                 }
 				$response = logout($appRequest);
 				break;
+            case 'get-fund-funds':
+                if (!checkRequestMethod('GET')) {
+                    break;
+                }
+                if (!checkUserToken()) {
+                    break;
+                }
+                $response = getFundFunds();
+                break;
+            case 'get-user-funds':
+                if (!checkRequestMethod('GET')) {
+                    break;
+                }
+                if (!checkUserToken()) {
+                    break;
+                }
+                $response = getUserFunds($_SESSION['user-id']);
+                break;
             case 'get-last-actions':
                 if (!checkRequestMethod('GET')) {
                     break;
@@ -312,15 +330,6 @@ if (checkAuth()) {
                 }
                 $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $values, $types);
                 break;
-            case 'get-user-funds':
-                if (!checkRequestMethod('GET')) {
-                    break;
-                }
-                if (!checkUserToken()) {
-                    break;
-                }
-                $response = getUserFunds($_SESSION['user-id']);
-                break;
             case 'deposit':
                 if (!checkRequestMethod('POST')) {
                     break;
@@ -379,7 +388,7 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-                if (!setRequestInputValue($snackName, true, 'snack-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
+                if (!setRequestInputValue($snackName, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                     break;
                 }
                 $snackId = getIdByUniqueName('snacks', $snackName);
@@ -392,7 +401,7 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
+                if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                     break;
                 }
                 $values = array();
@@ -426,15 +435,6 @@ if (checkAuth()) {
                 }
                 $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                 break;
-            case 'get-fund-funds':
-                if (!checkRequestMethod('GET')) {
-                    break;
-                }
-                if (!checkUserToken()) {
-                    break;
-                }
-                $response = getFundFunds();
-                break;
             case 'get-to-buy-and-fund-funds':
                 if (!checkRequestMethod('GET')) {
                     break;
@@ -451,7 +451,7 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
+                if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                     break;
                 }
                 if (!setRequestInputValue($quantity, true, 'quantity', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
@@ -493,7 +493,7 @@ if (checkAuth()) {
                 if (!checkUserToken()) {
                     break;
                 }
-                if (!setRequestInputValue($snackId, true, 'snack-id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
+                if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                     break;
                 }
                 $quantity = 1;

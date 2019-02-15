@@ -38,7 +38,7 @@
 ?>
 <form action="<?php echo(BASE_DIR); ?>index.php?view=edit-snack&command-name=get-snack-data&snack-name=<?php echo($snackName) ?>" method="POST">
     <input type="hidden" name="command-name" value="edit-snack">
-    <input type="hidden" name="snack-id" value="<?php echo($id); ?>">
+    <input type="hidden" name="id" value="<?php echo($id); ?>">
     <label for="snack-name-input">Name</label>
     <input type="text" name="name" id="snack-name-input" value="<?php echo($friendlyName); ?>" required>
     <label for="price-input">Price</label>

@@ -28,7 +28,7 @@
     <h1>Shop</h1>
 	<form action="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds" method="POST">
 		<input type="hidden" name="command-name" value="buy">
-		<select name="snack-id" required>
+		<select name="id" required>
             <?php foreach($snacks as $snack): ?>
                 <option value="<?php echo($snack['id']); ?>"<?php if (isset($snackId)&&$snackName==$snack['id']) {echo('selected');} ?>><?php echo($snack['friendly_name']); ?></option>
             <?php endforeach; $_SESSION['snacks'] = $snacks; ?> 
