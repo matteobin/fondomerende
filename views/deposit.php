@@ -23,3 +23,12 @@
 		<input type="submit" value="Deposit">
 	</form>
 </section>
+<script>
+    function askDepositConfirm(event) {
+        event.preventDefault();
+        if (confirm('Deposit '+event.target.form[2].value+' €?')) {
+            event.target.form.submit();
+        }
+    }
+    document.querySelector('form input[type="submit"]').addEventListener('click', askDepositConfirm);
+</script>

@@ -24,7 +24,20 @@
                 <li>Price: <?php echo($snack['price-per-snack']) ?> €</li>
             </ul>
             <input type="hidden" name="id" value="<?php echo($snack['id']) ?>">
-            <input type="submit" value="Eat <?php echo($snack['friendly-name']) ?>">
+            <input type="submit" value="Eat <?php echo($snack['friendly-name']) ?>" class="submit">
         </form>
     <?php endforeach; ?>
 </section>
+    <script>
+    function askEatConfirm(event) {
+        event.preventDefault();
+        if (confirm('Eat '+event.target.form.childNodes[3].innerText+'?')) {
+            event.target.form.submit();
+        }
+    }
+    var submits = document.querySelectorAll('form input[type="submit"]');
+    var submitsNumber = submits.length;
+    for (var index=0; index<submitsNumber; index++) {
+        submits[index].addEventListener('click', askEatConfirm);
+    }
+</script>

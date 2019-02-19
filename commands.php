@@ -33,11 +33,12 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
         if ($apiCall) {
             $dbManager->startTransaction();
         }
-        $dbManager->runPreparedQuery('SELECT id, password FROM users WHERE name=?', array($name), 's');
+        $dbManager->runPreparedQuery('SELECT id, password, friendly_name FROM users WHERE name=?', array($name), 's');
         $hashedPassword = '';
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $id = $row['id'];
-            $hashedPassword = $row['password'];
+        while ($usersRow = $dbManager->getQueryRes()->fetch_assoc()) {
+            $id = $usersRow['id'];
+            $hashedPassword = $usersRow['password'];
+            $friendlyName = $usersRow['friendly_name'];
         }
         if (password_verify($password, $hashedPassword)) {
             $dbManager->runPreparedQuery('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
@@ -47,14 +48,17 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
             }
             $_SESSION['user-id'] = $id;
             $_SESSION['user-token'] = $token;
+            $_SESSION['user-friendly-name'] = $friendlyName;
             if (!$appRequest) {
                 if ($rememberUser) {
                     setcookie('user-id', $id, time()+86400*5);
                     setcookie('user-token', $token, time()+86400*5);
+                    setcookie('user-friendly-name', $friendlyName, time()+86400*5);
                     setcookie('remember-user', true, time()+86400*5);
                 } else {
                     setcookie('user-id', $id, 0);
                     setcookie('user-token', $token, 0);
+                    setcookie('user-friendly-name', $friendlyName, 0);
                 }
             }
             if ($apiCall) {

@@ -11,7 +11,7 @@
     <h1>User Moolah: <?php echo($response['data']['user-funds-amount']); ?> €</h1>
 </article>
 <article>
-    <h1>Hello beauty!</h1>
+<h1>Hello <?php echo($_SESSION['user-friendly-name']); ?>!</h1>
     <p>Welcome to the wonderfully edible world of Fondo Merende.<br>Here's a list of tasty activities you can choose from, to start your journey in this sexy web-based office pantry:</p>
     <ul>
         <li>Reach for the wallet to <a href="<?php echo(BASE_DIR); ?>index.php?view=deposit&command-name=get-user-funds"><strong>DEPOSIT</strong></a> some moolah for this very Just Cause.</li>
