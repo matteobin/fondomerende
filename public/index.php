@@ -1,7 +1,7 @@
 <?php
     require_once('../config.php');
     if (MAINTENANCE) {
-        $currentView = array('name'=>'maintenance', 'path'=>'../views/maintenance.php', 'title'=>'Maintenance', 'description'=>'Something big is coming: wait for the update.');
+        $currentView = array('name'=>'maintenance', 'file-name'=>'maintenance', 'title'=>'Maintenance', 'description'=>'Something big is coming: wait for the update.');
     } else {
         setcookie('auth-key', 'sekrit_PaSSWoRD');
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
@@ -31,7 +31,7 @@
             return $logged;
         }
         
-        $views = array(array('name'=>'login', 'path'=>'../views/login.php', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.'), array('name'=>'main', 'path'=>'../views/main.php', 'title'=>'Main', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'edit-user', 'path'=>'../views/edit-user.php', 'title'=>'Edit user', 'description'=>'Get yourself some plastic surgery!'), array('name'=>'deposit', 'path'=>'../views/deposit.php', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'add-snack', 'path'=>'../views/add-snack.php', 'title'=>'Add', 'description'=>'Add the snack of your dreams to Fondo Merende special reserve.'), array('name'=>'edit-snack', 'path'=>'../views/edit-snack.php', 'title'=>'Edit snack', 'description'=>'Change snack name and buy default settings.'), array('name'=>'list-snacks-to-edit', 'path'=>'../views/list-snacks-to-edit.php', 'title'=>'Snacks', 'description'=>'Decide what snack to change.'), array('name'=>'buy', 'path'=>'../views/buy.php', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'path'=>'../views/eat.php', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
+        $views = array(array('name'=>'login', 'file-name'=>'login', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.'), array('name'=>'main', 'file-name'=>'main', 'title'=>'Main', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'edit-user', 'file-name'=>'edit-user', 'title'=>'Edit user', 'description'=>'Get yourself some plastic surgery!'), array('name'=>'deposit', 'file-name'=>'deposit', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'add-snack', 'file-name'=>'add-snack', 'title'=>'Add', 'description'=>'Add the snack of your dreams to Fondo Merende special reserve.'), array('name'=>'edit-snack', 'file-name'=>'edit-snack', 'title'=>'Edit snack', 'description'=>'Change snack name and buy default settings.'), array('name'=>'list-snacks-to-edit', 'file-name'=>'list-snacks-to-edit', 'title'=>'Snacks', 'description'=>'Decide what snack to change.'), array('name'=>'buy', 'file-name'=>'buy', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'file-name'=>'eat', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
         
         if (checkLogin()) {
             $noView = true;
@@ -47,11 +47,11 @@
                     header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
                 } else {
                     http_response_code(404);
-                    $currentView = array('name'=>'404', 'path'=>'../views/404.php', 'title'=>'404', 'description'=>'Not found.');
+                    $currentView = array('name'=>'404', 'file-name'=>'404', 'title'=>'404', 'description'=>'Not found.');
                 }
             }
         } else if ($currentViewName=='add-user') {
-            $currentView = array('name'=>'add-user', 'path'=>'../views/add-user.php', 'title'=>'Add user', 'description'=>'Fondo Merende add user form.');
+            $currentView = array('name'=>'add-user', 'file-name'=>'add-user', 'title'=>'Add user', 'description'=>'Fondo Merende add user form.');
         } else {
             $currentView = $views[0];
         }
@@ -70,7 +70,7 @@
 			<h1 style="float:left">Fondo Merende</h1><h2 style="float:left">&nbsp;v1.0.2b</h2>
 		</header>
 		<section style="clear:left">
-			<?php require_once($currentView['path']); ?>
+			<?php require_once('../views/'.$currentView['file-name'].'.php'); ?>
 		</section>
 		<footer>
 		</footer>
