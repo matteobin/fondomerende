@@ -24,7 +24,6 @@
         }
         if (isset($_POST['command-name']) && $_POST['command-name']=='edit-user' && isset($response['response']['status']) && $response['response']['status']==200) {
             unset($_SESSION['user-name']);
-            unset($_SESSION['user-friendly-name']);
             header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
             exit();
         }
@@ -45,11 +44,11 @@
     </form>
 </section>
 <script>
-    function askAddSnackConfirm(event) {
+    function askEditUserConfirm(event) {
         event.preventDefault();
         if (confirm('Edit user '+event.target[2].value+'?')) {
             event.target.submit();
         }
     }
-    document.querySelector('form').addEventListener('submit', askAddSnackConfirm);
+    document.querySelector('form').addEventListener('submit', askEditUserConfirm);
 </script>

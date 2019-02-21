@@ -413,6 +413,14 @@ function editSnackOrUser(array $ids, array $newValues, array $types) {
             }
             insertEdits($newValues, $types, $oldValues);
         }
+        if ($table=='users' && isset($newValues['friendly_name']) && $newValues['friendly_name']!=$oldValues['friendly_name']) {
+            $_SESSION['user-friendly-name'] = $newValues['friendly_name'];
+            if (filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN)) {
+                setcookie('user-friendly-name', $newValues['friendly_name'], time()+86400*5);
+            } else {
+                setcookie('user-friendly-name', $newValues['friendly_name'], 0);
+            }
+        }
         $dbManager->endTransaction();
         $response['response'] = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {

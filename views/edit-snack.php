@@ -51,11 +51,11 @@
     </form>
 </section>
 <script>
-    function askAddSnackConfirm(event) {
+    function askEditSnackConfirm(event) {
         event.preventDefault();
         if (confirm('Edit snack '+event.target[2].value+'?\n\nPrice: '+event.target[3].valueAsNumber+' €.\nSnacks per box: '+event.target[4].valueAsNumber+'.\nExpiration in days: '+event.target[5].valueAsNumber+'.')) {
             event.target.submit();
         }
     }
-    document.querySelector('form').addEventListener('submit', askAddSnackConfirm);
+    document.querySelector('form').addEventListener('submit', askEditSnackConfirm);
 </script>
