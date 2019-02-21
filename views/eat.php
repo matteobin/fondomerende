@@ -26,18 +26,19 @@
             <input type="hidden" name="id" value="<?php echo($snack['id']) ?>">
             <input type="submit" value="Eat <?php echo($snack['friendly-name']) ?>" class="submit">
         </form>
+        <hr>
     <?php endforeach; ?>
 </section>
     <script>
     function askEatConfirm(event) {
         event.preventDefault();
-        if (confirm('Eat '+event.target.form.childNodes[3].innerText+'?')) {
-            event.target.form.submit();
+        if (confirm('Eat '+event.target.childNodes[3].innerText+'?')) {
+            event.target.submit();
         }
     }
-    var submits = document.querySelectorAll('form input[type="submit"]');
+    var submits = document.querySelectorAll('form');
     var submitsNumber = submits.length;
     for (var index=0; index<submitsNumber; index++) {
-        submits[index].addEventListener('click', askEatConfirm);
+        submits[index].addEventListener('submit', askEatConfirm);
     }
 </script>

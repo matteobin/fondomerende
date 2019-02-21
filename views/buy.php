@@ -54,14 +54,14 @@
 <script>
     function askBuyConfirm(event) {
         event.preventDefault();
-        var confirmString = 'Buy '+event.target.form[1][event.target.form[1].selectedIndex].innerText+'?';
-        console.log(event.target.form);
-        if (event.target.form[3].checked) {
-            confirmString += '\n\nPrice: '+event.target.form[4].valueAsNumber+' €.\nSnacks per box: '+event.target.form[5].valueAsNumber+'. \nExpiration in days: '+event.target.form[6].valueAsNumber+'.';
+        var confirmString = 'Buy '+event.target[1][event.target[1].selectedIndex].innerText+'?';
+        console.log(event.target);
+        if (event.target[3].checked) {
+            confirmString += '\n\nPrice: '+event.target[4].valueAsNumber+' €.\nSnacks per box: '+event.target[5].valueAsNumber+'. \nExpiration in days: '+event.target[6].valueAsNumber+'.';
         }
         if (confirm(confirmString)) {
-            event.target.form.submit();
+            event.target.submit();
         }
     }
-    document.querySelector('form input[type="submit"]').addEventListener('click', askBuyConfirm);
+    document.querySelector('form').addEventListener('submit', askBuyConfirm);
 </script>

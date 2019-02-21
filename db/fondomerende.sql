@@ -313,6 +313,7 @@ CREATE TABLE `users` (
   `name` varchar(30) NOT NULL,
   `password` varchar(255) NOT NULL,
   `friendly_name` varchar(30) NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -362,4 +363,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-18 15:27:21
+-- Dump completed on 2019-02-21 15:07:56

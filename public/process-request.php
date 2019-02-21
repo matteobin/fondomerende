@@ -211,7 +211,11 @@ if (checkAuth()) {
                 if (!setRequestInputValue($friendlyName, true, 'friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60))) {
                     break;
                 }
-                $response = addUser($name, $password, $friendlyName, $appRequest);
+                $admin = false;
+                if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                    break;
+                }
+                $response = addUser($name, $password, $friendlyName, $admin, $appRequest);
                 break;
             case 'login':
                 if (!checkRequestMethod('POST')) {
@@ -366,11 +370,11 @@ if (checkAuth()) {
                 if (!setRequestInputValue($expirationInDays, true, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>4))) {
                     break;
                 }
-                $isLiquid = false;
-                if (!setRequestInputValue($isLiquid, false, 'is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                $countable = true;
+                if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
                     break;
                 }
-                $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $isLiquid);
+                $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
                 break;
             case 'get-snacks-data':
                 if (!checkRequestMethod('GET')) {
