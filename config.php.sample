@@ -1,4 +1,6 @@
 <?php
-ini_set('display_errors', true);
+if (!$appRequest) {
+    ini_set('display_errors', true);
+    define('BASE_DIR', '/');
+}
 define('MAINTENANCE', false);
-define('BASE_DIR', '/');

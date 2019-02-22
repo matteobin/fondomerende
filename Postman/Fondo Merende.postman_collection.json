@@ -38,6 +38,11 @@
 							"key": "password",
 							"value": "melee",
 							"type": "text"
+						},
+						{
+							"key": "admin",
+							"value": "0",
+							"type": "text"
 						}
 					]
 				},
@@ -84,6 +89,11 @@
 								{
 									"key": "password",
 									"value": "melee",
+									"type": "text"
+								},
+								{
+									"key": "admin",
+									"value": "0",
 									"type": "text"
 								}
 							]
@@ -1152,6 +1162,11 @@
 							"key": "expiration-in-days",
 							"value": "90",
 							"type": "text"
+						},
+						{
+							"key": "countable",
+							"value": "1",
+							"type": "text"
 						}
 					]
 				},
@@ -1203,6 +1218,11 @@
 								{
 									"key": "expiration-in-days",
 									"value": "90",
+									"type": "text"
+								},
+								{
+									"key": "countable",
+									"value": "1",
 									"type": "text"
 								}
 							]
