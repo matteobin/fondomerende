@@ -182,13 +182,13 @@
 							"type": "text"
 						},
 						{
-							"key": "user-name",
-							"value": "peppo",
+							"key": "name",
+							"value": "arturo",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "cazzoDritto",
+							"value": "arturo",
 							"type": "text"
 						}
 					]
@@ -224,7 +224,7 @@
 									"type": "text"
 								},
 								{
-									"key": "user-name",
+									"key": "name",
 									"value": "matteobin",
 									"type": "text"
 								},
