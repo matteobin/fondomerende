@@ -554,13 +554,13 @@ function buy($userId, $snackId, $quantity, array $options) {
             $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'ii');
         } else {
             $dbManager->runQuery('SELECT id FROM users');
-            $users = array();
+            $userIds = array();
             while ($usersRow = $dbManager->getQueryRes()->fetch_assoc()) {
-                $users[] = $usersRow['id'];
+                $userIds[] = $usersRow['id'];
             }
-            $totalPricePerUser = round($totalPrice/count($users), 2, PHP_ROUND_HALF_UP);
-            foreach ($users as $user) {
-                $dbManager->runPreparedQuery('UPDATE users_funds SET amount=amount-? WHERE user_id=?', array($totalPricePerUser, $user['id']), 'di');
+            $totalPricePerUser = round($totalPrice/count($userIds), 2, PHP_ROUND_HALF_UP);
+            foreach ($userIds as $singleUserId) {
+                $dbManager->runPreparedQuery('UPDATE users_funds SET amount=amount-? WHERE user_id=?', array($totalPricePerUser, $singleUserId), 'di');
             } 
         }
         $dbManager->endTransaction(); 
