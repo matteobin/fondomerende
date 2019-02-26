@@ -519,6 +519,20 @@ function getBuyOptions($column, $options, $snackId) {
     return $buyOption;
 }
 
+function checkSnackCountable ($snackId) {
+    global $dbManager;
+    $dbManager->runPreparedQuery('SELECT countable FROM snacks WHERE id=?', array($snackId), 'i');
+    while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
+        $countable = $snacksRow['countable'];
+    }
+    if ($countable=='1') {
+        $countable = true;
+    } else {
+        $countable = false;
+    }
+    return $countable;
+}
+
 function buy($userId, $snackId, $quantity, array $options) {
     global $dbManager;
     try {
@@ -534,9 +548,21 @@ function buy($userId, $snackId, $quantity, array $options) {
             $outflowId = $row['id'];
         }
         $dbManager->runPreparedQuery('INSERT INTO crates (outflow_id, snack_id, snack_quantity, price_per_snack, expiration) VALUES (?, ?, ?, ?, ?)', array($outflowId, $snackId, $snackNumber, $unitPrice/$snacksPerBox, date('Y-m-d', strtotime('+'.$expirationInDays.' days'))), 'iiids');
-        $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'ii');
         $dbManager->runPreparedQuery('UPDATE fund_funds SET amount=amount-?', array($totalPrice), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 6, $snackId, $snackNumber, $totalPrice), 'iiiid');
+        if (checkSnackCountable($snackId)) {
+            $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'ii');
+        } else {
+            $dbManager->runQuery('SELECT id FROM users');
+            $users = array();
+            while ($usersRow = $dbManager->getQueryRes()->fetch_assoc()) {
+                $users[] = $usersRow['id'];
+            }
+            $totalPricePerUser = round($totalPrice/count($users), 2, PHP_ROUND_HALF_UP);
+            foreach ($users as $user) {
+                $dbManager->runPreparedQuery('UPDATE users_funds SET amount=amount-? WHERE user_id=?', array($totalPricePerUser, $user['id']), 'di');
+            } 
+        }
         $dbManager->endTransaction(); 
         $response['response'] = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
