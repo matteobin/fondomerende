@@ -373,7 +373,7 @@ if (MAINTENANCE) {
                         break;
                     }
                     $countable = true;
-                    if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                    if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN), array('can-be-empty'=>true))) {
                         break;
                     }
                     $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);

@@ -23,6 +23,8 @@
         <input type="number" name="snacks-per-box" id="snacks-per-box-input" min="1" step="1" max="99" placeholder="7" value="<?php if (isset($snacksPerBox)) {echo($snacksPerBox);} ?>" required>
         <label for="expiration-in-days-input">Expiration in days</label>
         <input type="number" name="expiration-in-days" id="expiration-in-days-input" min="1" step="1" max="9999" placeholder="90" value="<?php if (isset($expirationInDays)) {echo($expirationInDays);} ?>" required>
+        <label for="countable-input">Uncountable</label>
+        <input type="checkbox" name="countable" id="countable-input" value="no">
         <input type="submit" value="Add">
     </form>
 </section>
