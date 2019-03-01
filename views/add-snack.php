@@ -24,7 +24,7 @@
         <label for="expiration-in-days-input">Expiration in days</label>
         <input type="number" name="expiration-in-days" id="expiration-in-days-input" min="1" step="1" max="9999" placeholder="90" value="<?php if (isset($expirationInDays)) {echo($expirationInDays);} ?>" required>
         <label for="countable-input">Uncountable</label>
-        <input type="checkbox" name="countable" id="countable-input" value="no">
+        <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($countable) && !$countable {echo('checked');}) ?>>
         <input type="submit" value="Add">
     </form>
 </section>

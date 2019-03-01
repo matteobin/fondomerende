@@ -1,5 +1,5 @@
 <?php
-if (!$appRequest) {
+if (!isset($appRequest) || !$appRequest) {
     ini_set('display_errors', true);
     define('BASE_DIR', '/');
 }
