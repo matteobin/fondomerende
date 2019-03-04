@@ -72,8 +72,11 @@ if (MAINTENANCE) {
         }
         else if (isset($options['greater-than']) && $value<=$options['greater-than']) {
             $valid = false;
-            $message = '\''.$value.'\' lesser than '.($options['greater-than']+1).'.';
-        }
+            $message = '\''.$value.'\' is not greater than '.$options['greater-than'].'.';
+        } else if (isset($options['lesser-than']) && $value>=$options['lesser-than']) {
+            $valid = false;
+            $message = '\''.$value.'\' is not lesser than '.$options['lesser-than'].'.';
+        } 
         if ($valid && isset($options['digits-number'])) {
             if (strpos($value, '.')===false) {
                 $dotsNumber = 0;
@@ -363,7 +366,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                         break;
                     }
-                    if (!setRequestInputValue($price, true, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
+                    if (!setRequestInputValue($price, true, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'lesser-than'=>100))) {
                         break;
                     }
                     if (!setRequestInputValue($snacksPerBox, true, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>2))) {
@@ -419,7 +422,7 @@ if (MAINTENANCE) {
                         $types['friendly_name'] = 's';
                         $values['name'] = str_replace(' ', '-', strtolower($values['name']));
                     }
-                    if (!setRequestInputValue($values, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
+                    if (!setRequestInputValue($values, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'lesser-than'=>100))) {
                         break;
                     } else if (isset($values['price'])) {
                         $types['price'] = 'd';
@@ -471,7 +474,7 @@ if (MAINTENANCE) {
                     }
                     $options = array();
                     if ($appRequest || $customiseBuyOptions) {
-                        if (!setRequestInputValue($options, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
+                        if (!setRequestInputValue($options, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'lesser-than'=>100))) {
                             break;
                         }
                         if (!setRequestInputValue($options, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>2))) {

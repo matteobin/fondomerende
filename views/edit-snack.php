@@ -42,7 +42,7 @@
         <label for="snack-name-input">Name</label>
         <input type="text" name="name" id="snack-name-input" value="<?php echo($friendlyName); ?>" required>
         <label for="price-input">Price</label>
-        <input type="number" name="price" id="price-input" min="0.01" step="0.01" max="999.99" placeholder="0.07" value="<?php echo($price); ?>" required>
+        <input type="number" name="price" id="price-input" min="0.01" step="0.01" max="99.99" placeholder="0.07" value="<?php echo($price); ?>" required>
         <label for="snacks-per-box-input">Snacks per box</label>
         <input type="number" name="snacks-per-box" id="snacks-per-box-input" min="1" step="1" max="99" placeholder="7" value="<?php echo($snacksPerBox); ?>" required>
         <label for="expiration-in-days-input">Expiration in days</label>
