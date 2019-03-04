@@ -24,14 +24,21 @@
         <label for="expiration-in-days-input">Expiration in days</label>
         <input type="number" name="expiration-in-days" id="expiration-in-days-input" min="1" step="1" max="9999" placeholder="90" value="<?php if (isset($expirationInDays)) {echo($expirationInDays);} ?>" required>
         <label for="countable-input">Uncountable</label>
-        <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($countable) && !$countable {echo('checked');}) ?>>
+        <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($countable) && !$countable) {echo('checked');} ?>>
         <input type="submit" value="Add">
     </form>
 </section>
 <script>
     function askAddSnackConfirm(event) {
         event.preventDefault();
-        if (confirm('Add snack '+event.target[1].value+'?\n\nPrice: '+event.target[2].valueAsNumber+' €.\nSnacks per box: '+event.target[3].valueAsNumber+'.\nExpiration in days: '+event.target[4].valueAsNumber+'.')) {
+        var confirmString = 'Add snack '+event.target[1].value+'?\n\nPrice: '+event.target[2].valueAsNumber+' €.\nSnacks per box: '+event.target[3].valueAsNumber+'.\nExpiration in days: '+event.target[4].valueAsNumber+'.\n';
+        if (event.target[5].checked) {
+            confirmString += 'Uncountable';
+        } else {
+            confirmString += 'Countable';
+        }
+        confirmString += '.'
+        if (confirm(confirmString)) {
             event.target.submit();
         }
     }
