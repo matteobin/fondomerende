@@ -28,6 +28,17 @@ if (MAINTENANCE) {
         return $requestMethodRight;
     }
 
+    function savePostFormData() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        foreach ($_POST as $postIndex=>$formData) {
+            if (!isset($_SESSION['form'][$postIndex]) || $_SESSION['form'][$postIndex]!=$formData) {
+                $_SESSION['form'][$postIndex] = $formData;
+            }
+        }
+    }
+
     function checkUserToken() {
         $isAuth = false;
         global $userToken;
@@ -206,6 +217,9 @@ if (MAINTENANCE) {
                 case 'add-user':
                     if (!checkRequestMethod('POST')) {
                         break;
+                    }
+                    if (!$appRequest) {
+                        savePostFormData();
                     }
                     if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                         break;
