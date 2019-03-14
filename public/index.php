@@ -62,8 +62,9 @@
 	<head>
 		<meta charset="utf-8">
         <title>Fondo Merende | <?php echo($currentView['title']); if ($currentView['name']!='login' && $currentView['name']!='add-user' && $currentView['name']!='404') {echo(' - '.$_SESSION['user-friendly-name']);} ?></title>
-		<meta name="description" content="<?php echo($currentView['description']); ?>">
 		<meta name="author" content="Matteo Bini">
+		<meta name="description" content="<?php echo($currentView['description']); ?>">
+        <meta name="robots" content="noindex, nofollow">
 	</head>
 	<body>
 		<header>

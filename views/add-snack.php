@@ -1,11 +1,13 @@
-    <?php
-        if (isset($_POST['name'])) {
-            require_once('process-request.php');
-        }
-        if (isset($response['response']['status']) && $response['response']['status']==201) {
-            header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
-            exit();
-        } ?>
+<?php
+    if (isset($_POST['name'])) {
+        require_once('process-request.php');
+    }
+    if (isset($response['response']['status']) && $response['response']['status']==201) {
+        unset($_SESSION['add-snack-form-data']);
+        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        exit();
+    }
+?>
 <section>
     <h1>Add snack</h1>
     <?php if (isset($response['response']['message'])): ?> 
@@ -16,15 +18,15 @@
     <form action="<?php echo(BASE_DIR); ?>index.php?view=add-snack" method="POST">
         <input type="hidden" name="command-name" value="add-snack">
         <label for="snack-name-input">Snack name</label>
-        <input type="text" name="name" id="snack-name-input" placeholder="name" value="<?php if (isset($name)) {echo($name);} ?>" required>
+        <input type="text" name="name" id="snack-name-input" placeholder="name" value="<?php if (isset($_SESSION['add-snack-form-data']['name'])) {echo($_SESSION['add-snack-form-data']['name']);} ?>" required>
         <label for="price-input">Price</label>
-        <input type="number" name="price" id="price-input" min="0.01" step="0.01" max="99.99" placeholder="0.07" value="<?php if (isset($price)) {echo($price);} ?>" required>
+        <input type="number" name="price" id="price-input" min="0.01" step="0.01" max="99.99" placeholder="0.07" value="<?php if (isset($_SESSION['add-snack-form-data']['price'])) {echo($_SESSION['add-snack-form-data']['price']);} ?>" required>
         <label for="snacks-per-box-input">Snacks per box</label>
-        <input type="number" name="snacks-per-box" id="snacks-per-box-input" min="1" step="1" max="99" placeholder="7" value="<?php if (isset($snacksPerBox)) {echo($snacksPerBox);} ?>" required>
+        <input type="number" name="snacks-per-box" id="snacks-per-box-input" min="1" step="1" max="99" placeholder="7" value="<?php if (isset($_SESSION['add-snack-form-data']['snacks-per-box'])) {echo($_SESSION['add-snack-form-data']['snacks-per-box']);} ?>" required>
         <label for="expiration-in-days-input">Expiration in days</label>
-        <input type="number" name="expiration-in-days" id="expiration-in-days-input" min="1" step="1" max="9999" placeholder="90" value="<?php if (isset($expirationInDays)) {echo($expirationInDays);} ?>" required>
+        <input type="number" name="expiration-in-days" id="expiration-in-days-input" min="1" step="1" max="9999" placeholder="90" value="<?php if (isset($_SESSION['add-snack-form-data']['expiration-in-days'])) {echo($_SESSION['add-snack-form-data']['expiration-in-days']);} ?>" required>
         <label for="countable-input">Uncountable</label>
-        <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($countable) && !$countable) {echo('checked');} ?>>
+        <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($_SESSION['add-snack-form-data']['countable']) && $_SESSION['add-snack-form-data']['countable']=='no') {echo('checked');} ?>>
         <input type="submit" value="Add">
     </form>
 </section>

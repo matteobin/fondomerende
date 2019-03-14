@@ -28,13 +28,14 @@ if (MAINTENANCE) {
         return $requestMethodRight;
     }
 
-    function savePostFormData() {
+    function savePostFormData($formViewName) {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+        $sessionIndex = $formViewName.'-form-data';
         foreach ($_POST as $postIndex=>$formData) {
-            if (!isset($_SESSION['form'][$postIndex]) || $_SESSION['form'][$postIndex]!=$formData) {
-                $_SESSION['form'][$postIndex] = $formData;
+            if (!isset($_SESSION[$sessionIndex][$postIndex]) || $_SESSION[$sessionIndex][$postIndex]!=$formData) {
+                $_SESSION[$sessionIndex][$postIndex] = $formData;
             }
         }
     }
@@ -219,7 +220,7 @@ if (MAINTENANCE) {
                         break;
                     }
                     if (!$appRequest) {
-                        savePostFormData();
+                        savePostFormData('add-user');
                     }
                     if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                         break;
@@ -377,6 +378,9 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    if (!$appRequest) {
+                        savePostFormData('add-snack');
+                    }
                     if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                         break;
                     }
@@ -423,6 +427,9 @@ if (MAINTENANCE) {
                     }
                     if (!checkUserToken()) {
                         break;
+                    }
+                    if (!$appRequest) {
+                        savePostFormData('edit-snack');
                     }
                     if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                         break;
