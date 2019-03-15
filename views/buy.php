@@ -48,7 +48,7 @@
         var confirmString = 'Buy '+event.target[1][event.target[1].selectedIndex].innerText+'?';
         console.log(event.target);
         if (event.target[3].checked) {
-            confirmString += '\n\nPrice: '+event.target[4].valueAsNumber+' €.\nSnacks per box: '+event.target[5].valueAsNumber+'. \nExpiration in days: '+event.target[6].valueAsNumber+'.';
+            confirmString += '\n\nPrice: '+event.target[4].value+' €.\nSnacks per box: '+event.target[5].value+'. \nExpiration in days: '+event.target[6].value+'.';
         }
         if (confirm(confirmString)) {
             event.target.submit();

@@ -32,7 +32,7 @@
 <script>
     function askAddSnackConfirm(event) {
         event.preventDefault();
-        var confirmString = 'Add snack '+event.target[1].value+'?\n\nPrice: '+event.target[2].valueAsNumber+' €.\nSnacks per box: '+event.target[3].valueAsNumber+'.\nExpiration in days: '+event.target[4].valueAsNumber+'.\n';
+        var confirmString = 'Add snack '+event.target[1].value+'?\n\nPrice: '+event.target[2].value+' €.\nSnacks per box: '+event.target[3].value+'.\nExpiration in days: '+event.target[4].value+'.\n';
         if (event.target[5].checked) {
             confirmString += 'Uncountable';
         } else {
