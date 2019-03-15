@@ -322,8 +322,7 @@ function getUserData($userId) {
         }
         $dbManager->endTransaction();
         $response['response'] = array('success'=>true, 'status'=>200);
-        $response['data']['name'] = $name;
-        $response['data']['friendly-name'] = $friendlyName;
+        $response['data']['user'] = array('name'=>$name, 'friendly-name'=>$friendlyName);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());

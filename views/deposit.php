@@ -1,25 +1,23 @@
-<?php require_once('process-request.php'); ?>
+<?php
+    require_once('process-request.php');
+    if (isset($_POST['command-name']) && $_POST['command-name']=='deposit' && isset($response['response']['status']) && $response['response']['status']==200) {
+        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        exit();
+    }
+?>
 <section>
-    <?php
-        if (isset($response['response']['message'])): ?> 
-            <p>
-                <?php echo($response['response']['message']); ?>
-            </p>
-    <?php 
-        elseif (isset($_POST['command-name']) && $_POST['command-name']=='deposit' && $response['response']['status']==200):
-            header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
-            exit();
-        endif;
-    ?>
-    <h1>Moolah: <?php if (isset($response['data']['user-funds-amount'])) {echo($response['data']['user-funds-amount']);} else {echo($userFundsAmount);} ?> €</h1>
+    <?php if (isset($response['response']['message'])): ?> 
+            <p><?php echo($response['response']['message']); ?></p>
+    <?php endif; ?>
+    <h1>Moolah: <?php if (isset($_POST['user-funds-amount'])) {echo($_POST['user-funds-amount']);} else {echo($response['data']['user-funds-amount']);} ?> €</h1>
 </section>
 <section>
     <h1>Deposit</h1>
 	<form action="<?php echo(BASE_DIR); ?>index.php?view=deposit" method="POST">
 		<input type="hidden" name="command-name" value="deposit">
-		<input type="hidden" name="user-funds-amount" value="<?php if (isset($response['data']['user-funds-amount'])) {echo($response['data']['user-funds-amount']);} else {echo($userFundsAmount);} ?>">
+		<input type="hidden" name="user-funds-amount" value="<?php if (isset($_POST['user-funds-amount'])) {echo($_POST['user-funds-amount']);} else {echo($response['data']['user-funds-amount']);} ?>">
 		<label>Amount</label>
-		<input type="number" name="amount" min="0.01" step="0.01" max="99.99" value="<?php if (isset($amount)) {echo($amount);} ?>" required>
+		<input type="number" name="amount" min="0.01" step="0.01" max="99.99" placeholder="5.29" value="<?php if (isset($_POST['amount'])) {echo($_POST['amount']);} ?>" required>
 		<input type="submit" value="Deposit">
 	</form>
 </section>

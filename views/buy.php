@@ -1,27 +1,18 @@
 <?php
 	require_once('process-request.php');
+    if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && isset($response['response']['status']) && $response['response']['status']==200) {
+        unset($_SESSION['buy-form-data']);
+        header('location: '.BASE_DIR.'index.php?view=buy&command-name=get-to-buy-and-fund-funds');
+        exit();
+    }
 	if (isset($response['data']['snacks'])) {
 		$snacks = $response['data']['snacks'];
 	}
-	$custumiseBuyOptionsCheckboxStatus = '';
 ?>
 <section>
-    <?php
-        if (isset($response['response']['message'])) { ?> 
-            <p>
-                <?php echo($response['response']['message']); ?>
-            </p>
-    <?php
-            $snacks = $_SESSION['snacks'];
-            if ($customiseBuyOptions) {
-                $custumiseBuyOptionsCheckboxStatus = 'checked';
-            }
-        } else if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && $response['response']['status']==200) {
-            unset($_SESSION['snacks']);
-            header('location: '.BASE_DIR.'index.php?view=buy&command-name=get-to-buy-and-fund-funds');
-            exit();
-        }
-    ?>
+    <?php if (isset($response['response']['message'])): ?> 
+        <p><?php echo($response['response']['message']); ?></p>
+    <?php endif; ?>
     <h1>Fund Moolah: <?php echo($response['data']['fund-funds-amount']) ?> €</h1>
 </section>
 <section>

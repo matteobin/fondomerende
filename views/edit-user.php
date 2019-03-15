@@ -1,45 +1,25 @@
+<?php
+    require_once('process-request.php');
+    if (isset($_POST['command-name']) && $_POST['command-name']=='edit-user' && isset($response['response']['status']) && $response['response']['status']==200) {
+        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        exit();
+    }
+?>
 <section>
     <h1>Edit user</h1>
-    <?php
-        require_once('process-request.php');
-        function storeUserData($value) {
-            $variableName = $value[0].substr(str_replace('-', '', mb_convert_case($value, MB_CASE_TITLE)), 1);
-            $valuesName = str_replace('-', '_', $value);
-            global $response, ${$variableName}, $values;
-            if (isset($response['data'][$value])) {
-                ${$variableName} = $response['data'][$value];
-            } else if (isset($values[$valuesName])) {
-                ${$variableName} = $values[$valuesName];
-            } else {
-                ${$variableName} = $_SESSION['user-'.$value];
-            }
-        }
-        storeUserData('name');
-        storeUserData('friendly-name');
-        if (isset($response['response']['message'])) { ?> 
-            <p>
-                <?php echo($response['response']['message']); ?>
-            </p>
-    <?php
-        }
-        if (isset($_POST['command-name']) && $_POST['command-name']=='edit-user' && isset($response['response']['status']) && $response['response']['status']==200) {
-            unset($_SESSION['user-name']);
-            header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
-            exit();
-        }
-        $_SESSION['user-name'] = $name;
-        $_SESSION['user-friendly-name'] = $friendlyName;
-    ?>
+    <?php if (isset($response['response']['message'])): ?> 
+        <p><?php echo($response['response']['message']); ?></p>
+    <?php endif; ?>
     <form action="<?php echo(BASE_DIR); ?>index.php?view=edit-user&command-name=get-user-names" method="POST">
         <input type="hidden" name="command-name" value="edit-user">
         <label for="user-name-input">User</label>
-        <input type="text" name="name" id="user-name-input" placeholder="artu95_4evah" value="<?php echo($name); ?>">
+        <input type="text" name="name" id="user-name-input" placeholder="artu95_4evah" maxlength="30" value="<?php if (isset($_POST['name'])) {echo($_POST['name']);} else {echo($response['data']['user']['name']);} ?>">
         <label for="friendly-name-input">Friendly name</label>
-        <input type="text" name="friendly-name" id="friendly-name-input" placeholder="Arturo" value="<?php echo($friendlyName); ?>">
+        <input type="text" name="friendly-name" id="friendly-name-input" placeholder="Arturo" maxlength="60" value="<?php if (isset($_POST['friendly-name'])) {echo($_POST['friendly-name']);} else {echo($response['data']['user']['friendly-name']);} ?>">
         <label for="password-input">Change password</label>
-        <input type="password" name="password" id="password-input" placeholder="long is better">
+        <input type="password" name="password" id="password-input" placeholder="long is better" maxlength="125" value="<?php if (isset($_POST['password'])) {echo($_POST['password']);} ?>">
         <label for="current-password-input">Write your current password to confirm edits</label>
-        <input type="password" name="current-password" id="current-password-input" placeholder="the good ol' one" required>
+        <input type="password" name="current-password" id="current-password-input" placeholder="the good ol' one" maxlength="125" required>
         <input type="submit" value="Save">
     </form>
 </section>

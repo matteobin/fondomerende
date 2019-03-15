@@ -795,7 +795,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=a9792d933dce4d5d689aea35",
 						"type": "text"
 					}
 				],
@@ -827,7 +827,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=a9792d933dce4d5d689aea35",
 								"type": "text"
 							}
 						],
@@ -861,7 +861,7 @@
 						},
 						{
 							"key": "Date",
-							"value": "Wed, 13 Feb 2019 14:18:30 GMT"
+							"value": "Fri, 15 Mar 2019 12:15:00 GMT"
 						},
 						{
 							"key": "Content-Type",
@@ -897,7 +897,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"name\": \"guybrush-threepwood\",\n        \"friendly-name\": \"Guybrush Threepwood\"\n    }\n}"
+					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"user\": {\n            \"name\": \"arturo\",\n            \"friendly-name\": \"Arturo\"\n        }\n    }\n}"
 				}
 			]
 		},
