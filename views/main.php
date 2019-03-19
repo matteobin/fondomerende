@@ -4,12 +4,13 @@
         echo($response['response']['message']);
     }
 ?>
+<h2>Main</h2>
 <div>
-    <h2>Fund Moolah: <?php echo($response['data']['fund-funds-amount']); ?> €</h2>
+    <h3>Fund Moolah: <?php echo($response['data']['fund-funds-amount']); ?> €</h3>
     <h3>User Moolah: <?php echo($response['data']['user-funds-amount']); ?> €</h3>
 </div>
 <div>
-<h4>Hello <?php echo($_SESSION['user-friendly-name']); ?>!</h4>
+<h3>Hello <?php echo($_SESSION['user-friendly-name']); ?>!</h3>
     <p>Welcome to the wonderfully edible world of Fondo Merende.<br>Here's a list of tasty activities you can choose from, to start your journey in this sexy web-based office pantry:</p>
     <ul>
         <li>Reach for the wallet to <a href="<?php echo(BASE_DIR); ?>index.php?view=deposit&command-name=get-user-funds"><strong>DEPOSIT</strong></a> some moolah for this very Just Cause.</li>
@@ -24,7 +25,7 @@
     </ul>
 </div>
 <div>
-    <h4>Neighbourhood happenings:</h4>
+    <h3>Neighbourhood happenings:</h3>
     <ul>
         <?php foreach ($response['data']['actions'] as $action): ?>
             <li><?php echo($action); ?></li>
@@ -32,7 +33,7 @@
     </ul>
 </div>
 <div>
-    <h4>Tired of our little community?</h4>
+    <h3>Tired of our little community?</h3>
     <p>Log the hell out of here, slut.</p>
     <form action="<?php echo(BASE_DIR); ?>index.php?view=login" method="POST">
         <input type="hidden" name="command-name" value="logout">
