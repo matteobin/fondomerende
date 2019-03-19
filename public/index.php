@@ -68,7 +68,7 @@
 	</head>
 	<body>
 		<header>
-			<h1 style="float:left">Fondo Merende</h1><h2 style="float:left">&nbsp;v1.1.1b</h2>
+			<h1>Fondo Merende</h1><p>v1.1.1b</p>
 		</header>
 		<section style="clear:left">
 			<?php require_once('../views/'.$currentView['file-name'].'.php'); ?>

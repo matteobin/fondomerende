@@ -9,14 +9,12 @@
 		$snacks = $response['data']['snacks'];
 	}
 ?>
-<section>
+<div>
+    <h2>Shop</h2>
     <?php if (isset($response['response']['message'])): ?> 
         <p><?php echo($response['response']['message']); ?></p>
     <?php endif; ?>
-    <h1>Fund Moolah: <?php echo($response['data']['fund-funds-amount']) ?> €</h1>
-</section>
-<section>
-    <h1>Shop</h1>
+    <h3>Fund Moolah: <?php echo($response['data']['fund-funds-amount']) ?> €</h3>
 	<form action="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds" method="POST">
 		<input type="hidden" name="command-name" value="buy">
 		<select name="id" required>
@@ -41,7 +39,7 @@
 			</label>
 		<input type="submit" value="Buy">
 	</form>
-</section>
+</div>
 <script>
     function askBuyConfirm(event) {
         event.preventDefault();

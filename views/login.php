@@ -6,10 +6,11 @@
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
 		exit();
 	} ?>
-<section>
+<div>
     <?php if (isset($response['response']['message'])): ?> 
 		<p><?php echo($response['response']['message']); ?></p>
     <?php endif; ?>
+    <h2>Login</h2>
     <form action="<?php echo(BASE_DIR); ?>" method="POST">
         <input type="hidden" name="command-name" value="login">
         <label for="user-name-input">User</label>
@@ -21,4 +22,4 @@
         <input type="submit" value="Login">
     </form>
     <a href="index.php?view=add-user">Add user</a>
-</section>
+</div>

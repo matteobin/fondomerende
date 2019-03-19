@@ -7,8 +7,8 @@
         exit();
     }
  ?>
-<section>
-    <h1>Add user</h1>
+<div>
+    <h2>Add user</h2>
     <?php if (isset($response['response']['message'])): ?> 
         <p>
             <?php echo($response['response']['message']); ?>
@@ -24,4 +24,4 @@
         <input type="password" name="password" id="password-input" placeholder="long is better" value="<?php if (isset($_POST['password'])) {echo($_POST['password']);} ?>" maxlength="125" required>
         <input type="submit" value="Add">
     </form>
-</section>
+</div>

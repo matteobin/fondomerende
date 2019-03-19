@@ -1,5 +1,5 @@
 <?php require_once('process-request.php'); ?>
-<section>
+<div>
     <?php
         if (isset($response['response']['message'])): ?> 
             <p>
@@ -11,10 +11,10 @@
             exit();
         endif; 
     ?>
-    <h1>Moolah: <?php echo($response['data']['user-funds-amount']) ?> €</h1>
-</section>
-<section>
-    <h1>Pantry</h1>
+</div>
+<div>
+    <h2>Pantry</h2>
+    <h3>Moolah: <?php echo($response['data']['user-funds-amount']) ?> €</h3>
     <?php foreach($response['data']['snacks'] as $snack): ?>
         <form action="<?php echo(BASE_DIR); ?>index.php?view=eat&command-name=get-to-eat-and-funds" method="POST">
             <input type="hidden" name="command-name" value="eat"></label>
@@ -28,7 +28,7 @@
         </form>
         <hr>
     <?php endforeach; ?>
-</section>
+</div>
     <script>
     function askEatConfirm(event) {
         event.preventDefault();

@@ -5,8 +5,8 @@
         exit();
     }
 ?>
-<section>
-    <h1>Edit user</h1>
+<div>
+    <h2>Edit user</h2>
     <?php if (isset($response['response']['message'])): ?> 
         <p><?php echo($response['response']['message']); ?></p>
     <?php endif; ?>
@@ -22,7 +22,7 @@
         <input type="password" name="current-password" id="current-password-input" placeholder="the good ol' one" maxlength="125" required>
         <input type="submit" value="Save">
     </form>
-</section>
+</div>
 <script>
     function askEditUserConfirm(event) {
         event.preventDefault();

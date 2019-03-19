@@ -5,8 +5,8 @@
         exit();
     }
 ?>
-<section>
-    <h1>Edit snack</h1>
+<div>
+    <h2>Edit snack</h2>
     <?php if (isset($response['response']['message'])): ?> 
         <p><?php echo($response['response']['message']); ?></p>
     <?php endif; ?>
@@ -23,7 +23,7 @@
         <input type="number" name="expiration-in-days" id="expiration-in-days-input" min="1" step="1" max="9999" placeholder="90" value="<?php if (isset($_POST['expiration-in-days'])) {echo($_POST['expiration-in-days']);} else {echo($response['data']['snack']['expiration-in-days']);} ?>" required>
         <input type="submit" value="Save">
     </form>
-</section>
+</div>
 <script>
     function askEditSnackConfirm(event) {
         event.preventDefault();

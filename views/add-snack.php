@@ -7,8 +7,8 @@
         exit();
     }
 ?>
-<section>
-    <h1>Add snack</h1>
+<div>
+    <h2>Add snack</h2>
     <?php if (isset($response['response']['message'])): ?> 
         <p>
             <?php echo($response['response']['message']); ?>
@@ -28,7 +28,7 @@
         <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($_POST['countable']) && $_POST['countable']=='no') {echo('checked');} ?>>
         <input type="submit" value="Add">
     </form>
-</section>
+</div>
 <script>
     function askAddSnackConfirm(event) {
         event.preventDefault();
