@@ -1,6 +1,5 @@
-<div>
     <h2 style="float:left;font-size:1.25em;margin:0.5em 0">Error 404:&nbsp;</h1>
-    <h3 style="float:left;font-size:1.25em;margin:0.5em 0">not found!</h2>
-    <p style="clear:left">The content you are looking for was not found. I'm sorry. <br>Maybe it has been moved or deleted. Who knows... not me for sure. <br>Better luck next time, slughead!</p>
-    <a href="<?php echo(BASE_DIR); ?>">Home</a>
-</div>
+</header>
+<h3 style="float:left;font-size:1.25em;margin:0.5em 0">not found!</h2>
+<p style="clear:left">The content you are looking for was not found. I'm sorry. <br>Maybe it has been moved or deleted. Who knows... not me for sure. <br>Better luck next time, slughead!</p>
+<a href="<?php echo(BASE_DIR); ?>">Home</a>

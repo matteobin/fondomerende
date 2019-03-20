@@ -69,10 +69,7 @@
 	<body>
 		<header>
 			<h1>Fondo Merende</h1><p>v1.1.1b</p>
-		</header>
-		<section style="clear:left">
 			<?php require_once('../views/'.$currentView['file-name'].'.php'); ?>
-		</section>
 		<footer>
 		</footer>
 	</body>
