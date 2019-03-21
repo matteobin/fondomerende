@@ -66,9 +66,14 @@
 		<meta name="description" content="<?php echo($currentView['description']); ?>">
         <meta name="robots" content="noindex, nofollow">
 	</head>
+    <style>
+        h2 {
+            clear: left;
+        }
+    </style>
 	<body>
 		<header>
-			<h1>Fondo Merende</h1><p>v1.1.1b</p>
+			<h1 style="float:left">Fondo Merende</h1><p style="float:left;margin:20px 6px">v1.1.1b</p>
 			<?php require_once('../views/'.$currentView['file-name'].'.php'); ?>
 		<footer>
 		</footer>

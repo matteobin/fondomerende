@@ -1,4 +1,4 @@
-    <h2>Pantry</h2>
+    <h2>Eat</h2>
 </header>
 <?php require_once('process-request.php'); ?>
 <?php

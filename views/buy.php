@@ -9,7 +9,7 @@
 		$snacks = $response['data']['snacks'];
 	}
 ?>
-    <h2>Shop</h2>
+    <h2>Buy</h2>
 </header>
 <?php if (isset($response['response']['message'])): ?> 
     <p><?php echo($response['response']['message']); ?></p>

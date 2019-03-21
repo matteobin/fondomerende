@@ -4,12 +4,11 @@
         echo($response['response']['message']);
     }
 ?>
-    <h2>Main</h2>
 </header>
-<h3>Fund Moolah: <?php echo($response['data']['fund-funds-amount']); ?> €</h3>
+<h3 style="clear:left">Fund Moolah: <?php echo($response['data']['fund-funds-amount']); ?> €</h3>
 <h3>User Moolah: <?php echo($response['data']['user-funds-amount']); ?> €</h3>
-<h3>Hello <?php echo($_SESSION['user-friendly-name']); ?>!</h3>
-<p>Welcome to the wonderfully edible world of Fondo Merende.<br>Here's a list of tasty activities you can choose from, to start your journey in this sexy web-based office pantry:</p>
+<h3>Commands brief</h3>
+<p>Good to see you, <?php echo($_SESSION['user-friendly-name']); ?>!<br>Welcome to the wonderfully edible world of Fondo Merende.<br>Here's a list of tasty activities you can choose from, to start your journey in this sexy web-based office pantry:</p>
 <ul>
     <li>Reach for the wallet to <a href="<?php echo(BASE_DIR); ?>index.php?view=deposit&command-name=get-user-funds"><strong>DEPOSIT</strong></a> some moolah for this very Just Cause.</li>
     <li>Team up with peers and <a href="<?php echo(BASE_DIR); ?>index.php?view=add-snack"><strong>ADD</strong></a> to the list all the junk food you've only been dreaming about.</li>
@@ -27,8 +26,7 @@
         <li><?php echo($action); ?></li>
     <?php endforeach; ?>
 </ul>
-<h3>Tired of our little community?</h3>
-<p>Log the hell out of here, slut.</p>
+<h3>Tired? Log the hell out of here, slut.</h3>
 <form action="<?php echo(BASE_DIR); ?>index.php?view=login" method="POST">
     <input type="hidden" name="command-name" value="logout">
     <input type="submit" value="See ya">
