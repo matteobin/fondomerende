@@ -35,7 +35,7 @@ if (MAINTENANCE) {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        if ($_SESSION['user-token']==$userToken) {
+        if (isset($userToken) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
             global $response;
