@@ -256,7 +256,7 @@ CREATE TABLE `snacks` (
   `name` varchar(60) NOT NULL,
   `friendly_name` varchar(60) NOT NULL,
   `price` decimal(4,2) NOT NULL,
-  `snacks_per_box` int(2) NOT NULL,
+  `snacks_per_box` int(3) NOT NULL,
   `expiration_in_days` int(4) NOT NULL,
   `countable` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -363,4 +363,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-21 15:07:56
+-- Dump completed on 2019-04-02  9:51:10

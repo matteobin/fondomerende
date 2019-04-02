@@ -1,7 +1,7 @@
 <?php
 	require_once('process-request.php');
     if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && isset($response['response']['status']) && $response['response']['status']==200) {
-        header('location: '.BASE_DIR.'index.php?view=buy&command-name=get-to-buy-and-fund-funds');
+        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
     }
 	if (isset($response['data']['snacks'])) {
@@ -35,7 +35,7 @@
             <input type="number" name="price" min="0.01" step="0.01" max="999.99" value="<?php if (isset($_POST['price'])) {echo($_POST['price']);} ?>">
         </label>
         <label>Snacks per box
-            <input type="number" name="snacks-per-box" min="1" step="1" max="99" value="<?php if (isset($_POST['snacks-per-box'])) {echo($_POST['snacks-per-box']);} ?>">
+            <input type="number" name="snacks-per-box" min="1" step="1" max="999" value="<?php if (isset($_POST['snacks-per-box'])) {echo($_POST['snacks-per-box']);} ?>">
         </label>
         <label>Expiration in days
             <input type="number" name="expiration-in-days" min="1" step="1" max="9999" value="<?php if (isset($_POST['expiration-in-days'])) {echo($_POST['expiration-in-days']);} ?>">
