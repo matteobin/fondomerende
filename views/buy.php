@@ -45,7 +45,12 @@
 <script>
     function askBuyConfirm(event) {
         event.preventDefault();
-        var confirmString = 'Buy '+event.target[2][event.target[2].selectedIndex].innerText+'?';
+        var cratesNumber = event.target[3].value;
+        var cratesString = " crates";
+        if (cratesNumber=='1') {
+            cratesString = " crate";
+        }
+        var confirmString = 'Buy '+cratesNumber+cratesString+' of '+event.target[2][event.target[2].selectedIndex].innerText+'?';
         console.log(event.target);
         if (event.target[4].checked) {
             confirmString += '\n\nPrice: '+event.target[5].value+' €.\nSnacks per box: '+event.target[6].value+'. \nExpiration in days: '+event.target[7].value+'.';
