@@ -4,7 +4,7 @@ server {
     
     root /var/www/fondomerende/public/;
     index index.php;
-    server_name fondomerende.mia;
+    server_name fondomerende.madeinapp.net;
     error_page 404 /index.php?view=404;
 
     location / {
