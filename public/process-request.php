@@ -30,7 +30,7 @@ if (MAINTENANCE) {
 
     function checkUserToken() {
         $isAuth = false;
-        global $userToken;
+        global $userToken, $response, $_SESSION, $appRequest;
         $userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -38,7 +38,6 @@ if (MAINTENANCE) {
         if (isset($userToken) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
-            global $response;
             $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid user token: missing or expired.');
         }
         return $isAuth;

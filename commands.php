@@ -59,6 +59,7 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
                     setcookie('user-id', $id, 0);
                     setcookie('user-token', $token, 0);
                     setcookie('user-friendly-name', $friendlyName, 0);
+                    setcookie('remember-user', false, 0);
                 }
             }
             if ($apiCall) {
@@ -92,8 +93,12 @@ function logout($appRequest) {
     if (!$appRequest) {
         unset($_COOKIE['user-id']);
         unset($_COOKIE['user-token']);
+        unset($_COOKIE['user-friendly-name']);
+        unset($_COOKIE['remember-user']);
         setcookie('user-id', null, time()-3600);
         setcookie('user-token', null, time()-3600);
+        setcookie('user-friendly-name', null, time()-3600);
+        setcookie('remember-user', null, time()-3600);
     }
     session_unset();
     session_destroy();

@@ -5,6 +5,11 @@
     } else {
         setcookie('auth-key', 'sekrit_PaSSWoRD');
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
+
+        function setUserCookieFromSession($sessionIndex) {
+            global $_SESSION;
+            setCookie($sessionIndex, $_SESSION[$sessionIndex], 0);
+        }
         
         function checkLogin() {
             global $currentViewName;
@@ -14,19 +19,31 @@
             $friendlyNameCookie = filter_input(INPUT_COOKIE, 'user-friendly-name', FILTER_SANITIZE_STRING);
             $rememberUserCookie = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
             session_start();
-            if ((isset($_SESSION['user-id']) && isset($_SESSION['user-token'])) || (!is_null($idCookie) && !is_null($tokenCookie))) {
-                if (!isset($_SESSION['user-id']) || !isset($_SESSION['user-token'])) {
+            $sessionTokenSet = false;
+            if ((isset($_SESSION['user-token']))) {
+                $sessionTokenSet = true;
+                $logged = true;
+                if (!isset($tokenCookie)) {
+                    setUserCookieFromSession('user-token');
+                }
+                if (!isset($idCookie)) {
+                    setUserCookieFromSession('user-id');
+                }
+                if (!isset($friendlyNameCookie)) {
+                    setUserCookieFromSession('user-friendly-name');
+                }
+            } 
+            if ($rememberUserCookie && isset($tokenCookie) && isset($idCookie) && isset($friendlyNameCookie)) {
+                if (!$sessionTokenSet) {
+                    $logged = true;
                     $_SESSION['user-id'] = $idCookie;
                     $_SESSION['user-token'] = $tokenCookie;
                     $_SESSION['user-friendly-name'] = $friendlyNameCookie;
                 }
-                if ($rememberUserCookie) {
-                    setCookie('user-id', $idCookie, time()+86400*5);
-                    setCookie('user-token', $tokenCookie, time()+86400*5);
-                    setCookie('user-friendly-name', $friendlyNameCookie, time()+86400*5);
-                    setCookie('remember-user', true, time()+86400*5);
-                }
-                $logged = true;
+                setcookie('user-id', $idCookie, time()+86400*5);
+                setcookie('user-token', $tokenCookie, time()+86400*5);
+                setcookie('user-friendly-name', $friendlyNameCookie, time()+86400*5);
+                setcookie('remember-user', true, time()+86400*5);
             }
             return $logged;
         }
