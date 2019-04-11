@@ -35,7 +35,7 @@ if (MAINTENANCE) {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        if (isset($userToken) && $_SESSION['user-token']==$userToken) {
+        if (isset($userToken) && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
             $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid user token: missing or expired.');
