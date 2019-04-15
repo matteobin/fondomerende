@@ -5,13 +5,13 @@
     }
 ?>
 </header>
-<h3 style="clear:left">Fund Moolah: <?php echo($response['data']['fund-funds-amount']); ?> €</h3>
-<h3>User Moolah: <?php echo($response['data']['user-funds-amount']); ?> €</h3>
-<h3>Commands brief</h3>
-<p>Good to see you, <?php echo($_SESSION['user-friendly-name']); ?>!<br>Welcome to the wonderfully edible world of Fondo Merende.<br>Here's a list of tasty activities you can choose from, to start your journey in this sexy web-based office pantry:</p>
+<h3 style="clear:left"><?php echoTranslatedString('main', 1);?>: <?php echo($response['data']['fund-funds-amount']); ?> €</h3>
+<h3><?php echoTranslatedString('main', 2); ?>: <?php echo($response['data']['user-funds-amount']); ?> €</h3>
+<h3><?php echoTranslatedString('main', 3) ?></h3>
+<p><?php echoTranslatedString('main', 4); echo($_SESSION['user-friendly-name']); ?>!<br><?php echoTranslatedString('main', 5); ?><br><?php echoTranslatedString('main', 6) ?></p>
 <ul>
-    <li>Reach for the wallet to <a href="<?php echo(BASE_DIR); ?>index.php?view=deposit&command-name=get-user-funds"><strong>DEPOSIT</strong></a> some moolah for this very Just Cause.</li>
-    <li>Team up with peers and <a href="<?php echo(BASE_DIR); ?>index.php?view=add-snack"><strong>ADD</strong></a> to the list all the junk food you've only been dreaming about.</li>
+<li><?php echoTranslatedString('main', 7); ?><a href="<?php echo(BASE_DIR); ?>index.php?view=deposit&command-name=get-user-funds"><strong><?php echoTranslatedString('main', 8); ?></strong></a><?php echoTranslatedString('main', 9); ?></li>
+<li><?php echoTranslatedString('main', 10); ?><a href="<?php echo(BASE_DIR); ?>index.php?view=add-snack"><strong><?php echoTranslatedString('main', 11); ?></strong></a><?php echoTranslatedString('main', 12); ?></li>
     <li>Move your lazy butt, get out to <a href="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds"><strong>BUY</strong></a> the damn snacks.</li>
     <li>Done? Now chill: open the fridge and <a href="<?php echo(BASE_DIR); ?>index.php?view=eat&command-name=get-to-eat-and-user-funds"><strong>EAT</strong></a> them all.</li>
 </ul>

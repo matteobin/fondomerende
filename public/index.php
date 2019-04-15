@@ -47,7 +47,36 @@
             }
             return $logged;
         }
+
+
+        function getTranslationRows($lang, $fileName) {
+            $translationRows = file('../lang/'.$lang.'/'.$fileName.'.txt', FILE_IGNORE_NEW_LINES);
+            if(!$translationRows) {
+                $translationRows = file('../lang/en/'.$fileName.'.txt', FILE_IGNORE_NEW_LINES);
+            }
+            return $translationRows;
+        }
+
+        function getTranslatedString($fileName, $rowNumber) {
+            $rowIndex = $rowNumber-1;
+            $lang = substr(filter_input(INPUT_SERVER, 'HTTP_ACCEPT_LANGUAGE', FILTER_SANITIZE_STRING), 0, 2);
+            $translationRows = getTranslationRows($lang, $fileName);
+            if (!$translationRows) {
+                $translatedString = 'Invalid translation file name: there is no '.$fileName.' for en lang.';
+            } else {
+                if ($rowNumber<=0 || $rowNumber>count($translationRows)) {
+                    $translatedString = 'Invalid translation row number: there is no row number '.$rowNumber.' in '.$lang.' '.$fileName.' lang file.';
+                } else {
+                    $translatedString = $translationRows[$rowIndex];
+                } 
+            }
+            return $translatedString;
+        }
         
+        function echoTranslatedString($fileName, $rowNumber) {
+            echo(getTranslatedString($fileName, $rowNumber));
+        }
+
         $views = array(array('name'=>'login', 'file-name'=>'login', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.'), array('name'=>'main', 'file-name'=>'main', 'title'=>'Main', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'edit-user', 'file-name'=>'edit-user', 'title'=>'Edit user', 'description'=>'Get yourself some plastic surgery!'), array('name'=>'deposit', 'file-name'=>'deposit', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'add-snack', 'file-name'=>'add-snack', 'title'=>'Add', 'description'=>'Add the snack of your dreams to Fondo Merende special reserve.'), array('name'=>'edit-snack', 'file-name'=>'edit-snack', 'title'=>'Edit snack', 'description'=>'Change snack name and buy default settings.'), array('name'=>'list-snacks-to-edit', 'file-name'=>'list-snacks-to-edit', 'title'=>'Snacks', 'description'=>'Decide what snack to change.'), array('name'=>'buy', 'file-name'=>'buy', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'file-name'=>'eat', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
         
         if (checkLogin()) {
