@@ -1,0 +1,7 @@
+snack
+name
+price
+snacks per box
+expiration in days
+uncountable
+countable
