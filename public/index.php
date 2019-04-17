@@ -3,7 +3,6 @@
     if (MAINTENANCE) {
         $currentView = array('name'=>'maintenance', 'file-name'=>'maintenance', 'title'=>'Maintenance', 'description'=>'Something big is coming: wait for the update.');
     } else {
-        require('../auth-key.php');
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
 
         function setUserCookieFromSession($sessionIndex) {

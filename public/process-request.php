@@ -1,10 +1,10 @@
 <?php
+require('../auth-key.php');
 $appRequest = false;
 if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
     $appRequest = true;
     require_once('../config.php');
 }
-require('../auth-key.php');
 if (MAINTENANCE) {
     $response = array('response'=>array('success'=>true, 'status'=>503, 'message'=>'Fondo Merende is not available at the moment. Please wait for our team of experts to perfom the required updates. Don\'t be an asshole, wait and DO NOT COMPLAIN!'));
 } else {
@@ -196,7 +196,7 @@ if (MAINTENANCE) {
 
     $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
     $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Invalid request: no parameters were sent.');
-    if (checkAuth()) {
+    if (!$appRequest || checkAuth()) {
         require_once('../lib/DbManager/DbManager.php');
         $dbManager = new DbManager();
         if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
