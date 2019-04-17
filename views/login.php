@@ -7,12 +7,15 @@
 	if (isset($response['response']['status']) && $response['response']['status']==201) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
 		exit();
-    } 
+    } else if (isset($response['response']['status']) && $response['response']['status']==200) {
+        header('location: '.BASE_DIR.'index.php?view=login');
+        exit();
+    }
 ?>
 <?php if (isset($response['response']['message'])): ?> 
     <p><?php echo($response['response']['message']); ?></p>
 <?php endif; ?>
-<form action="<?php echo(BASE_DIR); ?>" method="POST">
+<form action="<?php echo(BASE_DIR.'index.php?view=login'); ?>" method="POST">
     <input type="hidden" name="command-name" value="login">
     <label for="user-name-input">User</label>
     <input type="text" id="user-name-input" name="name" placeholder="name" value="<?php if (isset($_POST['name'])) {echo($_POST['name']);} ?>" required>
