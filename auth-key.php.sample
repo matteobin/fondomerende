@@ -1,2 +1,6 @@
 <?php
-define('AUTH_KEY', 'auth_key_here');
+if (isset($appRequest)) {
+    define('AUTH_KEY', 'auth_key_here');
+} else {
+    setcookie('auth-key', 'sekrit_PaSSWoRD');
+}

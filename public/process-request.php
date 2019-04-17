@@ -1,10 +1,10 @@
 <?php
-require_once('../auth-key.php');
 $appRequest = false;
 if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
     $appRequest = true;
     require_once('../config.php');
 }
+require('../auth-key.php');
 if (MAINTENANCE) {
     $response = array('response'=>array('success'=>true, 'status'=>503, 'message'=>'Fondo Merende is not available at the moment. Please wait for our team of experts to perfom the required updates. Don\'t be an asshole, wait and DO NOT COMPLAIN!'));
 } else {
