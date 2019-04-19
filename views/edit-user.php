@@ -1,11 +1,11 @@
 <?php
     require_once('process-request.php');
     if (isset($_POST['command-name']) && $_POST['command-name']=='edit-user' && isset($response['response']['status']) && $response['response']['status']==200) {
-        header('location: '.BASE_DIR.'index.php?view=home&command-name=get-home-view-data');
+        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
     }
 ?>
-    <h2><?php echoUcfirstTranslatedString('main', 22); ?> <?php echoTranslatedString('main', 3); ?></h2>
+    <h2><?php echoTranslatedString('main', 22); ?> <?php echoTranslatedString('main', 3); ?></h2>
 <header>
 <?php if (isset($response['response']['message'])): ?> 
     <p><?php echo($response['response']['message']); ?></p>

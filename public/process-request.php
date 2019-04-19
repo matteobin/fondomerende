@@ -199,7 +199,7 @@ if (MAINTENANCE) {
     if (!$appRequest || checkAuth()) {
         require_once('../lib/DbManager/DbManager.php');
         $dbManager = new DbManager();
-        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-home-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
+        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
             require_once('../commands.php');
             switch ($commandName) {
                 case 'add-user':
@@ -277,7 +277,7 @@ if (MAINTENANCE) {
                     }
                     $response = getLastActions($actionsNumber);
                     break;
-                case 'get-home-view-data':
+                case 'get-main-view-data':
                     if (!checkRequestMethod('GET')) {
                         break;
                     }

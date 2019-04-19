@@ -1,7 +1,7 @@
 <?php
     require_once('process-request.php');
     if (isset($_POST['command-name']) && $_POST['command-name']=='deposit' && isset($response['response']['status']) && $response['response']['status']==200) {
-        header('location: '.BASE_DIR.'index.php?view=home&command-name=get-home-view-data');
+        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
     }
 ?>
