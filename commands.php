@@ -297,7 +297,7 @@ function getLastActions($actionsNumber, $apiCall=true) {
     }
 }
 
-function getMainViewData($userId) {
+function getHomeViewData($userId) {
     global $dbManager;
     try {
         $dbManager->startTransaction();

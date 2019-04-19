@@ -5,7 +5,7 @@
 		require_once('process-request.php');
 	}
 	if (isset($response['response']['status']) && $response['response']['status']==201) {
-        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        header('location: '.BASE_DIR.'index.php?view=home&command-name=get-home-view-data');
 		exit();
     } else if (isset($response['response']['status']) && $response['response']['status']==200) {
         header('location: '.BASE_DIR.'index.php?view=login');

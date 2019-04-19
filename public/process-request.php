@@ -199,7 +199,7 @@ if (MAINTENANCE) {
     if (!$appRequest || checkAuth()) {
         require_once('../lib/DbManager/DbManager.php');
         $dbManager = new DbManager();
-        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
+        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-home-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
             require_once('../commands.php');
             switch ($commandName) {
                 case 'add-user':
@@ -277,14 +277,14 @@ if (MAINTENANCE) {
                     }
                     $response = getLastActions($actionsNumber);
                     break;
-                case 'get-main-view-data':
+                case 'get-home-view-data':
                     if (!checkRequestMethod('GET')) {
                         break;
                     }
                     if (!checkUserToken()) {
                         break;
                     }
-                    $response = getMainViewData($_SESSION['user-id']);
+                    $response = getHomeViewData($_SESSION['user-id']);
                     break;
                 case 'get-user-data':
                     if (!checkRequestMethod('GET')) {
@@ -421,7 +421,7 @@ if (MAINTENANCE) {
                     } else if (isset($values['price'])) {
                         $types['price'] = 'd';
                     }
-                    if (!setRequestInputValue($values, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>2))) {
+                    if (!setRequestInputValue($values, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>3))) {
                         break;
                     } else if (isset($values['snacks_per_box'])) {
                         $types['snacks_per_box'] = 'i';

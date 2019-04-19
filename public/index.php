@@ -90,7 +90,7 @@
             echo(strtoupper(getTranslatedString($fileName, $rowNumber)));
         }
 
-        $views = array(array('name'=>'login', 'file-name'=>'login', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.'), array('name'=>'main', 'file-name'=>'main', 'title'=>'Main', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'edit-user', 'file-name'=>'edit-user', 'title'=>'Edit user', 'description'=>'Get yourself some plastic surgery!'), array('name'=>'deposit', 'file-name'=>'deposit', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'add-snack', 'file-name'=>'add-snack', 'title'=>'Add snack', 'description'=>'Add the snack of your dreams to Fondo Merende special reserve.'), array('name'=>'edit-snack', 'file-name'=>'edit-snack', 'title'=>'Edit snack', 'description'=>'Change snack name and buy default settings.'), array('name'=>'list-snacks-to-edit', 'file-name'=>'list-snacks-to-edit', 'title'=>'Snacks', 'description'=>'Decide what snack to change.'), array('name'=>'buy', 'file-name'=>'buy', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'file-name'=>'eat', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
+        $views = array(array('name'=>'login', 'file-name'=>'login', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.'), array('name'=>'home', 'file-name'=>'home', 'title'=>'Home', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'edit-user', 'file-name'=>'edit-user', 'title'=>'Edit user', 'description'=>'Get yourself some plastic surgery!'), array('name'=>'deposit', 'file-name'=>'deposit', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'add-snack', 'file-name'=>'add-snack', 'title'=>'Add snack', 'description'=>'Add the snack of your dreams to Fondo Merende special reserve.'), array('name'=>'edit-snack', 'file-name'=>'edit-snack', 'title'=>'Edit snack', 'description'=>'Change snack name and buy default settings.'), array('name'=>'list-snacks-to-edit', 'file-name'=>'list-snacks-to-edit', 'title'=>'Snacks', 'description'=>'Decide what snack to change.'), array('name'=>'buy', 'file-name'=>'buy', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'file-name'=>'eat', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
         
         if (checkLogin()) {
             $noView = true;
@@ -103,7 +103,7 @@
             }
             if ($noView) {
                 if ($currentViewName=='' || $currentViewName=='add-user') {
-                    header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+                    header('location: '.BASE_DIR.'index.php?view=home&command-name=get-home-view-data');
                 } else {
                     http_response_code(404);
                     $currentView = array('name'=>'404', 'file-name'=>'404', 'title'=>'404', 'description'=>'Not found.');

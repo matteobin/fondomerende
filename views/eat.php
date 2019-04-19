@@ -8,7 +8,7 @@
         </p>
 <?php 
     elseif (isset($_POST['command-name']) && $_POST['command-name']=='eat' && $response['response']['status']==200):
-        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        header('location: '.BASE_DIR.'index.php?view=home&command-name=get-home-view-data');
         exit();
     endif; 
 ?>
