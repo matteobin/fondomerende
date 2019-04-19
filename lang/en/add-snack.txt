@@ -3,5 +3,5 @@ name
 price
 snacks per box
 expiration in days
-uncountable
-countable
+Uncountable
+Countable

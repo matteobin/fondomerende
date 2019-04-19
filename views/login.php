@@ -1,4 +1,4 @@
-    <h2>Login</h2>
+    <h2><?php echoTranslatedString('login', 1); ?></h2>
 </header>
 <?php
 	if (isset($_POST['command-name'])) {
@@ -17,12 +17,12 @@
 <?php endif; ?>
 <form action="<?php echo(BASE_DIR.'index.php?view=login'); ?>" method="POST">
     <input type="hidden" name="command-name" value="login">
-    <label for="user-name-input">User</label>
+    <label for="user-name-input"><?php echoUcfirstTranslatedString('main', 3); ?></label>
     <input type="text" id="user-name-input" name="name" placeholder="name" value="<?php if (isset($_POST['name'])) {echo($_POST['name']);} ?>" required>
-    <label for="password-input">Password</label>
+    <label for="password-input"><?php echoUcfirstTranslatedString('edit-user', 4); ?></label>
     <input type="password" id="password-input" name="password" placeholder="long is better" value="<?php if (isset($_POST['password'])) {echo($_POST['password']);} ?>" required>
-    <label for="remember-login-checkbox">Remember me</label>
+    <label for="remember-login-checkbox"><?php echoTranslatedString('login', 2); ?></label>
     <input type="checkbox" id="remember-login-checkbox" name="remember-user" value="yes">
-    <input type="submit" value="Login">
+    <input type="submit" value="<?php echoTranslatedString('login', 1); ?>">
 </form>
-<a href="index.php?view=add-user">Add user</a>
+<a href="index.php?view=add-user"><?php echoUcfirstTranslatedString('main', 12); ?> <?php echoTranslatedString('main', 3); ?></a>
