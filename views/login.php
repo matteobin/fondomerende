@@ -18,7 +18,7 @@
 <form action="<?php echo(BASE_DIR.'index.php?view=login'); ?>" method="POST">
     <input type="hidden" name="command-name" value="login">
     <label for="user-name-input"><?php echoUcfirstTranslatedString('main', 3); ?></label>
-    <input type="text" id="user-name-input" name="name" placeholder="name" value="<?php if (isset($_POST['name'])) {echo($_POST['name']);} ?>" required>
+    <input type="text" id="user-name-input" name="name" placeholder="arturito95_4evah" value="<?php if (isset($_POST['name'])) {echo($_POST['name']);} ?>" required>
     <label for="password-input"><?php echoUcfirstTranslatedString('edit-user', 4); ?></label>
     <input type="password" id="password-input" name="password" placeholder="long is better" value="<?php if (isset($_POST['password'])) {echo($_POST['password']);} ?>" required>
     <label for="remember-login-checkbox"><?php echoTranslatedString('login', 2); ?></label>
