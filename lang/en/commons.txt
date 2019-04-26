@@ -1,3 +1,4 @@
-fund
+Fund
 Moolah
+name
 Save

@@ -3,5 +3,3 @@ snack
 price
 snacks per box
 expiration in days
-Countable
-Uncountable
