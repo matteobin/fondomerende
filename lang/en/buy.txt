@@ -1,5 +1,5 @@
-quantity
-customise buy options
-crates
+Quantity
+Customise buy options
 crate
+crates
 of

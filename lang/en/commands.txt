@@ -1,0 +1,11 @@
+Add
+Edit
+Deposit
+Buy
+Eat
+
+added
+edited
+deposited
+bought
+ate
