@@ -2,4 +2,5 @@ snacks
 snack
 price
 snacks per box
-expiration in days
+Expiration
+in days

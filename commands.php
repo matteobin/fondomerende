@@ -582,9 +582,9 @@ function getToEatAndUserFunds($userId) {
         $dbManager->startTransaction();
 		$userFundsAmount = getUserFunds($userId, false);
 		$snacks = array();
-        $dbManager->runPreparedQuery('SELECT snacks_stock.snack_id, snacks_stock.quantity FROM snacks_stock WHERE snacks_stock.quantity!=? ORDER BY (SELECT crates.expiration FROM crates WHERE crates.snack_id=snacks_stock.snack_id ORDER BY crates.expiration ASC LIMIT 1) ASC', array(0), 'i');
+        $dbManager->runPreparedQuery('SELECT snacks_stock.snack_id, snacks_stock.quantity, (SELECT crates.expiration FROM crates WHERE crates.snack_id=snacks_stock.snack_id ORDER BY crates.expiration ASC LIMIT 1) as expiration FROM snacks_stock WHERE snacks_stock.quantity!=? ORDER BY expiration ASC', array(0), 'i');
         while ($snacksStockRow = $dbManager->getQueryRes()->fetch_assoc()) {
-			$snacks[] = array('id'=>$snacksStockRow['snack_id'], 'quantity'=>$snacksStockRow['quantity']);
+			$snacks[] = array('id'=>$snacksStockRow['snack_id'], 'quantity'=>$snacksStockRow['quantity'], 'expiration'=>$snacksStockRow['expiration']);
 		}
 		foreach ($snacks as &$snack) {
 			$dbManager->runPreparedQuery('SELECT price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snack['id'], 0), 'ii');

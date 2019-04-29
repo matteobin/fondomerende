@@ -1,4 +1,4 @@
-<h2><?php echoUcfirstTranslatedString('main', 18); ?></h2>
+<h2><?php echoUcfirstTranslatedString('commands', 5); ?></h2>
 </header>
 <?php require_once('process-request.php'); ?>
 <?php
@@ -12,24 +12,25 @@
         exit();
     endif; 
 ?>
-<h3><?php echoUcfirstTranslatedString('main', 2); ?>: <?php echo($response['data']['user-funds-amount']) ?> €</h3>
+<h3><?php echoTranslatedString('commons', 2); ?>: <?php echo($response['data']['user-funds-amount']) ?> €</h3>
 <?php foreach($response['data']['snacks'] as $snack): ?>
     <form action="<?php echo(BASE_DIR); ?>index.php?view=eat&command-name=get-to-eat-and-funds" method="POST">
         <input type="hidden" name="command-name" value="eat"></label>
         <label><?php echo($snack['friendly-name']) ?></label>
         <ul>
             <li><?php echoUcfirstTranslatedString('eat', 1); ?>: <?php echo($snack['quantity']) ?></li>
-            <li><?php echoUcfirstTranslatedString('add-snack', 3) ?>: <?php echo($snack['price-per-snack']) ?> €</li>
+            <li><?php echoUcfirstTranslatedString('snack', 3) ?>: <?php echo($snack['price-per-snack']) ?> €</li>
+            <li><?php echoTranslatedString('snack', 5) ?>: <time datetime="<?php echo($snack['expiration']); ?>"><?php echo($snack['expiration']) ?></time></li>
         </ul>
         <input type="hidden" name="id" value="<?php echo($snack['id']) ?>">
-        <input type="submit" value="<?php echoUcfirstTranslatedString('main', 18); ?> <?php echo($snack['friendly-name']) ?>" class="submit">
+        <input type="submit" value="<?php echoTranslatedString('commands', 5); ?> <?php echo($snack['friendly-name']) ?>" class="submit">
     </form>
     <hr>
 <?php endforeach; ?>
 <script>
     function askEatConfirm(event) {
         event.preventDefault();
-        if (confirm('<?php echoUcfirstTranslatedString('main', 18) ?> '+event.target.childNodes[3].innerText+'?')) {
+        if (confirm('<?php echoTranslatedString('commands', 5) ?> '+event.target.childNodes[3].innerText+'?')) {
             event.target.submit();
         }
     }

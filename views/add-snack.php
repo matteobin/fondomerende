@@ -22,7 +22,7 @@
     <input type="number" name="price" id="price-input" min="0.01" step="0.01" max="99.99" placeholder="3.45" value="<?php if (isset($_POST['price'])) {echo($_POST['price']);} ?>" required>
     <label for="snacks-per-box-input"><?php echoUcfirstTranslatedString('snack', 4); ?></label>
     <input type="number" name="snacks-per-box" id="snacks-per-box-input" min="1" step="1" max="999" placeholder="7" value="<?php if (isset($_POST['snacks-per-box'])) {echo($_POST['snacks-per-box']);} ?>" required>
-    <label for="expiration-in-days-input"><?php echoUcfirstTranslatedString('snack', 5); ?></label>
+    <label for="expiration-in-days-input"><?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?></label>
     <input type="number" name="expiration-in-days" id="expiration-in-days-input" min="1" step="1" max="9999" placeholder="90" value="<?php if (isset($_POST['expiration-in-days'])) {echo($_POST['expiration-in-days']);} ?>" required>
     <label for="countable-input"><?php echoTranslatedString('add-snack', 1); ?></label>
     <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($_POST['countable']) && $_POST['countable']=='no') {echo('checked');} ?>>
@@ -31,7 +31,7 @@
 <script>
     function askAddSnackConfirm(event) {
         event.preventDefault();
-        var confirmString = '<?php echoTranslatedString('commands', 1); ?> <?php echoTranslatedString('snack', 2); ?> '+event.target[1].value+'?\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[2].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[3].value+'.\n<?php echoUcfirstTranslatedString('snack', 5); ?>: '+event.target[4].value+'.\n';
+        var confirmString = '<?php echoTranslatedString('commands', 1); ?> <?php echoTranslatedString('snack', 2); ?> '+event.target[1].value+'?\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[2].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[3].value+'.\n<?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>: '+event.target[4].value+'.\n';
         if (event.target[5].checked) {
             confirmString += '<?php echoTranslatedString('add-snack', 1); ?>';
         } else {

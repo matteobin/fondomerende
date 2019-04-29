@@ -86,6 +86,10 @@
             echo(ucfirst(getTranslatedString($fileName, $rowNumber)));
         }
 
+        function echoLcfirstTranslatedString($fileName, $rowNumber) {
+            echo(lcfirst(getTranslatedString($fileName, $rowNumber)));
+        }
+
         function echoStrtoupperTranslatedString($fileName, $rowNumber) {
             echo(strtoupper(getTranslatedString($fileName, $rowNumber)));
         }

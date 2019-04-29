@@ -11,12 +11,12 @@
         $snacks = $_SESSION['buy-form-data']['snacks'];
     }
 ?>
-    <h2><?php echoUcfirstTranslatedString('main', 15); ?></h2>
+    <h2><?php echoTranslatedString('commands', 4); ?></h2>
 </header>
 <?php if (isset($response['response']['message'])): ?> 
     <p><?php echo($response['response']['message']); ?></p>
 <?php endif; ?>
-<h3><?php echoUcfirstTranslatedString('main', 1); ?> <?php echoUcfirstTranslatedString('main', 2); ?>: <?php if (isset($_POST['fund-funds-amount'])) {echo($_POST['fund-funds-amount']);} else {echo($response['data']['fund-funds-amount']);} ?> €</h3>
+<h3><?php echoTranslatedString('commons', 1); ?> <?php echoTranslatedString('commons', 2); ?>: <?php if (isset($_POST['fund-funds-amount'])) {echo($_POST['fund-funds-amount']);} else {echo($response['data']['fund-funds-amount']);} ?> €</h3>
 <form action="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds" method="POST">
     <input type="hidden" name="command-name" value="buy">
     <input type="hidden" name="fund-funds-amount" value="<?php if (isset($_POST['fund-funds-amount'])) {echo($_POST['fund-funds-amount']);} else {echo($response['data']['fund-funds-amount']);} ?>">
@@ -25,22 +25,22 @@
             <option value="<?php echo($snack['id']); ?>"<?php if (isset($_POST['id']) && $_POST['id']==$snack['id']) {echo('selected');} ?>><?php echo($snack['friendly_name']); ?></option>
         <?php endforeach; $_SESSION['snacks'] = $snacks; ?> 
     </select>
-    <label><?php echoUcfirstTranslatedString('buy', 1); ?>
+    <label><?php echoTranslatedString('buy', 1); ?>
         <input type="number" name="quantity" min="1" step="1" max="999" placeholder="1" value="<?php if (isset($_POST['quantity'])) {echo($_POST['quantity']);} ?>" required>
     </label>
-    <label><?php echoUcfirstTranslatedString('buy', 2); ?>
+    <label><?php echoTranslatedString('buy', 2); ?>
         <input type="checkbox" name="customise-buy-options" value="yes" <?php if (isset($_POST['customise-buy-options']) && $_POST['customise-buy-options']=='yes') {echo('checked');} ?>>
     </label>
-    <label><?php echoUcfirstTranslatedString('add-snack', 3); ?>
+    <label><?php echoUcfirstTranslatedString('snack', 3); ?>
         <input type="number" name="price" min="0.01" step="0.01" max="999.99" value="<?php if (isset($_POST['price'])) {echo($_POST['price']);} ?>">
     </label>
-    <label><?php echoUcfirstTranslatedString('add-snack', 4); ?>
+    <label><?php echoUcfirstTranslatedString('snack', 4); ?>
         <input type="number" name="snacks-per-box" min="1" step="1" max="999" value="<?php if (isset($_POST['snacks-per-box'])) {echo($_POST['snacks-per-box']);} ?>">
     </label>
-    <label><?php echoUcfirstTranslatedString('add-snack', 5); ?>
+    <label><?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>
         <input type="number" name="expiration-in-days" min="1" step="1" max="9999" value="<?php if (isset($_POST['expiration-in-days'])) {echo($_POST['expiration-in-days']);} ?>">
     </label>
-    <input type="submit" value="<?php echoUcfirstTranslatedString('main', 15); ?>">
+    <input type="submit" value="<?php echoTranslatedString('commands', 4); ?>">
 </form>
 <script>
     function askBuyConfirm(event) {
