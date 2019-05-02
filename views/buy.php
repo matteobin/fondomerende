@@ -25,10 +25,10 @@
             <option value="<?php echo($snack['id']); ?>"<?php if (isset($_POST['id']) && $_POST['id']==$snack['id']) {echo('selected');} ?>><?php echo($snack['friendly_name']); ?></option>
         <?php endforeach; $_SESSION['snacks'] = $snacks; ?> 
     </select>
-    <label><?php echoTranslatedString('buy', 1); ?>
+    <label><?php echoTranslatedString('buy', 2); ?>
         <input type="number" name="quantity" min="1" step="1" max="999" placeholder="1" value="<?php if (isset($_POST['quantity'])) {echo($_POST['quantity']);} ?>" required>
     </label>
-    <label><?php echoTranslatedString('buy', 2); ?>
+    <label><?php echoTranslatedString('buy', 3); ?>
         <input type="checkbox" name="customise-buy-options" value="yes" <?php if (isset($_POST['customise-buy-options']) && $_POST['customise-buy-options']=='yes') {echo('checked');} ?>>
     </label>
     <label><?php echoUcfirstTranslatedString('snack', 3); ?>
@@ -46,14 +46,14 @@
     function askBuyConfirm(event) {
         event.preventDefault();
         var cratesNumber = event.target[3].value;
-        var cratesString = " <?php echoTranslatedString('buy', 3); ?>";
+        var cratesString = " <?php echoTranslatedString('buy', 5); ?>";
         if (cratesNumber=='1') {
             cratesString = " <?php echoTranslatedString('buy', 4); ?>";
         }
-        var confirmString = '<?php echoUcfirstTranslatedString('main', 15); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 5); ?> '+event.target[2][event.target[2].selectedIndex].innerText+'?';
+        var confirmString = '<?php echoTranslatedString('commands', 4); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[2][event.target[2].selectedIndex].innerText+'?';
         console.log(event.target);
         if (event.target[4].checked) {
-            confirmString += '\n\n<?php echoUcfirstTranslatedString('add-snack', 3); ?>: '+event.target[5].value+' €.\n<?php echoUcfirstTranslatedString('add-snack', 4); ?>: '+event.target[6].value+'. \n<?php echoUcfirstTranslatedString('add-snack', 5); ?>: '+event.target[7].value+'.';
+            confirmString += '\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[5].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[6].value+'. \n<?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>: '+event.target[7].value+'.';
         }
         if (confirm(confirmString)) {
             event.target.submit();

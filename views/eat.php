@@ -18,7 +18,7 @@
         <input type="hidden" name="command-name" value="eat"></label>
         <label><?php echo($snack['friendly-name']) ?></label>
         <ul>
-            <li><?php echoUcfirstTranslatedString('eat', 1); ?>: <?php echo($snack['quantity']) ?></li>
+            <li><?php echoUcfirstTranslatedString('eat', 2); ?>: <?php echo($snack['quantity']) ?></li>
             <li><?php echoUcfirstTranslatedString('snack', 3) ?>: <?php echo($snack['price-per-snack']) ?> €</li>
             <li><?php echoTranslatedString('snack', 5) ?>: <time datetime="<?php echo($snack['expiration']); ?>"><?php echo($snack['expiration']) ?></time></li>
         </ul>
