@@ -297,7 +297,7 @@ function getLastActions($actionsNumber, $apiCall=true) {
     }
 }
 
-function getHomeViewData($userId) {
+function getMainViewData($userId) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -482,18 +482,16 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $cou
     return $response;
 }
 
-function getToBuyAndFundFunds() {
+function getToBuy() {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $fundFundsAmount = getFundFunds(false);
         $dbManager->runQuery('SELECT id, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks ORDER BY friendly_name ASC');
         while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $snacks[] = array('id'=>$snacksRow['id'], 'friendly_name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
         }
         $dbManager->endTransaction();
         $response['response']['success'] = true;
-        $response['data']['fund-funds-amount'] = $fundFundsAmount;
         if (isset($snacks)) {
             $response['response']['status'] = 200;
             $response['data']['snacks'] = $snacks;

@@ -16,7 +16,6 @@
 <?php if (isset($response['response']['message'])): ?> 
     <p><?php echo($response['response']['message']); ?></p>
 <?php endif; ?>
-<h3><?php echoTranslatedString('commons', 1); ?> <?php echoTranslatedString('commons', 2); ?>: <?php if (isset($_POST['fund-funds-amount'])) {echo($_POST['fund-funds-amount']);} else {echo($response['data']['fund-funds-amount']);} ?> €</h3>
 <form action="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds" method="POST">
     <input type="hidden" name="command-name" value="buy">
     <input type="hidden" name="fund-funds-amount" value="<?php if (isset($_POST['fund-funds-amount'])) {echo($_POST['fund-funds-amount']);} else {echo($response['data']['fund-funds-amount']);} ?>">

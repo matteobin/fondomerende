@@ -12,7 +12,7 @@
 <ul>
 <li><?php echoTranslatedString('main', 7); ?> <a href="<?php echo(BASE_DIR); ?>index.php?view=deposit&command-name=get-user-funds"><strong><?php echoStrtoupperTranslatedString('commands', 3); ?></strong></a> <?php echoTranslatedString('main', 8); ?></li>
 <li><?php echoTranslatedString('main', 9); ?> <a href="<?php echo(BASE_DIR); ?>index.php?view=add-snack"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a> <?php echoTranslatedString('main', 10); ?></li>
-<li><?php echoTranslatedString('main', 11); ?> <a href="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a> <?php echoTranslatedString('main', '12'); ?></li>
+<li><?php echoTranslatedString('main', 11); ?> <a href="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a> <?php echoTranslatedString('main', '12'); ?></li>
 <li><?php echoTranslatedString('main', 13); ?> <a href="<?php echo(BASE_DIR); ?>index.php?view=eat&command-name=get-to-eat-and-user-funds"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a> <?php echoTranslatedString('main', 14) ?></li>
 </ul>
 <p><?php echoTranslatedString('main', 15); ?></p>

@@ -1685,14 +1685,14 @@
 			]
 		},
 		{
-			"name": "Get to buy and fund funds",
+			"name": "Get to buy",
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
-						"type": "text"
+						"type": "text",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=53f595ab8d780d0ff4f5a864"
 					}
 				],
 				"body": {
@@ -1700,7 +1700,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-to-buy-and-fund-funds",
+					"raw": "{{host}}/process-request.php?command-name=get-to-buy",
 					"host": [
 						"{{host}}"
 					],
@@ -1710,21 +1710,21 @@
 					"query": [
 						{
 							"key": "command-name",
-							"value": "get-to-buy-and-fund-funds"
+							"value": "get-to-buy"
 						}
 					]
 				}
 			},
 			"response": [
 				{
-					"name": "Get to buy and fund funds",
+					"name": "Get to buy",
 					"originalRequest": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
-								"type": "text"
+								"type": "text",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=53f595ab8d780d0ff4f5a864"
 							}
 						],
 						"body": {
@@ -1732,7 +1732,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-to-buy-and-fund-funds",
+							"raw": "{{host}}/process-request.php?command-name=get-to-buy",
 							"host": [
 								"{{host}}"
 							],
@@ -1742,7 +1742,7 @@
 							"query": [
 								{
 									"key": "command-name",
-									"value": "get-to-buy-and-fund-funds"
+									"value": "get-to-buy"
 								}
 							]
 						}
@@ -1757,7 +1757,7 @@
 						},
 						{
 							"key": "Date",
-							"value": "Fri, 15 Feb 2019 14:36:13 GMT"
+							"value": "Fri, 03 May 2019 12:28:40 GMT"
 						},
 						{
 							"key": "Content-Type",
@@ -1793,7 +1793,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"fund-funds-amount\": \"1.00\",\n        \"snacks\": [\n            {\n                \"id\": \"1\",\n                \"friendly_name\": \"Taralli\",\n                \"price\": \"1.99\",\n                \"snacks-per-box\": \"12\",\n                \"expiration-in-days\": \"270\"\n            },\n            {\n                \"id\": \"2\",\n                \"friendly_name\": \"Barocchi\",\n                \"price\": \"5.00\",\n                \"snacks-per-box\": \"2\",\n                \"expiration-in-days\": \"30\"\n            },\n            {\n                \"id\": \"3\",\n                \"friendly_name\": \"Kinder Bueno\",\n                \"price\": \"3.45\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"140\"\n            },\n            {\n                \"id\": \"4\",\n                \"friendly_name\": \"Patatine\",\n                \"price\": \"5.00\",\n                \"snacks-per-box\": \"7\",\n                \"expiration-in-days\": \"90\"\n            }\n        ]\n    }\n}"
+					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"snacks\": [\n            {\n                \"id\": \"5\",\n                \"friendly_name\": \"aaa\",\n                \"price\": \"2.00\",\n                \"snacks-per-box\": \"3\",\n                \"expiration-in-days\": \"3\"\n            },\n            {\n                \"id\": \"2\",\n                \"friendly_name\": \"Baiocchi\",\n                \"price\": \"2.49\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"195\"\n            },\n            {\n                \"id\": \"4\",\n                \"friendly_name\": \"Gomme\",\n                \"price\": \"5.00\",\n                \"snacks-per-box\": \"100\",\n                \"expiration-in-days\": \"150\"\n            },\n            {\n                \"id\": \"3\",\n                \"friendly_name\": \"Kinder Bueno\",\n                \"price\": \"3.45\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"140\"\n            },\n            {\n                \"id\": \"6\",\n                \"friendly_name\": \"Prova\",\n                \"price\": \"5.00\",\n                \"snacks-per-box\": \"5\",\n                \"expiration-in-days\": \"6\"\n            },\n            {\n                \"id\": \"7\",\n                \"friendly_name\": \"Prova2\",\n                \"price\": \"3.00\",\n                \"snacks-per-box\": \"5\",\n                \"expiration-in-days\": \"4\"\n            },\n            {\n                \"id\": \"1\",\n                \"friendly_name\": \"Taralli\",\n                \"price\": \"1.99\",\n                \"snacks-per-box\": \"13\",\n                \"expiration-in-days\": \"270\"\n            }\n        ]\n    }\n}"
 				}
 			]
 		},

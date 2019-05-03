@@ -200,7 +200,7 @@ if (MAINTENANCE) {
     if (!$appRequest || checkAuth()) {
         require_once('../lib/DbManager/DbManager.php');
         $dbManager = new DbManager();
-        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
+        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
             require_once('../commands.php');
             switch ($commandName) {
                 case 'add-user':
@@ -285,7 +285,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    $response = getHomeViewData($_SESSION['user-id']);
+                    $response = getMainViewData($_SESSION['user-id']);
                     break;
                 case 'get-user-data':
                     if (!checkRequestMethod('GET')) {
@@ -439,14 +439,14 @@ if (MAINTENANCE) {
                     }
                     $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                     break;
-                case 'get-to-buy-and-fund-funds':
+                case 'get-to-buy':
                     if (!checkRequestMethod('GET')) {
                         break;
                     }
                     if (!checkUserToken()) {
                         break;
                     }
-                    $response = getToBuyAndFundFunds();
+                    $response = getToBuy();
                     break;
                 case 'buy':
                     if (!checkRequestMethod('POST')) {
