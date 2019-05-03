@@ -1,4 +1,4 @@
-Main
+main
 Office snack supplies management system for Made in App Fondo Merende.
 Commands brief
 Good to see you,

@@ -1,4 +1,4 @@
-    <h2><?php echoTranslatedString('login', 1); ?></h2>
+    <h2><?php echoUcfirstTranslatedString('login', 1); ?></h2>
 </header>
 <?php
 	if (isset($_POST['command-name'])) {
@@ -23,6 +23,6 @@
     <input type="password" id="password-input" name="password" placeholder="long is better" value="<?php if (isset($_POST['password'])) {echo($_POST['password']);} ?>" required>
     <label for="remember-login-checkbox"><?php echoTranslatedString('login', 3); ?></label>
     <input type="checkbox" id="remember-login-checkbox" name="remember-user" value="yes">
-    <input type="submit" value="<?php echoTranslatedString('login', 1); ?>">
+    <input type="submit" value="<?php echoUcfirstTranslatedString('login', 1); ?>">
 </form>
-<a href="index.php?view=add-user"><?php echoTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>
+<a href="index.php?view=add-user"><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>

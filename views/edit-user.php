@@ -5,8 +5,8 @@
         exit();
     }
 ?>
-    <h2><?php echoTranslatedString('commands', 2); ?> <?php echoTranslatedString('user', 1); ?></h2>
-<header>
+    <h2><?php echoUcfirstTranslatedString('commands', 2); ?> <?php echoTranslatedString('user', 1); ?></h2>
+</header>
 <?php if (isset($response['response']['message'])): ?> 
     <p><?php echo($response['response']['message']); ?></p>
 <?php endif; ?>

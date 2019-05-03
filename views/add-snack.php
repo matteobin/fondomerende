@@ -7,7 +7,7 @@
         exit();
     }
 ?>
-    <h2><?php echoTranslatedString('commands', 1); ?> <?php echoTranslatedString('snack', 2); ?></h2>
+    <h2><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('snack', 2); ?></h2>
 </header>
 <?php if (isset($response['response']['message'])): ?> 
     <p>
@@ -26,12 +26,12 @@
     <input type="number" name="expiration-in-days" id="expiration-in-days-input" min="1" step="1" max="9999" placeholder="90" value="<?php if (isset($_POST['expiration-in-days'])) {echo($_POST['expiration-in-days']);} ?>" required>
     <label for="countable-input"><?php echoTranslatedString('add-snack', 2); ?></label>
     <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($_POST['countable']) && $_POST['countable']=='no') {echo('checked');} ?>>
-    <input type="submit" value="<?php echoTranslatedString('commands', 1); ?>">
+    <input type="submit" value="<?php echoUcfirstTranslatedString('commands', 1); ?>">
 </form>
 <script>
     function askAddSnackConfirm(event) {
         event.preventDefault();
-        var confirmString = '<?php echoTranslatedString('commands', 1); ?> <?php echoTranslatedString('snack', 2); ?> '+event.target[1].value+'?\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[2].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[3].value+'.\n<?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>: '+event.target[4].value+'.\n';
+        var confirmString = '<?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('snack', 2); ?> '+event.target[1].value+'?\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[2].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[3].value+'.\n<?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>: '+event.target[4].value+'.\n';
         if (event.target[5].checked) {
             confirmString += '<?php echoTranslatedString('add-snack', 2); ?>';
         } else {

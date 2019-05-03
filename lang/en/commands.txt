@@ -1,8 +1,8 @@
-Add
-Edit
-Deposit
-Buy
-Eat
+add
+edit
+deposit
+buy
+eat
 added
 edited
 deposited

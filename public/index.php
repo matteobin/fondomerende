@@ -17,7 +17,6 @@
             $tokenCookie = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
             $friendlyNameCookie = filter_input(INPUT_COOKIE, 'user-friendly-name', FILTER_SANITIZE_STRING);
             $rememberUserCookie = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
-            session_start();
             $sessionTokenSet = false;
             if ((isset($_SESSION['user-token']))) {
                 $sessionTokenSet = true;
@@ -46,7 +45,7 @@
             }
             return $logged;
         }
-        $views = array(array('name'=>'login', 'file-name'=>'login', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.'), array('name'=>'main', 'file-name'=>'main', 'title'=>'Main', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'edit-user', 'file-name'=>'edit-user', 'title'=>'Edit user', 'description'=>'Get yourself some plastic surgery!'), array('name'=>'deposit', 'file-name'=>'deposit', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'add-snack', 'file-name'=>'add-snack', 'title'=>'Add snack', 'description'=>'Add the snack of your dreams to Fondo Merende special reserve.'), array('name'=>'edit-snack', 'file-name'=>'edit-snack', 'title'=>'Edit snack', 'description'=>'Change snack name and/or buy default settings.'), array('name'=>'list-snacks-to-edit', 'file-name'=>'list-snacks-to-edit', 'title'=>'Snacks', 'description'=>'Decide what snack to change.'), array('name'=>'buy', 'file-name'=>'buy', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'file-name'=>'eat', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
+        $views = array(array('name'=>getTranslatedString('login', 1), 'file-name'=>'login', 'title'=>getTranslatedString('login', 1), 'description'=>getUcfirstTranslatedString('login', 2)), array('name'=>getTranslatedString('main', 1), 'file-name'=>'main', 'title'=>getUcfirstTranslatedString('main', 1), 'description'=>getTranslatedString('main', 2)), array('name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), 'file-name'=>'edit-user', 'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('edit-user', 1)), array('name'=>getTranslatedString('commands', 3), 'file-name'=>'deposit', 'title'=>getUcfirstTranslatedString('commands', 3), 'description'=>getTranslatedString('deposit', 1)), array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), 'file-name'=>'add-snack', 'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('snack', 2), 'description'=>getTranslatedString('add-snack', 1)), array('name'=>'edit-snack', 'file-name'=>'edit-snack', 'title'=>'Edit snack', 'description'=>'Change snack name and/or buy default settings.'), array('name'=>'list-snacks-to-edit', 'file-name'=>'list-snacks-to-edit', 'title'=>'Snacks', 'description'=>'Decide what snack to change.'), array('name'=>'buy', 'file-name'=>'buy', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'file-name'=>'eat', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
         if (checkLogin()) {
             $noView = true;
             foreach ($views as $view) {
@@ -72,7 +71,7 @@
     }
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="<?php echo($_SESSION['user-lang']); ?>">
 	<head>
 		<meta charset="utf-8">
         <title>Fondo Merende | <?php echo($currentView['title']); if ($currentView['name']!='login' && $currentView['name']!='add-user' && $currentView['name']!='404') {echo(' - '.$_SESSION['user-friendly-name']);} ?></title>
