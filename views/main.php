@@ -18,7 +18,7 @@
 <p><?php echoTranslatedString('main', 15); ?></p>
 <ul>
 <li><?php echoTranslatedString('main', 16); ?> <a href="<?php echo(BASE_DIR); ?>index.php?view=edit-user&command-name=get-user-data"><strong><?php echoStrtoupperTranslatedString('commands', 2); ?> <?php echoStrtoupperTranslatedString('user', 1); ?></strong></a>.</li>
-<li><?php echoTranslatedString('main', 17); ?> <a href="<?php echo(BASE_DIR); ?>index.php?view=list-snacks-to-edit&command-name=get-snacks-data"><strong><?php echoStrtoupperTranslatedString('commands', 2); ?> <?php echoStrtoupperTranslatedString('snack', 1); ?></strong></a>.</li>
+<li><?php echoTranslatedString('main', 17); ?> <a href="<?php echo(BASE_DIR); ?>index.php?view=snacks&command-name=get-snacks-data"><strong><?php echoStrtoupperTranslatedString('commands', 2); ?> <?php echoStrtoupperTranslatedString('snack', 1); ?></strong></a>.</li>
 </ul>
 <h3><?php echoTranslatedString('main', 18); ?></h3>
 <ul>

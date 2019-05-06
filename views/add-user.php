@@ -7,7 +7,7 @@
         exit();
     }
  ?>
-     <h2><?php echoTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></h2>
+     <h2><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></h2>
 </header>
 <?php if (isset($response['response']['message'])): ?> 
     <p>
@@ -22,5 +22,5 @@
     <input type="text" name="friendly-name" id="friendly-name-input" placeholder="Arturo" value="<?php if (isset($_POST['friendly-name'])) {echo($_POST['friendly-name']);} ?>" maxlength="60" required>
     <label for="password-input"><?php echoUcfirstTranslatedString('user', 3); ?></label>
     <input type="password" name="password" id="password-input" placeholder="<?php echoTranslatedString('user', 4); ?>" value="<?php if (isset($_POST['password'])) {echo($_POST['password']);} ?>" maxlength="125" required>
-    <input type="submit" value="<?php echoTranslatedString('commands', 1); ?>">
+    <input type="submit" value="<?php echoUcfirstTranslatedString('commands', 1); ?>">
 </form>

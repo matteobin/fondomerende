@@ -25,7 +25,7 @@
 <script>
     function askEditUserConfirm(event) {
         event.preventDefault();
-        if (confirm('<?php echoUcfirstTranslatedString('main', 22); ?> <?php echoTranslatedString('main', 3); ?> '+event.target[2].value+'?')) {
+        if (confirm('<?php echoUcfirstTranslatedString('commands', 2); ?> <?php echoTranslatedString('user', 1); ?> '+event.target[2].value+'?')) {
             event.target.submit();
         }
     }

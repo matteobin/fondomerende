@@ -5,7 +5,7 @@
         exit();
     }
 ?>
-    <h2><?php echoTranslatedString('commands', 2); ?> <?php echoTranslatedString('snack', 2); ?></h2>
+    <h2><?php echoUcfirstTranslatedString('commands', 2); ?> <?php echoTranslatedString('snack', 2); ?></h2>
 </header>
 <?php if (isset($response['response']['message'])): ?> 
     <p><?php echo($response['response']['message']); ?></p>

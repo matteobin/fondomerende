@@ -11,7 +11,7 @@
         $snacks = $_SESSION['buy-form-data']['snacks'];
     }
 ?>
-    <h2><?php echoTranslatedString('commands', 4); ?></h2>
+    <h2><?php echoUcfirstTranslatedString('commands', 4); ?></h2>
 </header>
 <?php if (isset($response['response']['message'])): ?> 
     <p><?php echo($response['response']['message']); ?></p>
@@ -39,7 +39,7 @@
     <label><?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>
         <input type="number" name="expiration-in-days" min="1" step="1" max="9999" value="<?php if (isset($_POST['expiration-in-days'])) {echo($_POST['expiration-in-days']);} ?>">
     </label>
-    <input type="submit" value="<?php echoTranslatedString('commands', 4); ?>">
+    <input type="submit" value="<?php echoUcfirstTranslatedString('commands', 4); ?>">
 </form>
 <script>
     function askBuyConfirm(event) {
@@ -49,7 +49,7 @@
         if (cratesNumber=='1') {
             cratesString = " <?php echoTranslatedString('buy', 4); ?>";
         }
-        var confirmString = '<?php echoTranslatedString('commands', 4); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[2][event.target[2].selectedIndex].innerText+'?';
+        var confirmString = '<?php echoUcfirstTranslatedString('commands', 4); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[2][event.target[2].selectedIndex].innerText+'?';
         console.log(event.target);
         if (event.target[4].checked) {
             confirmString += '\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[5].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[6].value+'. \n<?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>: '+event.target[7].value+'.';

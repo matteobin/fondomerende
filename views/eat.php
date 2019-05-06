@@ -23,14 +23,14 @@
             <li><?php echoTranslatedString('snack', 5) ?>: <time datetime="<?php echo($snack['expiration']); ?>"><?php echo($snack['expiration']) ?></time></li>
         </ul>
         <input type="hidden" name="id" value="<?php echo($snack['id']) ?>">
-        <input type="submit" value="<?php echoTranslatedString('commands', 5); ?> <?php echo($snack['friendly-name']) ?>" class="submit">
+        <input type="submit" value="<?php echoUcfirstTranslatedString('commands', 5); ?> <?php echo($snack['friendly-name']) ?>" class="submit">
     </form>
     <hr>
 <?php endforeach; ?>
 <script>
     function askEatConfirm(event) {
         event.preventDefault();
-        if (confirm('<?php echoTranslatedString('commands', 5) ?> '+event.target.childNodes[3].innerText+'?')) {
+        if (confirm('<?php echoUcfirstTranslatedString('commands', 5) ?> '+event.target.childNodes[3].innerText+'?')) {
             event.target.submit();
         }
     }
