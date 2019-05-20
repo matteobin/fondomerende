@@ -13,8 +13,12 @@ function getTranslatedString($fileName, $rowNumber) {
         $_SESSION['user-lang'] = $lang;
     }
     $rowIndex = $rowNumber-1;
-    if (isset($_SESSION['lang'][$lang][$fileName][$rowIndex])) {
-        $translatedString = $_SESSION['lang'][$lang][$fileName][$rowIndex];
+    $cacheKey = $_SESSION['user-lang'].'_lang_'.$fileName;
+    if (apcu_exists($cacheKey)) {
+        $cachedTranslatedRows = apcu_fetch($cacheKey);
+    }
+    if (isset($cachedTranslatedRows[$rowIndex])) {
+        $translatedString = $cachedTranslatedRows[$rowIndex];
     } else {
         $filePath = '../lang/'.$lang.'/'.$fileName.'.txt';
         if (!is_file($filePath)) {
@@ -26,6 +30,7 @@ function getTranslatedString($fileName, $rowNumber) {
         }
         if (!isset($translatedString)) {
         $translationRows = file($filePath, FILE_IGNORE_NEW_LINES);
+        apcu_add($cacheKey, $translationRows);
         $_SESSION['lang'][$lang][$fileName] = $translationRows;
             if ($rowNumber<=0 || $rowNumber>count($translationRows)) {
                 $translatedString = 'Invalid translation row number: there is no row number '.$rowNumber.' in '.$lang.' '.$fileName.' lang file.';
