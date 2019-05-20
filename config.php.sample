@@ -4,3 +4,4 @@ if (!isset($appRequest) || !$appRequest) {
     define('BASE_DIR', '/');
 }
 define('MAINTENANCE', false);
+define('APCU_CACHE_INSTALLED', false);
