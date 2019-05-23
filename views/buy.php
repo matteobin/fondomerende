@@ -1,6 +1,6 @@
 <?php
 	require_once('process-request.php');
-    if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && isset($response['response']['status']) && $response['response']['status']==200) {
+    if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && isset($response['status']) && $response['status']==200) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
     }
@@ -13,8 +13,8 @@
 ?>
     <h2><?php echoUcfirstTranslatedString('commands', 4); ?></h2>
 </header>
-<?php if (isset($response['response']['message'])): ?> 
-    <p><?php echo($response['response']['message']); ?></p>
+<?php if (isset($response['message'])): ?> 
+    <p><?php echo($response['message']); ?></p>
 <?php endif; ?>
 <form action="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds" method="POST">
     <input type="hidden" name="command-name" value="buy">

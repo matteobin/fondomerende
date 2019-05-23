@@ -2,12 +2,12 @@
 </header>
 <?php require_once('process-request.php'); ?>
 <?php
-    if (isset($response['response']['message'])): ?> 
+    if (isset($response['message'])): ?> 
         <p>
-            <?php echo($response['response']['message']); ?>
+            <?php echo($response['message']); ?>
         </p>
 <?php 
-    elseif (isset($_POST['command-name']) && $_POST['command-name']=='eat' && $response['response']['status']==200):
+    elseif (isset($_POST['command-name']) && $_POST['command-name']=='eat' && $response['status']==200):
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
     endif; 

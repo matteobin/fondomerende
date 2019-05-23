@@ -1,8 +1,8 @@
 <?php
     require_once('process-request.php');
-    if (isset($response['response']['message'])): ?> 
+    if (isset($response['message'])): ?> 
         <p>
-            <?php echo($response['response']['message']); ?>
+            <?php echo($response['message']); ?>
         </p>
     <?php endif; ?>
     <h2><?php echoUcfirstTranslatedString('snack', 1); ?></h2>

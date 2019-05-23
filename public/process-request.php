@@ -7,7 +7,7 @@ if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
     require_once('../translation.php');
 }
 if (MAINTENANCE) {
-    $response = array('response'=>array('success'=>true, 'status'=>503, 'message'=>'Fondo Merende is not available at the moment. Please wait for our team of experts to perfom the required updates. Don\'t be an asshole, wait and DO NOT COMPLAIN!'));
+    $response = array('success'=>true, 'status'=>503, 'message'=>'Fondo Merende is not available at the moment. Please wait for our team of experts to perfom the required updates. Don\'t be an asshole, wait and DO NOT COMPLAIN!');
 } else {
     function checkAuth() {
         $isAuth = false;
@@ -39,7 +39,7 @@ if (MAINTENANCE) {
         if (isset($userToken) && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
-            $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid user token: missing or expired.');
+            $response = array('success'=>false, 'status'=>401, 'message'=>'Invalid user token: missing or expired.');
         }
         return $isAuth;
     }
@@ -173,7 +173,7 @@ if (MAINTENANCE) {
                 }
             } else {
                 global $response;
-                $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
+                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
                 $noInputError = false;
             }
         }
@@ -196,7 +196,7 @@ if (MAINTENANCE) {
     }
 
     $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
-    $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Invalid request: no parameters were sent.');
+    $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request: no parameters were sent.');
     if (!$appRequest || checkAuth()) {
         require_once('../lib/DbManager/DbManager.php');
         $dbManager = new DbManager();
@@ -329,7 +329,7 @@ if (MAINTENANCE) {
                             break;
                         }
                         if (!checkUserPassword($_SESSION['user-id'], $currentPassword)) {
-                            $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Wrong password!');
+                            $response = array('success'=>false, 'status'=>401, 'message'=>'Wrong password!');
                             break;
                         }
                     }
@@ -509,7 +509,7 @@ if (MAINTENANCE) {
             }
         }
     } else {
-        $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid request: missing or wrong auth key.');
+        $response = array('success'=>false, 'status'=>401, 'message'=>'Invalid request: missing or wrong auth key.');
     }
 }
 if ($appRequest) {
@@ -518,6 +518,6 @@ if ($appRequest) {
     setcookie('auth-key', '', time()-3600);
     setcookie('user-token', '', time()-3600);
 	header('Content-Type: application/json');
+    http_response_code($response['status']);
 	echo(json_encode($response));
 }
-http_response_code($response['status']);
