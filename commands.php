@@ -18,11 +18,10 @@ function addUser($name, $password, $friendlyName, $admin, $appRequest) {
         $dbManager->runPreparedQuery('INSERT INTO users_funds (user_id) VALUES (?)', array($userId), 'i');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 1), 'ii');
         $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>201);
-        $response['data'] = array('token'=>login($name, $password, false, $appRequest, false));
+        $response = array('success'=>true, 'status'=>201, 'data'=>array('token'=>login($name, $password, false, $appRequest, false)));
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -63,13 +62,13 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
                 }
             }
             if ($apiCall) {
-                $response['response'] = array('success'=>true, 'status'=>201);
+                $response = array('success'=>true, 'status'=>201);
                 if ($appRequest) {
                     $response['data'] = array('token'=>$token);   
                 }
             }
         } else if ($apiCall) {
-            $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid login: wrong credentials.');
+            $response = array('success'=>false, 'status'=>401, 'message'=>'Invalid login: wrong credentials.');
         }
         if ($apiCall) {
             $dbManager->endTransaction();          
@@ -77,7 +76,7 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
     } catch (Exception $exception) {
         if ($apiCall) {
             $dbManager->rollbackTransaction();
-            $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage()); 
+            $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage()); 
         } else {
             throw new Exception($exception->getMessage());
         }
@@ -102,7 +101,7 @@ function logout($appRequest) {
     }
     session_unset();
     session_destroy();
-	$response['response'] = array('success'=>true, 'status'=>200);
+	$response = array('success'=>true, 'status'=>200);
 	return $response;
 }
 

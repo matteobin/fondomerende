@@ -4,16 +4,16 @@
 	if (isset($_POST['command-name'])) {
 		require_once('process-request.php');
 	}
-	if (isset($response['response']['status']) && $response['response']['status']==201) {
+	if (isset($response['status']) && $response['status']==201) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
 		exit();
-    } else if (isset($response['response']['status']) && $response['response']['status']==200) {
+    } else if (isset($response['status']) && $response['status']==200) {
         header('location: '.BASE_DIR.'index.php?view=login');
         exit();
     }
 ?>
-<?php if (isset($response['response']['message'])): ?> 
-    <p><?php echo($response['response']['message']); ?></p>
+<?php if (isset($response['message'])): ?> 
+    <p><?php echo($response['message']); ?></p>
 <?php endif; ?>
 <form action="<?php echo(BASE_DIR.'index.php?view=login'); ?>" method="POST">
     <input type="hidden" name="command-name" value="login">
