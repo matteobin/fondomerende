@@ -520,4 +520,4 @@ if ($appRequest) {
 	header('Content-Type: application/json');
 	echo(json_encode($response));
 }
-http_response_code($response['status']);
+http_response_code($response['response']['status']);
