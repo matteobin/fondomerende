@@ -5,30 +5,24 @@
         $currentView = array('name'=>'maintenance', 'file-name'=>'maintenance', 'title'=>'Maintenance', 'description'=>'Something big is coming: wait for the update.');
     } else {
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
-
-        function setUserCookieFromSession($sessionIndex) {
-            global $_SESSION;
-            setCookie($sessionIndex, $_SESSION[$sessionIndex], 0);
-        }
         function checkLogin() {
-            global $currentViewName;
             $logged = false;
             $idCookie = filter_input(INPUT_COOKIE, 'user-id', FILTER_SANITIZE_STRING);
             $tokenCookie = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
             $friendlyNameCookie = filter_input(INPUT_COOKIE, 'user-friendly-name', FILTER_SANITIZE_STRING);
             $rememberUserCookie = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
             $sessionTokenSet = false;
-            if ((isset($_SESSION['user-token']))) {
+            if (isset($_SESSION['user-token'])) {
                 $sessionTokenSet = true;
                 $logged = true;
                 if (!isset($tokenCookie)) {
-                    setUserCookieFromSession('user-token');
+                    setCookie('user-token', $_SESSION['user-token']);
                 }
                 if (!isset($idCookie)) {
-                    setUserCookieFromSession('user-id');
+                    setCookie('user-id', $_SESSION['user-id']);
                 }
                 if (!isset($friendlyNameCookie)) {
-                    setUserCookieFromSession('user-friendly-name');
+                    setCookie('user-friendly-name', $_SESSION['user-friendly-name']);
                 }
             } 
             if ($rememberUserCookie && isset($tokenCookie) && isset($idCookie) && isset($friendlyNameCookie)) {
