@@ -1,7 +1,7 @@
 <?php 
     require_once('process-request.php');
-    if (isset($response['response']['message'])) {
-        echo($response['response']['message']);
+    if (isset($response['message'])) {
+        echo($response['message']);
     }
 ?>
 </header>

@@ -1,14 +1,14 @@
 <?php
     require_once('process-request.php');    
-    if (isset($_POST['command-name']) && $_POST['command-name']=='edit-snack' && isset($response['response']['status']) && $response['response']['status']==200) {
+    if (isset($_POST['command-name']) && $_POST['command-name']=='edit-snack' && isset($response['status']) && $response['status']==200) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
     }
 ?>
     <h2><?php echoUcfirstTranslatedString('commands', 2); ?> <?php echoTranslatedString('snack', 2); ?></h2>
 </header>
-<?php if (isset($response['response']['message'])): ?> 
-    <p><?php echo($response['response']['message']); ?></p>
+<?php if (isset($response['message'])): ?> 
+    <p><?php echo($response['message']); ?></p>
 <?php endif; ?>
 <form action="<?php echo(BASE_DIR); ?>index.php?view=edit-snack&command-name=get-snack-data&snack-name=<?php echo($snackName) ?>" method="POST">
     <input type="hidden" name="command-name" value="edit-snack">

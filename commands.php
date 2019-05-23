@@ -117,13 +117,12 @@ function getFundFunds($apiCall=true) {
         }
 		if ($apiCall) {
 			$dbManager->endTransaction();
-			$response['response'] = array('success'=>true, 'status'=>200);
-			$response['data']['fund-funds-amount'] = $fundFundsAmount;
+			$response = array('success'=>true, 'status'=>200, 'data'=>array('fund-funds-amount'=>$fundFundsAmount));
 		}
     } catch (Exception $exception) {
 		if ($apiCall) {
 			$dbManager->rollbackTransaction();
-			$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+			$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
 		} else {
 			throw new Exception($exception->getMessage());
 		}
@@ -147,13 +146,12 @@ function getUserFunds($userId, $apiCall=true) {
         }
 		if ($apiCall) {
 			$dbManager->endTransaction();
-			$response['response'] = array('success'=>true, 'status'=>200);
-			$response['data']['user-funds-amount'] = $userFundsAmount;
+			$response = array('success'=>true, 'status'=>200, 'data'=>array('user-funds-amount' =>$userFundsAmount));
 		}
     } catch (Exception $exception) {
 		if ($apiCall) {
 			$dbManager->rollbackTransaction();
-			$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+			$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
 		} else {
 			throw new Exception($exception->getMessage());
 		}
@@ -273,18 +271,18 @@ function getLastActions($actionsNumber, $apiCall=true) {
         }
         if ($apiCall) {
             $dbManager->endTransaction();
-            $response['response']['success'] = true;
+            $response['success'] = true;
             if (empty($decodedActions)) {
-                $response['response']['status'] = 204;
+                $response['status'] = 204;
             } else {
-                $response['response']['status'] = 200;
+                $response['status'] = 200;
                 $response['data']['actions'] = $decodedActions;
             } 
         }
     } catch (Exception $exception) {
         if ($apiCall) {
             $dbManager->rollbackTransaction();
-            $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+            $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
         } else {
             throw new Exception($exception->getMessage());
         }
@@ -304,13 +302,10 @@ function getMainViewData($userId) {
         $userFundsAmount = getUserFunds($userId, false);
         $actions = getLastActions(5, false);
         $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>200);
-        $response['data']['fund-funds-amount'] = $fundFundsAmount;
-        $response['data']['user-funds-amount'] = $userFundsAmount;
-        $response['data']['actions'] = $actions;
+        $response = array('success'=>true, 'status'=>200, 'data'=>array('fund-funds-amount'=>$fundFundsAmount, 'user-funds-amount'=>$userFundsAmount, 'actions'=>$actions));
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -325,11 +320,10 @@ function getUserData($userId) {
             $friendlyName = $usersRow['friendly_name']; 
         }
         $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>200);
-        $response['data']['user'] = array('name'=>$name, 'friendly-name'=>$friendlyName);
+        $response = array('success'=>true, 'status'=>200, 'data'=>array('user'=>array('name'=>$name, 'friendly-name'=>$friendlyName)));
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -343,17 +337,16 @@ function getSnacksData() {
             $snacks[] = array('id'=>$snacksRow['id'], 'name'=>$snacksRow['name'], 'friendly-name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
         }
         $dbManager->endTransaction();
-        $response['response']['success'] = true; 
+        $response['success'] = true; 
         if (isset($snacks)) {
-            $response['response']['status'] = 200;
-            $response['data']['snacks'] = $snacks;
+            $response = array('status'=>200, 'data'=>array('snacks'=>$snacks));
         } else {
-            $response['response']['status'] = 204;
+            $response['status'] = 204;
         }
 
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -367,11 +360,10 @@ function getSnackData($snackId) {
             $snack = array('id'=>$snacksRow['id'], 'friendly-name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration-in-days'=>$snacksRow['expiration_in_days']);
         }
         $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>200);
-        $response['data']['snack'] = $snack;
+        $response = array('success'=>true, 'status'=>200, 'data'=>array('snack'=>$snack));
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-        $response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }
@@ -425,10 +417,10 @@ function editSnackOrUser(array $ids, array $newValues, array $types) {
             }
         }
         $dbManager->endTransaction();
-        $response['response'] = array('success'=>true, 'status'=>200);
+        $response = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-		$response['response'] = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }

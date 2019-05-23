@@ -2,16 +2,16 @@
    if (isset($_POST['name'])) {
         require_once('process-request.php');
     }
-    if (isset($response['response']['status']) && $response['response']['status']==201) {
+    if (isset($response['status']) && $response['status']==201) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
     }
  ?>
      <h2><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></h2>
 </header>
-<?php if (isset($response['response']['message'])): ?> 
+<?php if (isset($response['message'])): ?> 
     <p>
-        <?php echo($response['response']['message']); ?>
+        <?php echo($response['message']); ?>
     </p>
 <?php endif; ?>
 <form action="<?php echo(BASE_DIR) ?>index.php?view=add-user" method="POST">
