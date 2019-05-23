@@ -21,7 +21,11 @@ function getTranslatedString($fileName, $rowNumber) {
     }
     else if (APCU_CACHE_INSTALLED && apcu_exists($rowsCacheKey) && isset(($cachedTranslatedRows = apcu_fetch($rowsCacheKey))[$rowIndex])) {
         $translatedString = $cachedTranslatedRows[$rowIndex];
-        $$rowsGlobalVariableName[$rowIndex] = $translatedString;
+        if (isset($$rowsGlobalVariableName)) {
+            $$rowsGlobalVariableName[$rowIndex] = $translatedString;
+        } else {
+            $$rowsGlobalVariableName = $cachedTranslatedRows;
+        }
     } else {
         $filePath = '../lang/'.$lang.'/'.$fileName.'.txt';
         if (!is_file($filePath)) {
