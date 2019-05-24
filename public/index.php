@@ -2,7 +2,7 @@
     require_once('../config.php');
     require_once('../translation.php');
     if (MAINTENANCE) {
-        $currentView = array('name'=>'maintenance', 'file-name'=>'maintenance', 'title'=>'Maintenance', 'description'=>'Something big is coming: wait for the update.');
+        $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
     } else {
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
         function checkLogin() {
@@ -58,7 +58,7 @@
                 }
             }
         } else if ($currentViewName=='add-user') {
-            $currentView = array('name'=>'add-user', 'file-name'=>'add-user', 'title'=>'Add user', 'description'=>'Fondo Merende add user form.');
+            $currentView = array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1), 'file-name'=>'add-user', 'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('add-user', 1));
         } else {
             $currentView = $views[0];
         }
@@ -68,7 +68,7 @@
 <html lang="<?php echo($_SESSION['user-lang']); ?>">
 	<head>
 		<meta charset="utf-8">
-        <title>Fondo Merende | <?php echo($currentView['title']); if ($currentView['name']!='login' && $currentView['name']!='add-user' && $currentView['name']!='404') {echo(' - '.$_SESSION['user-friendly-name']);} ?></title>
+        <title>Fondo Merende | <?php echo($currentView['title']); if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=getTranslatedString('login', 1) && $currentView['name']!=getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1) && $currentView['name']!='404') {echo(' - '.$_SESSION['user-friendly-name']);} ?></title>
 		<meta name="description" content="<?php echo($currentView['description']); ?>">
 		<meta name="author" content="Matteo Bini">
         <meta name="robots" content="noindex, nofollow">
@@ -81,7 +81,12 @@
 	<body>
 		<header>
 			<h1 style="float:left">Fondo Merende</h1><p style="float:left;margin:20px 6px">v1.2.0b</p>
-			<?php require_once('../views/'.$currentView['file-name'].'.php'); ?>
+            <?php 
+                require_once('../views/'.$currentView['file-name'].'.php');
+                if (isset($response['status']) && $response['status']!=200) {
+                    http_response_code($response['status']);
+                }
+            ?>
 		<footer>
 		</footer>
 	</body>
