@@ -1,7 +1,9 @@
 404
-not found
-The content you are looking for was not found. I'm sorry.
-Maybe it has been moved or deleted. Who knows... not me for sure.
+Not Found
+Error
+The content you are looking for was not found on this webserver. I'm sorry.
+Maybe it has been moved or deleted. Who knows? Not me for sure.
 Better luck next time, slughead!
-Go home
-you are drunk.
+Go
+home
+you are drunk

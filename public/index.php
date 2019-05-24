@@ -54,7 +54,7 @@
                     header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
                 } else {
                     http_response_code(404);
-                    $currentView = array('name'=>'404', 'file-name'=>'404', 'title'=>'404', 'description'=>'Not found.');
+                    $currentView = array('name'=>'404', 'file-name'=>'404', 'title'=>'404', 'description'=>getTranslatedString('404', 2));
                 }
             }
         } else if ($currentViewName=='add-user') {
