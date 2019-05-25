@@ -1,18 +1,19 @@
 server {
     listen 80;
-    listen 8001;
     
     root /var/www/fondomerende/public/;
     index index.php;
-    server_name fondomerende.madeinapp.net;
     error_page 404 /index.php?view=404;
+	server_name fondomerende.madeinapp.net;
 
-    location / {
+	location /api {
+        rewrite ^\/api\/?$ /process-request.php last;
+    }
+	
+	location / {
         rewrite ^\/([a-zàA-ZÀ0-9_\-]*)\/?$ /index.php?view=$1 last;
     }
 
-    # pass PHP scripts to FastCGI server
-    #
     location ~ \.php$ {
         #include snippets/fastcgi-php.conf;
         try_files $uri =404;
@@ -23,7 +24,6 @@ server {
         include fastcgi_params;
     }
 
-    # deny access to .htaccess files, if Apache's document root concurs with nginx's one
     location ~ /\.ht {
         #deny all;
     }

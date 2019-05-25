@@ -56,13 +56,16 @@ if (MAINTENANCE) {
     function checkFilteredInputValidity($value, $options=null) {
         $valid = true;
         $message = '';
+		if (!isset($options['boolean'])) {
+            $options['boolean'] = false;
+        }
         if (!isset($options['can-be-empty'])) {
             $options['can-be-empty'] = false;
         }
-        if ($value===null) {
+        if (!$options['boolean'] && is_null($value)) {
             $valid = false;
             $message = 'value missing.';
-        } else if (($value===false || $value==='') && !$options['can-be-empty']) {
+        } else if (($options['boolean'] && is_null($value)) || ((!$options['boolean'] && $value===false || $value==='') && !$options['can-be-empty'])) {
             $valid = false;
             $message = 'value in wrong format.';
         }
@@ -153,18 +156,20 @@ if (MAINTENANCE) {
         return array('valid'=>$valid, 'message'=>$message);
     }
 
-    function setRequestInputValue(&$valueDestination, $mandatory, $requestVariableName, array $inputFilters, array $validityOptions) {
+    function setRequestInputValue(&$valueDestination, $mandatory, $requestVariableName, array $inputFilterAndOptions, array $validityOptions) {
         $dbColumnValueName = str_replace('-', '_', $requestVariableName);
-        $filter = $inputFilters['filter'];
         $filterOptions = null;
-        $noInputError = true;
-        if (isset($inputFilters['options'])) {
-            $filterOptions = $inputFilters['options'];
+        if (isset($inputFilterAndOptions['options'])) {
+            $filterOptions = $inputFilterAndOptions['options'];
         }
+		$noInputError = true;
         global $requestMethod, ${'_'.$requestMethod};
         if ($mandatory || isset(${'_'.$requestMethod}[$requestVariableName])) {
-            $value = filter_input(constant('INPUT_'.$requestMethod), $requestVariableName, $filter, $filterOptions);
-            $checkResult = checkFilteredInputValidity($value, $validityOptions);
+            $value = filter_input(constant('INPUT_'.$requestMethod), $requestVariableName, $inputFilterAndOptions['filter'], $filterOptions);
+			if ($inputFilterAndOptions['filter']==FILTER_VALIDATE_BOOLEAN) {
+				$validityOptions['boolean'] = true;
+			}
+			$checkResult = checkFilteredInputValidity($value, $validityOptions);
             if ($checkResult['valid']) {
                 if (gettype($valueDestination)=='array') {
                     $valueDestination[$dbColumnValueName] = $value;
@@ -217,7 +222,7 @@ if (MAINTENANCE) {
                         break;
                     }
                     $admin = false;
-                    if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                    if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
                     $response = addUser($name, $password, $friendlyName, $admin, $appRequest);
@@ -233,7 +238,7 @@ if (MAINTENANCE) {
                         break;
                     }
                     $rememberUser = false;
-                    if (!setRequestInputValue($rememberUser, false, 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                    if (!setRequestInputValue($rememberUser, false, 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
                     $response = login($userName, $password, $rememberUser, $appRequest);
@@ -371,7 +376,7 @@ if (MAINTENANCE) {
                         break;
                     }
                     $countable = true;
-                    if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN), array('can-be-empty'=>true))) {
+                    if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
                     $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
@@ -432,7 +437,7 @@ if (MAINTENANCE) {
                     } else if (isset($values['expiration_in_days'])) {
                         $types['expiration_in_days'] = 'i';
                     }
-                    if (!setRequestInputValue($values, false, 'is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                    if (!setRequestInputValue($values, false, 'is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     } else if (isset($values['is_liquid'])) {
                         $types['is_liquid'] = 'i';
@@ -463,7 +468,7 @@ if (MAINTENANCE) {
                     }
                     $customiseBuyOptions = false;
                     if (!$appRequest) {
-                        if (!setRequestInputValue($customiseBuyOptions, false, 'customise-buy-options', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                        if (!setRequestInputValue($customiseBuyOptions, false, 'customise-buy-options', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
                     }
