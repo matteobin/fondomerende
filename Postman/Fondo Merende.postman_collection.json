@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1cb07b9a-862e-452e-a103-e1b53b85afb1",
+		"_postman_id": "454cf4a8-bdc0-406f-ab5f-3c3369f94fab",
 		"name": "Fondo Merende",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -47,12 +47,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -99,12 +99,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -198,12 +198,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -240,12 +240,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -329,12 +329,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -361,12 +361,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -439,13 +439,17 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-fund-funds",
+					"raw": "{{host}}/api?command-name=get-fund-funds",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -467,13 +471,17 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-fund-funds",
+							"raw": "{{host}}/api?command-name=get-fund-funds",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -552,13 +560,17 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-user-funds",
+					"raw": "{{host}}/api?command-name=get-user-funds",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -580,13 +592,17 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-user-funds",
+							"raw": "{{host}}/api?command-name=get-user-funds",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -665,13 +681,17 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-last-actions",
+					"raw": "{{host}}/api?command-name=get-last-actions",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -693,13 +713,17 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-last-actions",
+							"raw": "{{host}}/api?command-name=get-last-actions",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -778,13 +802,17 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-main-view-data",
+					"raw": "{{host}}/api?command-name=get-main-view-data",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -806,13 +834,17 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-main-view-data",
+							"raw": "{{host}}/api?command-name=get-main-view-data",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -891,13 +923,17 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-user-data",
+					"raw": "{{host}}/api?command-name=get-user-data",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -919,13 +955,17 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-user-data",
+							"raw": "{{host}}/api?command-name=get-user-data",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -1030,12 +1070,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -1077,12 +1117,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -1175,12 +1215,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -1212,12 +1252,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -1326,12 +1366,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -1383,12 +1423,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -1461,13 +1501,17 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-snacks-data",
+					"raw": "{{host}}/api?command-name=get-snacks-data",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -1489,13 +1533,17 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-snacks-data",
+							"raw": "{{host}}/api?command-name=get-snacks-data",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -1574,13 +1622,17 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-snack-data&name=grog",
+					"raw": "{{host}}/api?command-name=get-snack-data&name=grog",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -1606,13 +1658,17 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-snack-data&name=grog",
+							"raw": "{{host}}/api?command-name=get-snack-data&name=grog",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -1731,12 +1787,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -1788,12 +1844,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -1866,13 +1922,17 @@
 						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-to-buy",
+					"raw": "{{host}}/api?command-name=get-to-buy",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -1894,13 +1954,17 @@
 								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-to-buy",
+							"raw": "{{host}}/api?command-name=get-to-buy",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -2000,12 +2064,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -2042,12 +2106,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -2120,13 +2184,17 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-to-eat-and-user-funds",
+					"raw": "{{host}}/api?command-name=get-to-eat-and-user-funds",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -2148,13 +2216,17 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-to-eat-and-user-funds",
+							"raw": "{{host}}/api?command-name=get-to-eat-and-user-funds",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -2254,12 +2326,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -2296,12 +2368,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},

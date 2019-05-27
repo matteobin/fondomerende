@@ -7,7 +7,7 @@ if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
     require_once('../translation.php');
 }
 if (MAINTENANCE) {
-    $response = array('success'=>true, 'status'=>503, 'message'=>'Fondo Merende is not available at the moment. Please wait for our team of experts to perfom the required updates. Don\'t be an asshole, wait and DO NOT COMPLAIN!');
+    $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('api-responses-messages', 1));
 } else {
     function checkAuth() {
         $isAuth = false;
@@ -24,7 +24,7 @@ if (MAINTENANCE) {
         if ($requestMethod!=$acceptedMethod) {
             $requestMethodRight = false;
             global $response;
-            $response = array('success'=>false, 'status'=>405, 'message'=>'Invalid request: you should send it through '.$acceptedMethod.' instead.');
+            $response = array('success'=>false, 'status'=>405, 'message'=>getTranslatedString('api-response-messages', 2).$acceptedMethod.getTranslatedString('api-response-messages', 3));
         }
         return $requestMethodRight;
     }
@@ -39,7 +39,7 @@ if (MAINTENANCE) {
         if (isset($userToken) && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
-            $response = array('success'=>false, 'status'=>401, 'message'=>'Invalid user token: missing or expired.');
+            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('api-response-messages', 4));
         }
         return $isAuth;
     }
@@ -64,21 +64,21 @@ if (MAINTENANCE) {
         }
         if (!$options['boolean'] && is_null($value)) {
             $valid = false;
-            $message = 'value missing.';
+            $message = getTranslatedString('api-response-messages', 5);
         } else if (($options['boolean'] && is_null($value)) || ((!$options['boolean'] && $value===false || $value==='') && !$options['can-be-empty'])) {
             $valid = false;
-            $message = 'value in wrong format.';
+            $message = getTranslatedString('api-response-messages', 6);
         }
         else if (isset($options['max-length']) && strlen($value)>$options['max-length']) {
             $valid = false;
-            $message = '\''.$value.'\' longer than '.$options['max-length'].' characters.';
+            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 7).$options['max-length'].getTranslatedString('api-response-messages', 8);
         }
         else if (isset($options['greater-than']) && $value<=$options['greater-than']) {
             $valid = false;
-            $message = '\''.$value.'\' is not greater than '.$options['greater-than'].'.';
+            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 9).$options['greater-than'].'.';
         } else if (isset($options['lesser-than']) && $value>=$options['lesser-than']) {
             $valid = false;
-            $message = '\''.$value.'\' is not lesser than '.$options['lesser-than'].'.';
+            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 10).$options['lesser-than'].'.';
         } 
         if ($valid && isset($options['digits-number'])) {
             if (strpos($value, '.')===false) {
@@ -93,12 +93,12 @@ if (MAINTENANCE) {
             }
             if (strlen($value)-$dotsNumber-$signsNumber>$options['digits-number']) {
                 $valid = false;
-                $message = '\''.$value.'\' has more digits than '.$options['digits-number'].'.';
+                $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 11).$options['digits-number'].'.';
             }
         }
         if ($valid && isset($options['decimals-number']) && strlen($value)-(strpos($value, '.')+1)>$options['decimals-number']) {
             $valid = false;
-            $message = '\''.$value.'\' has more decimals than '.$options['decimals-number'].'.'; 
+            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 12).$options['decimals-number'].'.'; 
         }
         if ($valid && isset($options['database'])) {
             $isException = false;
@@ -140,13 +140,13 @@ if (MAINTENANCE) {
                 }
                 if ($insertUnique && $dbValue!=null) {
                     $valid = false;
-                    $message = $value.' is already present in database '.$table.' table at '.$selectColumn.' column.';
+                    $message = $value.''.getTranslatedString('api-response-messages', 13).$table.getTranslatedString('api-response-messages', 14).$selectColumn.getTranslatedString('api-response-messages', 15);
                 } else if (!$insertUnique && $dbValue===null) {
                     $valid = false;
-                    $message = $value.' is not present in database '.$table.' table at '.$selectColumn.' column';
+                    $message = $value.''.getTranslatedString('api-response-messages', 16).$table.getTranslatedString('api-response-messages', 14).$selectColumn.getTranslatedString('api-response-messages', 15);
                     if ($additionalWheres) {
                         foreach($options['database']['wheres'] as $where) {
-                            $message .= ', where '.$where['column'].' column is '.$where['value'];
+                            $message .= getTranslatedString('api-response-messages', 17).$where['column'].getTranslatedString('api-response-messages', 18).$where['value'];
                         }
                     }
                     $message .= '.';
@@ -178,7 +178,7 @@ if (MAINTENANCE) {
                 }
             } else {
                 global $response;
-                $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
+                $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('api-response-messages', 19).str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
                 $noInputError = false;
             }
         }
