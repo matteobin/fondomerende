@@ -1,10 +1,12 @@
 Fondo Merende is not available at the moment. Please wait for our team of experts to perfom the required updates. Don't be an asshole, wait and DO NOT COMPLAIN!
-Invalid request: you should send it through 
+Request
+ is not valid: 
+you should send it through 
  instead.
-Invalid user token: missing or expired.
+missing or expired.
 value missing.
 value in wrong format.
- longer than 
+ is longer than 
  characters.
  is not greater than 
  is not lesser than 
@@ -15,5 +17,6 @@ value in wrong format.
  column.
  is not present in database 
 , where 
- column is 
-Invalid 
+ column is  
+no parameters were sent.
+Login error: wrong credentials.

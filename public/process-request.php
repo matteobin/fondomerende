@@ -24,7 +24,7 @@ if (MAINTENANCE) {
         if ($requestMethod!=$acceptedMethod) {
             $requestMethodRight = false;
             global $response;
-            $response = array('success'=>false, 'status'=>405, 'message'=>getTranslatedString('api-response-messages', 2).$acceptedMethod.getTranslatedString('api-response-messages', 3));
+            $response = array('success'=>false, 'status'=>405, 'message'=>getTranslatedString('api-response-messages', 2).getTranslatedString('api-response-messages', 3).$acceptedMethod.getTranslatedString('api-response-messages', 4));
         }
         return $requestMethodRight;
     }
@@ -39,7 +39,7 @@ if (MAINTENANCE) {
         if (isset($userToken) && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
-            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('api-response-messages', 4));
+            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('api-response-messages', 5));
         }
         return $isAuth;
     }
@@ -64,21 +64,21 @@ if (MAINTENANCE) {
         }
         if (!$options['boolean'] && is_null($value)) {
             $valid = false;
-            $message = getTranslatedString('api-response-messages', 5);
+            $message = getTranslatedString('api-response-messages', 6);
         } else if (($options['boolean'] && is_null($value)) || ((!$options['boolean'] && $value===false || $value==='') && !$options['can-be-empty'])) {
             $valid = false;
-            $message = getTranslatedString('api-response-messages', 6);
+            $message = getTranslatedString('api-response-messages', 7);
         }
         else if (isset($options['max-length']) && strlen($value)>$options['max-length']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 7).$options['max-length'].getTranslatedString('api-response-messages', 8);
+            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 8).$options['max-length'].getTranslatedString('api-response-messages', 9);
         }
         else if (isset($options['greater-than']) && $value<=$options['greater-than']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 9).$options['greater-than'].'.';
+            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 10).$options['greater-than'].'.';
         } else if (isset($options['lesser-than']) && $value>=$options['lesser-than']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 10).$options['lesser-than'].'.';
+            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 11).$options['lesser-than'].'.';
         } 
         if ($valid && isset($options['digits-number'])) {
             if (strpos($value, '.')===false) {
@@ -93,12 +93,12 @@ if (MAINTENANCE) {
             }
             if (strlen($value)-$dotsNumber-$signsNumber>$options['digits-number']) {
                 $valid = false;
-                $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 11).$options['digits-number'].'.';
+                $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 12).$options['digits-number'].'.';
             }
         }
         if ($valid && isset($options['decimals-number']) && strlen($value)-(strpos($value, '.')+1)>$options['decimals-number']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 12).$options['decimals-number'].'.'; 
+            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 13).$options['decimals-number'].'.'; 
         }
         if ($valid && isset($options['database'])) {
             $isException = false;
@@ -140,13 +140,13 @@ if (MAINTENANCE) {
                 }
                 if ($insertUnique && $dbValue!=null) {
                     $valid = false;
-                    $message = $value.''.getTranslatedString('api-response-messages', 13).$table.getTranslatedString('api-response-messages', 14).$selectColumn.getTranslatedString('api-response-messages', 15);
+                    $message = $value.''.getTranslatedString('api-response-messages', 14).$table.getTranslatedString('api-response-messages', 15).$selectColumn.getTranslatedString('api-response-messages', 16);
                 } else if (!$insertUnique && $dbValue===null) {
                     $valid = false;
-                    $message = $value.''.getTranslatedString('api-response-messages', 16).$table.getTranslatedString('api-response-messages', 14).$selectColumn.getTranslatedString('api-response-messages', 15);
+                    $message = $value.''.getTranslatedString('api-response-messages', 17).$table.getTranslatedString('api-response-messages', 15).$selectColumn.getTranslatedString('api-response-messages', 16);
                     if ($additionalWheres) {
                         foreach($options['database']['wheres'] as $where) {
-                            $message .= getTranslatedString('api-response-messages', 17).$where['column'].getTranslatedString('api-response-messages', 18).$where['value'];
+                            $message .= getTranslatedString('api-response-messages', 18).$where['column'].getTranslatedString('api-response-messages', 19).$where['value'];
                         }
                     }
                     $message .= '.';
@@ -178,7 +178,7 @@ if (MAINTENANCE) {
                 }
             } else {
                 global $response;
-                $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('api-response-messages', 19).str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
+                $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('api-response-messages', 20).str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
                 $noInputError = false;
             }
         }
@@ -201,7 +201,7 @@ if (MAINTENANCE) {
     }
 
     $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
-    $response = array('success'=>false, 'status'=>400, 'message'=>'Invalid request: no parameters were sent.');
+    $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('api-response-messages', 2).getTranslatedString('api-response-messages', 21));
     if (!$appRequest || checkAuth()) {
         require_once('../lib/DbManager/DbManager.php');
         $dbManager = new DbManager();
@@ -225,6 +225,8 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
+                    require_once('../commands/login.php');
+                    require_once('../commands/add-user.php');
                     $response = addUser($name, $password, $friendlyName, $admin, $appRequest);
                     break;
                 case 'login':
@@ -241,6 +243,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($rememberUser, false, 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
+                    require_once('../commands/login.php');
                     $response = login($userName, $password, $rememberUser, $appRequest);
                     break;
                 case 'logout':
@@ -250,6 +253,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require_once('../commands/logout.php');
                     $response = logout($appRequest);
                     break;
                 case 'get-fund-funds':
@@ -259,6 +263,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require_once('../commands/get-fund-funds.php');
                     $response = getFundFunds();
                     break;
                 case 'get-user-funds':
@@ -268,6 +273,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require_once('../commands/get-user-funds.php');
                     $response = getUserFunds($_SESSION['user-id']);
                     break;
                 case 'get-last-actions':
