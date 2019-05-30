@@ -5,8 +5,8 @@
     }
 ?>
 </header>
-<h3 style="clear:left"><?php echoTranslatedString('commons', 1); ?> <?php echoTranslatedString('commons', 2); ?>: <?php echo($response['data']['fund-funds-amount']); ?> €</h3>
-<h3><?php echoUcfirstTranslatedString('user', 1); ?> <?php echoTranslatedString('commons', 2); ?>: <?php echo($response['data']['user-funds-amount']); ?> €</h3>
+<h3 style="clear:left"><?php echoTranslatedString('commons', 1); ?>: <?php echo($response['data']['fund-funds-amount']); ?> €</h3>
+<h3><?php echoTranslatedString('commons', 2); ?>: <?php echo($response['data']['user-funds-amount']); ?> €</h3>
 <h3><?php echoTranslatedString('main', 3) ?></h3>
 <p><?php echoTranslatedString('main', 4); echo(' '.$_SESSION['user-friendly-name']); ?>!<br><?php echoTranslatedString('main', 5); ?><br><?php echoTranslatedString('main', 6) ?></p>
 <ul>

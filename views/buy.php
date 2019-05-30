@@ -7,7 +7,9 @@
 	if (isset($response['data']['snacks'])) {
 		$snacks = $response['data']['snacks'];
         $_SESSION['buy-form-data']['snacks'] = $snacks;
-    } else {
+    } else if ($response['status']==204) {
+		// to do: display message when there are no snack to buy.
+	} else {
         $snacks = $_SESSION['buy-form-data']['snacks'];
     }
 ?>

@@ -297,6 +297,10 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+					require_once('../commands/get-fund-funds.php');
+					require_once('../commands/get-user-funds.php');
+					require_once('../commands/get-last-actions.php');
+					require_once('../commands/get-main-view-data.php');
                     $response = getMainViewData($_SESSION['user-id']);
                     break;
                 case 'get-user-data':

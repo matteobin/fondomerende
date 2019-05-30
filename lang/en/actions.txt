@@ -1,4 +1,4 @@
-changed
+ changed 
 name
 friendly name
 price
@@ -7,3 +7,7 @@ expiration days
  of 
  from 
  to 
+ added 
+ deposited 
+ bought 
+ ate 
