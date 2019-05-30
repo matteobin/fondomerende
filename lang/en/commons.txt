@@ -1,4 +1,4 @@
-Fund
-Moolah
+Fund Moolah
+User Moolah
 name
 Save

@@ -1,4 +1,4 @@
 user
-friendly
+friendly name
 password
 long is better

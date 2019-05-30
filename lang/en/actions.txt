@@ -1,0 +1,9 @@
+changed
+name
+friendly name
+price
+snack per box number
+expiration days
+ of 
+ from 
+ to 

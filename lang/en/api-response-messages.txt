@@ -9,7 +9,7 @@ value in wrong format.
  is longer than 
  characters.
  is not greater than 
- is not lesser than 
+ is not less than 
  has more digits than 
  has more decimals than 
  is already present in database 

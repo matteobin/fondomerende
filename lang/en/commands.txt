@@ -3,8 +3,3 @@ edit
 deposit
 buy
 eat
-added
-edited
-deposited
-bought
-ate
