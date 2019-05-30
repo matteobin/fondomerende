@@ -72,6 +72,7 @@
 		<meta name="description" content="<?php echo($currentView['description']); ?>">
 		<meta name="author" content="Matteo Bini">
         <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             h2 {
                 clear: left;
