@@ -206,7 +206,6 @@ if (MAINTENANCE) {
         require_once('../lib/DbManager/DbManager.php');
         $dbManager = new DbManager();
         if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
-            require_once('../commands.php');
             switch ($commandName) {
                 case 'add-user':
                     if (!checkRequestMethod('POST')) {
@@ -310,6 +309,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require_once('../commands/get-user-data.php');
                     $response = getUserData($_SESSION['user-id']);
                     break;
                 case 'edit-user':
@@ -353,6 +353,7 @@ if (MAINTENANCE) {
                         $values['password'] = password_hash($values['password'], PASSWORD_DEFAULT);
                         $types['password'] = 's';
                     }
+                    require_once('../commands/edit-snack-or-user.php');
                     $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $values, $types);
                     break;
                 case 'deposit':
@@ -365,6 +366,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($amount, true, 'amount', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
                         break;
                     }
+                    require_once('../commands/deposit.php');
                     $response = deposit($_SESSION['user-id'], $amount);
                     break;
                 case 'add-snack':
@@ -390,6 +392,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
+                    require_once('../commands/add-snack.php');
                     $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
                     break;
                 case 'get-snacks-data':
@@ -399,6 +402,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require_once('../commands/get-snacks-data.php');
                     $response = getSnacksData();
                     break;
                 case 'get-snack-data':
@@ -412,6 +416,7 @@ if (MAINTENANCE) {
                         break;
                     }
                     $snackId = getIdByUniqueName('snacks', $snackName);
+                    require_once('../commands/get-snack-data.php');
                     $response = getSnackData($snackId);
                     break;
                 case 'edit-snack':
@@ -453,6 +458,7 @@ if (MAINTENANCE) {
                     } else if (isset($values['is_liquid'])) {
                         $types['is_liquid'] = 'i';
                     }
+                    require_once('../commands/edit-snack-or-user.php');
                     $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                     break;
                 case 'get-to-buy':
@@ -462,6 +468,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require_once('../commands/get-to-buy.php');
                     $response = getToBuy();
                     break;
                 case 'buy':
@@ -495,6 +502,7 @@ if (MAINTENANCE) {
                             break;
                         }
                     }
+                    require_once('../commands/buy.php');
                     $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                     break;
                 case 'get-to-eat-and-user-funds':
@@ -504,6 +512,8 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require_once('../commands/get-user-funds.php');
+                    require_once('../commands/get-to-eat-and-user-funds.php');
                     $response = getToEatAndUserFunds($_SESSION['user-id']);
                     break;
                 case 'eat':
@@ -520,6 +530,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($quantity, false, 'quantity', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                         break;
                     }
+                    require_once('../commands/eat.php');
                     $response = eat($_SESSION['user-id'], $snackId, $quantity);
                     break;
             }

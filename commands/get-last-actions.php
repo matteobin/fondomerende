@@ -50,7 +50,6 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
     }
     return $decodedEdits;
 }
-
 function decodeActions($actions) {
     global $dbManager;
     $decodedActions = array();
@@ -87,7 +86,6 @@ function decodeActions($actions) {
     }
     return $decodedActions;
 }
-
 function getLastActions($actionsNumber, $apiCall=true) {
     global $dbManager;
     try {

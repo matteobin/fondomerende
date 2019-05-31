@@ -20,3 +20,4 @@ value in wrong format.
  column is  
 no parameters were sent.
 Login error: wrong credentials.
+No crates containing snack id 
