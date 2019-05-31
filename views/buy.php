@@ -33,7 +33,7 @@
         <input type="checkbox" name="customise-buy-options" value="yes" <?php if (isset($_POST['customise-buy-options']) && $_POST['customise-buy-options']=='yes') {echo('checked');} ?>>
     </label>
     <label><?php echoUcfirstTranslatedString('snack', 3); ?>
-        <input type="number" name="price" min="0.01" step="0.01" max="999.99" value="<?php if (isset($_POST['price'])) {echo($_POST['price']);} ?>">
+        <input type="number" name="price" min="0.01" step="0.01" max="99.99" value="<?php if (isset($_POST['price'])) {echo($_POST['price']);} ?>">
     </label>
     <label><?php echoUcfirstTranslatedString('snack', 4); ?>
         <input type="number" name="snacks-per-box" min="1" step="1" max="999" value="<?php if (isset($_POST['snacks-per-box'])) {echo($_POST['snacks-per-box']);} ?>">
