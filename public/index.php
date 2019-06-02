@@ -85,7 +85,7 @@
             <?php 
                 require_once('../views/'.$currentView['file-name'].'.php');
                 if (isset($response['status']) && $response['status']!=200) {
-                    http_response_code($response['status']);
+					http_response_code($response['status']);
                 }
             ?>
 		<footer>

@@ -17,7 +17,6 @@ if (MAINTENANCE) {
         }
         return $isAuth;
     }
-
     function checkRequestMethod($acceptedMethod) {
         $requestMethodRight = true;
         global $requestMethod;
@@ -28,7 +27,6 @@ if (MAINTENANCE) {
         }
         return $requestMethodRight;
     }
-
     function checkUserToken() {
         $isAuth = false;
         global $userToken, $response, $_SESSION, $appRequest;
@@ -43,7 +41,6 @@ if (MAINTENANCE) {
         }
         return $isAuth;
     }
-
     function getIdByUniqueName($table, $name) {
         global $dbManager;
         $dbManager->runPreparedQuery('SELECT id FROM '.$table.' WHERE name=? LIMIT 1', array($name), 's');
@@ -52,7 +49,6 @@ if (MAINTENANCE) {
         }
         return $id;
     }
-
     function checkFilteredInputValidity($value, $options=null) {
         $valid = true;
         $message = '';
@@ -155,7 +151,6 @@ if (MAINTENANCE) {
         }
         return array('valid'=>$valid, 'message'=>$message);
     }
-
     function setRequestInputValue(&$valueDestination, $mandatory, $requestVariableName, array $inputFilterAndOptions, array $validityOptions) {
         $dbColumnValueName = str_replace('-', '_', $requestVariableName);
         $filterOptions = null;
@@ -184,7 +179,6 @@ if (MAINTENANCE) {
         }
         return $noInputError;
     }
-
     function checkUserPassword($userId, $password) {
         global $dbManager;
         $passwordVerified = false;
@@ -199,7 +193,6 @@ if (MAINTENANCE) {
         }
         return $passwordVerified;
     }
-
     $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
     $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('api-response-messages', 2).getTranslatedString('api-response-messages', 3).getTranslatedString('api-response-messages', 21));
     if (!$appRequest || checkAuth()) {
