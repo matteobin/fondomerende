@@ -5,11 +5,10 @@
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
     }
-	var_dump($response);
 	if (isset($response['data']['snacks'])) {
 		$snacks = $response['data']['snacks'];
         $_SESSION['buy-form-data']['snacks'] = $snacks;
-    } else if ($response['status']==204) {
+    } else if ($response['status']==404) {
 		$noSnacksToBuy = true;
 	} else {
         $snacks = $_SESSION['buy-form-data']['snacks'];

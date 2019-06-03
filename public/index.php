@@ -82,12 +82,7 @@
 	<body>
 		<header>
 			<h1 style="float:left">Fondo Merende</h1><p style="float:left;margin:20px 6px">v1.2.0b</p>
-            <?php 
-                require_once('../views/'.$currentView['file-name'].'.php');
-                if (isset($response['status']) && $response['status']!=200) {
-					http_response_code($response['status']);
-                }
-            ?>
+            <?php require_once('../views/'.$currentView['file-name'].'.php'); ?>
 		<footer>
 		</footer>
 	</body>

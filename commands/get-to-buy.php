@@ -10,10 +10,10 @@ function getToBuy() {
         $dbManager->endTransaction();
         $response['success'] = true;
         if (isset($snacks)) {
-            $response['status'] = 200;
+            $respose['status'] = 200;
             $response['data']['snacks'] = $snacks;
         } else {
-            $response['status'] = 204;
+            $response['status'] = 404;
         }
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
