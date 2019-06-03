@@ -21,7 +21,13 @@ function getToEatAndUserFunds($userId) {
 			}
         }
         $dbManager->endTransaction();
-		$response = array('success'=>true, 'status'=>200, 'data'=>array('user-funds-amount'=>$userFundsAmount, 'snacks'=>$snacks));
+        $response['success'] = true;
+        if (empty($snacks)) {
+            $response['status'] = 404;
+        } else {
+            $response['status'] = 200;
+        }
+        $response['data'] = array('user-funds-amount'=>$userFundsAmount, 'snacks'=>$snacks);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());

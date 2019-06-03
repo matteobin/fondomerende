@@ -13,7 +13,10 @@
     endif; 
 ?>
 <h3><?php echoTranslatedString('commons', 2); ?>: <?php echo($response['data']['user-funds-amount']) ?> €</h3>
-<?php foreach($response['data']['snacks'] as $snack): ?>
+<?php if (empty($response['data']['snacks'])): ?>
+    <h3>No snacks to eat!</h3>
+    <p>Maybe you should <a href="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy"><strong>BUY</strong></a> them first.</p>
+<?php else: foreach($response['data']['snacks'] as $snack): ?>
     <form action="<?php echo(BASE_DIR); ?>index.php?view=eat&command-name=get-to-eat-and-funds" method="POST">
         <input type="hidden" name="command-name" value="eat"></label>
         <label><?php echo($snack['friendly-name']) ?></label>
@@ -40,3 +43,4 @@
         submits[index].addEventListener('submit', askEatConfirm);
     }
 </script>
+<?php endif; ?>
