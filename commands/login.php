@@ -41,7 +41,7 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
                 }
             }
         } else if ($apiCall) {
-            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('api-response-messages', 22));
+            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 22));
         }
         if ($apiCall) {
             $dbManager->endTransaction();          

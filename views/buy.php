@@ -20,8 +20,8 @@
     <p><?php echo($response['message']); ?></p>
 <?php endif; ?>
 <?php if ($noSnacksToBuy): ?>
-	<h3>No snacks to buy!</h3>
-	<p>Maybe you should <a href="<?php echo(BASE_DIR) ?>index.php?view=add-snack"><strong>ADD</strong></a> them first.</p>
+    <h3><?php echoTranslatedString('commons', 5); ?> <?php echoTranslatedString('commands', 4); ?>!</h3>
+    <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo(BASE_DIR) ?>index.php?view=add-snack"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php else: ?>
 	<form action="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds" method="POST">
 		<input type="hidden" name="command-name" value="buy">

@@ -7,7 +7,7 @@ if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
     require_once('../translation.php');
 }
 if (MAINTENANCE) {
-    $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('api-responses-messages', 1));
+    $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
 } else {
     function checkAuth() {
         $isAuth = false;
@@ -23,7 +23,7 @@ if (MAINTENANCE) {
         if ($requestMethod!=$acceptedMethod) {
             $requestMethodRight = false;
             global $response;
-            $response = array('success'=>false, 'status'=>405, 'message'=>getTranslatedString('api-response-messages', 2).getTranslatedString('api-response-messages', 3).getTranslatedString('api-response-messages', 4).$acceptedMethod.getTranslatedString('api-response-messages', 5));
+            $response = array('success'=>false, 'status'=>405, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 4).$acceptedMethod.getTranslatedString('response-messages', 5));
         }
         return $requestMethodRight;
     }
@@ -37,7 +37,7 @@ if (MAINTENANCE) {
         if (isset($userToken) && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
-            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('api-response-messages', 6));
+            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 6));
         }
         return $isAuth;
     }
@@ -60,21 +60,21 @@ if (MAINTENANCE) {
         }
         if (!$options['boolean'] && is_null($value)) {
             $valid = false;
-            $message = getTranslatedString('api-response-messages', 7);
+            $message = getTranslatedString('response-messages', 7);
         } else if (($options['boolean'] && is_null($value)) || ((!$options['boolean'] && $value===false || $value==='') && !$options['can-be-empty'])) {
             $valid = false;
-            $message = getTranslatedString('api-response-messages', 8);
+            $message = getTranslatedString('response-messages', 8);
         }
         else if (isset($options['max-length']) && strlen($value)>$options['max-length']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 9).$options['max-length'].getTranslatedString('api-response-messages', 10);
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 9).$options['max-length'].getTranslatedString('response-messages', 10);
         }
         else if (isset($options['greater-than']) && $value<=$options['greater-than']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 11).$options['greater-than'].'.';
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 11).$options['greater-than'].'.';
         } else if (isset($options['less-than']) && $value>=$options['less-than']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 12).$options['less-than'].'.';
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 12).$options['less-than'].'.';
         } 
         if ($valid && isset($options['digits-number'])) {
             if (strpos($value, '.')===false) {
@@ -89,12 +89,12 @@ if (MAINTENANCE) {
             }
             if (strlen($value)-$dotsNumber-$signsNumber>$options['digits-number']) {
                 $valid = false;
-                $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 13).$options['digits-number'].'.';
+                $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options['digits-number'].'.';
             }
         }
         if ($valid && isset($options['decimals-number']) && strlen($value)-(strpos($value, '.')+1)>$options['decimals-number']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('api-response-messages', 14).$options['decimals-number'].'.'; 
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['decimals-number'].'.'; 
         }
         if ($valid && isset($options['database'])) {
             $isException = false;
@@ -136,13 +136,13 @@ if (MAINTENANCE) {
                 }
                 if ($insertUnique && $dbValue!=null) {
                     $valid = false;
-                    $message = $value.''.getTranslatedString('api-response-messages', 15).$table.getTranslatedString('api-response-messages', 16).$selectColumn.getTranslatedString('api-response-messages', 17);
+                    $message = $value.''.getTranslatedString('response-messages', 15).$table.getTranslatedString('response-messages', 16).$selectColumn.getTranslatedString('response-messages', 17);
                 } else if (!$insertUnique && $dbValue===null) {
                     $valid = false;
-                    $message = $value.''.getTranslatedString('api-response-messages', 18).$table.getTranslatedString('api-response-messages', 16).$selectColumn.getTranslatedString('api-response-messages', 17);
+                    $message = $value.''.getTranslatedString('response-messages', 18).$table.getTranslatedString('response-messages', 16).$selectColumn.getTranslatedString('response-messages', 17);
                     if ($additionalWheres) {
                         foreach($options['database']['wheres'] as $where) {
-                            $message .= getTranslatedString('api-response-messages', 19).$where['column'].getTranslatedString('api-response-messages', 20).$where['value'];
+                            $message .= getTranslatedString('response-messages', 19).$where['column'].getTranslatedString('response-messages', 20).$where['value'];
                         }
                     }
                     $message .= '.';
@@ -173,7 +173,7 @@ if (MAINTENANCE) {
                 }
             } else {
                 global $response;
-                $response = array('success'=>false, 'status'=>400, 'message'=>ucfirst(str_replace('-', ' ', $requestVariableName)).getTranslatedString('api-response-messages', 3).$checkResult['message']);
+                $response = array('success'=>false, 'status'=>400, 'message'=>ucfirst(str_replace('-', ' ', $requestVariableName)).getTranslatedString('response-messages', 3).$checkResult['message']);
                 $noInputError = false;
             }
         }
@@ -194,7 +194,7 @@ if (MAINTENANCE) {
         return $passwordVerified;
     }
     $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
-    $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('api-response-messages', 2).getTranslatedString('api-response-messages', 3).getTranslatedString('api-response-messages', 21));
+    $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 21));
     if (!$appRequest || checkAuth()) {
         require_once('../lib/DbManager/DbManager.php');
         $dbManager = new DbManager();
