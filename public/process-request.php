@@ -37,7 +37,7 @@ if (MAINTENANCE) {
         if (isset($userToken) && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
-            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 6));
+            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 6));
         }
         return $isAuth;
     }
@@ -275,12 +275,12 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    $actionsNumber = 5;
-                    if (!setRequestInputValue($actionsNumber, false, 'actions-number', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
+                    $number = 5;
+                    if (!setRequestInputValue($number, false, 'number', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                         break;
                     }
                     require_once('../commands/get-last-actions.php');
-                    $response = getLastActions($actionsNumber);
+                    $response = getLastActions($number);
                     break;
                 case 'get-main-view-data':
                     if (!checkRequestMethod('GET')) {
@@ -529,7 +529,7 @@ if (MAINTENANCE) {
             }
         }
     } else {
-        $response = array('success'=>false, 'status'=>401, 'message'=>'Invalid request: missing or wrong auth key.');
+        $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 22));
     }
 }
 if ($appRequest) {

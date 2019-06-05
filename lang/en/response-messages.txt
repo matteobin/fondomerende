@@ -3,7 +3,7 @@ Request
  is not valid: 
 you should send it through 
  instead.
-missing or expired.
+missing or expired user token.
 value missing.
 value in wrong format.
  is longer than 
@@ -19,5 +19,6 @@ value in wrong format.
 , where 
  column is  
 no parameters were sent.
+missing or wrong auth key.
 Login error: wrong credentials.
 No crates containing snack id 
