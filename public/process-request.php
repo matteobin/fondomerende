@@ -538,6 +538,6 @@ if ($appRequest) {
     setcookie('auth-key', '', time()-3600);
     setcookie('user-token', '', time()-3600);
     http_response_code($response['status']);
-	header('Content-Type: application/json');
-	echo(json_encode($response));
+    header('Content-Type: application/json');
+    echo(json_encode($response));
 }

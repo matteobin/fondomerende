@@ -64,10 +64,7 @@
         }
     }
     function sanitizeOutput($buffer) {
-        $search = array('/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/');
-        $replace = array('>', '<', '\\1', '');
-        $buffer = preg_replace($search, $replace, $buffer);
-        return $buffer;
+        return preg_replace(array('/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/'), array('>', '<', '\\1', ''), $buffer);
     }
     ob_start("sanitizeOutput");
 ?>
