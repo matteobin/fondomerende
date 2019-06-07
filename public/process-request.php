@@ -198,7 +198,7 @@ if (MAINTENANCE) {
     if (!$appRequest || checkAuth()) {
         require_once('../lib/DbManager/DbManager.php');
         $dbManager = new DbManager();
-        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
+        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
             switch ($commandName) {
                 case 'add-user':
                     if (!checkRequestMethod('POST')) {
@@ -268,19 +268,41 @@ if (MAINTENANCE) {
                     require_once('../commands/get-user-funds.php');
                     $response = getUserFunds($_SESSION['user-id']);
                     break;
-                case 'get-last-actions':
+                case 'get-actions':
+                case 'get-paginated-actions':
                     if (!checkRequestMethod('GET')) {
                         break;
                     }
                     if (!checkUserToken()) {
                         break;
                     }
-                    $number = 5;
-                    if (!setRequestInputValue($number, false, 'number', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
+                    if (!setRequestInputValue($limit, true, 'limit', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                         break;
                     }
-                    require_once('../commands/get-last-actions.php');
-                    $response = getLastActions($number);
+                    if ($command=='get-actions') {
+                        $offset = 0;
+                        if (!setRequestInputValue($offset, false, 'offset', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>-1))) {
+                            break;
+                        }
+                    } else {
+                        if (!setRequestInputValue($page, true, 'page', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
+                            break;
+                        }
+                    }
+                    $order = 'DESC';
+                    if (!setRequestInputValue($ascOrder, true, 'asc-order', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
+                        break;
+                    }
+                    if ($ascOrder) {
+                        $order = 'ASC';
+                    }
+                    require_once('../commands/get-actions.php');
+                    if ($command=='get-actions') {
+                        $response = getActions($limit, $offset, $order);
+                    } else {
+                        require_once('../commands/get-paginated-actions.php');
+                        $response = getPaginatedActions($limit, $page, $order);
+                    }
                     break;
                 case 'get-main-view-data':
                     if (!checkRequestMethod('GET')) {
