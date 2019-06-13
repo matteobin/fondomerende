@@ -1,4 +1,5 @@
 <?php
+require_once('get-actions.php');
 function getPaginatedActions($limit, $page, $order) {
     global $dbManager;
     try {

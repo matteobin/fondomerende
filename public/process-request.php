@@ -217,7 +217,6 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
-                    require_once('../commands/login.php');
                     require_once('../commands/add-user.php');
                     $response = addUser($name, $password, $friendlyName, $admin, $appRequest);
                     break;
@@ -296,8 +295,8 @@ if (MAINTENANCE) {
                     if ($ascOrder) {
                         $order = 'ASC';
                     }
-                    require_once('../commands/get-actions.php');
                     if ($command=='get-actions') {
+                        require_once('../commands/get-actions.php');
                         $response = getActions($limit, $offset, $order);
                     } else {
                         require_once('../commands/get-paginated-actions.php');
@@ -311,9 +310,6 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-					require_once('../commands/get-fund-funds.php');
-					require_once('../commands/get-user-funds.php');
-					require_once('../commands/get-last-actions.php');
 					require_once('../commands/get-main-view-data.php');
                     $response = getMainViewData($_SESSION['user-id']);
                     break;
@@ -527,7 +523,6 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    require_once('../commands/get-user-funds.php');
                     require_once('../commands/get-to-eat-and-user-funds.php');
                     $response = getToEatAndUserFunds($_SESSION['user-id']);
                     break;

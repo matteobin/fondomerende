@@ -1,4 +1,7 @@
 <?php
+require_once('get-fund-funds.php');
+require_once('get-user-funds.php');
+require_once('get-actions.php');
 function getMainViewData($userId) {
     global $dbManager;
     try {
