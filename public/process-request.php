@@ -144,8 +144,8 @@ if (MAINTENANCE) {
                         foreach($options['database']['wheres'] as $where) {
                             $message .= getTranslatedString('response-messages', 19).$where['column'].getTranslatedString('response-messages', 20).$where['value'];
                         }
+                        $message .= '.';
                     }
-                    $message .= '.';
                 } 
             }
         }
