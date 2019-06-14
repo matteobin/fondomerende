@@ -14,10 +14,10 @@ value in wrong format.
  has more decimals than 
  is already present in database 
  table at 
- column.
+ column
  is not present in database 
 , where 
- column is  
+ column is 
 no parameters were sent.
 missing or wrong auth key.
 Login error: wrong credentials.
