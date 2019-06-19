@@ -1,7 +1,13 @@
 <?php
-if (!isset($appRequest) || !$appRequest) {
+if (basename($_SERVER['SCRIPT_FILENAME'])=='index.php') {
     ini_set('display_errors', true);
     define('BASE_DIR', '/');
 }
 define('MAINTENANCE', false);
 define('APCU_CACHE_INSTALLED', false);
+if (!MAINTENANCE) {
+    define('DB_SERVER', '127.0.0.1');
+    define('DB_USER', 'root');
+    define('DB_PASSWORD', '');
+    define('DB_NAME', 'fondomerende');
+}

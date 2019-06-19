@@ -6,7 +6,7 @@ class DbManager {
     private $queryRes;
     
     public function __construct() {
-        $connection = new mysqli(SERVER, USER, PASSWORD, DATABASE);
+        $connection = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
         if ($connection->connect_error) {
             die('Connection ERROR ' . $connection->connect_errno . '!<br>' . $connection->connect_error);
         } else {

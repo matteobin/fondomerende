@@ -4,7 +4,7 @@ server {
     root /var/www/fondomerende/public/;
     index index.php;
     error_page 404 /index.php?view=404;
-    server_name fondomerende.madeinapp.net;
+    server_name fondomerende.company.com;
 
     location /api {
         rewrite ^\/api\/?$ /process-request.php last;
@@ -22,9 +22,5 @@ server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
-    }
-
-    location ~ /\.ht {
-        #deny all;
     }
 }
