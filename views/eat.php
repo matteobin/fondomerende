@@ -15,7 +15,7 @@
 <h3><?php echoTranslatedString('commons', 2); ?>: <?php echo($response['data']['user-funds-amount']) ?> €</h3>
 <?php if (empty($response['data']['snacks'])): ?>
     <h3><?php echoTranslatedString('commons', 5); ?> <?php echoTranslatedString('commands', 5); ?>!</h3>
-    <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo(BASE_DIR) ?>index.php?view=add-snack"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
+    <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo(BASE_DIR) ?>index.php?view=buy&command-name=get-to-buy"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php else: foreach($response['data']['snacks'] as $snack): ?>
     <form action="<?php echo(BASE_DIR); ?>index.php?view=eat&command-name=get-to-eat-and-funds" method="POST">
         <input type="hidden" name="command-name" value="eat"></label>
