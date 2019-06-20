@@ -2,7 +2,7 @@
 </header>
 <?php
 	if (isset($_POST['command-name'])) {
-		require_once('process-request.php');
+		require('process-request.php');
 	}
 	if (isset($response['status']) && $response['status']==201) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');

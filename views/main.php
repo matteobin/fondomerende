@@ -1,5 +1,5 @@
 <?php 
-    require_once('process-request.php');
+    require('process-request.php');
     if (isset($response['message'])) {
         echo($response['message']);
     }

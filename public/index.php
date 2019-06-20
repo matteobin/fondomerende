@@ -1,6 +1,6 @@
 <?php
-    require_once('../config.php');
-    require_once('../translation.php');
+    require('../config.php');
+    require('../translation.php');
     if (MAINTENANCE) {
         $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
     } else {
@@ -87,7 +87,7 @@
 		<header>
 			<h1 style="float:left">Fondo Merende</h1><p style="float:left;margin:20px 6px">v1.2.0b</p>
             <?php
-                require_once('../views/'.$currentView['file-name'].'.php');
+                require('../views/'.$currentView['file-name'].'.php');
                 if (isset($response['status']) && $response['status']!=200) {
                     http_response_code($response['status']);
                 }

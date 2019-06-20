@@ -1,6 +1,4 @@
 <?php
-require_once('config.php');
-
 class DbManager {
     private $connection;
     private $queryRes;

@@ -1,6 +1,6 @@
 <h2><?php echoUcfirstTranslatedString('commands', 5); ?></h2>
 </header>
-<?php require_once('process-request.php'); ?>
+<?php require('process-request.php'); ?>
 <?php
     if (isset($response['message'])): ?> 
         <p>
@@ -17,7 +17,7 @@
     <h3><?php echoTranslatedString('commons', 5); ?> <?php echoTranslatedString('commands', 5); ?>!</h3>
     <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo(BASE_DIR) ?>index.php?view=buy&command-name=get-to-buy"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php else: foreach($response['data']['snacks'] as $snack): ?>
-    <form action="<?php echo(BASE_DIR); ?>index.php?view=eat&command-name=get-to-eat-and-funds" method="POST">
+    <form method="POST">
         <input type="hidden" name="command-name" value="eat"></label>
         <label><?php echo($snack['friendly-name']) ?></label>
         <ul>

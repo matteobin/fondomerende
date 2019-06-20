@@ -1,5 +1,5 @@
 <?php
-    require_once('process-request.php');
+    require('process-request.php');
     if (isset($_POST['command-name']) && $_POST['command-name']=='edit-user' && isset($response['status']) && $response['status']==200) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
@@ -10,7 +10,7 @@
 <?php if (isset($response['message'])): ?> 
     <p><?php echo($response['message']); ?></p>
 <?php endif; ?>
-<form action="<?php echo(BASE_DIR); ?>index.php?view=edit-user&command-name=get-user-names" method="POST">
+<form method="POST">
     <input type="hidden" name="command-name" value="edit-user">
     <label for="user-name-input"><?php echoUcfirstTranslatedString('commons', 3); ?></label>
     <input type="text" name="name" id="user-name-input" placeholder="artu95_4evah" maxlength="30" value="<?php if (isset($_POST['name'])) {echo($_POST['name']);} else {echo($response['data']['user']['name']);} ?>">

@@ -1,5 +1,5 @@
 <?php
-    require_once('process-request.php');    
+    require('process-request.php');    
     if (isset($_POST['command-name']) && $_POST['command-name']=='edit-snack' && isset($response['status']) && $response['status']==200) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
@@ -10,7 +10,7 @@
 <?php if (isset($response['message'])): ?> 
     <p><?php echo($response['message']); ?></p>
 <?php endif; ?>
-<form action="<?php echo(BASE_DIR); ?>index.php?view=edit-snack&command-name=get-snack-data&snack-name=<?php echo($snackName) ?>" method="POST">
+<form method="POST">
     <input type="hidden" name="command-name" value="edit-snack">
     <input type="hidden" name="id" value="<?php if (isset($_POST['id'])) {echo($_POST['id']);} else {echo($response['data']['snack']['id']);} ?>">
     <label for="snack-name-input"><?php echoUcfirstTranslatedString('commons', 3); ?></label>

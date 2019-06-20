@@ -2,7 +2,6 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
 function getTranslatedString($fileName, $rowNumber) {
     if (isset($_GET['lang'])) {
         $lang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_STRING);
@@ -50,19 +49,15 @@ function getTranslatedString($fileName, $rowNumber) {
     }
     return $translatedString;
 }
-
 function getUcfirstTranslatedString($fileName, $rowNumber) {
     return ucfirst(getTranslatedString($fileName, $rowNumber));
 }
-
 function echoTranslatedString($fileName, $rowNumber) {
     echo(getTranslatedString($fileName, $rowNumber));
 }
-
 function echoUcfirstTranslatedString($fileName, $rowNumber) {
     echo(ucfirst(getTranslatedString($fileName, $rowNumber)));
 }
-
 function echoStrtoupperTranslatedString($fileName, $rowNumber) {
     echo(strtoupper(getTranslatedString($fileName, $rowNumber)));
 }

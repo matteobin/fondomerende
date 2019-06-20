@@ -1,5 +1,5 @@
 <?php
-    require_once('process-request.php');
+    require('process-request.php');
     if (isset($_POST['command-name']) && $_POST['command-name']=='deposit' && isset($response['status']) && $response['status']==200) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
         exit();
@@ -11,7 +11,7 @@
         <p><?php echo($response['message']); ?></p>
 <?php endif; ?>
 <h3><?php echoTranslatedString('commons', 2); ?>: <?php if (isset($_POST['user-funds-amount'])) {echo($_POST['user-funds-amount']);} else {echo($response['data']['user-funds-amount']);} ?> €</h3>
-<form action="<?php echo(BASE_DIR); ?>index.php?view=deposit" method="POST">
+<form method="POST">
     <input type="hidden" name="command-name" value="deposit">
     <input type="hidden" name="user-funds-amount" value="<?php if (isset($_POST['user-funds-amount'])) {echo($_POST['user-funds-amount']);} else {echo($response['data']['user-funds-amount']);} ?>">
     <label for="deposit-amount-input"><?php echoTranslatedString('deposit', 2); ?></label>

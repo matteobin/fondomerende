@@ -1,6 +1,6 @@
 <?php
    if (isset($_POST['name'])) {
-        require_once('process-request.php');
+        require('process-request.php');
     }
     if (isset($response['status']) && $response['status']==201) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
@@ -14,7 +14,7 @@
         <?php echo($response['message']); ?>
     </p>
 <?php endif; ?>
-<form action="<?php echo(BASE_DIR) ?>index.php?view=add-user" method="POST">
+<form method="POST">
     <input type="hidden" name="command-name" value="add-user">
     <label for="user-name-input"><?php echoUcfirstTranslatedString('commons', 3); ?></label>
     <input type="text" name="name" id="user-name-input" placeholder="mighty_pirate90" value="<?php if (isset($_POST['name'])) {echo($_POST['name']);} ?>" maxlength="30" required>
