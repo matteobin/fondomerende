@@ -4,7 +4,7 @@ function getPaginatedActions($limit, $page, $order) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $actions = getActions($limit, ($page-1)*$limit, $order, false);
+        $actions = getActions(false, $limit, ($page-1)*$limit, $order, false);
         $dbManager->runQuery('SELECT count(id) as all_actions_number FROM actions ORDER BY created_at '.$order);
         while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $actionsTotal = $actionsRow['actions_total'];

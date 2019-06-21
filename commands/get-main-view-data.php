@@ -6,7 +6,7 @@ function getMainViewData($userId) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
-        $response = array('success'=>true, 'status'=>200, 'data'=>array('fund-funds-amount'=>getFundFunds(false), 'user-funds-amount'=>getUserFunds($userId, false), 'actions'=>getActions(5, 0, 'DESC', false)));
+        $response = array('success'=>true, 'status'=>200, 'data'=>array('fund-funds-amount'=>getFundFunds(false), 'user-funds-amount'=>getUserFunds($userId, false), 'actions'=>getActions(false, 5, 0, 'DESC', false)));
         $dbManager->endTransaction();
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();

@@ -198,7 +198,7 @@ if (MAINTENANCE) {
     if (!$appRequest || checkAuth()) {
         require('../DbManager.php');
         $dbManager = new DbManager();
-        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
+        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
             switch ($commandName) {
                 case 'add-user':
                     if (!checkRequestMethod('POST')) {
@@ -268,12 +268,29 @@ if (MAINTENANCE) {
                     $response = getUserFunds($_SESSION['user-id']);
                     break;
                 case 'get-actions':
+                case 'get-latest-actions':
                 case 'get-paginated-actions':
                     if (!checkRequestMethod('GET')) {
                         break;
                     }
                     if (!checkUserToken()) {
                         break;
+                    }
+                    if ($command=='get-latest-actions') {
+                        if (!setRequestInputValue($timestamp, false, 'timestamp', array(FILTER_VALIDATE_STRING), array())) {
+                            break;
+                        }
+                        if (isset($timestamp)) {
+                            $unixTimestamp = strtotime($timestamp);
+                            if ($timestamp!=date('Y-m-d H:i:s', $unixTimestamp)) {
+                                //to do: manage invalid timestamp format
+                                break;
+                            }
+                        } else {
+                            $timestamp = date('Y-m-d H:i:s', time());
+                        }
+                    } else  {
+                        $timestamp = false;
                     }
                     if (!setRequestInputValue($limit, true, 'limit', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                         break;
@@ -295,21 +312,12 @@ if (MAINTENANCE) {
                     if ($ascOrder) {
                         $order = 'ASC';
                     }
-                    if ($command=='get-actions') {
+                    if ($command=='get-actions' || $command=='get-latest-actions') {
                         require('../commands/get-actions.php');
-                        $response = getActions($limit, $offset, $order);
+                        $response = getActions($timestamp, $limit, $offset, $order);
                     } else {
                         require('../commands/get-paginated-actions.php');
                         $response = getPaginatedActions($limit, $page, $order);
-                    }
-                    break;
-                case 'get-latest-actions':
-                    if (!checkRequestMethod('GET')) {
-                        break;
-                    }
-                    $timestamp = date('Y-m-d H:i:s', time());
-                    if (!setRequestInputValue($timestamp, false, 'timestamp', array('filter'=>FILTER_SANITIZE_STRING), array())) {
-                        break;
                     }
                     break;
                 case 'get-main-view-data':
