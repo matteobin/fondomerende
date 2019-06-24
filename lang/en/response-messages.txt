@@ -19,6 +19,7 @@ value in wrong format.
 , where 
  column is 
 no parameters were sent.
+ is not standard MySQL and MariaDB 'YYYY-MM-DD hh:mm:ss' format.
 missing or wrong auth key.
 Login error: wrong credentials.
 No crates containing snack id 

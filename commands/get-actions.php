@@ -29,7 +29,7 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
                     break;
                 case 'friendly_name':
                     if ($userEdit) {
-                        $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 1).' '.getTranslatedString('actions', 3).getTranslatedString('actions', 8).$edit['old-s-value'].getTranslatedString('actions', 9).$edit['new-s-value'].'.';
+                        $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 1).getTranslatedString('actions', 3).getTranslatedString('actions', 8).$edit['old-s-value'].getTranslatedString('actions', 9).$edit['new-s-value'].'.';
                         $decodedEdits[] = $editSentence;
                     }
                     break;
@@ -100,9 +100,17 @@ function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
             $params[] = $timestamp;
             $types .= 's';
         }
-        $query .= 'ORDER BY created_at '.$order.' LIMIT ? OFFSET ?'; 
-        array_push($params, $limit, $offset);
-        $types .= 'ii'; 
+        $query .= 'ORDER BY created_at '.$order; 
+        if ($limit) {
+            $query .= ' LIMIT ? ';
+            $params[] = $limit;
+            $types .= 'i';
+        }
+        if ($offset) {
+            $query .= 'OFFSET ?';
+            $params[] = $offset;
+            $types .= 'i';
+        }
         $dbManager->runPreparedQuery($query, $params, $types);
         while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $actions[] = array('id'=>$actionsRow['id'], 'user-id'=>$actionsRow['user_id'], 'command-id'=>$actionsRow['command_id'], 'snack-id'=>$actionsRow['snack_id'], 'snack-quantity'=>$actionsRow['snack_quantity'], 'funds-amount'=>$actionsRow['funds_amount'], 'created-at'=>$actionsRow['created_at']);

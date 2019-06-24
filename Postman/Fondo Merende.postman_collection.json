@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "454cf4a8-bdc0-406f-ab5f-3c3369f94fab",
+		"_postman_id": "8fee7ffd-644c-4a02-8290-d981a0b7237d",
 		"name": "Fondo Merende",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -671,22 +671,31 @@
 			]
 		},
 		{
-			"name": "Get last actions",
+			"name": "Get latest actions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c2eb148432a82556c48715d",
 						"type": "text"
 					}
 				],
 				"body": {
-					"mode": "raw",
-					"raw": ""
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"value": "",
+							"type": "text"
+						}
+					]
 				},
 				"url": {
-					"raw": "{{host}}/api?command-name=get-last-actions",
+					"raw": "{{host}}/api?command-name=get-latest-actions&timestamp=2019-05-02 00:00:00",
 					"host": [
 						"{{host}}"
 					],
@@ -696,100 +705,16 @@
 					"query": [
 						{
 							"key": "command-name",
-							"value": "get-last-actions"
+							"value": "get-latest-actions"
+						},
+						{
+							"key": "timestamp",
+							"value": "2019-05-02 00:00:00"
 						}
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Get last actions",
-					"originalRequest": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api?command-name=get-last-actions",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api"
-							],
-							"query": [
-								{
-									"key": "command-name",
-									"value": "get-last-actions"
-								}
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Date",
-							"value": "Sat, 25 May 2019 10:30:52 GMT"
-						},
-						{
-							"key": "Server",
-							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
-						},
-						{
-							"key": "X-Powered-By",
-							"value": "PHP/7.1.1"
-						},
-						{
-							"key": "Expires",
-							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-store, no-cache, must-revalidate"
-						},
-						{
-							"key": "Pragma",
-							"value": "no-cache"
-						},
-						{
-							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
-						},
-						{
-							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
-						},
-						{
-							"key": "Content-Length",
-							"value": "100"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5, max=100"
-						},
-						{
-							"key": "Connection",
-							"value": "Keep-Alive"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"actions\": [\n            \"2019-05-25 12:26:57: added Guybrush Threepwood.\"\n        ]\n    }\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Get main view data",

@@ -276,48 +276,50 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    if ($command=='get-latest-actions') {
-                        if (!setRequestInputValue($timestamp, false, 'timestamp', array(FILTER_VALIDATE_STRING), array())) {
+                    if ($commandName=='get-latest-actions') {
+                        if (!setRequestInputValue($timestamp, false, 'timestamp', array('filter'=>FILTER_SANITIZE_STRING), array())) {
                             break;
                         }
                         if (isset($timestamp)) {
                             $unixTimestamp = strtotime($timestamp);
                             if ($timestamp!=date('Y-m-d H:i:s', $unixTimestamp)) {
-                                //to do: manage invalid timestamp format
+                                $response = array('success'=>false, 'status'=>400, 'message'=>'Timestamp'.getTranslatedString('response-messages', 3).'\''.$timestamp.'\''.getTranslatedString('response-messages', 22));
                                 break;
                             }
                         } else {
                             $timestamp = date('Y-m-d H:i:s', time());
                         }
+                        require('../commands/get-actions.php');
+                        $response = getActions($timestamp, false, false, 'DESC');
                     } else  {
                         $timestamp = false;
-                    }
-                    if (!setRequestInputValue($limit, true, 'limit', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
-                        break;
-                    }
-                    if ($command=='get-actions') {
-                        $offset = 0;
-                        if (!setRequestInputValue($offset, false, 'offset', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>-1))) {
+                        if (!setRequestInputValue($limit, true, 'limit', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                             break;
                         }
-                    } else {
-                        if (!setRequestInputValue($page, true, 'page', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
+                        if ($commandName=='get-actions') {
+                            $offset = 0;
+                            if (!setRequestInputValue($offset, false, 'offset', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>-1))) {
+                                break;
+                            }
+                        } else {
+                            if (!setRequestInputValue($page, true, 'page', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
+                                break;
+                            }
+                        }
+                        $order = 'DESC';
+                        if (!setRequestInputValue($ascOrder, true, 'asc-order', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
-                    }
-                    $order = 'DESC';
-                    if (!setRequestInputValue($ascOrder, true, 'asc-order', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
-                        break;
-                    }
-                    if ($ascOrder) {
-                        $order = 'ASC';
-                    }
-                    if ($command=='get-actions' || $command=='get-latest-actions') {
-                        require('../commands/get-actions.php');
-                        $response = getActions($timestamp, $limit, $offset, $order);
-                    } else {
-                        require('../commands/get-paginated-actions.php');
-                        $response = getPaginatedActions($limit, $page, $order);
+                        if ($ascOrder) {
+                            $order = 'ASC';
+                        }
+                        if ($commandName=='get-actions' || $commandName=='get-latest-actions') {
+                            require('../commands/get-actions.php');
+                            $response = getActions($timestamp, $limit, $offset, $order);
+                        } else {
+                            require('../commands/get-paginated-actions.php');
+                            $response = getPaginatedActions($limit, $page, $order);
+                        }
                     }
                     break;
                 case 'get-main-view-data':
@@ -563,7 +565,7 @@ if (MAINTENANCE) {
             }
         }
     } else {
-        $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 22));
+        $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 23));
     }
 }
 if ($appRequest) {

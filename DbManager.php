@@ -25,11 +25,11 @@ class DbManager {
         }
         $statement = $this->connection->prepare($query);
         if ($statement===false) {
-            throw new Exception('Statement error in '.$query.'. '.$this->connection->error.'.');
+            throw new Exception('Statement error in \''.$query.'\'. '.$this->connection->error.'.');
         } else {
             call_user_func_array(array($statement, 'bind_param'), $bindings);
             if (!$statement->execute()) {
-                throw new Exception('Execution error in '.$query.'. '.$this->connection->error.'.');
+                throw new Exception('Execution error in \''.$query.'\'. '.$this->connection->error.'.');
             }
             $this->queryRes = $statement->get_result();
         }
