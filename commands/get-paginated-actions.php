@@ -5,20 +5,20 @@ function getPaginatedActions($limit, $page, $order) {
     try {
         $dbManager->startTransaction();
         $actions = getActions(false, $limit, ($page-1)*$limit, $order, false);
-        $dbManager->runQuery('SELECT count(id) as all_actions_number FROM actions ORDER BY created_at '.$order);
+        $dbManager->runQuery('SELECT count(id) as actions_total FROM actions ORDER BY created_at '.$order);
         while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $actionsTotal = $actionsRow['actions_total'];
         }
         $dbManager->endTransaction();
-        $availablePages = ceil($actionsTotal/$limit);
         $response['success'] = true;
-        $response['data']['actions-total'] = $actionsTotal;
         if (empty($actions)) {
             $response['status'] = 404;
         } else {
             $response['status'] = 200;
             $response['data']['actions'] = $actions;
         }
+        $response['data']['actions-total'] = (int)$actionsTotal;
+        $response['data']['available-pages'] = ceil($actionsTotal/$limit);
 
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();

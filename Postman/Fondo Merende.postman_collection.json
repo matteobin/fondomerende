@@ -671,6 +671,143 @@
 			]
 		},
 		{
+			"name": "Get actions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/api?command-name=get-actions&limit=5&offset=0&asc-order=0",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api"
+					],
+					"query": [
+						{
+							"key": "command-name",
+							"value": "get-actions"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "asc-order",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get actions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api?command-name=get-actions&limit=5&offset=0&asc-order=0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-actions"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "asc-order",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2019 13:23:57 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"actions\": [\n            \"2019-06-20 13:09:05: Arturo changed friendly name from arturo to Arturo.\",\n            \"2019-06-20 13:06:46: Arturo changed expiration days of Baiocchi from 90 to 95.\",\n            \"2019-06-20 13:05:05: Arturo ate 1 Baiocchi.\",\n            \"2019-06-20 13:04:29: Arturo deposited 2.00 €.\",\n            \"2019-06-20 13:03:15: Arturo bought 7 Baiocchi.\"\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
 			"name": "Get latest actions",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -680,7 +817,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c2eb148432a82556c48715d",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
 						"type": "text"
 					}
 				],
@@ -695,7 +832,7 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/api?command-name=get-latest-actions&timestamp=2019-05-02 00:00:00",
+					"raw": "{{host}}/api?command-name=get-latest-actions&timestamp=2019-06-19 14:52:30",
 					"host": [
 						"{{host}}"
 					],
@@ -709,12 +846,231 @@
 						},
 						{
 							"key": "timestamp",
-							"value": "2019-05-02 00:00:00"
+							"value": "2019-06-19 14:52:30"
 						}
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Get latest actions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/api?command-name=get-latest-actions&timestamp=2019-06-19 14:52:30",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-latest-actions"
+								},
+								{
+									"key": "timestamp",
+									"value": "2019-06-19 14:52:30"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2019 13:17:28 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"actions\": [\n            \"2019-06-20 13:09:05: Arturo changed friendly name from arturo to Arturo.\",\n            \"2019-06-20 13:06:46: Arturo changed expiration days of Baiocchi from 90 to 95.\",\n            \"2019-06-20 13:05:05: Arturo ate 1 Baiocchi.\",\n            \"2019-06-20 13:04:29: Arturo deposited 2.00 €.\",\n            \"2019-06-20 13:03:15: Arturo bought 7 Baiocchi.\",\n            \"2019-06-20 13:01:59: Arturo added snack matteobin.\",\n            \"2019-06-20 12:58:56: Arturo added snack Baiocchi.\"\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get paginated actions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/api?command-name=get-paginated-actions&limit=10&page=1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api"
+					],
+					"query": [
+						{
+							"key": "command-name",
+							"value": "get-paginated-actions"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get paginated actions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api?command-name=get-paginated-actions&limit=10&page=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-paginated-actions"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2019 13:34:08 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"actions\": [\n            \"2019-06-20 13:09:05: Arturo changed friendly name from arturo to Arturo.\",\n            \"2019-06-20 13:06:46: Arturo changed expiration days of Baiocchi from 90 to 95.\",\n            \"2019-06-20 13:05:05: Arturo ate 1 Baiocchi.\",\n            \"2019-06-20 13:04:29: Arturo deposited 2.00 €.\",\n            \"2019-06-20 13:03:15: Arturo bought 7 Baiocchi.\",\n            \"2019-06-20 13:01:59: Arturo added snack matteobin.\",\n            \"2019-06-20 12:58:56: Arturo added snack Baiocchi.\",\n            \"2019-06-19 14:10:21: Arturo deposited 1.00 €.\",\n            \"2019-05-27 12:01:20: added user Arturo.\",\n            \"2019-05-24 18:26:59: added user Guybrush Threepwood.\"\n        ],\n        \"actions-total\": 10,\n        \"available-pages\": 1\n    }\n}"
+				}
+			]
 		},
 		{
 			"name": "Get main view data",
