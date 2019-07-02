@@ -185,7 +185,7 @@ CREATE TABLE `fund_funds` (
 
 LOCK TABLES `fund_funds` WRITE;
 /*!40000 ALTER TABLE `fund_funds` DISABLE KEYS */;
-INSERT INTO `fund_funds` VALUES (0.00,'2019-01-30 11:15:00');
+INSERT INTO `fund_funds` VALUES (0.00,'2019-01-25 14:07:41');
 /*!40000 ALTER TABLE `fund_funds` ENABLE KEYS */;
 UNLOCK TABLES;
 
