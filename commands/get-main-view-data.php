@@ -1,7 +1,7 @@
 <?php
-require('get-fund-funds.php');
-require('get-user-funds.php');
-require('get-actions.php');
+require 'get-fund-funds.php';
+require 'get-user-funds.php';
+require 'get-actions.php';
 function getMainViewData($userId) {
     global $dbManager;
     try {

@@ -2,6 +2,8 @@
 if (basename($_SERVER['SCRIPT_FILENAME'])=='index.php') {
     ini_set('display_errors', true);
     define('BASE_DIR', '/');
+} else {
+    define('AUTH_KEY', 'sekrit_PaSSWoRD');
 }
 define('MAINTENANCE', false);
 define('APCU_CACHE_INSTALLED', false);

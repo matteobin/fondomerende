@@ -1,5 +1,5 @@
 <?php
-require('get-actions.php');
+require 'get-actions.php';
 function getPaginatedActions($limit, $page, $order) {
     global $dbManager;
     try {
@@ -18,7 +18,7 @@ function getPaginatedActions($limit, $page, $order) {
             $response['data']['actions'] = $actions;
         }
         $response['data']['actions-total'] = (int)$actionsTotal;
-        $response['data']['available-pages'] = ceil($actionsTotal/$limit);
+        $response['data']['available-pages'] = (int)ceil($actionsTotal/$limit);
 
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();

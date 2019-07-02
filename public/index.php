@@ -1,6 +1,6 @@
 <?php
-    require('../config.php');
-    require('../translation.php');
+    require '../config.php';
+    require '../translation.php';
     if (MAINTENANCE) {
         $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
     } else {
@@ -69,11 +69,11 @@
     ob_start("sanitizeOutput");
 ?>
 <!doctype html>
-<html lang="<?php echo($_SESSION['user-lang']); ?>">
+<html lang="<?php echo $_SESSION['user-lang']; ?>">
 	<head>
 		<meta charset="utf-8">
-        <title>Fondo Merende | <?php echo($currentView['title']); if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=getTranslatedString('login', 1) && $currentView['name']!=getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1) && $currentView['name']!='404') {echo(' - '.$_SESSION['user-friendly-name']);} ?></title>
-		<meta name="description" content="<?php echo($currentView['description']); ?>">
+        <title>Fondo Merende | <?php echo $currentView['title']; if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=getTranslatedString('login', 1) && $currentView['name']!=getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1) && $currentView['name']!='404') {echo ' - '.$_SESSION['user-friendly-name'];} ?></title>
+		<meta name="description" content="<?php echo $currentView['description']; ?>">
 		<meta name="author" content="Matteo Bini">
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,7 +87,7 @@
 		<header>
 			<h1 style="float:left">Fondo Merende</h1><p style="float:left;margin:20px 6px">v1.2.0b</p>
             <?php
-                require('../views/'.$currentView['file-name'].'.php');
+                require '../views/'.$currentView['file-name'].'.php';
                 if (isset($response['status']) && $response['status']!=200) {
                     http_response_code($response['status']);
                 }

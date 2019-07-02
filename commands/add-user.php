@@ -1,5 +1,5 @@
 <?php
-require('login.php');
+require 'login.php';
 function addUser($name, $password, $friendlyName, $admin, $appRequest) {
     global $dbManager;
     try {

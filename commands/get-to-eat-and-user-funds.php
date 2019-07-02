@@ -1,5 +1,5 @@
 <?php
-require('get-user-funds.php');
+require 'get-user-funds.php';
 function getToEatAndUserFunds($userId) {
     global $dbManager;
     try {

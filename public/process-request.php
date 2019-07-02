@@ -1,10 +1,9 @@
 <?php
-require('../auth-key.php');
 $appRequest = false;
 if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
     $appRequest = true;
-    require('../config.php');
-    require('../translation.php');
+    require '../config.php';
+    require '../translation.php';
 }
 if (MAINTENANCE) {
     $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
@@ -29,7 +28,7 @@ if (MAINTENANCE) {
     }
     function checkUserToken() {
         $isAuth = false;
-        global $userToken, $response, $_SESSION, $appRequest;
+        global $userToken, $response, $_SESSION;
         $userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -196,7 +195,7 @@ if (MAINTENANCE) {
     $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
     $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 21));
     if (!$appRequest || checkAuth()) {
-        require('../DbManager.php');
+        require '../DbManager.php';
         $dbManager = new DbManager();
         if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
             switch ($commandName) {
@@ -217,7 +216,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
-                    require('../commands/add-user.php');
+                    require '../commands/add-user.php';
                     $response = addUser($name, $password, $friendlyName, $admin, $appRequest);
                     break;
                 case 'login':
@@ -234,7 +233,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($rememberUser, false, 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
-                    require('../commands/login.php');
+                    require '../commands/login.php';
                     $response = login($userName, $password, $rememberUser, $appRequest);
                     break;
                 case 'logout':
@@ -244,7 +243,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    require('../commands/logout.php');
+                    require '../commands/logout.php';
                     $response = logout($appRequest);
                     break;
                 case 'get-fund-funds':
@@ -254,7 +253,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    require('../commands/get-fund-funds.php');
+                    require '../commands/get-fund-funds.php';
                     $response = getFundFunds();
                     break;
                 case 'get-user-funds':
@@ -264,7 +263,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    require('../commands/get-user-funds.php');
+                    require '../commands/get-user-funds.php';
                     $response = getUserFunds($_SESSION['user-id']);
                     break;
                 case 'get-actions':
@@ -289,7 +288,7 @@ if (MAINTENANCE) {
                         } else {
                             $timestamp = date('Y-m-d H:i:s', time());
                         }
-                        require('../commands/get-actions.php');
+                        require '../commands/get-actions.php';
                         $response = getActions($timestamp, false, false, 'DESC');
                     } else  {
                         $timestamp = false;
@@ -307,17 +306,17 @@ if (MAINTENANCE) {
                             }
                         }
                         $order = 'DESC';
-                        if (!setRequestInputValue($ascOrder, true, 'asc-order', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
+                        if (!setRequestInputValue($ascOrder, false, 'asc-order', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
                         if ($ascOrder) {
                             $order = 'ASC';
                         }
                         if ($commandName=='get-actions' || $commandName=='get-latest-actions') {
-                            require('../commands/get-actions.php');
+                            require '../commands/get-actions.php';
                             $response = getActions($timestamp, $limit, $offset, $order);
                         } else {
-                            require('../commands/get-paginated-actions.php');
+                            require '../commands/get-paginated-actions.php';
                             $response = getPaginatedActions($limit, $page, $order);
                         }
                     }
@@ -329,7 +328,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-					require('../commands/get-main-view-data.php');
+					require '../commands/get-main-view-data.php';
                     $response = getMainViewData($_SESSION['user-id']);
                     break;
                 case 'get-user-data':
@@ -339,7 +338,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    require('../commands/get-user-data.php');
+                    require '../commands/get-user-data.php';
                     $response = getUserData($_SESSION['user-id']);
                     break;
                 case 'edit-user':
@@ -383,7 +382,7 @@ if (MAINTENANCE) {
                         $values['password'] = password_hash($values['password'], PASSWORD_DEFAULT);
                         $types['password'] = 's';
                     }
-                    require('../commands/edit-snack-or-user.php');
+                    require '../commands/edit-snack-or-user.php';
                     $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $values, $types);
                     break;
                 case 'deposit':
@@ -396,7 +395,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($amount, true, 'amount', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
                         break;
                     }
-                    require('../commands/deposit.php');
+                    require '../commands/deposit.php';
                     $response = deposit($_SESSION['user-id'], $amount);
                     break;
                 case 'add-snack':
@@ -422,7 +421,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
-                    require('../commands/add-snack.php');
+                    require '../commands/add-snack.php';
                     $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
                     break;
                 case 'get-snacks-data':
@@ -432,7 +431,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    require('../commands/get-snacks-data.php');
+                    require '../commands/get-snacks-data.php';
                     $response = getSnacksData();
                     break;
                 case 'get-snack-data':
@@ -446,7 +445,7 @@ if (MAINTENANCE) {
                         break;
                     }
                     $snackId = getIdByUniqueName('snacks', $snackName);
-                    require('../commands/get-snack-data.php');
+                    require '../commands/get-snack-data.php';
                     $response = getSnackData($snackId);
                     break;
                 case 'edit-snack':
@@ -488,7 +487,7 @@ if (MAINTENANCE) {
                     } else if (isset($values['is_liquid'])) {
                         $types['is_liquid'] = 'i';
                     }
-                    require('../commands/edit-snack-or-user.php');
+                    require '../commands/edit-snack-or-user.php';
                     $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                     break;
                 case 'get-to-buy':
@@ -498,7 +497,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    require('../commands/get-to-buy.php');
+                    require '../commands/get-to-buy.php';
                     $response = getToBuy();
                     break;
                 case 'buy':
@@ -532,7 +531,7 @@ if (MAINTENANCE) {
                             break;
                         }
                     }
-                    require('../commands/buy.php');
+                    require '../commands/buy.php';
                     $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                     break;
                 case 'get-to-eat-and-user-funds':
@@ -542,7 +541,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
-                    require('../commands/get-to-eat-and-user-funds.php');
+                    require '../commands/get-to-eat-and-user-funds.php';
                     $response = getToEatAndUserFunds($_SESSION['user-id']);
                     break;
                 case 'eat':
@@ -559,7 +558,7 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($quantity, false, 'quantity', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                         break;
                     }
-                    require('../commands/eat.php');
+                    require '../commands/eat.php';
                     $response = eat($_SESSION['user-id'], $snackId, $quantity);
                     break;
             }
@@ -575,5 +574,5 @@ if ($appRequest) {
     setcookie('user-token', '', time()-3600);
     http_response_code($response['status']);
     header('Content-Type: application/json');
-    echo(json_encode($response));
+    echo json_encode($response);
 }
