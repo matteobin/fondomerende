@@ -1,4 +1,4 @@
-    <h2>Actions</h2>
+    <h2><?php echoUcfirstTranslatedString('actions', 1); ?></h2>
 </header>
 <?php
     function echoPageHref() {
@@ -20,12 +20,12 @@
     <?php endforeach; ?>
     </ol>
 <?php if ($page>1 && $page<=$response['data']['available-pages']): ?>
-    <a href="<?php echoPageHref(); ?>&page=<?php echo $page-1; ?>">Previous</a>
+    <a href="<?php echoPageHref(); ?>&page=<?php echo $page-1; ?>"><?php echoTranslatedString('actions', 17); ?></a>
 <?php endif; ?>
 <?php if ($page<$response['data']['available-pages']): ?>
-    <a href="<?php echoPageHref(); ?>&page=<?php echo $page+1; ?>">Next</a>
+    <a href="<?php echoPageHref(); ?>&page=<?php echo $page+1; ?>"><?php echoTranslatedString('actions', 18); ?></a>
 <?php endif; ?>
 <?php elseif (!isset($response['message'])): ?>
-    <h3>No actions!</h3>
-    <p>Maybe you should start living your own life instead of fancying on others' deeds.</p>
+    <h3><?php echoTranslatedString('actions', 19); ?></h3>
+    <p><?php echoTranslatedString('commons', 6); echoTranslatedString('actions', 20); ?> </p>
 <?php endif; ?>
