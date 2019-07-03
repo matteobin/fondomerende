@@ -3,7 +3,7 @@ Dig deep in the fascinating Fondo Merende chronology since the dawn of time.
  changed 
 name
 friendly name
-password
+password.
 price
 snack per box number
 expiration days

@@ -1,1 +1,2 @@
 Change snack name and/or buy default settings.
+Visible
