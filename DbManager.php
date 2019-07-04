@@ -3,10 +3,10 @@ class DbManager {
     private $connection;
     private $queryRes;
     
-    public function __construct() {
-        $connection = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
+    public function __construct($server, $user, $password, $database) {
+        $connection = new mysqli($server, $user, $password, $database);
         if ($connection->connect_error) {
-            die('Connection ERROR ' . $connection->connect_errno . '!<br>' . $connection->connect_error);
+            die('Connection error '.$connection->connect_errno.'. '.$connection->connect_error);
         } else {
             $this->connection = $connection;
         }
