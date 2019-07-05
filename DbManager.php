@@ -11,9 +11,45 @@ class DbManager {
             $this->connection = $connection;
         }
     }
-    
-    public function startTransaction() {
-        $this->connection->autocommit(false);
+
+    public function __destruct() {
+        if ($this->connection!=null) {
+            $this->connection->close();
+        }
+    }
+
+    public function endTransaction() {
+        $this->connection->commit();
+        $this->connection->autocommit(true);
+    }
+
+    public function getByUniqueId($column, $table, $id) {
+        $this->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE id=?', array($id), 'i');
+        while ($row = $this->getQueryRes()->fetch_assoc()) {
+            $result = $row[$column];
+        }
+        return $result;
+    }
+
+    public function getOldValues(array $newValues, $table, $whereColumn, $whereId, array $exceptions=null) {
+        $oldValues = array();
+        foreach($newValues as $column=>$newValue) {
+            if (!isset($exceptions[$column])) {
+                $this->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$whereColumn.'=?', array($whereId), 'i');
+                while ($row = $this->getQueryRes()->fetch_assoc()) {
+                    $oldValues[$column] = $row[$column];
+                }
+            }
+        }
+        return $oldValues;
+    }
+
+    public function getQueryRes() {
+        return $this->queryRes;
+    }
+
+    public function rollbackTransaction() {
+        $this->connection->rollback();
     }
 
     public function runPreparedQuery($query, array $params, $paramTypes) {
@@ -34,20 +70,14 @@ class DbManager {
             $this->queryRes = $statement->get_result();
         }
     }
-    
-    public function getOldValues(array $newValues, $table, $whereColumn, $whereId, array $exceptions=null) {
-        $oldValues = array();
-        foreach($newValues as $column=>$newValue) {
-            if (!isset($exceptions[$column])) {
-                $this->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$whereColumn.'=?', array($whereId), 'i');
-                while ($row = $this->getQueryRes()->fetch_assoc()) {
-                    $oldValues[$column] = $row[$column];
-                }
-            }
+
+    public function runQuery($query) {
+        $this->queryRes = $this->connection->query($query);
+        if ($this->queryRes===false) {
+            throw new Exception('Query error in \''.$query.'\'.<br>'.$this->connection->error.'.');
         }
-        return $oldValues;
     }
-    
+
     public function runUpdateQuery($table, array $newValues, array $paramTypesArray, $whereColumn, $whereId, array $oldValues=null) {
         $query = 'UPDATE '.$table.' SET ';
         $params = array();
@@ -87,37 +117,7 @@ class DbManager {
         } else return false;
     }
 
-    public function runQuery($query) {
-        $this->queryRes = $this->connection->query($query);
-        if ($this->queryRes===false) {
-            throw new Exception('Query error in \''.$query.'\'.<br>'.$this->connection->error.'.');
-        }
-    }
-
-    public function getQueryRes() {
-        return $this->queryRes;
-    }
-    
-    public function getByUniqueId($column, $table, $id) {
-        $this->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE id=?', array($id), 'i');
-        while ($row = $this->getQueryRes()->fetch_assoc()) {
-            $result = $row[$column];
-        }
-        return $result;
-    }
-    
-    public function endTransaction() {
-        $this->connection->commit();
-        $this->connection->autocommit(true);
-    }
-    
-    public function rollbackTransaction() {
-        $this->connection->rollback();
-    }
-
-    public function __destruct() {
-        if ($this->connection!=null) {
-            $this->connection->close();
-        }
+    public function startTransaction() {
+        $this->connection->autocommit(false);
     }
 }
