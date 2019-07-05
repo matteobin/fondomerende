@@ -6,9 +6,7 @@ function getFundFunds($apiCall=true) {
 			$dbManager->startTransaction();
 		}
         $dbManager->runQuery('SELECT amount FROM fund_funds');
-        while ($fundFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $fundFundsAmount = $fundFundsRow['amount'];
-        }
+        $fundFundsAmount = $dbManager->getQueryRes()->fetch_assoc()['amount'];
 		if ($apiCall) {
 			$dbManager->endTransaction();
 			$response = array('success'=>true, 'status'=>200, 'data'=>array('fund-funds-amount'=>$fundFundsAmount));

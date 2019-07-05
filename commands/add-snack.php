@@ -6,14 +6,12 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $cou
         $dbManager->startTransaction();
         $dbManager->runPreparedQuery('INSERT INTO snacks (name, friendly_name, price, snacks_per_box, expiration_in_days, countable) VALUES (?, ?, ?, ?, ?, ?)', array(str_replace(' ', '-', strtolower($name)), $name, $price, $snacksPerBox, $expirationInDays, $countable), 'ssdiii');
         $dbManager->runQuery('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $snackId = $row['id'];
-        }
+        $snackId = $dbManager->getQueryRes()->fetch_assoc()['id'];
         if ($countable) {
             $dbManager->runPreparedQuery('INSERT INTO snacks_stock (snack_id) VALUES (?)', array($snackId), 'i');
             $dbManager->runQuery('SELECT id FROM users');
-            while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-                $usersId[] = $row['id'];
+            while ($usersRow = $dbManager->getQueryRes()->fetch_assoc()) {
+                $usersId[] = $usersRow['id'];
             }
             foreach($usersId as $userId) {   
                 $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');

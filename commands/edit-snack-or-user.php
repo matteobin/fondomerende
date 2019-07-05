@@ -2,9 +2,7 @@
 function insertEdits($newValues, $types, $oldValues) {
     global $dbManager;
     $dbManager->runQuery('SELECT id FROM actions ORDER BY id DESC LIMIT 1');
-    while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-        $actionId = $row['id'];
-    }
+    $actionId = $dbManager->getQueryRes()->fetch_assoc()['id'];
     foreach($newValues as $column=>$newValue) {
         $type = $types[$column];
         if (isset($oldValues[$column])) {

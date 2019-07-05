@@ -4,10 +4,9 @@ function eat($userId, $snackId, $quantity) {
     try {
         $dbManager->startTransaction();
         $dbManager->runPreparedQuery('SELECT outflow_id, price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snackId, 0), 'ii');
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $outflowId = $row['outflow_id'];
-            $totalPrice = $quantity*$row['price_per_snack'];
-        }
+        $cratesRow = $dbManager->getQueryRes()->fetch_assoc();
+        $outflowId = $cratesRow['outflow_id'];
+        $totalPrice = $quantity*$cratesRow['price_per_snack'];
         if (isset($outflowId)) {
             $dbManager->runPreparedQuery('UPDATE crates SET snack_quantity = snack_quantity-? WHERE outflow_id=?', array($quantity, $outflowId), 'ii');
             $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity = quantity-? WHERE snack_id=?', array($quantity, $snackId), 'ii');
