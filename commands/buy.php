@@ -36,14 +36,13 @@ function buy($userId, $snackId, $quantity, array $options) {
         $dbManager->runPreparedQuery('INSERT INTO outflows (amount, snack_id, quantity) VALUES (?, ?, ?)', array($totalPrice, $snackId, $quantity), 'sii');
         $dbManager->runQuery('SELECT id FROM outflows ORDER BY id DESC LIMIT 1');
         $outflowId = $dbManager->getQueryRes()->fetch_assoc()['id'];
-        }
         $dbManager->runPreparedQuery('UPDATE fund_funds SET amount=amount-?', array($totalPrice), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount) VALUES (?, ?, ?, ?, ?)', array($userId, 6, $snackId, $snackNumber, $totalPrice), 'iiiid');
         if (checkSnackCountable($snackId)) {
             $dbManager->runPreparedQuery('INSERT INTO crates (outflow_id, snack_id, snack_quantity, price_per_snack, expiration) VALUES (?, ?, ?, ?, ?)', array($outflowId, $snackId, $snackNumber, round($unitPrice/$snacksPerBox, 2, PHP_ROUND_HALF_UP), date('Y-m-d', strtotime('+'.$expirationInDays.' days'))), 'iiids');
             $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'ii');
         } else {
-            $dbManager->runQuery('SELECT id FROM users');
+            $dbManager->runPreparedQuery('SELECT id FROM users WHERE active=?', array(1), 'i');
             $userIds = array();
             while ($usersRow = $dbManager->getQueryRes()->fetch_assoc()) {
                 $userIds[] = $usersRow['id'];

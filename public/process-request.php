@@ -28,7 +28,7 @@ if (MAINTENANCE) {
     }
     function checkUserToken() {
         $isAuth = false;
-        global $userToken, $response, $_SESSION;
+        global $userToken, $response;
         $userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -39,6 +39,18 @@ if (MAINTENANCE) {
             $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 6));
         }
         return $isAuth;
+    }
+    function checkUserActive() {
+        $isActive = false;
+        global $dbManager;
+        $dbManager->runPreparedQuery('SELCT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
+        if ($dbManager->getQueryRes()->fetch_assoc()['active']==1) {
+            $isActive = true;
+        } else {
+            $response = array('success'=>false, 'status'=>401, 'message'=>'Request is not valid: user is not active.');
+        }
+        return $isActive;
+
     }
     function getIdByUniqueName($table, $name) {
         global $dbManager;
