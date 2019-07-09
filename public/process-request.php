@@ -42,12 +42,12 @@ if (MAINTENANCE) {
     }
     function checkUserActive() {
         $isActive = false;
-        global $dbManager;
-        $dbManager->runPreparedQuery('SELCT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
+        global $dbManager, $response;
+        $dbManager->runPreparedQuery('SELECT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
         if ($dbManager->getQueryRes()->fetch_assoc()['active']==1) {
             $isActive = true;
         } else {
-            $response = array('success'=>false, 'status'=>401, 'message'=>'Request is not valid: user is not active.');
+            $response = array('success'=>true, 'status'=>401, 'message'=>'Unauthorized action: user is not active.');
         }
         return $isActive;
 
@@ -404,6 +404,9 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    if (!checkUserActive()) {
+                        break;
+                    }
                     if (!setRequestInputValue($amount, true, 'amount', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
                         break;
                     }
@@ -415,6 +418,9 @@ if (MAINTENANCE) {
                         break;
                     }
                     if (!checkUserToken()) {
+                        break;
+                    }
+                    if (!checkUserActive()) {
                         break;
                     }
                     if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
@@ -467,6 +473,9 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    if (!checkUserActive()) {
+                        break;
+                    }
                     if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                         break;
                     }
@@ -494,10 +503,10 @@ if (MAINTENANCE) {
                     } else if (isset($values['expiration_in_days'])) {
                         $types['expiration_in_days'] = 'i';
                     }
-                    if (!setRequestInputValue($values, false, 'is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
+                    if (!setRequestInputValue($values, false, 'visible', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
-                    } else if (isset($values['is_liquid'])) {
-                        $types['is_liquid'] = 'i';
+                    } else if (isset($values['visible'])) {
+                        $types['visible'] = 'i';
                     }
                     require '../commands/edit-snack-or-user.php';
                     $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
@@ -517,6 +526,9 @@ if (MAINTENANCE) {
                         break;
                     }
                     if (!checkUserToken()) {
+                        break;
+                    }
+                    if (!checkUserActive()) {
                         break;
                     }
                     if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
@@ -561,6 +573,9 @@ if (MAINTENANCE) {
                         break;
                     }
                     if (!checkUserToken()) {
+                        break;
+                    }
+                    if (!checkUserActive()) {
                         break;
                     }
                     if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {

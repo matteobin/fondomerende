@@ -1,5 +1,4 @@
 <?php
-	$noSnacksToBuy = false;
 	require 'process-request.php';
     if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && isset($response['status']) && $response['status']==200) {
         header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
@@ -8,9 +7,7 @@
 	if (isset($response['data']['snacks'])) {
 		$snacks = $response['data']['snacks'];
         $_SESSION['buy-form-data']['snacks'] = $snacks;
-    } else if ($response['status']==404) {
-		$noSnacksToBuy = true;
-	} else {
+	} else if ($response['status']!=404) {
         $snacks = $_SESSION['buy-form-data']['snacks'];
     }
 ?>
@@ -19,7 +16,7 @@
 <?php if (isset($response['message'])): ?> 
     <p><?php echo $response['message']; ?></p>
 <?php endif; ?>
-<?php if ($noSnacksToBuy): ?>
+<?php if ($response['status']==404): ?>
     <h3><?php echoTranslatedString('commons', 5); ?> <?php echoTranslatedString('commands', 4); ?>!</h3>
     <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; ?>index.php?view=add-snack"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php else: ?>
@@ -45,15 +42,16 @@
 	<script>
 		function askBuyConfirm(event) {
 			event.preventDefault();
-			var cratesNumber = event.target[3].value;
+            console.log(event);
+			var cratesNumber = event.target[2].value;
 			var cratesString = " <?php echoTranslatedString('buy', 5); ?>";
 			if (cratesNumber=='1') {
 				cratesString = " <?php echoTranslatedString('buy', 4); ?>";
 			}
-			var confirmString = '<?php echoUcfirstTranslatedString('commands', 4); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[2][event.target[2].selectedIndex].innerText+'?';
+			var confirmString = '<?php echoUcfirstTranslatedString('commands', 4); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[1][event.target[1].selectedIndex].innerText+'?';
 			console.log(event.target);
-			if (event.target[4].checked) {
-				confirmString += '\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[5].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[6].value+'. \n<?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>: '+event.target[7].value+'.';
+			if (event.target[3].checked) {
+				confirmString += '\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[4].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[5].value+'. \n<?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>: '+event.target[6].value+'.';
 			}
 			if (confirm(confirmString)) {
 				event.target.submit();

@@ -49,6 +49,21 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
                     $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 3).getTranslatedString('actions', 9).getTranslatedString('actions', 10).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 11).$edit['old-i-value'].getTranslatedString('actions', 12).$edit['new-i-value'].'.';
                     $decodedEdits[] = $editSentence;
                     break;
+                case 'visible':
+                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 3).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 11);
+                    if ($edit['old-i-value']==1) {
+                        $editSentence .= 'visible';
+                    } else {
+                        $editSentence .= 'hidden';
+                    }
+                    $editSentence .= getTranslatedString('actions', 12);
+                    if ($edit['new-i-value']==1) {
+                        $editSentence .= 'visible';
+                    } else {
+                        $editSentence .= 'hidden';
+                    }
+                    $decodedEdits[] = $editSentence.'.';
+                    break;
             }
         }
     }

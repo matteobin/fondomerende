@@ -10,7 +10,7 @@ function getToBuy() {
         $dbManager->endTransaction();
         $response['success'] = true;
         if (isset($snacks)) {
-            $respose['status'] = 200;
+            $response['status'] = 200;
             $response['data']['snacks'] = $snacks;
         } else {
             $response['status'] = 404;

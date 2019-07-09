@@ -13,7 +13,7 @@
 <?php else: ?>
     <ul>
     <?php foreach($response['data']['snacks'] as $snack): ?>
-    <li><?php echo $snack['friendly-name']; ?></h3> <a href="<?php echo BASE_DIR; ?>index.php?view=edit-snack&command-name=get-snack-data&name=<?php echo $snack['name']; ?>"><?php echoStrtoupperTranslatedString('commands', '2'); ?></a>
+    <li><?php echo $snack['friendly-name']; ?> <?php if ($snack['visible']==0): echo ' (hidden)'; endif; ?></h3> <a href="<?php echo BASE_DIR; ?>index.php?view=edit-snack&command-name=get-snack-data&name=<?php echo $snack['name']; ?>"><?php echoStrtoupperTranslatedString('commands', '2'); ?></a>
         <ul>
             <li><?php echoUcfirstTranslatedString('snack', 3); ?>: <?php echo $snack['price']; ?> €</li>
             <li><?php echoUcfirstTranslatedString('snack', 4); ?>: <?php echo $snack['snacks-per-box']; ?></li>
