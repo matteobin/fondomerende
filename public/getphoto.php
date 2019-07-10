@@ -12,7 +12,7 @@
         $newname = $name;
     
         $newname = rtrim($newname, "+");
-        $newname = "https://www.google.com/search?q=" . str_replace(' ', '+',$newname) . "+snack" .  '&tbm=isch';
+        $newname = "https://www.google.com/search?q=" . str_replace(' ', '+',$newname) .  '&tbm=isch';
         
         
         //use parser on queried page
