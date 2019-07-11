@@ -4,12 +4,6 @@ server {
     index index.php;
     error_page 404 /index.php?view=404;
     server_name fondomerende.company.com;
-    location /api {
-        rewrite ^\/api\/?$ /process-request.php last;
-    }
-    location / {
-        rewrite ^\/([a-zàA-ZÀ0-9_\-]*)\/?$ /index.php?view=$1 last;
-    }
     location ~ \.php$ {
         try_files $uri =404;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
@@ -17,5 +11,11 @@ server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
+    }
+    location /api {
+        rewrite ^\/api\/?$ /process-request.php last;
+    }
+    location / {
+        rewrite ^\/([a-zàA-ZÀ0-9_\-]*)\/?$ /index.php?view=$1 last;
     }
 }

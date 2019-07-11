@@ -29,14 +29,20 @@ CREATE TABLE `actions` (
   `snack_id` int(2) DEFAULT NULL,
   `snack_quantity` int(2) DEFAULT NULL,
   `funds_amount` decimal(5,2) DEFAULT NULL,
+  `inflow_id` int(11) DEFAULT NULL,
+  `outflow_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `inflow_id_UNIQUE` (`inflow_id`),
+  UNIQUE KEY `outflow_id_UNIQUE` (`outflow_id`),
   KEY `command_id` (`command_id`),
   KEY `snack_id` (`snack_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `actions_ibfk_1` FOREIGN KEY (`command_id`) REFERENCES `commands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `actions_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `actions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `actions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `actions_ibfk_4` FOREIGN KEY (`inflow_id`) REFERENCES `inflows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `actions_ibfk_5` FOREIGN KEY (`outflow_id`) REFERENCES `outflows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -363,4 +369,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-27 10:38:02
+-- Dump completed on 2019-07-11  9:32:50
