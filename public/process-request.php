@@ -47,7 +47,7 @@ if (MAINTENANCE) {
         if ($dbManager->getQueryRes()->fetch_assoc()['active']==1) {
             $isActive = true;
         } else {
-            $response = array('success'=>true, 'status'=>401, 'message'=>'Unauthorized action: user is not active.');
+            $response = array('success'=>true, 'status'=>401, 'message'=>getTranslatedString('response-messages', 7).getTranslatedString('response-messages', 8));
         }
         return $isActive;
 
@@ -71,21 +71,21 @@ if (MAINTENANCE) {
         }
         if (!$options['boolean'] && is_null($value)) {
             $valid = false;
-            $message = getTranslatedString('response-messages', 7);
+            $message = getTranslatedString('response-messages', 9);
         } else if (($options['boolean'] && is_null($value)) || ((!$options['boolean'] && $value===false || $value==='') && !$options['can-be-empty'])) {
             $valid = false;
-            $message = getTranslatedString('response-messages', 8);
+            $message = getTranslatedString('response-messages', 10);
         }
         else if (isset($options['max-length']) && strlen($value)>$options['max-length']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('response-messages', 9).$options['max-length'].getTranslatedString('response-messages', 10);
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 11).$options['max-length'].getTranslatedString('response-messages', 12);
         }
         else if (isset($options['greater-than']) && $value<=$options['greater-than']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('response-messages', 11).$options['greater-than'].'.';
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options['greater-than'].'.';
         } else if (isset($options['less-than']) && $value>=$options['less-than']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('response-messages', 12).$options['less-than'].'.';
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['less-than'].'.';
         } 
         if ($valid && isset($options['digits-number'])) {
             if (strpos($value, '.')===false) {
@@ -100,12 +100,12 @@ if (MAINTENANCE) {
             }
             if (strlen($value)-$dotsNumber-$signsNumber>$options['digits-number']) {
                 $valid = false;
-                $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options['digits-number'].'.';
+                $message = '\''.$value.'\''.getTranslatedString('response-messages', 15).$options['digits-number'].'.';
             }
         }
         if ($valid && isset($options['decimals-number']) && strlen($value)-(strpos($value, '.')+1)>$options['decimals-number']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['decimals-number'].'.'; 
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 16).$options['decimals-number'].'.'; 
         }
         if ($valid && isset($options['database'])) {
             $isException = false;
@@ -147,13 +147,13 @@ if (MAINTENANCE) {
                 }
                 if ($insertUnique && $dbValue!=null) {
                     $valid = false;
-                    $message = $value.''.getTranslatedString('response-messages', 15).$table.getTranslatedString('response-messages', 16).$selectColumn.getTranslatedString('response-messages', 17);
+                    $message = $value.''.getTranslatedString('response-messages', 17).$table.getTranslatedString('response-messages', 18).$selectColumn.getTranslatedString('response-messages', 19);
                 } else if (!$insertUnique && $dbValue===null) {
                     $valid = false;
-                    $message = $value.''.getTranslatedString('response-messages', 18).$table.getTranslatedString('response-messages', 16).$selectColumn.getTranslatedString('response-messages', 17);
+                    $message = $value.''.getTranslatedString('response-messages', 20).$table.getTranslatedString('response-messages', 18).$selectColumn.getTranslatedString('response-messages', 19);
                     if ($additionalWheres) {
                         foreach($options['database']['wheres'] as $where) {
-                            $message .= getTranslatedString('response-messages', 19).$where['column'].getTranslatedString('response-messages', 20).$where['value'];
+                            $message .= getTranslatedString('response-messages', 21).$where['column'].getTranslatedString('response-messages', 22).$where['value'];
                         }
                         $message .= '.';
                     }
@@ -205,7 +205,7 @@ if (MAINTENANCE) {
         return $passwordVerified;
     }
     $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
-    $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 21));
+    $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 23));
     if (!$appRequest || checkAuth()) {
         require '../DbManager.php';
         $dbManager = new DbManager(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
@@ -294,7 +294,7 @@ if (MAINTENANCE) {
                         if (isset($timestamp)) {
                             $unixTimestamp = strtotime($timestamp);
                             if ($timestamp!=date('Y-m-d H:i:s', $unixTimestamp)) {
-                                $response = array('success'=>false, 'status'=>400, 'message'=>'Timestamp'.getTranslatedString('response-messages', 3).'\''.$timestamp.'\''.getTranslatedString('response-messages', 22));
+                                $response = array('success'=>false, 'status'=>400, 'message'=>'Timestamp'.getTranslatedString('response-messages', 3).'\''.$timestamp.'\''.getTranslatedString('response-messages', 24));
                                 break;
                             }
                         } else {
@@ -591,7 +591,7 @@ if (MAINTENANCE) {
             }
         }
     } else {
-        $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 23));
+        $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 25));
     }
 }
 if ($appRequest) {

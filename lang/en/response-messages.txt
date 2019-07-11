@@ -4,6 +4,8 @@ Request
 you should send it through 
  instead.
 missing or expired user token.
+Unauthorized action: 
+user is not active.
 value missing.
 value in wrong format.
  is longer than 

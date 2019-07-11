@@ -26,9 +26,9 @@
         <li><?php echo $action; ?></li>
     <?php endforeach; ?>
 </ol>
-<a href="index.php?view=actions&command-name=get-paginated-actions&limit=25&page=1">More</a>
-<h3><?php echoTranslatedString('main', 19); ?></h3>
+    <a href="index.php?view=actions&command-name=get-paginated-actions&limit=25&page=1"><?php echoTranslatedString('main', 19); ?></a>
+<h3><?php echoTranslatedString('main', 20); ?></h3>
 <form action="<?php echo BASE_DIR; ?>index.php?view=login" method="post">
     <input type="hidden" name="command-name" value="logout">
-    <input type="submit" value="<?php echoTranslatedString('main', 20); ?>">
+    <input type="submit" value="<?php echoTranslatedString('main', 21); ?>">
 </form>

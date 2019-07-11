@@ -52,15 +52,15 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
                 case 'visible':
                     $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 3).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 11);
                     if ($edit['old-i-value']==1) {
-                        $editSentence .= 'visible';
+                        $editSentence .= getTranslatedString('snack', 8);
                     } else {
-                        $editSentence .= 'hidden';
+                        $editSentence .= getTranslatedString('snack', 7);
                     }
                     $editSentence .= getTranslatedString('actions', 12);
                     if ($edit['new-i-value']==1) {
-                        $editSentence .= 'visible';
+                        $editSentence .= getTranslatedString('snack', 8);
                     } else {
-                        $editSentence .= 'hidden';
+                        $editSentence .= getTranslatedString('snack', 7);
                     }
                     $decodedEdits[] = $editSentence.'.';
                     break;
