@@ -3,7 +3,11 @@
         require 'process-request.php';
     }
     if (isset($response['status']) && $response['status']==201) {
-        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        $headerString = 'location: '.BASE_DIR;
+        if (!FRIENDLY_URLS) {
+            $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
+        }
+        header($headerString);
         exit();
     }
  ?>

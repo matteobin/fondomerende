@@ -8,7 +8,11 @@
         </p>
 <?php 
     elseif (isset($_POST['command-name']) && $_POST['command-name']=='eat' && $response['status']==200):
-        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        $headerString = 'location: '.BASE_DIR;
+        if (!FRIENDLY_URLS) {
+            $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
+        }
+        header($headerString);
         exit();
     endif; 
 ?>
@@ -18,7 +22,7 @@
 <?php if (isset($response['data']['snacks'])):
     if (empty($response['data']['snacks'])): ?>
         <h3><?php echoTranslatedString('commons', 5); ?> <?php echoTranslatedString('commands', 5); ?>!</h3>
-        <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR ?>index.php?view=buy&command-name=get-to-buy"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
+        <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echoTranslatedString('commands', 4); else: echo 'index.php?view='.getTranslatedString('commands', 4).'&command-name=get-to-buy'; endif; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
     <?php else: foreach($response['data']['snacks'] as $snack): ?>
         <form method="post">
             <input type="hidden" name="command-name" value="eat"></label>

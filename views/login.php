@@ -5,10 +5,20 @@
 		require 'process-request.php';
 	}
 	if (isset($response['status']) && $response['status']==201) {
-        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        $headerString = 'location: '.BASE_DIR;
+        if (!FRIENDLY_URLS) {
+            $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
+        }
+        header($headerString);
 		exit();
     } else if (isset($response['status']) && $response['status']==200) {
-        header('location: '.BASE_DIR.'index.php?view=login');
+        $headerString = 'location: '.BASE_DIR;
+        if (FRIENDLY_URLS) {
+            $headerString .= getTranslatedString('login', 1);
+        } else {
+            $headerString .= 'index.php?view='.getTranslatedString('login', 1);
+        }
+        header($headerString);
         exit();
     }
 ?>
@@ -25,4 +35,4 @@
     <input type="checkbox" id="remember-login-checkbox" name="remember-user" value="yes">
     <input type="submit" value="<?php echoUcfirstTranslatedString('login', 1); ?>">
 </form>
-<a href="index.php?view=add-user"><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>
+<a href="<?php echo BASE_URL; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); endif; ?>"><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>

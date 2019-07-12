@@ -1,7 +1,11 @@
 <?php
 	require 'process-request.php';
     if (isset($_POST['command-name']) && $_POST['command-name']=='buy' && isset($response['status']) && $response['status']==200) {
-        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        $headerString = 'location: '.BASE_DIR;
+        if (!FRIENDLY_URLS) {
+            $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
+        }
+        header($headerString);
         exit();
     }
 	if (isset($response['data']['snacks'])) {
@@ -18,7 +22,7 @@
 <?php endif; ?>
 <?php if ($response['status']==404): ?>
     <h3><?php echoTranslatedString('commons', 5); ?> <?php echoTranslatedString('commands', 4); ?>!</h3>
-    <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; ?>index.php?view=add-snack"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
+    <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); endif; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php else: ?>
 	<form method="post">
         <input type="hidden" name="command-name" value="buy">

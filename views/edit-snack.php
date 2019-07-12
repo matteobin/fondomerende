@@ -1,7 +1,11 @@
 <?php
     require 'process-request.php';    
     if (isset($_POST['command-name']) && $_POST['command-name']=='edit-snack' && isset($response['status']) && $response['status']==200) {
-        header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+        $headerString = 'location: '.BASE_DIR;
+        if (!FRIENDLY_URLS) {
+            $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
+        }
+        header($headerString);
         exit();
     }
 ?>

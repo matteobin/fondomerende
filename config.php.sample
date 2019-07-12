@@ -7,6 +7,7 @@ if (basename($_SERVER['SCRIPT_FILENAME'])=='index.php') {
 }
 define('MAINTENANCE', false);
 define('APCU_CACHE_INSTALLED', false);
+define('FRIENDLY_URLS', false);
 if (!MAINTENANCE) {
     define('DB_SERVER', '127.0.0.1');
     define('DB_USER', 'root');

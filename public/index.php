@@ -51,7 +51,12 @@
             }
             if ($noView) {
                 if ($currentViewName=='' || $currentViewName=='add-user') {
-                    header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+                    if (FRIENDLY_URLS) {
+                        $currentView = $views[1];
+                        $_GET['command-name'] = 'get-main-view-data';
+                    } else {
+                        header('location: '.BASE_DIR.'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data');
+                    }
                 } else {
                     http_response_code(404);
                     $currentView = array('name'=>'404', 'file-name'=>'404', 'title'=>'404', 'description'=>getTranslatedString('404', 2));
@@ -66,7 +71,7 @@
     function sanitizeOutput($buffer) {
         return preg_replace(array('/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/'), array('>', '<', '\\1', ''), $buffer);
     }
-    ob_start("sanitizeOutput");
+    ob_start('sanitizeOutput');
 ?>
 <!doctype html>
 <html lang="<?php echo $_SESSION['user-lang']; ?>">
