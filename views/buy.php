@@ -11,7 +11,7 @@
 	if (isset($response['data']['snacks'])) {
 		$snacks = $response['data']['snacks'];
         $_SESSION['buy-form-data']['snacks'] = $snacks;
-	} else if ($response['status']!=404) {
+	} else if ($response['status']==200) {
         $snacks = $_SESSION['buy-form-data']['snacks'];
     }
 ?>
@@ -19,11 +19,11 @@
 </header>
 <?php if (isset($response['message'])): ?> 
     <p><?php echo $response['message']; ?></p>
-<?php endif; ?>
-<?php if ($response['status']==404): ?>
-    <h3><?php echoTranslatedString('commons', 5); ?> <?php echoTranslatedString('commands', 4); ?>!</h3>
+<?php endif;
+if ($response['status']==404): ?>
+    <h3><?php echoTranslatedString('commons', 5); ?>!</h3>
     <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); endif; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
-<?php else: ?>
+<?php elseif ($response['status']==200): ?>
 	<form method="post">
         <input type="hidden" name="command-name" value="buy">
         <select name="id" required>

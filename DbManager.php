@@ -74,7 +74,7 @@ class DbManager {
     public function runQuery($query) {
         $this->queryRes = $this->connection->query($query);
         if ($this->queryRes===false) {
-            throw new Exception('Query error in \''.$query.'\'.<br>'.$this->connection->error.'.');
+            throw new Exception('Query error in \''.$query.'\'. '.$this->connection->error.'.');
         }
     }
 

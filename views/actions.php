@@ -5,9 +5,9 @@
         global $limit;
         echo BASE_DIR;
         if (FRIENDLY_URLS) {
-            echo getTranslatedString('actions', 1).'/'.$limit;
+            echo getTranslatedString('actions', 1).'/'.$limit.'/'.$page;
         } else {
-            echo 'index.php?view='.getTranslatedString('actions', 1).'&command-name=get-paginated-actions&limit='.$limit;
+            echo 'index.php?view='.getTranslatedString('actions', 1).'&command-name=get-paginated-actions&limit='.$limit.'page='.$page;
         }
         if (isset($_GET['asc-order'])) {
             if (FRIENDLY_URLS) {
@@ -18,9 +18,9 @@
         }
     }
     require 'process-request.php';
-    if (isset($response['message'])) {
-        echo $response['message'];
-    }
+    if (isset($response['message'])): ?>
+        <p><?php echo $response['message']; ?></p>
+    <?php endif;
     if (isset($response['data']['actions'])):
 ?>
     <ol>

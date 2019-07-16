@@ -14,9 +14,7 @@
     <h2><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('snack', 2); ?></h2>
 </header>
 <?php if (isset($response['message'])): ?> 
-    <p>
-        <?php echo $response['message']; ?>
-    </p>
+    <p><?php echo $response['message']; ?></p>
 <?php endif; ?>
 <form method="post">
     <input type="hidden" name="command-name" value="add-snack">

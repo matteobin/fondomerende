@@ -1,0 +1,27 @@
+Il Fondo Merende non è al momento disponibile. Si prega di attendere che il nostro team di esperti fornisca gli aggiornamenti richiesti. Non essere uno stronzo, aspetta e NON ROMPERE IL CAZZO!
+Richiesta
+ non è valido:
+dovresti inviarlo attraverso
+.
+token utente mancante o scaduto.
+Azione non autorizzata: 
+l'utente non è attivo.
+valore mancante.
+valore nel formato sbagliato.
+ è più lungo di
+ caratteri.
+ non è maggiore di 
+ non è minore a 
+ ha più cifre di 
+ ha più decimali di 
+ è già presente nella tabella 
+ nella colonna 
+ del database.
+ non è presente nella tabella
+, dove il valore della colonna 
+ è 
+nessun parametro è stato inviato.
+ non è nel formato standard 'YYYY-MM-DD hh:mm:ss' di MySQL e MariaDB.
+chiave di autenticazione mancante o errata.
+Errore di accesso: credenziali errate.
+Nessuna cassa contenente lo snack id

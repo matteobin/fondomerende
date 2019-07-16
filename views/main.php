@@ -1,15 +1,15 @@
 <?php 
     require 'process-request.php';
-    if (isset($response['message'])) {
-        echo $response['message'];
-    }
     if (FRIENDLY_URLS) {
-        $hrefs = array(BASE_DIR.getTranslatedString('commands', 3), BASE_DIR.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.getTranslatedString('commands', 4), BASE_DIR.getTranslatedString('commands', 5), BASE_DIR.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), BASE_DIR.getTranslatedString('snack', 1), BASE_DIR.getTranslatedString('actions', 1).'/25/1');
+        $hrefs = array(BASE_DIR.getTranslatedString('commands', 3), BASE_DIR.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.getTranslatedString('commands', 4), BASE_DIR.getTranslatedString('commands', 5), BASE_DIR.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), BASE_DIR.getTranslatedString('snack', 1), BASE_DIR.getTranslatedString('actions', 1).'/25/1', BASE_DIR.getTranslatedString('login', 1));
     } else {
-        $hrefs = array(BASE_DIR.'index.php?view='.getTranslatedString('commands', 3).'&command-name=get-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.'index.php?view='.getTranslatedString('commands', 4).'&command-name=get-to-buy', BASE_DIR.'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-eat-and-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1).'&command-name=get-user-data', BASE_DIR.'index.php?view='.getTranslatedString('snack', 1).'&command-name=get-snacks-data', BASE_DIR.'index.php?view='.getTranslatedString('actions', 1).'&command-name=get-paginated-actions&limit=25&page=1');
+        $hrefs = array(BASE_DIR.'index.php?view='.getTranslatedString('commands', 3).'&command-name=get-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.'index.php?view='.getTranslatedString('commands', 4).'&command-name=get-to-buy', BASE_DIR.'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-eat-and-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1).'&command-name=get-user-data', BASE_DIR.'index.php?view='.getTranslatedString('snack', 1).'&command-name=get-snacks-data', BASE_DIR.'index.php?view='.getTranslatedString('actions', 1).'&command-name=get-paginated-actions&limit=25&page=1', BASE_DIR.'index.php?view='.getTranslatedString('login', 1));
     }
 ?>
 </header>
+<?php if (isset($response['message'])): ?>
+    <p style="clear:left"><?php echo $response['message']; ?></p>
+<?php endif; ?>
 <h3 style="clear:left"><?php echoTranslatedString('commons', 1); ?>: <?php echo $response['data']['fund-funds-amount']; ?> €</h3>
 <h3><?php echoTranslatedString('commons', 2); ?>: <?php echo $response['data']['user-funds-amount']; ?> €</h3>
 <h3><?php echoTranslatedString('main', 3) ?></h3>
@@ -33,7 +33,7 @@
 </ol>
     <a href="<?php echo $hrefs[6]; ?>"><?php echoTranslatedString('main', 19); ?></a>
 <h3><?php echoTranslatedString('main', 20); ?></h3>
-<form action="<?php echo BASE_DIR; ?>index.php?view=login" method="post">
+<form action="<?php echo $hrefs[7]; ?>" method="post">
     <input type="hidden" name="command-name" value="logout">
     <input type="submit" value="<?php echoTranslatedString('main', 21); ?>">
 </form>

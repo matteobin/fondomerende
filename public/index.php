@@ -50,7 +50,7 @@
                 }
             }
             if ($noView) {
-                if ($currentViewName=='' || $currentViewName=='add-user') {
+                if ($currentViewName=='' || $currentViewName==getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1)) {
                     if (FRIENDLY_URLS) {
                         $currentView = $views[1];
                         $_GET['command-name'] = 'get-main-view-data';
@@ -62,7 +62,7 @@
                     $currentView = array('name'=>'404', 'file-name'=>'404', 'title'=>'404', 'description'=>getTranslatedString('404', 2));
                 }
             }
-        } else if ($currentViewName=='add-user') {
+        } else if ($currentViewName==getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1)) {
             $currentView = array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1), 'file-name'=>'add-user', 'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('add-user', 1));
         } else {
             $currentView = $views[0];
