@@ -13,6 +13,7 @@ server {
         include fastcgi_params;
     }
     location / {
+        rewrite ^\/api\/getphoto\.php\?name=([a-zàA-ZÀ0-9_\-]+)$ /getphoto.php?name=$1 last;
         rewrite ^\/api\/?$ /process-request.php last;
         rewrite ^\/deposit\/?$ /index.php?view=deposit&command-name=get-user-funds last;
         rewrite ^\/buy\/?$ /index.php?view=buy&command-name=get-to-buy last;
