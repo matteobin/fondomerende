@@ -77,7 +77,7 @@
 <html lang="<?php echo $_SESSION['user-lang']; ?>">
 	<head>
 		<meta charset="utf-8">
-        <title>Fondo Merende | <?php echo $currentView['title']; if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=getTranslatedString('login', 1) && $currentView['name']!=getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1) && $currentView['name']!='404') {echo ' - '.$_SESSION['user-friendly-name'];} ?></title>
+        <title>Fondo Merende | <?php if ($currentView['name']!=getTranslatedString('main', 1)): echo $currentView['title']; endif; if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=getTranslatedString('login', 1) && $currentView['name']!=getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1) && $currentView['name']!='404'): if ($currentView['name']!=getTranslatedString('main', 1)): echo ' - '; endif; echo $_SESSION['user-friendly-name']; endif; ?></title>
 		<meta name="description" content="<?php echo $currentView['description']; ?>">
 		<meta name="author" content="Matteo Bini">
         <meta name="robots" content="noindex, nofollow">
