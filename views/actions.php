@@ -36,5 +36,5 @@
 <?php endif; ?>
 <?php elseif (!isset($response['message'])): ?>
     <h3><?php echoTranslatedString('actions', 19); ?></h3>
-    <p><?php echoTranslatedString('commons', 6); echoTranslatedString('actions', 20); ?> </p>
+    <p><?php echoTranslatedString('commons', 6); echoTranslatedString('actions', 20); ?></p>
 <?php endif; ?>

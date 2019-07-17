@@ -34,7 +34,7 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
                     }
                     break;
                 case 'password':
-                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 3).getTranslatedString('actions', 6);
+                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 3).getTranslatedString('actions', 6).'.';
                         $decodedEdits[] = $editSentence;
                     break;
                 case 'price':

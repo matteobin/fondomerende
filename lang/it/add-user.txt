@@ -1,1 +1,1 @@
-Aggiungi il modulo per l'utente nel Fondo Merende.
+Modulo per aggiungere un utente nel Fondo Merende.

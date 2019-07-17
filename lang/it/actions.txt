@@ -1,9 +1,9 @@
 azioni
-Scava a fondo nell'affascinante cronologia del Fondo Merende sin dall'alba dei tempi.
+Scava a fondo nell'affascinante cronologia sin dall'alba dei tempi del Fondo Merende.
  ha modificato 
 il nome
 il nome amichevole
-la password.
+la password
 il prezzo
 il numero di merendine per scatola
 i giorni di scadenza

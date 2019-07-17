@@ -1,15 +1,15 @@
 principale
-Sistema di gestione delle forniture Fondo Merende per l'ufficio Made in App.
+Sistema per uffici di gestione delle scorte delle merendine per il Fondo Merende di Made in App.
 Spiegazione comandi
 È bello vederti,
-Benvenuti nel meraviglioso mondo commestibile del Fondo Merende.
-Ecco una lista di gustose attività tra cui scegliere, per iniziare il tuo viaggio in questa sexy dispensa da ufficio basata sul web:
-Tira fuori il portafoglio
+Benvenuto nel meraviglioso mondo commestibile del Fondo Merende.
+Ecco una lista di gustose attività tra cui scegliere, per iniziare il tuo viaggio in questa sexy dispensa per l'ufficio via web:
+Tira fuori il portafoglio e
 un po' di quattrini per questa giusta causa.
-Fai squadra con i colleghi e  
+Fai squadra con i colleghi e
 nella lista tutto il cibo spazzatura che hai sempre sognato.
-Muovi il tuo pigro culo, e 
-quei dannati snack.
+Muovi il tuo pigro culo, e
+quelle merendine maledette.
 Fatto? Adesso rilassati: apri il frigo e
 tutto.
 Non ti piace il mondo in cui vivi? Forse è ora di iniziare a fare qualcosa al riguardo:
@@ -17,5 +17,5 @@ Cambia ciò che vedi nello specchio:
 Modifica la tua dieta completa di grassi:
 Eventi di quartiere:
 Più
-Stanco? Via di qui, puttana.
+Stanco? Fuori di qui, puttana.
 Ci vediamoooo
