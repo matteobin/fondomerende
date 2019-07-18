@@ -33,11 +33,11 @@ CREATE TABLE `actions` (
   `outflow_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `inflow_id_UNIQUE` (`inflow_id`),
-  UNIQUE KEY `outflow_id_UNIQUE` (`outflow_id`),
   KEY `command_id` (`command_id`),
   KEY `snack_id` (`snack_id`),
   KEY `user_id` (`user_id`),
+  KEY `actions_ibfk_4_idx` (`inflow_id`),
+  KEY `actions_ibfk_5_idx` (`outflow_id`),
   CONSTRAINT `actions_ibfk_1` FOREIGN KEY (`command_id`) REFERENCES `commands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `actions_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `actions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -369,4 +369,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-11  9:32:50
+-- Dump completed on 2019-07-18 17:30:08
