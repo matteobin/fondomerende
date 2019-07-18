@@ -1,2 +1,0 @@
-<?php
-define('AUTH_KEY', 'auth_key_here');

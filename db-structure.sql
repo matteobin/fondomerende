@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.15, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.16, for Linux (x86_64)
 --
 -- Host: localhost    Database: fondomerende
 -- ------------------------------------------------------
--- Server version	8.0.15
+-- Server version	8.0.16
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,14 +29,20 @@ CREATE TABLE `actions` (
   `snack_id` int(2) DEFAULT NULL,
   `snack_quantity` int(2) DEFAULT NULL,
   `funds_amount` decimal(5,2) DEFAULT NULL,
+  `inflow_id` int(11) DEFAULT NULL,
+  `outflow_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `inflow_id_UNIQUE` (`inflow_id`),
+  UNIQUE KEY `outflow_id_UNIQUE` (`outflow_id`),
   KEY `command_id` (`command_id`),
   KEY `snack_id` (`snack_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `actions_ibfk_1` FOREIGN KEY (`command_id`) REFERENCES `commands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `actions_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `actions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `actions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `actions_ibfk_4` FOREIGN KEY (`inflow_id`) REFERENCES `inflows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `actions_ibfk_5` FOREIGN KEY (`outflow_id`) REFERENCES `outflows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -185,7 +191,7 @@ CREATE TABLE `fund_funds` (
 
 LOCK TABLES `fund_funds` WRITE;
 /*!40000 ALTER TABLE `fund_funds` DISABLE KEYS */;
-INSERT INTO `fund_funds` VALUES (0.00,'2019-01-23 13:45:13');
+INSERT INTO `fund_funds` VALUES (0.00,'2019-01-25 14:07:41');
 /*!40000 ALTER TABLE `fund_funds` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,9 +265,10 @@ CREATE TABLE `snacks` (
   `snacks_per_box` int(3) NOT NULL,
   `expiration_in_days` int(4) NOT NULL,
   `countable` tinyint(1) NOT NULL DEFAULT '1',
+  `visible` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,7 +277,6 @@ CREATE TABLE `snacks` (
 
 LOCK TABLES `snacks` WRITE;
 /*!40000 ALTER TABLE `snacks` DISABLE KEYS */;
-INSERT INTO `snacks` VALUES (1,'taralli','Taralli',1.99,12,270,1),(2,'baiocchi','Baiocchi',2.49,6,195,1),(3,'kinder-bueno','Kinder Bueno',3.45,6,140,1);
 /*!40000 ALTER TABLE `snacks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,7 +303,6 @@ CREATE TABLE `snacks_stock` (
 
 LOCK TABLES `snacks_stock` WRITE;
 /*!40000 ALTER TABLE `snacks_stock` DISABLE KEYS */;
-INSERT INTO `snacks_stock` VALUES (1,0,'2018-12-21 20:47:29'),(2,0,'2018-12-21 20:47:29'),(3,0,'2018-10-22 07:48:37');
 /*!40000 ALTER TABLE `snacks_stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -313,6 +318,7 @@ CREATE TABLE `users` (
   `name` varchar(30) NOT NULL,
   `password` varchar(255) NOT NULL,
   `friendly_name` varchar(60) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
@@ -363,4 +369,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-02  9:51:10
+-- Dump completed on 2019-07-11  9:32:50

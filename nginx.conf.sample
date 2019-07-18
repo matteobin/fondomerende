@@ -1,20 +1,10 @@
 server {
     listen 80;
-    listen 8001;
-    
     root /var/www/fondomerende/public/;
     index index.php;
-    server_name fondomerende.madeinapp.net;
-    error_page 404 /index.php?view=404;
-
-    location / {
-        rewrite ^\/([a-zàA-ZÀ0-9_\-]*)\/?$ /index.php?view=$1 last;
-    }
-
-    # pass PHP scripts to FastCGI server
-    #
+    error_page 404 /404;
+    server_name fondomerende.company.com;
     location ~ \.php$ {
-        #include snippets/fastcgi-php.conf;
         try_files $uri =404;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
@@ -22,9 +12,31 @@ server {
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
-
-    # deny access to .htaccess files, if Apache's document root concurs with nginx's one
-    location ~ /\.ht {
-        #deny all;
+    location / {
+        rewrite ^\/api\/getphoto\.php\?name=([a-zàA-ZÀ0-9_\-]+)$ /getphoto.php?name=$1 last;
+        rewrite ^\/api\/?$ /process-request.php last;
+        rewrite ^\/deposit\/?$ /index.php?view=deposit&command-name=get-user-funds last;
+        rewrite ^\/buy\/?$ /index.php?view=buy&command-name=get-to-buy last;
+        rewrite ^\/eat\/?$ /index.php?view=eat&command-name=get-to-eat-and-user-funds last;
+        rewrite ^\/edit-user\/?$ /index.php?view=edit-user&command-name=get-user-data last;
+        rewrite ^\/snacks\/?$ /index.php?view=snacks&command-name=get-snacks-data last;
+        rewrite ^\/edit-snack\/?$ /index.php?view=snacks&command-name=get-snacks-data last;
+        rewrite ^\/edit-snack\/([a-zàA-ZÀ0-9_\-]+)\/?$ /index.php?view=edit-snack&command-name=get-snack-data&name=$1 last;
+        rewrite ^\/actions\/?$ /index.php?view=actions&command-name=get-paginated-actions&limit=25&page=1 last;
+        rewrite ^\/actions\/([0-9]+)\/?$ /index.php?view=actions&command-name=get-paginated-actions&limit=$1&page=1 last;
+        rewrite ^\/actions\/([0-9]+)\/([0-9]+)\/?$ /index.php?view=actions&command-name=get-paginated-actions&limit=$1&page=$2 last;
+        rewrite ^\/actions\/([0-9]+)\/([0-9]+)\/([a-zàA-ZÀ0-9_\-]+)\/?$ /index.php?view=actions&command-name=get-paginated-actions&limit=$1&page=$2&asc-order=$3 last;
+        rewrite ^\/deposita\/?$ /index.php?view=deposita&command-name=get-user-funds last;
+        rewrite ^\/compra\/?$ /index.php?view=compra&command-name=get-to-buy last;
+        rewrite ^\/mangia\/?$ /index.php?view=mangia&command-name=get-to-eat-and-user-funds last;
+        rewrite ^\/modifica-utente\/?$ /index.php?view=modifica-utente&command-name=get-user-data last;
+        rewrite ^\/merendine\/?$ /index.php?view=merendine&command-name=get-snacks-data last;
+        rewrite ^\/modifica-merendina\/?$ /index.php?view=merendine&command-name=get-snacks-data last;
+        rewrite ^\/modifica-merendina\/([a-zàA-ZÀ0-9_\-]+)\/?$ /index.php?view=modifica-merendina&command-name=get-snack-data&name=$1 last;
+        rewrite ^\/azioni\/?$ /index.php?view=azioni&command-name=get-paginated-actions&limit=25&page=1 last;
+        rewrite ^\/azioni\/([0-9]+)\/?$ /index.php?view=azioni&command-name=get-paginated-actions&limit=$1&page=1 last;
+        rewrite ^\/azioni\/([0-9]+)\/([0-9]+)\/?$ /index.php?view=azioni&command-name=get-paginated-actions&limit=$1&page=$2 last;
+        rewrite ^\/azioni\/([0-9]+)\/([0-9]+)\/([a-zàA-ZÀ0-9_\-]+)\/?$ /index.php?view=azioni&command-name=get-paginated-actions&limit=$1&page=$2&asc-order=$3 last;
+        rewrite ^\/([a-zàA-ZÀ0-9_\-]+)\/?$ /index.php?view=$1 last;
     }
 }

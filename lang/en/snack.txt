@@ -1,0 +1,8 @@
+snacks
+snack
+price
+snacks per box
+Expiration
+in days
+hidden
+visible

@@ -1,5 +1,5 @@
-    <h2 style="float:left;font-size:1.25em;margin:0.5em 0">Error 404:&nbsp;</h1>
+    <h2 style="float:left;font-size:1.25em;margin:0.5em 0"><?php echoTranslatedString('404', 3); ?> <?php echoTranslatedString('404', 1); ?>:&nbsp;</h1>
 </header>
-<h3 style="float:left;font-size:1.25em;margin:0.5em 0">not found!</h2>
-<p style="clear:left">The content you are looking for was not found. I'm sorry. <br>Maybe it has been moved or deleted. Who knows... not me for sure. <br>Better luck next time, slughead!</p>
-<a href="<?php echo(BASE_DIR); ?>">Home</a>
+<h3 style="float:left;font-size:1.25em;margin:0.5em 0"><?php echoTranslatedString('404', 2); ?></h2>
+<p style="clear:left"><?php echoTranslatedString('404', 4); ?> <br><?php echoTranslatedString('404', 5); ?> <br><?php echoTranslatedString('404', 6); ?></p>
+<?php echoTranslatedString('404', 7); ?> <a href="<?php echo BASE_DIR; ?>"><?php echoTranslatedString('404', 8); ?></a>, <?php echo $_SESSION['user-friendly-name']; ?>, <?php echoTranslatedString('404', 9); ?>.

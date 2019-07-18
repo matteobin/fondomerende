@@ -1,38 +1,45 @@
 <?php
-    require_once('../config.php');
+    require '../config.php';
+    require '../translation.php';
     if (MAINTENANCE) {
-        $currentView = array('name'=>'maintenance', 'file-name'=>'maintenance', 'title'=>'Maintenance', 'description'=>'Something big is coming: wait for the update.');
+        $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
     } else {
-        setcookie('auth-key', 'sekrit_PaSSWoRD');
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
-        
         function checkLogin() {
-            global $currentViewName;
             $logged = false;
             $idCookie = filter_input(INPUT_COOKIE, 'user-id', FILTER_SANITIZE_STRING);
             $tokenCookie = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
             $friendlyNameCookie = filter_input(INPUT_COOKIE, 'user-friendly-name', FILTER_SANITIZE_STRING);
             $rememberUserCookie = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
-            session_start();
-            if ((isset($_SESSION['user-id']) && isset($_SESSION['user-token'])) || (!is_null($idCookie) && !is_null($tokenCookie))) {
-                if (!isset($_SESSION['user-id']) || !isset($_SESSION['user-token'])) {
+            $sessionTokenSet = false;
+            if (isset($_SESSION['user-token'])) {
+                $sessionTokenSet = true;
+                $logged = true;
+                if (!isset($tokenCookie)) {
+                    setCookie('user-token', $_SESSION['user-token']);
+                }
+                if (!isset($idCookie)) {
+                    setCookie('user-id', $_SESSION['user-id']);
+                }
+                if (!isset($friendlyNameCookie)) {
+                    setCookie('user-friendly-name', $_SESSION['user-friendly-name']);
+                }
+            } 
+            if ($rememberUserCookie && isset($tokenCookie) && isset($idCookie) && isset($friendlyNameCookie)) {
+                if (!$sessionTokenSet) {
+                    $logged = true;
                     $_SESSION['user-id'] = $idCookie;
                     $_SESSION['user-token'] = $tokenCookie;
                     $_SESSION['user-friendly-name'] = $friendlyNameCookie;
                 }
-                if ($rememberUserCookie) {
-                    setCookie('user-id', $idCookie, time()+86400*5);
-                    setCookie('user-token', $tokenCookie, time()+86400*5);
-                    setCookie('user-friendly-name', $friendlyNameCookie, time()+86400*5);
-                    setCookie('remember-user', true, time()+86400*5);
-                }
-                $logged = true;
+                setcookie('user-id', $idCookie, time()+86400*5);
+                setcookie('user-token', $tokenCookie, time()+86400*5);
+                setcookie('user-friendly-name', $friendlyNameCookie, time()+86400*5);
+                setcookie('remember-user', true, time()+86400*5);
             }
             return $logged;
         }
-        
-        $views = array(array('name'=>'login', 'file-name'=>'login', 'title'=>'Login', 'description'=>'Fondo Merende authentication form.'), array('name'=>'main', 'file-name'=>'main', 'title'=>'Main', 'description'=>'Office snack supplies management system for Made in App Fondo Merende.'), array('name'=>'edit-user', 'file-name'=>'edit-user', 'title'=>'Edit user', 'description'=>'Get yourself some plastic surgery!'), array('name'=>'deposit', 'file-name'=>'deposit', 'title'=>'Deposit', 'description'=>'It\'s time to put some moolah in your savage digital wallet.'), array('name'=>'add-snack', 'file-name'=>'add-snack', 'title'=>'Add', 'description'=>'Add the snack of your dreams to Fondo Merende special reserve.'), array('name'=>'edit-snack', 'file-name'=>'edit-snack', 'title'=>'Edit snack', 'description'=>'Change snack name and buy default settings.'), array('name'=>'list-snacks-to-edit', 'file-name'=>'list-snacks-to-edit', 'title'=>'Snacks', 'description'=>'Decide what snack to change.'), array('name'=>'buy', 'file-name'=>'buy', 'title'=>'Buy', 'description'=>'Choose wisely what snacks to buy or YOU WILL ALL DIE!'), array('name'=>'eat', 'file-name'=>'eat', 'title'=>'Eat', 'description'=>'Our digital pantry, the best part of the software.'));
-        
+        $views = array(array('name'=>getTranslatedString('login', 1), 'file-name'=>'login', 'title'=>getUcfirstTranslatedString('login', 1), 'description'=>getUcfirstTranslatedString('login', 2)), array('name'=>getTranslatedString('main', 1), 'file-name'=>'main', 'title'=>getUcfirstTranslatedString('main', 1), 'description'=>getTranslatedString('main', 2)), array('name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), 'file-name'=>'edit-user', 'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('edit-user', 1)), array('name'=>getTranslatedString('commands', 3), 'file-name'=>'deposit', 'title'=>getUcfirstTranslatedString('commands', 3), 'description'=>getTranslatedString('deposit', 1)), array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), 'file-name'=>'add-snack', 'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('snack', 2), 'description'=>getTranslatedString('add-snack', 1)), array('name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('snack', 2), 'file-name'=>'edit-snack', 'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('snack', 2), 'description'=>getTranslatedString('edit-snack', 1)), array('name'=>getTranslatedString('snack', 1), 'file-name'=>'list-snacks-to-edit', 'title'=>getUcfirstTranslatedString('snack', 1), 'description'=>getTranslatedString('list-snacks-to-edit', 1)), array('name'=>getTranslatedString('commands', 4), 'file-name'=>'buy', 'title'=>getUcfirstTranslatedString('commands', 4), 'description'=>getTranslatedString('buy', 1)), array('name'=>getTranslatedString('commands', 5), 'file-name'=>'eat', 'title'=>getUcfirstTranslatedString('commands', 5), 'description'=>getTranslatedString('eat', 1)), array('name'=>getTranslatedString('actions', 1), 'file-name'=>'actions', 'title'=>getUcfirstTranslatedString('actions', 1), 'description'=>getTranslatedString('actions', 2)));
         if (checkLogin()) {
             $noView = true;
             foreach ($views as $view) {
@@ -43,38 +50,53 @@
                 }
             }
             if ($noView) {
-                if ($currentViewName=='' || $currentViewName=='add-user') {
-                    header('location: '.BASE_DIR.'index.php?view=main&command-name=get-main-view-data');
+                if ($currentViewName=='' || $currentViewName==getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1)) {
+                    if (FRIENDLY_URLS) {
+                        $currentView = $views[1];
+                        $_GET['command-name'] = 'get-main-view-data';
+                    } else {
+                        header('location: '.BASE_DIR.'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data');
+                    }
                 } else {
                     http_response_code(404);
-                    $currentView = array('name'=>'404', 'file-name'=>'404', 'title'=>'404', 'description'=>'Not found.');
+                    $currentView = array('name'=>'404', 'file-name'=>'404', 'title'=>'404', 'description'=>getTranslatedString('404', 2));
                 }
             }
-        } else if ($currentViewName=='add-user') {
-            $currentView = array('name'=>'add-user', 'file-name'=>'add-user', 'title'=>'Add user', 'description'=>'Fondo Merende add user form.');
+        } else if ($currentViewName==getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1)) {
+            $currentView = array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1), 'file-name'=>'add-user', 'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('add-user', 1));
         } else {
             $currentView = $views[0];
         }
     }
+    function sanitizeOutput($buffer) {
+        return preg_replace(array('/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/'), array('>', '<', '\\1', ''), $buffer);
+    }
+    ob_start('sanitizeOutput');
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="<?php echo $_SESSION['user-lang']; ?>">
 	<head>
 		<meta charset="utf-8">
-        <title>Fondo Merende | <?php echo($currentView['title']); if ($currentView['name']!='login' && $currentView['name']!='add-user' && $currentView['name']!='404') {echo(' - '.$_SESSION['user-friendly-name']);} ?></title>
+        <title>Fondo Merende | <?php if ($currentView['name']!=getTranslatedString('main', 1)): echo $currentView['title']; endif; if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=getTranslatedString('login', 1) && $currentView['name']!=getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1) && $currentView['name']!='404'): if ($currentView['name']!=getTranslatedString('main', 1)): echo ' - '; endif; echo $_SESSION['user-friendly-name']; endif; ?></title>
+		<meta name="description" content="<?php echo $currentView['description']; ?>">
 		<meta name="author" content="Matteo Bini">
-		<meta name="description" content="<?php echo($currentView['description']); ?>">
         <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            h2 {
+                clear: left;
+            }
+        </style>
 	</head>
-    <style>
-        h2 {
-            clear: left;
-        }
-    </style>
 	<body>
 		<header>
-			<h1 style="float:left">Fondo Merende</h1><p style="float:left;margin:20px 6px">v1.1.2b</p>
-			<?php require_once('../views/'.$currentView['file-name'].'.php'); ?>
+			<h1 style="float:left">Fondo Merende</h1><p style="float:left;margin:20px 6px">v1.2.0b</p>
+            <?php
+                require '../views/'.$currentView['file-name'].'.php';
+                if (isset($response['status']) && $response['status']!=200) {
+                    http_response_code($response['status']);
+                }
+            ?>
 		<footer>
 		</footer>
 	</body>

@@ -1,0 +1,27 @@
+Fondo Merende is not available at the moment. Please wait for our team of experts to perfom the required updates. Don't be an asshole, wait and DO NOT COMPLAIN!
+Request
+ is not valid: 
+you should send it through 
+ instead.
+missing or expired user token.
+Unauthorized action: 
+user is not active.
+value missing.
+value in wrong format.
+ is longer than 
+ characters.
+ is not greater than 
+ is not less than 
+ has more digits than 
+ has more decimals than 
+ is already present in database 
+ table at 
+ column.
+ is not present in database 
+, where 
+ column is 
+no parameters were sent.
+ is not standard MySQL and MariaDB 'YYYY-MM-DD hh:mm:ss' format.
+missing or wrong auth key.
+Login error: wrong credentials.
+No crates containing snack id 

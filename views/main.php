@@ -1,33 +1,39 @@
 <?php 
-    require_once('process-request.php');
-    if (isset($response['response']['message'])) {
-        echo($response['response']['message']);
+    require 'process-request.php';
+    if (FRIENDLY_URLS) {
+        $hrefs = array(BASE_DIR.getTranslatedString('commands', 3), BASE_DIR.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.getTranslatedString('commands', 4), BASE_DIR.getTranslatedString('commands', 5), BASE_DIR.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), BASE_DIR.getTranslatedString('snack', 1), BASE_DIR.getTranslatedString('actions', 1).'/25/1', BASE_DIR.getTranslatedString('login', 1));
+    } else {
+        $hrefs = array(BASE_DIR.'index.php?view='.getTranslatedString('commands', 3).'&command-name=get-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.'index.php?view='.getTranslatedString('commands', 4).'&command-name=get-to-buy', BASE_DIR.'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-eat-and-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1).'&command-name=get-user-data', BASE_DIR.'index.php?view='.getTranslatedString('snack', 1).'&command-name=get-snacks-data', BASE_DIR.'index.php?view='.getTranslatedString('actions', 1).'&command-name=get-paginated-actions&limit=25&page=1', BASE_DIR.'index.php?view='.getTranslatedString('login', 1));
     }
 ?>
 </header>
-<h3 style="clear:left">Fund Moolah: <?php echo($response['data']['fund-funds-amount']); ?> €</h3>
-<h3>User Moolah: <?php echo($response['data']['user-funds-amount']); ?> €</h3>
-<h3>Commands brief</h3>
-<p>Good to see you, <?php echo($_SESSION['user-friendly-name']); ?>!<br>Welcome to the wonderfully edible world of Fondo Merende.<br>Here's a list of tasty activities you can choose from, to start your journey in this sexy web-based office pantry:</p>
+<?php if (isset($response['message'])): ?>
+    <p style="clear:left"><?php echo $response['message']; ?></p>
+<?php endif; ?>
+<h3 style="clear:left"><?php echoTranslatedString('commons', 1); ?>: <?php echo $response['data']['fund-funds-amount']; ?> €</h3>
+<h3><?php echoTranslatedString('commons', 2); ?>: <?php echo $response['data']['user-funds-amount']; ?> €</h3>
+<h3><?php echoTranslatedString('main', 3) ?></h3>
+<p><?php echoTranslatedString('main', 4); echo ' '.$_SESSION['user-friendly-name']; ?>!<br><?php echoTranslatedString('main', 5); ?><br><?php echoTranslatedString('main', 6) ?></p>
 <ul>
-    <li>Reach for the wallet to <a href="<?php echo(BASE_DIR); ?>index.php?view=deposit&command-name=get-user-funds"><strong>DEPOSIT</strong></a> some moolah for this very Just Cause.</li>
-    <li>Team up with peers and <a href="<?php echo(BASE_DIR); ?>index.php?view=add-snack"><strong>ADD</strong></a> to the list all the junk food you've only been dreaming about.</li>
-    <li>Move your lazy butt, get out to <a href="<?php echo(BASE_DIR); ?>index.php?view=buy&command-name=get-to-buy-and-fund-funds"><strong>BUY</strong></a> the damn snacks.</li>
-    <li>Done? Now chill: open the fridge and <a href="<?php echo(BASE_DIR); ?>index.php?view=eat&command-name=get-to-eat-and-user-funds"><strong>EAT</strong></a> them all.</li>
+    <li><?php echoTranslatedString('main', 7); ?> <a href="<?php echo $hrefs[0]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 3); ?></strong></a> <?php echoTranslatedString('main', 8); ?></li>
+    <li><?php echoTranslatedString('main', 9); ?> <a href="<?php echo $hrefs[1]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a> <?php echoTranslatedString('main', 10); ?></li>
+    <li><?php echoTranslatedString('main', 11); ?> <a href="<?php echo $hrefs[2]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a> <?php echoTranslatedString('main', '12'); ?></li>
+    <li><?php echoTranslatedString('main', 13); ?> <a href="<?php echo $hrefs[3]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a> <?php echoTranslatedString('main', 14) ?></li>
 </ul>
-<p>You don't like the world you live in? Maybe it's time to start doing something about it:</p>
+<p><?php echoTranslatedString('main', 15); ?></p>
 <ul>
-    <li>Change what you see in the mirror: <a href="<?php echo(BASE_DIR); ?>index.php?view=edit-user&command-name=get-user-data"><strong>EDIT USER</strong></a>.</li>
-    <li>Modify your full fat diet: <a href="<?php echo(BASE_DIR); ?>index.php?view=list-snacks-to-edit&command-name=get-snacks-data"><strong>EDIT SNACKS</strong></a>.</li>
+    <li><?php echoTranslatedString('main', 16); ?> <a href="<?php echo $hrefs[4]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 2); ?> <?php echoStrtoupperTranslatedString('user', 1); ?></strong></a>.</li>
+    <li><?php echoTranslatedString('main', 17); ?> <a href="<?php echo $hrefs[5]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 2); ?> <?php echoStrtoupperTranslatedString('snack', 1); ?></strong></a>.</li>
 </ul>
-<h3>Neighbourhood happenings:</h3>
-<ul>
+<h3><?php echoTranslatedString('main', 18); ?></h3>
+<ol>
     <?php foreach ($response['data']['actions'] as $action): ?>
-        <li><?php echo($action); ?></li>
+        <li><?php echo $action; ?></li>
     <?php endforeach; ?>
-</ul>
-<h3>Tired? Log the hell out of here, slut.</h3>
-<form action="<?php echo(BASE_DIR); ?>index.php?view=login" method="POST">
+</ol>
+    <a href="<?php echo $hrefs[6]; ?>"><?php echoTranslatedString('main', 19); ?></a>
+<h3><?php echoTranslatedString('main', 20); ?></h3>
+<form action="<?php echo $hrefs[7]; ?>" method="post">
     <input type="hidden" name="command-name" value="logout">
-    <input type="submit" value="See ya">
+    <input type="submit" value="<?php echoTranslatedString('main', 21); ?>">
 </form>

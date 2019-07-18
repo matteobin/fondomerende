@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1fa58199-0d44-48ae-83c6-bede541f9a7a",
+		"_postman_id": "8fee7ffd-644c-4a02-8290-d981a0b7237d",
 		"name": "Fondo Merende",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -26,7 +26,7 @@
 						},
 						{
 							"key": "name",
-							"value": "guybrush-threepwood",
+							"value": "mighty_pirate90",
 							"type": "text"
 						},
 						{
@@ -36,7 +36,7 @@
 						},
 						{
 							"key": "password",
-							"value": "melee",
+							"value": "plunderbunny",
 							"type": "text"
 						},
 						{
@@ -47,12 +47,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -78,7 +78,7 @@
 								},
 								{
 									"key": "name",
-									"value": "guybrush-threepwood",
+									"value": "mighty_pirate90",
 									"type": "text"
 								},
 								{
@@ -88,7 +88,7 @@
 								},
 								{
 									"key": "password",
-									"value": "melee",
+									"value": "plunderbunny",
 									"type": "text"
 								},
 								{
@@ -99,50 +99,30 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
+					"status": "Created",
+					"code": 201,
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 08 Feb 2019 14:28:07 GMT"
+							"value": "Sat, 25 May 2019 10:26:57 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Set-Cookie",
-							"value": "PHPSESSID=n90rnm7jfct76u7s52jb8fl3al; path=/"
-						},
-						{
-							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
-						},
-						{
-							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -155,10 +135,34 @@
 						{
 							"key": "Pragma",
 							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 201\n    },\n    \"data\": {\n        \"token\": \"78327b5b70b78c38bfe44cfb\"\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 201,\n    \"data\": {\n        \"token\": \"d6030df8e30b5524804a49b4\"\n    }\n}"
 				}
 			]
 		},
@@ -183,23 +187,23 @@
 						},
 						{
 							"key": "name",
-							"value": "arturo",
+							"value": "mighty_pirate90",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "arturo",
+							"value": "plunderbunny",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -225,41 +229,41 @@
 								},
 								{
 									"key": "name",
-									"value": "matteobin",
+									"value": "mighty_pirate90",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "Password007",
+									"value": "plunderbunny",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
+					"status": "Created",
+					"code": 201,
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
 							"key": "Date",
-							"value": "Fri, 21 Dec 2018 16:14:32 GMT"
+							"value": "Sat, 25 May 2019 10:28:15 GMT"
 						},
 						{
 							"key": "Server",
-							"value": "Apache/2.4.33 (Win32) OpenSSL/1.0.2o PHP/7.1.18"
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
 							"key": "X-Powered-By",
-							"value": "PHP/7.1.18"
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -283,7 +287,7 @@
 						},
 						{
 							"key": "Content-Length",
-							"value": "111"
+							"value": "73"
 						},
 						{
 							"key": "Keep-Alive",
@@ -299,7 +303,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 201\n    },\n    \"data\": {\n        \"token\": \"7c9a1c89806d1a0f2ee3437a\"\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 201,\n    \"data\": {\n        \"token\": \"706124f2b60d9eb533307bfd\"\n    }\n}"
 				}
 			]
 		},
@@ -310,7 +314,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=78327b5b70b78c38bfe44cfb",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=706124f2b60d9eb533307bfd",
 						"type": "text"
 					}
 				],
@@ -325,12 +329,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -342,7 +346,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=78327b5b70b78c38bfe44cfb",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=706124f2b60d9eb533307bfd",
 								"type": "text"
 							}
 						],
@@ -357,12 +361,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -371,24 +375,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 08 Feb 2019 14:32:39 GMT"
+							"value": "Sat, 25 May 2019 10:29:17 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -409,10 +405,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200\n}"
 				}
 			]
 		},
@@ -423,7 +435,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -432,12 +444,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-fund-funds",
+					"raw": "{{host}}/api?command-name=get-fund-funds",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -455,7 +467,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -464,12 +476,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-fund-funds",
+							"raw": "{{host}}/api?command-name=get-fund-funds",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -484,24 +496,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 15 Feb 2019 14:19:58 GMT"
+							"value": "Sat, 25 May 2019 10:29:56 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -522,10 +526,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "65"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"fund-funds-amount\": \"1.00\"\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"fund-funds-amount\": \"0.00\"\n    }\n}"
 				}
 			]
 		},
@@ -536,7 +556,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -545,12 +565,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-user-funds",
+					"raw": "{{host}}/api?command-name=get-user-funds",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -568,7 +588,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -577,12 +597,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-user-funds",
+							"raw": "{{host}}/api?command-name=get-user-funds",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -597,12 +617,157 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
+							"key": "Date",
+							"value": "Sat, 25 May 2019 10:30:28 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "65"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"user-funds-amount\": \"0.00\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get actions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/api?command-name=get-actions&limit=5&offset=0&asc-order=0",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api"
+					],
+					"query": [
+						{
+							"key": "command-name",
+							"value": "get-actions"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "asc-order",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get actions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api?command-name=get-actions&limit=5&offset=0&asc-order=0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-actions"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "asc-order",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
 							"key": "Server",
 							"value": "nginx/1.10.3"
 						},
 						{
 							"key": "Date",
-							"value": "Wed, 13 Feb 2019 14:26:32 GMT"
+							"value": "Tue, 25 Jun 2019 13:23:57 GMT"
 						},
 						{
 							"key": "Content-Type",
@@ -638,12 +803,12 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"user-funds-amount\": \"0.00\"\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"actions\": [\n            \"2019-06-20 13:09:05: Arturo changed friendly name from arturo to Arturo.\",\n            \"2019-06-20 13:06:46: Arturo changed expiration days of Baiocchi from 90 to 95.\",\n            \"2019-06-20 13:05:05: Arturo ate 1 Baiocchi.\",\n            \"2019-06-20 13:04:29: Arturo deposited 2.00 €.\",\n            \"2019-06-20 13:03:15: Arturo bought 7 Baiocchi.\"\n        ]\n    }\n}"
 				}
 			]
 		},
 		{
-			"name": "Get last actions",
+			"name": "Get latest actions",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -652,37 +817,140 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
 						"type": "text"
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-last-actions",
+					"raw": "{{host}}/api?command-name=get-latest-actions&timestamp=2019-06-19 14:52:30",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
 							"key": "command-name",
-							"value": "get-last-actions"
+							"value": "get-latest-actions"
+						},
+						{
+							"key": "timestamp",
+							"value": "2019-06-19 14:52:30"
 						}
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Get latest actions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/api?command-name=get-latest-actions&timestamp=2019-06-19 14:52:30",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-latest-actions"
+								},
+								{
+									"key": "timestamp",
+									"value": "2019-06-19 14:52:30"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2019 13:17:28 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"actions\": [\n            \"2019-06-20 13:09:05: Arturo changed friendly name from arturo to Arturo.\",\n            \"2019-06-20 13:06:46: Arturo changed expiration days of Baiocchi from 90 to 95.\",\n            \"2019-06-20 13:05:05: Arturo ate 1 Baiocchi.\",\n            \"2019-06-20 13:04:29: Arturo deposited 2.00 €.\",\n            \"2019-06-20 13:03:15: Arturo bought 7 Baiocchi.\",\n            \"2019-06-20 13:01:59: Arturo added snack matteobin.\",\n            \"2019-06-20 12:58:56: Arturo added snack Baiocchi.\"\n        ]\n    }\n}"
+				}
+			]
 		},
 		{
-			"name": "Get main view data",
+			"name": "Get paginated actions",
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
 						"type": "text"
 					}
 				],
@@ -691,12 +959,141 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-main-view-data",
+					"raw": "{{host}}/api?command-name=get-paginated-actions&limit=10&page=1",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
+					],
+					"query": [
+						{
+							"key": "command-name",
+							"value": "get-paginated-actions"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get paginated actions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api?command-name=get-paginated-actions&limit=10&page=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-paginated-actions"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.10.3"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2019 13:34:08 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"actions\": [\n            \"2019-06-20 13:09:05: Arturo changed friendly name from arturo to Arturo.\",\n            \"2019-06-20 13:06:46: Arturo changed expiration days of Baiocchi from 90 to 95.\",\n            \"2019-06-20 13:05:05: Arturo ate 1 Baiocchi.\",\n            \"2019-06-20 13:04:29: Arturo deposited 2.00 €.\",\n            \"2019-06-20 13:03:15: Arturo bought 7 Baiocchi.\",\n            \"2019-06-20 13:01:59: Arturo added snack matteobin.\",\n            \"2019-06-20 12:58:56: Arturo added snack Baiocchi.\",\n            \"2019-06-19 14:10:21: Arturo deposited 1.00 €.\",\n            \"2019-05-27 12:01:20: added user Arturo.\",\n            \"2019-05-24 18:26:59: added user Guybrush Threepwood.\"\n        ],\n        \"actions-total\": 10,\n        \"available-pages\": 1\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get main view data",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/api?command-name=get-main-view-data",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api"
 					],
 					"query": [
 						{
@@ -714,7 +1111,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -723,12 +1120,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-main-view-data",
+							"raw": "{{host}}/api?command-name=get-main-view-data",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -743,24 +1140,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Wed, 13 Feb 2019 14:16:16 GMT"
+							"value": "Sat, 25 May 2019 10:31:27 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -781,10 +1170,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "154"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"fund-funds-amount\": \"0.00\",\n        \"user-funds-amount\": \"0.00\",\n        \"actions\": [\n            \"2019-02-08 15:28:06: added Guybrush Threepwood.\"\n        ]\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"fund-funds-amount\": \"0.00\",\n        \"user-funds-amount\": \"0.00\",\n        \"actions\": [\n            \"2019-05-25 12:26:57: added Guybrush Threepwood.\"\n        ]\n    }\n}"
 				}
 			]
 		},
@@ -795,7 +1200,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=a9792d933dce4d5d689aea35",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -804,12 +1209,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-user-data",
+					"raw": "{{host}}/api?command-name=get-user-data",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -827,7 +1232,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=a9792d933dce4d5d689aea35",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -836,12 +1241,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-user-data",
+							"raw": "{{host}}/api?command-name=get-user-data",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -856,24 +1261,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 15 Mar 2019 12:15:00 GMT"
+							"value": "Sat, 25 May 2019 10:32:09 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -894,10 +1291,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "110"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"user\": {\n            \"name\": \"arturo\",\n            \"friendly-name\": \"Arturo\"\n        }\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"user\": {\n            \"name\": \"mighty_pirate90\",\n            \"friendly-name\": \"Guybrush Threepwood\"\n        }\n    }\n}"
 				}
 			]
 		},
@@ -908,7 +1321,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -922,28 +1335,28 @@
 						},
 						{
 							"key": "name",
-							"value": "peppo",
+							"value": "mighty_pirate91",
 							"type": "text"
 						},
 						{
 							"key": "friendly-name",
-							"value": "Peppo",
+							"value": "Guybrush Ulysses Threepwood",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "cazzoDritto",
+							"value": "bigwhoop",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -955,7 +1368,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -969,28 +1382,28 @@
 								},
 								{
 									"key": "name",
-									"value": "peppo",
+									"value": "mighty_pirate91",
 									"type": "text"
 								},
 								{
 									"key": "friendly-name",
-									"value": "Peppo",
+									"value": "Guybrush Ulysses Threepwood",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "cazzoDritto",
+									"value": "bigwhoop",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -999,24 +1412,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Wed, 13 Feb 2019 14:22:07 GMT"
+							"value": "Sat, 25 May 2019 10:37:14 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -1032,15 +1437,35 @@
 						},
 						{
 							"key": "Set-Cookie",
+							"value": "user-friendly-name=Guybrush+Ulysses+Threepwood"
+						},
+						{
+							"key": "Set-Cookie",
 							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200\n}"
 				}
 			]
 		},
@@ -1051,7 +1476,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1065,18 +1490,18 @@
 						},
 						{
 							"key": "amount",
-							"value": "1",
+							"value": "8",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -1088,7 +1513,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1102,138 +1527,18 @@
 								},
 								{
 									"key": "amount",
-									"value": "1",
+									"value": "8",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
-							]
-						}
-					},
-					"_postman_previewlanguage": null,
-					"header": null,
-					"cookie": [],
-					"body": null
-				}
-			]
-		},
-		{
-			"name": "Add snack",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "command-name",
-							"value": "add-snack",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "Patatine",
-							"type": "text"
-						},
-						{
-							"key": "price",
-							"value": "5",
-							"type": "text"
-						},
-						{
-							"key": "snacks-per-box",
-							"value": "7",
-							"type": "text"
-						},
-						{
-							"key": "expiration-in-days",
-							"value": "90",
-							"type": "text"
-						},
-						{
-							"key": "countable",
-							"value": "1",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{host}}/process-request.php",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"process-request.php"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Add snack",
-					"originalRequest": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=1782673bbf6eb9bdcf5e4ca1",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "command-name",
-									"value": "add-snack",
-									"type": "text"
-								},
-								{
-									"key": "name",
-									"value": "Patatine",
-									"type": "text"
-								},
-								{
-									"key": "price",
-									"value": "5",
-									"type": "text"
-								},
-								{
-									"key": "snacks-per-box",
-									"value": "7",
-									"type": "text"
-								},
-								{
-									"key": "expiration-in-days",
-									"value": "90",
-									"type": "text"
-								},
-								{
-									"key": "countable",
-									"value": "1",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{host}}/process-request.php",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -1242,24 +1547,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Wed, 13 Feb 2019 14:33:21 GMT"
+							"value": "Sat, 25 May 2019 10:37:40 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -1280,10 +1577,197 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 201,\n        \"data\": {\n            \"snack-id\": \"4\"\n        }\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200\n}"
+				}
+			]
+		},
+		{
+			"name": "Add snack",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "command-name",
+							"value": "add-snack",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Grog",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "snacks-per-box",
+							"value": "8",
+							"type": "text"
+						},
+						{
+							"key": "expiration-in-days",
+							"value": "365",
+							"type": "text"
+						},
+						{
+							"key": "countable",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/api",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add snack",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "command-name",
+									"value": "add-snack",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Grog",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "snacks-per-box",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "expiration-in-days",
+									"value": "365",
+									"type": "text"
+								},
+								{
+									"key": "countable",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/api",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sat, 25 May 2019 10:38:48 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 19 Nov 1981 08:52:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "53"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"status\": 201,\n    \"data\": {\n        \"snack-id\": \"4\"\n    }\n}"
 				}
 			]
 		},
@@ -1294,7 +1778,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1303,12 +1787,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-snacks-data",
+					"raw": "{{host}}/api?command-name=get-snacks-data",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -1326,7 +1810,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1335,12 +1819,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-snacks-data",
+							"raw": "{{host}}/api?command-name=get-snacks-data",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -1355,24 +1839,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 15 Feb 2019 13:54:35 GMT"
+							"value": "Sat, 25 May 2019 10:39:43 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -1393,10 +1869,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "524"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"snacks\": [\n            {\n                \"id\": \"1\",\n                \"name\": \"taralli\",\n                \"friendly-name\": \"Taralli\",\n                \"price\": \"1.99\",\n                \"snacks-per-box\": \"12\",\n                \"expiration-in-days\": \"270\"\n            },\n            {\n                \"id\": \"2\",\n                \"name\": \"baiocchi\",\n                \"friendly-name\": \"Baiocchi\",\n                \"price\": \"2.49\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"195\"\n            },\n            {\n                \"id\": \"3\",\n                \"name\": \"kinder-bueno\",\n                \"friendly-name\": \"Kinder Bueno\",\n                \"price\": \"3.45\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"140\"\n            },\n            {\n                \"id\": \"4\",\n                \"name\": \"patatine\",\n                \"friendly-name\": \"Patatine\",\n                \"price\": \"5.00\",\n                \"snacks-per-box\": \"7\",\n                \"expiration-in-days\": \"90\"\n            }\n        ]\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"snacks\": [\n            {\n                \"id\": \"2\",\n                \"name\": \"baiocchi\",\n                \"friendly-name\": \"Baiocchi\",\n                \"price\": \"2.49\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"195\"\n            },\n            {\n                \"id\": \"4\",\n                \"name\": \"grog\",\n                \"friendly-name\": \"Grog\",\n                \"price\": \"1.00\",\n                \"snacks-per-box\": \"8\",\n                \"expiration-in-days\": \"365\"\n            },\n            {\n                \"id\": \"3\",\n                \"name\": \"kinder-bueno\",\n                \"friendly-name\": \"Kinder Bueno\",\n                \"price\": \"3.45\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"140\"\n            },\n            {\n                \"id\": \"1\",\n                \"name\": \"taralli\",\n                \"friendly-name\": \"Taralli\",\n                \"price\": \"1.99\",\n                \"snacks-per-box\": \"12\",\n                \"expiration-in-days\": \"270\"\n            }\n        ]\n    }\n}"
 				}
 			]
 		},
@@ -1407,7 +1899,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1416,12 +1908,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-snack-data&name=patatine",
+					"raw": "{{host}}/api?command-name=get-snack-data&name=grog",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -1430,7 +1922,7 @@
 						},
 						{
 							"key": "name",
-							"value": "patatine"
+							"value": "grog"
 						}
 					]
 				}
@@ -1443,7 +1935,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1452,12 +1944,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-snack-data&name=patatine",
+							"raw": "{{host}}/api?command-name=get-snack-data&name=grog",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -1466,7 +1958,7 @@
 								},
 								{
 									"key": "name",
-									"value": "patatine"
+									"value": "grog"
 								}
 							]
 						}
@@ -1476,24 +1968,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 15 Feb 2019 14:03:56 GMT"
+							"value": "Sat, 25 May 2019 10:40:35 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -1514,10 +1998,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "137"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"snack\": {\n            \"id\": 4,\n            \"friendly-name\": \"Patatine\",\n            \"price\": \"5.00\",\n            \"snacks-per-box\": 7,\n            \"expiration-in-days\": 90\n        }\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"snack\": {\n            \"id\": 4,\n            \"friendly-name\": \"Grog\",\n            \"price\": \"1.00\",\n            \"snacks-per-box\": 8,\n            \"expiration-in-days\": 365\n        }\n    }\n}"
 				}
 			]
 		},
@@ -1528,7 +2028,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1542,38 +2042,38 @@
 						},
 						{
 							"key": "id",
-							"value": "2",
+							"value": "4",
 							"type": "text"
 						},
 						{
 							"key": "name",
-							"value": "Barocchi",
+							"value": "Grog",
 							"type": "text"
 						},
 						{
 							"key": "price",
-							"value": "5",
+							"value": "3",
 							"type": "text"
 						},
 						{
 							"key": "snacks-per-box",
-							"value": "2",
+							"value": "16",
 							"type": "text"
 						},
 						{
 							"key": "expiration-in-days",
-							"value": "30",
+							"value": "730",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -1585,7 +2085,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1599,38 +2099,38 @@
 								},
 								{
 									"key": "id",
-									"value": "2",
+									"value": "4",
 									"type": "text"
 								},
 								{
 									"key": "name",
-									"value": "Barocchi",
+									"value": "Grog",
 									"type": "text"
 								},
 								{
 									"key": "price",
-									"value": "5",
+									"value": "3",
 									"type": "text"
 								},
 								{
 									"key": "snacks-per-box",
-									"value": "2",
+									"value": "16",
 									"type": "text"
 								},
 								{
 									"key": "expiration-in-days",
-									"value": "30",
+									"value": "730",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -1639,24 +2139,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 15 Feb 2019 14:15:47 GMT"
+							"value": "Sat, 25 May 2019 10:41:43 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -1677,22 +2169,38 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200\n}"
 				}
 			]
 		},
 		{
-			"name": "Get to buy and fund funds",
+			"name": "Get to buy",
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
-						"type": "text"
+						"type": "text",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78"
 					}
 				],
 				"body": {
@@ -1700,31 +2208,31 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-to-buy-and-fund-funds",
+					"raw": "{{host}}/api?command-name=get-to-buy",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
 							"key": "command-name",
-							"value": "get-to-buy-and-fund-funds"
+							"value": "get-to-buy"
 						}
 					]
 				}
 			},
 			"response": [
 				{
-					"name": "Get to buy and fund funds",
+					"name": "Get to buy",
 					"originalRequest": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
-								"type": "text"
+								"type": "text",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78"
 							}
 						],
 						"body": {
@@ -1732,17 +2240,17 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-to-buy-and-fund-funds",
+							"raw": "{{host}}/api?command-name=get-to-buy",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
 									"key": "command-name",
-									"value": "get-to-buy-and-fund-funds"
+									"value": "get-to-buy"
 								}
 							]
 						}
@@ -1752,24 +2260,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 15 Feb 2019 14:36:13 GMT"
+							"value": "Sat, 25 May 2019 10:42:02 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -1790,10 +2290,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "454"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"fund-funds-amount\": \"1.00\",\n        \"snacks\": [\n            {\n                \"id\": \"1\",\n                \"friendly_name\": \"Taralli\",\n                \"price\": \"1.99\",\n                \"snacks-per-box\": \"12\",\n                \"expiration-in-days\": \"270\"\n            },\n            {\n                \"id\": \"2\",\n                \"friendly_name\": \"Barocchi\",\n                \"price\": \"5.00\",\n                \"snacks-per-box\": \"2\",\n                \"expiration-in-days\": \"30\"\n            },\n            {\n                \"id\": \"3\",\n                \"friendly_name\": \"Kinder Bueno\",\n                \"price\": \"3.45\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"140\"\n            },\n            {\n                \"id\": \"4\",\n                \"friendly_name\": \"Patatine\",\n                \"price\": \"5.00\",\n                \"snacks-per-box\": \"7\",\n                \"expiration-in-days\": \"90\"\n            }\n        ]\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"snacks\": [\n            {\n                \"id\": \"2\",\n                \"friendly_name\": \"Baiocchi\",\n                \"price\": \"2.49\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"195\"\n            },\n            {\n                \"id\": \"4\",\n                \"friendly_name\": \"Grog\",\n                \"price\": \"3.00\",\n                \"snacks-per-box\": \"16\",\n                \"expiration-in-days\": \"730\"\n            },\n            {\n                \"id\": \"3\",\n                \"friendly_name\": \"Kinder Bueno\",\n                \"price\": \"3.45\",\n                \"snacks-per-box\": \"6\",\n                \"expiration-in-days\": \"140\"\n            },\n            {\n                \"id\": \"1\",\n                \"friendly_name\": \"Taralli\",\n                \"price\": \"1.99\",\n                \"snacks-per-box\": \"12\",\n                \"expiration-in-days\": \"270\"\n            }\n        ]\n    }\n}"
 				}
 			]
 		},
@@ -1804,7 +2320,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1818,7 +2334,7 @@
 						},
 						{
 							"key": "id",
-							"value": "3",
+							"value": "4",
 							"type": "text"
 						},
 						{
@@ -1829,12 +2345,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -1846,7 +2362,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1860,7 +2376,7 @@
 								},
 								{
 									"key": "id",
-									"value": "3",
+									"value": "4",
 									"type": "text"
 								},
 								{
@@ -1871,12 +2387,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -1885,24 +2401,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 15 Feb 2019 14:37:32 GMT"
+							"value": "Sat, 25 May 2019 10:42:56 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -1923,10 +2431,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200\n}"
 				}
 			]
 		},
@@ -1937,7 +2461,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1946,12 +2470,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php?command-name=get-to-eat-and-user-funds",
+					"raw": "{{host}}/api?command-name=get-to-eat-and-user-funds",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					],
 					"query": [
 						{
@@ -1969,7 +2493,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1978,12 +2502,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php?command-name=get-to-eat-and-user-funds",
+							"raw": "{{host}}/api?command-name=get-to-eat-and-user-funds",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							],
 							"query": [
 								{
@@ -1998,24 +2522,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 15 Feb 2019 14:40:18 GMT"
+							"value": "Sat, 25 May 2019 10:43:30 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -2036,10 +2552,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "187"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    },\n    \"data\": {\n        \"user-funds-amount\": \"1.00\",\n        \"snacks\": [\n            {\n                \"id\": 3,\n                \"quantity\": 6,\n                \"price-per-snack\": \"0.58\",\n                \"name\": \"kinder-bueno\",\n                \"friendly-name\": \"Kinder Bueno\"\n            }\n        ]\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"user-funds-amount\": \"8.00\",\n        \"snacks\": [\n            {\n                \"id\": 4,\n                \"quantity\": 16,\n                \"expiration\": \"2021-05-24\",\n                \"price-per-snack\": \"0.19\",\n                \"name\": \"grog\",\n                \"friendly-name\": \"Grog\"\n            }\n        ]\n    }\n}"
 				}
 			]
 		},
@@ -2050,7 +2582,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -2064,7 +2596,7 @@
 						},
 						{
 							"key": "id",
-							"value": "3",
+							"value": "4",
 							"type": "text"
 						},
 						{
@@ -2075,12 +2607,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{host}}/process-request.php",
+					"raw": "{{host}}/api",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"process-request.php"
+						"api"
 					]
 				}
 			},
@@ -2092,7 +2624,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=8c7f5457923dc09921ba1ddc",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -2106,7 +2638,7 @@
 								},
 								{
 									"key": "id",
-									"value": "3",
+									"value": "4",
 									"type": "text"
 								},
 								{
@@ -2117,12 +2649,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/process-request.php",
+							"raw": "{{host}}/api",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"process-request.php"
+								"api"
 							]
 						}
 					},
@@ -2131,24 +2663,16 @@
 					"_postman_previewlanguage": "json",
 					"header": [
 						{
-							"key": "Server",
-							"value": "nginx/1.10.3"
-						},
-						{
 							"key": "Date",
-							"value": "Fri, 15 Feb 2019 14:42:55 GMT"
+							"value": "Sat, 25 May 2019 10:44:10 GMT"
 						},
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"key": "Server",
+							"value": "Apache/2.4.25 (Win32) OpenSSL/1.0.2j PHP/7.1.1"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"key": "X-Powered-By",
+							"value": "PHP/7.1.1"
 						},
 						{
 							"key": "Expires",
@@ -2169,10 +2693,26 @@
 						{
 							"key": "Set-Cookie",
 							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"response\": {\n        \"success\": true,\n        \"status\": 200\n    }\n}"
+					"body": "{\n    \"success\": true,\n    \"status\": 200\n}"
 				}
 			]
 		}

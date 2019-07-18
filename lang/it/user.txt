@@ -1,0 +1,4 @@
+utente
+nome amichevole
+password
+lunga è meglio

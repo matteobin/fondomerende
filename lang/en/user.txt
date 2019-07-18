@@ -1,0 +1,4 @@
+user
+friendly name
+password
+long is better

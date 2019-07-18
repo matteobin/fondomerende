@@ -1,12 +1,12 @@
 <?php
-require_once('../auth-key.php');
 $appRequest = false;
 if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
     $appRequest = true;
-    require_once('../config.php');
+    require '../config.php';
+    require '../translation.php';
 }
 if (MAINTENANCE) {
-    $response = array('response'=>array('success'=>true, 'status'=>503, 'message'=>'Fondo Merende is not available at the moment. Please wait for our team of experts to perfom the required updates. Don\'t be an asshole, wait and DO NOT COMPLAIN!'));
+    $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
 } else {
     function checkAuth() {
         $isAuth = false;
@@ -16,34 +16,42 @@ if (MAINTENANCE) {
         }
         return $isAuth;
     }
-
     function checkRequestMethod($acceptedMethod) {
         $requestMethodRight = true;
         global $requestMethod;
         if ($requestMethod!=$acceptedMethod) {
             $requestMethodRight = false;
             global $response;
-            $response = array('success'=>false, 'status'=>405, 'message'=>'Invalid request: you should send it through '.$acceptedMethod.' instead.');
+            $response = array('success'=>false, 'status'=>405, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 4).$acceptedMethod.getTranslatedString('response-messages', 5));
         }
         return $requestMethodRight;
     }
-
     function checkUserToken() {
         $isAuth = false;
-        global $userToken;
+        global $userToken, $response;
         $userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        if (isset($userToken) && $_SESSION['user-token']==$userToken) {
+        if (isset($userToken) && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
-            global $response;
-            $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid user token: missing or expired.');
+            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 6));
         }
         return $isAuth;
     }
+    function checkUserActive() {
+        $isActive = false;
+        global $dbManager, $response;
+        $dbManager->runPreparedQuery('SELECT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
+        if ($dbManager->getQueryRes()->fetch_assoc()['active']==1) {
+            $isActive = true;
+        } else {
+            $response = array('success'=>true, 'status'=>401, 'message'=>getTranslatedString('response-messages', 7).getTranslatedString('response-messages', 8));
+        }
+        return $isActive;
 
+    }
     function getIdByUniqueName($table, $name) {
         global $dbManager;
         $dbManager->runPreparedQuery('SELECT id FROM '.$table.' WHERE name=? LIMIT 1', array($name), 's');
@@ -52,30 +60,32 @@ if (MAINTENANCE) {
         }
         return $id;
     }
-
     function checkFilteredInputValidity($value, $options=null) {
         $valid = true;
         $message = '';
+		if (!isset($options['boolean'])) {
+            $options['boolean'] = false;
+        }
         if (!isset($options['can-be-empty'])) {
             $options['can-be-empty'] = false;
         }
-        if ($value===null) {
+        if (!$options['boolean'] && is_null($value)) {
             $valid = false;
-            $message = 'value missing.';
-        } else if (($value===false || $value==='') && !$options['can-be-empty']) {
+            $message = getTranslatedString('response-messages', 9);
+        } else if (($options['boolean'] && is_null($value)) || ((!$options['boolean'] && $value===false || $value==='') && !$options['can-be-empty'])) {
             $valid = false;
-            $message = 'value in wrong format.';
+            $message = getTranslatedString('response-messages', 10);
         }
         else if (isset($options['max-length']) && strlen($value)>$options['max-length']) {
             $valid = false;
-            $message = '\''.$value.'\' longer than '.$options['max-length'].' characters.';
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 11).$options['max-length'].getTranslatedString('response-messages', 12);
         }
         else if (isset($options['greater-than']) && $value<=$options['greater-than']) {
             $valid = false;
-            $message = '\''.$value.'\' is not greater than '.$options['greater-than'].'.';
-        } else if (isset($options['lesser-than']) && $value>=$options['lesser-than']) {
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options['greater-than'].'.';
+        } else if (isset($options['less-than']) && $value>=$options['less-than']) {
             $valid = false;
-            $message = '\''.$value.'\' is not lesser than '.$options['lesser-than'].'.';
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['less-than'].'.';
         } 
         if ($valid && isset($options['digits-number'])) {
             if (strpos($value, '.')===false) {
@@ -90,12 +100,12 @@ if (MAINTENANCE) {
             }
             if (strlen($value)-$dotsNumber-$signsNumber>$options['digits-number']) {
                 $valid = false;
-                $message = '\''.$value.'\' has more digits than '.$options['digits-number'].'.';
+                $message = '\''.$value.'\''.getTranslatedString('response-messages', 15).$options['digits-number'].'.';
             }
         }
         if ($valid && isset($options['decimals-number']) && strlen($value)-(strpos($value, '.')+1)>$options['decimals-number']) {
             $valid = false;
-            $message = '\''.$value.'\' has more decimals than '.$options['decimals-number'].'.'; 
+            $message = '\''.$value.'\''.getTranslatedString('response-messages', 16).$options['decimals-number'].'.'; 
         }
         if ($valid && isset($options['database'])) {
             $isException = false;
@@ -137,34 +147,35 @@ if (MAINTENANCE) {
                 }
                 if ($insertUnique && $dbValue!=null) {
                     $valid = false;
-                    $message = $value.' is already present in database '.$table.' table at '.$selectColumn.' column.';
+                    $message = $value.''.getTranslatedString('response-messages', 17).$table.getTranslatedString('response-messages', 18).$selectColumn.getTranslatedString('response-messages', 19);
                 } else if (!$insertUnique && $dbValue===null) {
                     $valid = false;
-                    $message = $value.' is not present in database '.$table.' table at '.$selectColumn.' column';
+                    $message = $value.''.getTranslatedString('response-messages', 20).$table.getTranslatedString('response-messages', 18).$selectColumn.getTranslatedString('response-messages', 19);
                     if ($additionalWheres) {
                         foreach($options['database']['wheres'] as $where) {
-                            $message .= ', where '.$where['column'].' column is '.$where['value'];
+                            $message .= getTranslatedString('response-messages', 21).$where['column'].getTranslatedString('response-messages', 22).$where['value'];
                         }
+                        $message .= '.';
                     }
-                    $message .= '.';
                 } 
             }
         }
         return array('valid'=>$valid, 'message'=>$message);
     }
-
-    function setRequestInputValue(&$valueDestination, $mandatory, $requestVariableName, array $inputFilters, array $validityOptions) {
+    function setRequestInputValue(&$valueDestination, $mandatory, $requestVariableName, array $inputFilterAndOptions, array $validityOptions) {
         $dbColumnValueName = str_replace('-', '_', $requestVariableName);
-        $filter = $inputFilters['filter'];
         $filterOptions = null;
-        $noInputError = true;
-        if (isset($inputFilters['options'])) {
-            $filterOptions = $inputFilters['options'];
+        if (isset($inputFilterAndOptions['options'])) {
+            $filterOptions = $inputFilterAndOptions['options'];
         }
+		$noInputError = true;
         global $requestMethod, ${'_'.$requestMethod};
         if ($mandatory || isset(${'_'.$requestMethod}[$requestVariableName])) {
-            $value = filter_input(constant('INPUT_'.$requestMethod), $requestVariableName, $filter, $filterOptions);
-            $checkResult = checkFilteredInputValidity($value, $validityOptions);
+            $value = filter_input(constant('INPUT_'.$requestMethod), $requestVariableName, $inputFilterAndOptions['filter'], $filterOptions);
+			if ($inputFilterAndOptions['filter']==FILTER_VALIDATE_BOOLEAN) {
+				$validityOptions['boolean'] = true;
+			}
+			$checkResult = checkFilteredInputValidity($value, $validityOptions);
             if ($checkResult['valid']) {
                 if (gettype($valueDestination)=='array') {
                     $valueDestination[$dbColumnValueName] = $value;
@@ -173,13 +184,12 @@ if (MAINTENANCE) {
                 }
             } else {
                 global $response;
-                $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Invalid '.str_replace('-', ' ', $requestVariableName).': '.$checkResult['message']);
+                $response = array('success'=>false, 'status'=>400, 'message'=>ucfirst(str_replace('-', ' ', $requestVariableName)).getTranslatedString('response-messages', 3).$checkResult['message']);
                 $noInputError = false;
             }
         }
         return $noInputError;
     }
-
     function checkUserPassword($userId, $password) {
         global $dbManager;
         $passwordVerified = false;
@@ -194,14 +204,12 @@ if (MAINTENANCE) {
         }
         return $passwordVerified;
     }
-
     $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
-    $response['response'] = array('success'=>false, 'status'=>400, 'message'=>'Invalid request: no parameters were sent.');
-    if (checkAuth()) {
-        require_once('../lib/DbManager/DbManager.php');
-        $dbManager = new DbManager();
-        if (setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-last-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-user-funds', 'get-fund-funds', 'get-to-buy-and-fund-funds', 'get-to-eat-and-user-funds'))))) {
-            require_once('../commands.php');
+    $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 23));
+    if (!$appRequest || checkAuth()) {
+        require '../DbManager.php';
+        $dbManager = new DbManager(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
+        if ((FRIENDLY_URLS && isset($_GET['command-name']) && $_GET['command-name']=='get-main-view-data' && $commandName=$_GET['command-name']) || setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
             switch ($commandName) {
                 case 'add-user':
                     if (!checkRequestMethod('POST')) {
@@ -217,9 +225,10 @@ if (MAINTENANCE) {
                         break;
                     }
                     $admin = false;
-                    if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                    if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
+                    require '../commands/add-user.php';
                     $response = addUser($name, $password, $friendlyName, $admin, $appRequest);
                     break;
                 case 'login':
@@ -233,9 +242,10 @@ if (MAINTENANCE) {
                         break;
                     }
                     $rememberUser = false;
-                    if (!setRequestInputValue($rememberUser, false, 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                    if (!setRequestInputValue($rememberUser, false, 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
+                    require '../commands/login.php';
                     $response = login($userName, $password, $rememberUser, $appRequest);
                     break;
                 case 'logout':
@@ -245,6 +255,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require '../commands/logout.php';
                     $response = logout($appRequest);
                     break;
                 case 'get-fund-funds':
@@ -254,6 +265,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require '../commands/get-fund-funds.php';
                     $response = getFundFunds();
                     break;
                 case 'get-user-funds':
@@ -263,20 +275,63 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require '../commands/get-user-funds.php';
                     $response = getUserFunds($_SESSION['user-id']);
                     break;
-                case 'get-last-actions':
+                case 'get-actions':
+                case 'get-latest-actions':
+                case 'get-paginated-actions':
                     if (!checkRequestMethod('GET')) {
                         break;
                     }
                     if (!checkUserToken()) {
                         break;
                     }
-                    $actionsNumber = 5;
-                    if (!setRequestInputValue($actionsNumber, false, 'actions-number', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
-                        break;
+                    if ($commandName=='get-latest-actions') {
+                        if (!setRequestInputValue($timestamp, false, 'timestamp', array('filter'=>FILTER_SANITIZE_STRING), array())) {
+                            break;
+                        }
+                        if (isset($timestamp)) {
+                            $unixTimestamp = strtotime($timestamp);
+                            if ($timestamp!=date('Y-m-d H:i:s', $unixTimestamp)) {
+                                $response = array('success'=>false, 'status'=>400, 'message'=>'Timestamp'.getTranslatedString('response-messages', 3).'\''.$timestamp.'\''.getTranslatedString('response-messages', 24));
+                                break;
+                            }
+                        } else {
+                            $timestamp = date('Y-m-d H:i:s', time());
+                        }
+                        require '../commands/get-actions.php';
+                        $response = getActions($timestamp, false, false, 'DESC');
+                    } else  {
+                        $timestamp = false;
+                        if (!setRequestInputValue($limit, true, 'limit', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
+                            break;
+                        }
+                        if ($commandName=='get-actions') {
+                            $offset = 0;
+                            if (!setRequestInputValue($offset, false, 'offset', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>-1))) {
+                                break;
+                            }
+                        } else {
+                            if (!setRequestInputValue($page, true, 'page', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
+                                break;
+                            }
+                        }
+                        $order = 'DESC';
+                        if (!setRequestInputValue($ascOrder, false, 'asc-order', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
+                            break;
+                        }
+                        if ($ascOrder) {
+                            $order = 'ASC';
+                        }
+                        if ($commandName=='get-actions' || $commandName=='get-latest-actions') {
+                            require '../commands/get-actions.php';
+                            $response = getActions($timestamp, $limit, $offset, $order);
+                        } else {
+                            require '../commands/get-paginated-actions.php';
+                            $response = getPaginatedActions($limit, $page, $order);
+                        }
                     }
-                    $response = getLastActions($actionsNumber);
                     break;
                 case 'get-main-view-data':
                     if (!checkRequestMethod('GET')) {
@@ -285,6 +340,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+					require '../commands/get-main-view-data.php';
                     $response = getMainViewData($_SESSION['user-id']);
                     break;
                 case 'get-user-data':
@@ -294,6 +350,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require '../commands/get-user-data.php';
                     $response = getUserData($_SESSION['user-id']);
                     break;
                 case 'edit-user':
@@ -329,7 +386,7 @@ if (MAINTENANCE) {
                             break;
                         }
                         if (!checkUserPassword($_SESSION['user-id'], $currentPassword)) {
-                            $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Wrong password!');
+                            $response = array('success'=>false, 'status'=>401, 'message'=>'Wrong password!');
                             break;
                         }
                     }
@@ -337,6 +394,7 @@ if (MAINTENANCE) {
                         $values['password'] = password_hash($values['password'], PASSWORD_DEFAULT);
                         $types['password'] = 's';
                     }
+                    require '../commands/edit-snack-or-user.php';
                     $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $values, $types);
                     break;
                 case 'deposit':
@@ -346,9 +404,13 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    if (!checkUserActive()) {
+                        break;
+                    }
                     if (!setRequestInputValue($amount, true, 'amount', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
                         break;
                     }
+                    require '../commands/deposit.php';
                     $response = deposit($_SESSION['user-id'], $amount);
                     break;
                 case 'add-snack':
@@ -358,10 +420,13 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    if (!checkUserActive()) {
+                        break;
+                    }
                     if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                         break;
                     }
-                    if (!setRequestInputValue($price, true, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'lesser-than'=>100))) {
+                    if (!setRequestInputValue($price, true, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'less-than'=>100))) {
                         break;
                     }
                     if (!setRequestInputValue($snacksPerBox, true, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>3))) {
@@ -371,9 +436,10 @@ if (MAINTENANCE) {
                         break;
                     }
                     $countable = true;
-                    if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN), array('can-be-empty'=>true))) {
+                    if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
                     }
+                    require '../commands/add-snack.php';
                     $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
                     break;
                 case 'get-snacks-data':
@@ -383,6 +449,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require '../commands/get-snacks-data.php';
                     $response = getSnacksData();
                     break;
                 case 'get-snack-data':
@@ -396,6 +463,7 @@ if (MAINTENANCE) {
                         break;
                     }
                     $snackId = getIdByUniqueName('snacks', $snackName);
+                    require '../commands/get-snack-data.php';
                     $response = getSnackData($snackId);
                     break;
                 case 'edit-snack':
@@ -403,6 +471,9 @@ if (MAINTENANCE) {
                         break;
                     }
                     if (!checkUserToken()) {
+                        break;
+                    }
+                    if (!checkUserActive()) {
                         break;
                     }
                     if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
@@ -417,12 +488,12 @@ if (MAINTENANCE) {
                         $types['friendly_name'] = 's';
                         $values['name'] = str_replace(' ', '-', strtolower($values['name']));
                     }
-                    if (!setRequestInputValue($values, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'lesser-than'=>100))) {
+                    if (!setRequestInputValue($values, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'less-than'=>100))) {
                         break;
                     } else if (isset($values['price'])) {
                         $types['price'] = 'd';
                     }
-                    if (!setRequestInputValue($values, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>2))) {
+                    if (!setRequestInputValue($values, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>3))) {
                         break;
                     } else if (isset($values['snacks_per_box'])) {
                         $types['snacks_per_box'] = 'i';
@@ -432,27 +503,32 @@ if (MAINTENANCE) {
                     } else if (isset($values['expiration_in_days'])) {
                         $types['expiration_in_days'] = 'i';
                     }
-                    if (!setRequestInputValue($values, false, 'is-liquid', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                    if (!setRequestInputValue($values, false, 'visible', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         break;
-                    } else if (isset($values['is_liquid'])) {
-                        $types['is_liquid'] = 'i';
+                    } else if (isset($values['visible'])) {
+                        $types['visible'] = 'i';
                     }
+                    require '../commands/edit-snack-or-user.php';
                     $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                     break;
-                case 'get-to-buy-and-fund-funds':
+                case 'get-to-buy':
                     if (!checkRequestMethod('GET')) {
                         break;
                     }
                     if (!checkUserToken()) {
                         break;
                     }
-                    $response = getToBuyAndFundFunds();
+                    require '../commands/get-to-buy.php';
+                    $response = getToBuy();
                     break;
                 case 'buy':
                     if (!checkRequestMethod('POST')) {
                         break;
                     }
                     if (!checkUserToken()) {
+                        break;
+                    }
+                    if (!checkUserActive()) {
                         break;
                     }
                     if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
@@ -463,13 +539,13 @@ if (MAINTENANCE) {
                     }
                     $customiseBuyOptions = false;
                     if (!$appRequest) {
-                        if (!setRequestInputValue($customiseBuyOptions, false, 'customise-buy-options', array('filter'=>FILTER_VALIDATE_BOOLEAN), array())) {
+                        if (!setRequestInputValue($customiseBuyOptions, false, 'customise-buy-options', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
                     }
                     $options = array();
                     if ($appRequest || $customiseBuyOptions) {
-                        if (!setRequestInputValue($options, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'lesser-than'=>100))) {
+                        if (!setRequestInputValue($options, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'less-than'=>100))) {
                             break;
                         }
                         if (!setRequestInputValue($options, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>3))) {
@@ -479,6 +555,7 @@ if (MAINTENANCE) {
                             break;
                         }
                     }
+                    require '../commands/buy.php';
                     $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                     break;
                 case 'get-to-eat-and-user-funds':
@@ -488,6 +565,7 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    require '../commands/get-to-eat-and-user-funds.php';
                     $response = getToEatAndUserFunds($_SESSION['user-id']);
                     break;
                 case 'eat':
@@ -497,6 +575,9 @@ if (MAINTENANCE) {
                     if (!checkUserToken()) {
                         break;
                     }
+                    if (!checkUserActive()) {
+                        break;
+                    }
                     if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                         break;
                     }
@@ -504,12 +585,13 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($quantity, false, 'quantity', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                         break;
                     }
+                    require '../commands/eat.php';
                     $response = eat($_SESSION['user-id'], $snackId, $quantity);
                     break;
             }
         }
     } else {
-        $response['response'] = array('success'=>false, 'status'=>401, 'message'=>'Invalid request: missing or wrong auth key.');
+        $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 25));
     }
 }
 if ($appRequest) {
@@ -517,6 +599,7 @@ if ($appRequest) {
     unset($_COOKIE['user-token']);
     setcookie('auth-key', '', time()-3600);
     setcookie('user-token', '', time()-3600);
-	header('Content-Type: application/json');
-	echo(json_encode($response));
+    http_response_code($response['status']);
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
