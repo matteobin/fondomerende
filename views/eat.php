@@ -17,11 +17,10 @@
 <?php if (isset($response['data']['user-funds-amount'])): ?>
     <h3><?php echoTranslatedString('commons', 2); ?>: <?php echo $response['data']['user-funds-amount']; ?> €</h3>
 <?php endif; ?>
-<?php if ($response['status']==200):
-    if (empty($response['data']['snacks'])): ?>
-        <h3><?php echoTranslatedString('commons', 5); ?>!</h3>
-        <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echoTranslatedString('commands', 4); else: echo 'index.php?view='.getTranslatedString('commands', 4).'&command-name=get-to-buy'; endif; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
-    <?php else: foreach($response['data']['snacks'] as $snack): ?>
+<?php if ($response['status']==404): ?>
+    <h3><?php echoTranslatedString('commons', 5); ?>!</h3>
+    <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echoTranslatedString('commands', 4); else: echo 'index.php?view='.getTranslatedString('commands', 4).'&command-name=get-to-buy'; endif; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
+    <?php elseif ($response['status']==200): foreach($response['data']['snacks'] as $snack): ?>
         <form method="post">
             <input type="hidden" name="command-name" value="eat"></label>
             <label><?php echo $snack['friendly-name']; ?></label>
@@ -48,6 +47,4 @@
             submits[index].addEventListener('submit', askEatConfirm);
         }
     </script>
-    <?php endif;
-endif; ?>
-
+<?php endif; ?>

@@ -25,7 +25,7 @@
 <?php if (isset($response['message'])): ?> 
     <p><?php echo $response['message']; ?></p>
 <?php endif; ?>
-<form action="<?php echo BASE_DIR.'index.php?view=login'; ?>" method="POST">
+<form method="POST">
     <input type="hidden" name="command-name" value="login">
     <label for="user-name-input"><?php echoUcfirstTranslatedString('user', 1); ?></label>
     <input type="text" id="user-name-input" name="name" placeholder="mighty_pirate90" value="<?php if (isset($_POST['name'])) {echo $_POST['name'];} ?>" required>
