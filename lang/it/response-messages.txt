@@ -1,6 +1,6 @@
 Il Fondo Merende non è disponibile al momento. Si prega di attendere che il nostro gruppo di esperti esegua gli aggiornamenti richiesti. Non fare lo stronzo, aspetta e NON LAMENTARTI!
-Richiesta
- non valida: 
+Invio richiesta
+ non valido: 
 dovresti inviarla attraverso 
 .
 token utente mancante o scaduto.
