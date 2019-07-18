@@ -24,4 +24,4 @@ nessun parametro è stato inviato.
  non è nel formato standard 'YYYY-MM-DD hh:mm:ss' di MySQL e MariaDB.
 chiave di autenticazione mancante o errata.
 Errore di autenticazione: credenziali errate.
-Nessuna cassa contenente la merendina con id 
+Nessuna cassa che contiene la merendina con id 
