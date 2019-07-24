@@ -10,10 +10,10 @@ function getSnacksData() {
         }
         $dbManager->endTransaction();
         $response['success'] = true; 
-        if (isset($snacks)) {
-            $response['status'] = 200;
-        } else {
+        if (empty($snacks)) {
             $response['status'] = 404;
+        } else {
+            $response['status'] = 200;
         }
         $response['data']['snacks'] = $snacks;
 

@@ -5,7 +5,7 @@
     if (isset($response['message'])): ?> 
         <p><?php echo $response['message']; ?></p>
     <?php endif;
-    if ($response['status']==404 && empty($response['data']['snacks'])): ?>
+    if ($response['status']==404): ?>
         <h3><?php echoTranslatedString('commons', 5); ?>!</h3>
         <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); endif; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php elseif ($response['status']==200): ?>
