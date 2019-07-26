@@ -83,14 +83,53 @@
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
+            body, h1, form {
+                float: left;
+            }
             h2 {
                 clear: left;
+            }
+            .row {
+                clear: left;
+                margin-bottom: 1em;
+            }
+            form div {
+                float: left;
+            }
+            form div div {
+                margin-bottom: 0.5em; 
+            }
+            form div div.last {
+                margin-bottom: 0;
+            }
+            form .options {
+                border: solid 0.1em;
+            }
+            form .options>div {
+                margin-left: 0.5em;
+            }
+            form .options>.row {
+                margin-bottom: 0.5em;
+            }
+            form .options>div.first {
+                margin-top: 1em;
+            }
+            form .options>div.last {
+                margin-bottom: 1em;
+            }
+            @media screen and (min-width: 45em) {
+                form div div {
+                    margin-right: 0.5em;
+                }
+                form div div.last {
+                    margin-right: 0;    
+                }
             }
         </style>
 	</head>
 	<body>
 		<header>
-			<h1 style="float:left">Fondo Merende</h1><p style="float:left;margin:20px 6px">v1.2.1b</p>
+			<h1>Fondo Merende</h1><p style="float:left;margin:1.3em 0.3em">v1.2.1b</p>
             <?php
                 require '../views/'.$currentView['file-name'].'.php';
                 if (isset($response['status']) && $response['status']!=200) {

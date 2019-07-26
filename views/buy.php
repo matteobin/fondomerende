@@ -26,28 +26,40 @@ if ($response['status']==404): ?>
 <?php elseif ($response['status']==200): ?>
 	<form method="post">
         <input type="hidden" name="command-name" value="buy">
-        <div>
-            <select name="id" required style="float:left;margin-right:0.5em">
-                <?php foreach($snacks as $snack): ?>
-                    <option value="<?php echo $snack['id']; ?>"<?php if (isset($_POST['id']) && $_POST['id']==$snack['id']) {echo 'selected';} ?>><?php echo $snack['friendly_name']; ?></option>
-                <?php endforeach; $_SESSION['snacks'] = $snacks; ?> 
-            </select>
-            <div style="float:left">
+        <div class="row" style="margin-bottom:0">
+            <div>
+                <select name="id" required>
+                    <?php foreach($snacks as $snack): ?>
+                        <option value="<?php echo $snack['id']; ?>"<?php if (isset($_POST['id']) && $_POST['id']==$snack['id']) {echo 'selected';} ?>><?php echo $snack['friendly_name']; ?></option>
+                    <?php endforeach; $_SESSION['snacks'] = $snacks; ?> 
+                </select>
+            </div>
+            <div class="last" style="margin-bottom:0.5em">
                 <label for="quantity-input"><?php echoTranslatedString('buy', 2); ?></label>
                 <input type="number" id="quantity-input" name="quantity" min="1" step="1" max="999" placeholder="1" value="<?php if (isset($_POST['quantity'])) {echo $_POST['quantity'];} ?>" required>
             </div>
         </div>
-        <div style="float:left;width:100%">
+        <div class="row" style="margin-top:0.5em">
             <label for="customise-buy-options-input"><?php echoTranslatedString('buy', 3); ?></label>
             <input type="checkbox" id="customise-buy-options-input" name="customise-buy-options" value="yes" <?php if (isset($_POST['customise-buy-options']) && $_POST['customise-buy-options']=='yes') {echo 'checked';} ?>>
         </div>
-        <div style="float:left;width:100%">
-            <label for="price-input"><?php echoUcfirstTranslatedString('snack', 3); ?></label>
-            <input type="number" id="price-input" name="price" min="0.01" step="0.01" max="99.99" value="<?php if (isset($_POST['price'])) {echo $_POST['price'];} ?>">
-            <label for="snacks-per-box-input"><?php echoUcfirstTranslatedString('snack', 4); ?></label>
-            <input type="number" id="snacks-per-box-input" name="snacks-per-box" min="1" step="1" max="999" value="<?php if (isset($_POST['snacks-per-box'])) {echo $_POST['snacks-per-box'];} ?>">
-            <label for="expiration-in-days-input"><?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?></label>
-            <input type="number" id="expiration-in-days-input" name="expiration-in-days" min="1" step="1" max="9999" value="<?php if (isset($_POST['expiration-in-days'])) {echo $_POST['expiration-in-days'];} ?>">
+        <div class="options row">
+            <div class="first row">
+                <div>
+                    <label for="price-input"><?php echoUcfirstTranslatedString('snack', 3); ?></label>
+                    <input type="number" id="price-input" name="price" min="0.01" step="0.01" max="99.99" value="<?php if (isset($_POST['price'])) {echo $_POST['price'];} ?>">
+                </div>
+                <div>
+                    <label for="snacks-per-box-input"><?php echoUcfirstTranslatedString('snack', 4); ?></label>
+                    <input type="number" id="snacks-per-box-input" name="snacks-per-box" min="1" step="1" max="999" value="<?php if (isset($_POST['snacks-per-box'])) {echo $_POST['snacks-per-box'];} ?>">
+                </div>
+                <div>
+                    <label for="expiration-in-days-input"><?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?></label>
+                    <input type="number" id="expiration-in-days-input" name="expiration-in-days" min="1" step="1" max="9999" value="<?php if (isset($_POST['expiration-in-days'])) {echo $_POST['expiration-in-days'];} ?>">
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <input type="submit" value="<?php echoUcfirstTranslatedString('commands', 4); ?>">
         </div>
 	</form>
