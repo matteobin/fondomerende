@@ -21,7 +21,7 @@
     <h3><?php echoTranslatedString('commons', 5); ?>!</h3>
     <p><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echoTranslatedString('commands', 4); else: echo 'index.php?view='.getTranslatedString('commands', 4).'&command-name=get-to-buy'; endif; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
     <?php elseif ($response['status']==200): foreach($response['data']['snacks'] as $snack): ?>
-        <form method="post">
+        <form method="post" style="float:none">
             <input type="hidden" name="command-name" value="eat"></label>
             <label><?php echo $snack['friendly-name']; ?></label>
             <ul>

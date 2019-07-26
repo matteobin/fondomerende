@@ -42,7 +42,7 @@
             <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($_POST['countable']) && $_POST['countable']=='no') {echo 'checked';} ?>>
         </div>
     </div>
-    <div>
+    <div class="row">
         <input type="submit" value="<?php echoUcfirstTranslatedString('commands', 1); ?>">
     </div>
 </form>
