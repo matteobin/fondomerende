@@ -39,7 +39,7 @@
             }
             return $logged;
         }
-        $views = array(array('name'=>getTranslatedString('login', 1), 'file-name'=>'login', 'title'=>getUcfirstTranslatedString('login', 1), 'description'=>getUcfirstTranslatedString('login', 2)), array('name'=>getTranslatedString('main', 1), 'file-name'=>'main', 'title'=>getUcfirstTranslatedString('main', 1), 'description'=>getTranslatedString('main', 2)), array('name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), 'file-name'=>'edit-user', 'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('edit-user', 1)), array('name'=>getTranslatedString('commands', 3), 'file-name'=>'deposit', 'title'=>getUcfirstTranslatedString('commands', 3), 'description'=>getTranslatedString('deposit', 1)), array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), 'file-name'=>'add-snack', 'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('snack', 2), 'description'=>getTranslatedString('add-snack', 1)), array('name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('snack', 2), 'file-name'=>'edit-snack', 'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('snack', 2), 'description'=>getTranslatedString('edit-snack', 1)), array('name'=>getTranslatedString('snack', 1), 'file-name'=>'list-snacks-to-edit', 'title'=>getUcfirstTranslatedString('snack', 1), 'description'=>getTranslatedString('list-snacks-to-edit', 1)), array('name'=>getTranslatedString('commands', 4), 'file-name'=>'buy', 'title'=>getUcfirstTranslatedString('commands', 4), 'description'=>getTranslatedString('buy', 1)), array('name'=>getTranslatedString('commands', 5), 'file-name'=>'eat', 'title'=>getUcfirstTranslatedString('commands', 5), 'description'=>getTranslatedString('eat', 1)), array('name'=>getTranslatedString('actions', 1), 'file-name'=>'actions', 'title'=>getUcfirstTranslatedString('actions', 1), 'description'=>getTranslatedString('actions', 2)));
+        $views = array(array('name'=>getTranslatedString('login', 1), 'file-name'=>'login', 'title'=>getUcfirstTranslatedString('login', 1), 'description'=>getUcfirstTranslatedString('login', 2)), array('name'=>getTranslatedString('main', 1), 'file-name'=>'main', 'title'=>getUcfirstTranslatedString('main', 1), 'description'=>getTranslatedString('main', 2)), array('name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), 'file-name'=>'edit-user', 'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('edit-user', 1)), array('name'=>getTranslatedString('commands', 3), 'file-name'=>'deposit', 'title'=>getUcfirstTranslatedString('commands', 3), 'description'=>getTranslatedString('deposit', 1)), array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), 'file-name'=>'add-snack', 'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('snack', 2), 'description'=>getTranslatedString('add-snack', 1)), array('name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('snack', 2), 'file-name'=>'edit-snack', 'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('snack', 2), 'description'=>getTranslatedString('edit-snack', 1)), array('name'=>getTranslatedString('snack', 1), 'file-name'=>'list-snacks-to-edit', 'title'=>getUcfirstTranslatedString('snack', 1), 'description'=>getTranslatedString('list-snacks-to-edit', 1)), array('name'=>getTranslatedString('commands', 4), 'file-name'=>'buy', 'title'=>getUcfirstTranslatedString('commands', 4), 'description'=>getTranslatedString('buy', 1)), array('name'=>getTranslatedString('commands', 5), 'file-name'=>'eat', 'title'=>getUcfirstTranslatedString('commands', 5), 'description'=>getTranslatedString('eat', 1)), array('name'=>getTranslatedString('actions', 1), 'file-name'=>'actions', 'title'=>getUcfirstTranslatedString('actions', 1), 'description'=>getTranslatedString('actions', 2)), array('name'=>'credits', 'file-name'=>'credits', 'title'=>'Credits', 'description'=>'Time to give to Caesar what is Caesar\'s!'));
         if (checkLogin()) {
             $noView = true;
             foreach ($views as $view) {
@@ -83,60 +83,19 @@
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-            body, h1, form {
-                float: left;
-            }
-            h2 {
-                clear: left;
-            }
-            .row {
-                clear: left;
-                margin-bottom: 1em;
-            }
-            form div {
-                float: left;
-            }
-            form div div {
-                margin-bottom: 0.5em; 
-            }
-            form div div.last {
-                margin-bottom: 0;
-            }
-            form .options {
-                border: solid 0.1em;
-            }
-            form .options>div {
-                margin-left: 0.5em;
-            }
-            form .options>.row {
-                margin-bottom: 0.5em;
-            }
-            form .options>div.first {
-                margin-top: 1em;
-            }
-            form .options>div.last {
-                margin-bottom: 1em;
-            }
-            @media screen and (min-width: 45em) {
-                form div div {
-                    margin-right: 0.5em;
-                }
-                form div div.last {
-                    margin-right: 0;    
-                }
-            }
+            <?php echo file_get_contents('../style.css'); ?>
         </style>
 	</head>
-	<body>
-		<header>
-			<h1>Fondo Merende</h1><p style="float:left;margin:1.3em 0.3em">v1.2.1b</p>
+	<body class="row">
+        <header class="row">
+            <div class="one-column-row">
+                <h1 style="margin:0.5em 0 0">Fondo Merende</h1>
+            </div>
             <?php
                 require '../views/'.$currentView['file-name'].'.php';
                 if (isset($response['status']) && $response['status']!=200) {
                     http_response_code($response['status']);
                 }
             ?>
-		<footer>
-		</footer>
 	</body>
 </html>

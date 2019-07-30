@@ -26,15 +26,15 @@
             <input type="text" name="friendly-name" id="friendly-name-input" placeholder="Arturo" maxlength="60" value="<?php if (isset($_POST['friendly-name'])) {echo $_POST['friendly-name'];} else {echo $response['data']['user']['friendly-name'];} ?>">
         </div>
     </div>
-    <div class="row">
+    <div class="one-column-row">
         <label for="password-input"><?php echoTranslatedString('edit-user', 2); ?> <?php echoTranslatedString('user', 3); ?></label>
         <input type="password" name="password" id="password-input" placeholder="<?php echoTranslatedString('user', 4); ?>" maxlength="125" value="<?php if (isset($_POST['password'])) {echo $_POST['password'];} ?>">
     </div>
-    <div class="row">
+    <div class="one-column-row">
         <label for="current-password-input"><?php echoTranslatedString('edit-user', 3); ?> <?php echoTranslatedString('user', 3); ?> <?php echoTranslatedString('edit-user', 4); ?></label>
         <input type="password" name="current-password" id="current-password-input" placeholder="<?php echoTranslatedString('edit-user', 5); ?>" maxlength="125" required>
     </div>
-    <div class="row">
+    <div class="one-column-row">
         <input type="submit" value="<?php echoTranslatedString('commons', 4); ?>">
     </div>
 </form>
