@@ -1,0 +1,6 @@
+credits
+Time to give to Caesar what is Caesar's!
+Developped by Matteo Bini.
+Italian translation by Matteo Luchetta.
+Mobile app by some interns.
+Get photo API for mobile app by Lapo Paolacci.

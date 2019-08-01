@@ -37,14 +37,12 @@
                 <input type="number" name="expiration-in-days" id="expiration-in-days-input" min="1" step="1" max="9999" placeholder="90" value="<?php if (isset($_POST['expiration-in-days'])) {echo $_POST['expiration-in-days'];} ?>" required>
             </div>
         </div>
-        <div class="last-row one-column-row">
+        <div class="one-column-last-row">
             <label for="countable-input"><?php echoTranslatedString('add-snack', 2); ?></label>
             <input type="checkbox" name="countable" id="countable-input" value="no" <?php if (isset($_POST['countable']) && $_POST['countable']=='no') {echo 'checked';} ?>>
         </div>
     </div>
-    <div class="one-column-row">
-        <input type="submit" value="<?php echoUcfirstTranslatedString('commands', 1); ?>">
-    </div>
+    <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 1); ?>">
 </form>
 <script>
     function askAddSnackConfirm(event) {

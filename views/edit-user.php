@@ -9,19 +9,19 @@
         exit();
     }
 ?>
-    <h2><?php echoUcfirstTranslatedString('commands', 2); ?> <?php echoTranslatedString('user', 1); ?></h2>
+    <h2 class="one-column-row"><?php echoUcfirstTranslatedString('commands', 2); ?> <?php echoTranslatedString('user', 1); ?></h2>
 </header>
 <?php if (isset($response['message'])): ?> 
-    <p><?php echo $response['message']; ?></p>
+    <p class="one-column-row"><?php echo $response['message']; ?></p>
 <?php endif; ?>
-<form method="post">
+<form class="row" method="post">
     <input type="hidden" name="command-name" value="edit-user">
     <div class="row">
-        <div>
+        <div class="column">
             <label for="user-name-input"><?php echoUcfirstTranslatedString('commons', 3); ?></label>
             <input type="text" name="name" id="user-name-input" placeholder="artu95_4evah" maxlength="30" value="<?php if (isset($_POST['name'])) {echo $_POST['name'];} else {echo $response['data']['user']['name'];} ?>">
         </div>
-        <div class="last">
+        <div class="column">
             <label for="friendly-name-input"><?php echoUcfirstTranslatedString('user', 2); ?></label>
             <input type="text" name="friendly-name" id="friendly-name-input" placeholder="Arturo" maxlength="60" value="<?php if (isset($_POST['friendly-name'])) {echo $_POST['friendly-name'];} else {echo $response['data']['user']['friendly-name'];} ?>">
         </div>
@@ -34,9 +34,7 @@
         <label for="current-password-input"><?php echoTranslatedString('edit-user', 3); ?> <?php echoTranslatedString('user', 3); ?> <?php echoTranslatedString('edit-user', 4); ?></label>
         <input type="password" name="current-password" id="current-password-input" placeholder="<?php echoTranslatedString('edit-user', 5); ?>" maxlength="125" required>
     </div>
-    <div class="one-column-row">
-        <input type="submit" value="<?php echoTranslatedString('commons', 4); ?>">
-    </div>
+    <input class="one-column-last-row" type="submit" value="<?php echoTranslatedString('commons', 4); ?>">
 </form>
 <script>
     function askEditUserConfirm(event) {

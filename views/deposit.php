@@ -22,9 +22,7 @@
         <label for="deposit-amount-input"><?php echoTranslatedString('deposit', 2); ?></label>
         <input type="number" id="deposit-amount-input" name="amount" min="0.01" step="0.01" max="99.99" placeholder="5.29" value="<?php if (isset($_POST['amount'])) {echo $_POST['amount'];} ?>" required>
     </div>
-    <div class="one-column-row">
-        <input type="submit" value="<?php echoUcfirstTranslatedString('commands', 3); ?>">
-    </div>
+    <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 3); ?>">
 </form>
 <script>
     function askDepositConfirm(event) {

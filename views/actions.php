@@ -1,4 +1,4 @@
-    <h2><?php echoUcfirstTranslatedString('actions', 1); ?></h2>
+    <h2 class="one-column-row"><?php echoUcfirstTranslatedString('actions', 1); ?></h2>
 </header>
 <?php
     function echoPageHref($limit, $page) {
@@ -18,23 +18,24 @@
         }
     }
     require 'process-request.php';
-    if (isset($response['message'])): ?>
-        <p><?php echo $response['message']; ?></p>
-    <?php endif;
-    if (isset($response['data']['actions'])):
+    if (isset($response['message'])):
 ?>
-    <ol>
+    <p class="one-column-row"><?php echo $response['message']; ?></p>
+<?php endif; if (isset($response['data']['actions'])): ?>
+    <ol class="one-column-row">
     <?php foreach($response['data']['actions'] as $action): ?>
         <li><?php echo $action; ?></li>
     <?php endforeach; ?>
     </ol>
+<div class="row">
 <?php if ($page>1 && $page<=$response['data']['available-pages']): ?>
-    <a href="<?php echoPageHref($limit, $page-1); ?>"><?php echoTranslatedString('actions', 17); ?></a>
+    <a class="column" href="<?php echoPageHref($limit, $page-1); ?>"><?php echoTranslatedString('actions', 17); ?></a>
 <?php endif; ?>
 <?php if ($page<$response['data']['available-pages']): ?>
-    <a href="<?php echoPageHref($limit, $page+1); ?>"><?php echoTranslatedString('actions', 18); ?></a>
+    <a class="column" href="<?php echoPageHref($limit, $page+1); ?>"><?php echoTranslatedString('actions', 18); ?></a>
 <?php endif; ?>
+</div>
 <?php elseif (!isset($response['message'])): ?>
-    <h3><?php echoTranslatedString('actions', 19); ?></h3>
-    <p><?php echoTranslatedString('commons', 6); echoTranslatedString('actions', 20); ?></p>
+    <h3 class="one-column-row"><?php echoTranslatedString('actions', 19); ?></h3>
+    <p class="one-column-row"><?php echoTranslatedString('commons', 6); echoTranslatedString('actions', 20); ?></p>
 <?php endif; ?>

@@ -1,4 +1,4 @@
-    <h2><?php echoUcfirstTranslatedString('login', 1); ?></h2>
+    <h2 class="one-column-row"><?php echoUcfirstTranslatedString('login', 1); ?></h2>
 </header>
 <?php
 	if (isset($_POST['command-name'])) {
@@ -23,28 +23,26 @@
     }
 ?>
 <?php if (isset($response['message'])): ?> 
-    <p><?php echo $response['message']; ?></p>
+    <p class="one-column-row"><?php echo $response['message']; ?></p>
 <?php endif; ?>
-<form method="POST">
+<form class="row" method="POST">
     <input type="hidden" name="command-name" value="login">
-    <div class="row" style="margin-bottom:0">
-        <div>
+    <div class="row">
+        <div class="column">
             <label for="user-name-input"><?php echoUcfirstTranslatedString('user', 1); ?></label>
             <input type="text" id="user-name-input" name="name" placeholder="mighty_pirate90" value="<?php if (isset($_POST['name'])) {echo $_POST['name'];} ?>" required>
         </div>
-        <div>
+        <div class="column">
             <label for="password-input"><?php echoUcfirstTranslatedString('user', 3); ?></label>
             <input type="password" id="password-input" name="password" placeholder="long is better" value="<?php if (isset($_POST['password'])) {echo $_POST['password'];} ?>" required>
         </div>
     </div>
-    <div class="row" style="margin-top:0.5em">
+    <div class="one-column-row">
         <label for="remember-login-checkbox"><?php echoTranslatedString('login', 3); ?></label>
         <input type="checkbox" id="remember-login-checkbox" name="remember-user" value="yes">
     </div>
-    <div class="row">
-        <input type="submit" value="<?php echoUcfirstTranslatedString('login', 1); ?>">
-    </div>
+    <input class="one-column-row" type="submit" value="<?php echoUcfirstTranslatedString('login', 1); ?>">
 </form>
-<div class="row">
+<div class="one-column-row">
     <a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); endif; ?>"><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>
 </div>

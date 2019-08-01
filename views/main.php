@@ -1,9 +1,9 @@
 <?php 
     require 'process-request.php';
     if (FRIENDLY_URLS) {
-        $hrefs = array(BASE_DIR.getTranslatedString('commands', 3), BASE_DIR.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.getTranslatedString('commands', 4), BASE_DIR.getTranslatedString('commands', 5), BASE_DIR.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), BASE_DIR.getTranslatedString('snack', 1), BASE_DIR.getTranslatedString('actions', 1).'/25/1', BASE_DIR.getTranslatedString('login', 1));
+        $hrefs = array(BASE_DIR.getTranslatedString('commands', 3), BASE_DIR.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.getTranslatedString('commands', 4), BASE_DIR.getTranslatedString('commands', 5), BASE_DIR.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), BASE_DIR.getTranslatedString('snack', 1), BASE_DIR.getTranslatedString('actions', 1).'/25/1', BASE_DIR.getTranslatedString('login', 1), BASE_DIR.getTranslatedString('credits', 1));
     } else {
-        $hrefs = array(BASE_DIR.'index.php?view='.getTranslatedString('commands', 3).'&command-name=get-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.'index.php?view='.getTranslatedString('commands', 4).'&command-name=get-to-buy', BASE_DIR.'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-eat-and-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1).'&command-name=get-user-data', BASE_DIR.'index.php?view='.getTranslatedString('snack', 1).'&command-name=get-snacks-data', BASE_DIR.'index.php?view='.getTranslatedString('actions', 1).'&command-name=get-paginated-actions&limit=25&page=1', BASE_DIR.'index.php?view='.getTranslatedString('login', 1));
+        $hrefs = array(BASE_DIR.'index.php?view='.getTranslatedString('commands', 3).'&command-name=get-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), BASE_DIR.'index.php?view='.getTranslatedString('commands', 4).'&command-name=get-to-buy', BASE_DIR.'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-eat-and-user-funds', BASE_DIR.'index.php?view='.getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1).'&command-name=get-user-data', BASE_DIR.'index.php?view='.getTranslatedString('snack', 1).'&command-name=get-snacks-data', BASE_DIR.'index.php?view='.getTranslatedString('actions', 1).'&command-name=get-paginated-actions&limit=25&page=1', BASE_DIR.'index.php?view='.getTranslatedString('login', 1), BASE_DIR.'index.php?view='.getTranslatedString('credits', 1));
     }
 ?>
 </header>
@@ -38,5 +38,5 @@
     <input type="submit" value="<?php echoTranslatedString('main', 21); ?>">
 </form>
 <footer class="row" style="margin-top:2em">
-    <p style="margin:0"><a href="/credits" style="margin:0">Credits</a></p>
+    <p style="margin:0"><a href="<?php echo $hrefs[8]; ?>" style="margin:0"><?php echoUcfirstTranslatedString('credits', 1); ?></a></p>
 </footer>
