@@ -2,6 +2,7 @@
     require '../config.php';
     require '../translation.php';
     if (MAINTENANCE) {
+        http_response_code(503);
         $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
     } else {
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);

@@ -599,7 +599,9 @@ if ($appRequest) {
     unset($_COOKIE['user-token']);
     setcookie('auth-key', '', time()-3600);
     setcookie('user-token', '', time()-3600);
-    http_response_code($response['status']);
+    if ($response['status']!=200) {
+        http_response_code($response['status']);
+    }
     header('Content-Type: application/json');
     echo json_encode($response);
 }
