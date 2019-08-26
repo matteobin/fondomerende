@@ -6,7 +6,7 @@ function getToEatAndUserFunds($userId) {
         $dbManager->startTransaction();
 		$userFundsAmount = getUserFunds($userId, false);
 		$snacks = array();
-        $dbManager->runPreparedQuery('SELECT snacks_stock.snack_id, snacks_stock.quantity, (SELECT crates.expiration FROM crates WHERE crates.snack_id=snacks_stock.snack_id ORDER BY crates.expiration ASC LIMIT 1) as expiration FROM snacks_stock WHERE snacks_stock.quantity!=? ORDER BY expiration ASC', array(0), 'i');
+        $dbManager->runPreparedQuery('SELECT snacks_stock.snack_id, snacks_stock.quantity, (SELECT crates.expiration FROM crates WHERE crates.snack_id=snacks_stock.snack_id AND crates.snack_quantity!=? ORDER BY crates.expiration ASC LIMIT 1) as expiration FROM snacks_stock WHERE snacks_stock.quantity!=? ORDER BY expiration ASC', array(0, 0), 'ii');
         while ($snacksStockRow = $dbManager->getQueryRes()->fetch_assoc()) {
 			$snacks[] = array('id'=>$snacksStockRow['snack_id'], 'quantity'=>$snacksStockRow['quantity'], 'expiration'=>$snacksStockRow['expiration']);
 		}
