@@ -84,7 +84,19 @@
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-            <?php echo file_get_contents('../style.min.css'); ?>
+            <?php
+				if (APCU_CACHE_INSTALLED) {
+					if (apcu_exists('css')) {
+						echo apcu_fetch('css');
+					} else {
+						$css = file_get_contents('../style.min.css');
+						apcu_add('css', $css);
+						echo $css;
+					}
+				} else {
+					echo file_get_contents('../style.min.css');
+				}
+			?>
         </style>
 	</head>
 	<body class="row">
