@@ -60,6 +60,37 @@ if ($response['status']==404): ?>
         <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 4); ?>">
 	</form>
 	<script>
+        var snacks = <?php echo json_encode($snacks); ?>;
+        function getFormFromEventOrFromDocument(event) {
+            var form;
+            if (typeof event=='undefined') {
+                form = document.querySelector('form');
+            } else {
+                form = event.target.form; 
+            }
+            return form;
+        }
+        function enableOrDisableBuyOptions(event) {
+            var form = getFormFromEventOrFromDocument(event);
+            if (form[3].checked) {
+                document.querySelector('form .options').style.opacity = 1;
+                form[4].disabled = false;
+                form[5].disabled = false;
+                form[6].disabled = false;
+            } else {
+                document.querySelector('form .options').style.opacity = 0.5;
+                form[4].disabled = true;
+                form[5].disabled = true;
+                form[6].disabled = true;
+            }
+        }
+        function updateBuyOptions(event) {
+            var form = getFormFromEventOrFromDocument(event);
+            var snackIndex = form[1].selectedIndex;
+            form[4].value = snacks[snackIndex]['price'];
+            form[5].value = snacks[snackIndex]['snacks-per-box'];
+            form[6].value = snacks[snackIndex]['expiration-in-days'];
+        }
 		function askBuyConfirm(event) {
 			event.preventDefault();
             console.log(event);
@@ -77,6 +108,10 @@ if ($response['status']==404): ?>
 				event.target.submit();
 			}
 		}
+        enableOrDisableBuyOptions();
+		document.getElementById('customise-buy-options-input').addEventListener('change', enableOrDisableBuyOptions);
+        updateBuyOptions();
+		document.querySelector('form select').addEventListener('change', updateBuyOptions);
 		document.querySelector('form').addEventListener('submit', askBuyConfirm);
 	</script>
 <?php endif; ?>
