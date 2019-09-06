@@ -85,18 +85,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             <?php
-				if (APCU_CACHE_INSTALLED) {
-					if (apcu_exists('css')) {
-						echo apcu_fetch('css');
-					} else {
-						$css = file_get_contents('../style.min.css');
-						apcu_add('css', $css);
-						echo $css;
-					}
-				} else {
-					echo file_get_contents('../style.min.css');
-				}
-			?>
+                if (APCU_CACHE_INSTALLED) {
+                    if (apcu_exists('css')) {
+                        echo apcu_fetch('css');
+                    } else {
+                        $css = file_get_contents('../style.min.css');
+                        apcu_add('css', $css);
+                        echo $css;
+                    }
+                } else {
+                    echo file_get_contents('../style.min.css');
+                }
+            ?>
         </style>
 	</head>
 	<body class="row">
