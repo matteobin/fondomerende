@@ -13,7 +13,7 @@ function getTranslatedString($fileName, $rowNumber) {
         $_SESSION['user-lang'] = $lang;
     }
     $rowIndex = $rowNumber-1;
-    $rowsCacheKey = 'fondomerende'.$_SESSION['user-lang'].$fileName.'translation-rows';
+    $rowsCacheKey = 'fm'.$_SESSION['user-lang'].$fileName.'translation-rows';
     $rowsGlobalVariableName = $_SESSION['user-lang'].str_replace('-', '', ucwords($fileName, '-')).'TranslationRows';
     global $$rowsGlobalVariableName;
     if (isset($$rowsGlobalVariableName[$rowIndex])) {
