@@ -86,11 +86,11 @@
         <style>
             <?php
                 if (APCU_CACHE_INSTALLED) {
-                    if (apcu_exists('css')) {
-                        echo apcu_fetch('css');
+                    if (apcu_exists('fondomerende-css')) {
+                        echo apcu_fetch('fondomerende-css');
                     } else {
                         $css = file_get_contents('../style.min.css');
-                        apcu_add('css', $css);
+                        apcu_add('fondomerende-css', $css);
                         echo $css;
                     }
                 } else {
