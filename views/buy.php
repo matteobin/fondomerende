@@ -52,8 +52,8 @@ if ($response['status']==404): ?>
                     <input type="number" id="snacks-per-box-input" name="snacks-per-box" min="1" step="1" max="999" value="<?php if (isset($_POST['snacks-per-box'])) {echo $_POST['snacks-per-box'];} ?>">
                 </div>
                 <div class="column">
-                    <label for="expiration-in-days-input"><?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?></label>
-                    <input type="number" id="expiration-in-days-input" name="expiration-in-days" min="1" step="1" max="9999" value="<?php if (isset($_POST['expiration-in-days'])) {echo $_POST['expiration-in-days'];} ?>">
+                    <label for="expiration-day-input"><?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?></label>
+                    <input type="date" id="expiration-date-input" name="expiration-date" min="<?php date("Y-m-d"); ?>" value="<?php if (isset($_POST['expiration-date'])) {echo $_POST['expiration-date'];} ?>">
                 </div>
             </div>
         </div>
