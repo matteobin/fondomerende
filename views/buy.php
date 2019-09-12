@@ -52,8 +52,8 @@ if ($response['status']==404): ?>
                     <input type="number" id="snacks-per-box-input" name="snacks-per-box" min="1" step="1" max="999" value="<?php if (isset($_POST['snacks-per-box'])) {echo $_POST['snacks-per-box'];} ?>">
                 </div>
                 <div class="column">
-                    <label for="expiration-day-input"><?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?></label>
-                    <input type="date" id="expiration-date-input" name="expiration-date" min="<?php date("Y-m-d"); ?>" value="<?php if (isset($_POST['expiration-date'])) {echo $_POST['expiration-date'];} ?>">
+                    <label for="expiration-input"><?php echoTranslatedString('snack', 5); ?></label>
+                    <input type="date" id="expiration-input" name="expiration" min="<?php date("Y-m-d"); ?>" value="<?php if (isset($_POST['expiration'])) {echo $_POST['expiration'];} ?>">
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@ if ($response['status']==404): ?>
             var snackIndex = form[1].selectedIndex;
             form[4].value = snacks[snackIndex]['price'];
             form[5].value = snacks[snackIndex]['snacks-per-box'];
-            form[6].value = snacks[snackIndex]['expiration-in-days'];
+            form[6].value = snacks[snackIndex]['expiration'];
         }
 		function askBuyConfirm(event) {
 			event.preventDefault();
