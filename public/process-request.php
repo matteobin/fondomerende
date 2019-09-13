@@ -564,7 +564,7 @@ if (MAINTENANCE) {
                                 $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('snack', 5).getTranslatedString('response-messages', 3).'\''.$expiration.'\''.getTranslatedString('response-messages', 24));
                                 break;
                             } else {
-                                $options['expiration_in_days'] = new DateTime($todayDate)->diff(new DateTime($expiration))->d;
+                                $options['expiration_in_days'] = ((new DateTime($todayDate))->diff(new DateTime($expiration)))->d;
                             }
                         }
                     }
