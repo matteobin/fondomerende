@@ -554,6 +554,19 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($options, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>4))) {
                             break;
                         }
+                        if (!setRequestInputValue($expiration, false, 'expiration', array('filter'=>FILTER_SANITIZE_STRING), array())) {
+                            break;
+                        }
+                        if (isset($expiration)) {
+                            $expirationUnixTimestamp = strtotime($expiration);
+                            $todayDate = date('Y-m-d');
+                            if ($expiration!=date('Y-m-d', $expirationUnixTimestamp) && $expirationUnixTimestamp<strtotime($todayDate)) {
+                                $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('snack', 5).getTranslatedString('response-messages', 3).'\''.$expiration.'\''.getTranslatedString('response-messages', 24));
+                                break;
+                            } else {
+                                $options['expiration_in_days'] = new DateTime($todayDate)->diff(new DateTime($expiration))->d;
+                            }
+                        }
                     }
                     require '../commands/buy.php';
                     $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
