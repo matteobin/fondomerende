@@ -88,7 +88,6 @@ if (MAINTENANCE) {
             $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['less-than'].'.';
         } else if (isset($options['date']['validate']) && $options['date']['validate']) {
             $unixTimestampValue = strtotime($value);
-            $todayDate = date('Y-m-d');
             if ($value!=date('Y-m-d', $unixTimestampValue)) {
                 $valid = false;
                 //to do: add response message for invalid date
