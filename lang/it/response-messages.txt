@@ -1,27 +1,29 @@
 Il Fondo Merende non è disponibile al momento. Si prega di attendere che il nostro gruppo di esperti esegua gli aggiornamenti richiesti. Non fare lo stronzo, aspetta e NON LAMENTARTI!
 Invio richiesta
- non valido: 
-dovresti inviarla attraverso 
+ non valido:
+dovresti inviarla attraverso
 .
 token utente mancante o scaduto.
-Azione non autorizzata: 
+Azione non autorizzata:
 l'utente non è attivo.
 valore mancante.
 valore nel formato sbagliato.
- è più lungo di 
+ è più lungo di
  caratteri.
- non è maggiore di 
- non è minore di 
- ha più cifre di 
- ha più decimali di 
- è già presente nella tabella 
- nella colonna 
+ non è maggiore di
+ non è minore di
+ ha più cifre di
+ ha più decimali di
+ è già presente nella tabella
+ nella colonna
  del database.
- non è presente nella tabella 
-, dove il valore della colonna 
- è 
+ non è presente nella tabella
+, dove il valore della colonna
+ è
 nessun parametro è stato inviato.
- non è nel formato standard 'YYYY-MM-DD hh:mm:ss' di MySQL e MariaDB.
+ non è nel formato standard 'YYYY-MM-DD
+ hh:mm:ss
+' di MySQL e MariaDB.
 chiave di autenticazione mancante o errata.
 Errore di autenticazione: credenziali errate.
-Nessuna cassa che contiene la merendina con id 
+Nessuna cassa che contiene la merendina con id
