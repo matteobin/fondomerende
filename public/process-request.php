@@ -89,7 +89,10 @@ if (MAINTENANCE) {
         } else if ((isset($options['timestamp']['validate']) && $options['timestamp']['validate']) || (isset($options['date']['validate']) && $options['date']['validate'])) {
             $format = 'Y-m-d';
             if (isset($options['timestamp'])) {
+                $valueType = 'timestamp';
                 $format .= ' H:i:s';
+            } else {
+                $valueType = 'date';
             }
             $timestamp = strtotime($value);
             if ($value!=date($format, $timestamp)) {
@@ -99,6 +102,10 @@ if (MAINTENANCE) {
                     $message .= getTranslatedString('response-messages', 25);
                 }
                 $message .= getTranslatedString('response-messages', 26);
+            }
+            if (isset($options[$valueType]['greater-than']) && $timestamp<=strtotime($options[$valueType]['greater-than'])) {
+                $valid = false;
+                $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options[$valueType]['greater-than'].'.';
             }
         }
         if ($valid && isset($options['digits-number'])) {
@@ -562,20 +569,13 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($options, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>4))) {
                             break;
                         }
-                        if (!setRequestInputValue($expiration, false, 'expiration', array('filter'=>FILTER_SANITIZE_STRING), array('date'=>array('validate'=>true)))) {
+                        if (!setRequestInputValue($expiration, false, 'expiration', array('filter'=>FILTER_SANITIZE_STRING), array('date'=>array('validate'=>true, 'greater-than'=>date('Y-m-d', strtotime('-1 days')))))) {
                             break;
                         }
-                        //to do: add date difference to check function for following logic implementation
-                        /*if (isset($expiration)) {
-                            $expirationUnixTimestamp = strtotime($expiration);
+                        if (isset($expiration)) {
                             $todayDate = date('Y-m-d');
-                            if ($expiration!=date('Y-m-d', $expirationUnixTimestamp) && $expirationUnixTimestamp<strtotime($todayDate)) {
-                                $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('snack', 5).getTranslatedString('response-messages', 3).'\''.$expiration.'\''.getTranslatedString('response-messages', 24));
-                                break;
-                            } else {
-                                $options['expiration_in_days'] = ((new DateTime($todayDate))->diff(new DateTime($expiration)))->d;
-                            }
-                        }*/
+                            $options['expiration_in_days'] = ((new DateTime($todayDate))->diff(new DateTime($expiration)))->d;
+                        }
                     }
                     require '../commands/buy.php';
                     $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
