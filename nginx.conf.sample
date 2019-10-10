@@ -1,5 +1,6 @@
 server {
     listen 80;
+    listen 443 default_server ssl;
     root /var/www/fondomerende/public/;
     index index.php;
     error_page 404 /404;
