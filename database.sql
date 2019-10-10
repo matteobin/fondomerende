@@ -23,14 +23,14 @@ DROP TABLE IF EXISTS `actions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `actions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(2) NOT NULL,
-  `command_id` int(2) NOT NULL,
-  `snack_id` int(2) DEFAULT NULL,
-  `snack_quantity` int(2) DEFAULT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` tinyint(2) unsigned NOT NULL,
+  `command_id` tinyint(2) unsigned NOT NULL,
+  `snack_id` tinyint(2) unsigned DEFAULT NULL,
+  `snack_quantity` tinyint(2) unsigned DEFAULT NULL,
   `funds_amount` decimal(5,2) DEFAULT NULL,
-  `inflow_id` int(11) DEFAULT NULL,
-  `outflow_id` int(11) DEFAULT NULL,
+  `inflow_id` int(10) unsigned DEFAULT NULL,
+  `outflow_id` int(10) unsigned DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `command_id` (`command_id`),
@@ -63,7 +63,7 @@ DROP TABLE IF EXISTS `commands`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `commands` (
-  `id` int(2) NOT NULL,
+  `id` tinyint(2) unsigned NOT NULL,
   `name` varchar(15) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
@@ -76,7 +76,7 @@ CREATE TABLE `commands` (
 
 LOCK TABLES `commands` WRITE;
 /*!40000 ALTER TABLE `commands` DISABLE KEYS */;
-INSERT INTO `commands` VALUES (4,'add-snack'),(1,'add-user'),(6,'buy'),(3,'deposit'),(7,'eat'),(5,'edit-snack'),(2,'edit-user');
+INSERT INTO `commands` VALUES (1,'add-user'),(2,'edit-user'),(3,'deposit'),(4,'add-snack'),(5,'edit-snack'),(6,'buy'),(7,'eat');
 /*!40000 ALTER TABLE `commands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,9 +88,9 @@ DROP TABLE IF EXISTS `crates`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `crates` (
-  `outflow_id` int(11) NOT NULL,
-  `snack_id` int(2) NOT NULL,
-  `snack_quantity` int(3) NOT NULL,
+  `outflow_id` int(10) unsigned NOT NULL,
+  `snack_id` tinyint(2) unsigned NOT NULL,
+  `snack_quantity` smallint(3) unsigned NOT NULL,
   `price_per_snack` decimal(5,2) NOT NULL,
   `expiration` date NOT NULL,
   PRIMARY KEY (`outflow_id`),
@@ -117,10 +117,10 @@ DROP TABLE IF EXISTS `eaten`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `eaten` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `snack_id` int(2) NOT NULL,
-  `user_id` int(2) NOT NULL,
-  `quantity` int(11) DEFAULT '0',
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `snack_id` tinyint(2) unsigned NOT NULL,
+  `user_id` tinyint(2) unsigned NOT NULL,
+  `quantity` bigint(20) unsigned DEFAULT '0',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `eaten_ibfk_1` (`snack_id`),
@@ -147,15 +147,15 @@ DROP TABLE IF EXISTS `edits`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `edits` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `action_id` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `action_id` bigint(20) unsigned NOT NULL,
   `column_name` varchar(30) NOT NULL,
   `old_s_value` varchar(60) DEFAULT NULL,
   `new_s_value` varchar(60) DEFAULT NULL,
   `old_d_value` decimal(4,2) DEFAULT NULL,
   `new_d_value` decimal(4,2) DEFAULT NULL,
-  `old_i_value` int(4) DEFAULT NULL,
-  `new_i_value` int(4) DEFAULT NULL,
+  `old_i_value` smallint(4) unsigned DEFAULT NULL,
+  `new_i_value` smallint(4) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `action_id` (`action_id`),
   CONSTRAINT `edits_ibfk_1` FOREIGN KEY (`action_id`) REFERENCES `actions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -203,8 +203,8 @@ DROP TABLE IF EXISTS `inflows`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `inflows` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(2) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` tinyint(2) unsigned NOT NULL,
   `amount` decimal(4,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -230,10 +230,10 @@ DROP TABLE IF EXISTS `outflows`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `outflows` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `amount` decimal(5,2) NOT NULL,
-  `snack_id` int(2) NOT NULL,
-  `quantity` int(3) NOT NULL,
+  `snack_id` tinyint(2) unsigned NOT NULL,
+  `quantity` smallint(3) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `snack_id` (`snack_id`),
@@ -258,14 +258,14 @@ DROP TABLE IF EXISTS `snacks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `snacks` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` tinyint(2) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
   `friendly_name` varchar(60) NOT NULL,
   `price` decimal(4,2) NOT NULL,
-  `snacks_per_box` int(3) NOT NULL,
-  `expiration_in_days` int(4) NOT NULL,
-  `countable` tinyint(1) NOT NULL DEFAULT '1',
-  `visible` tinyint(1) NOT NULL DEFAULT '1',
+  `snacks_per_box` smallint(3) unsigned NOT NULL,
+  `expiration_in_days` smallint(4) unsigned NOT NULL,
+  `countable` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `visible` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -288,8 +288,8 @@ DROP TABLE IF EXISTS `snacks_stock`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `snacks_stock` (
-  `snack_id` int(2) NOT NULL,
-  `quantity` int(3) DEFAULT '0',
+  `snack_id` tinyint(2) unsigned NOT NULL,
+  `quantity` smallint(3) unsigned DEFAULT '0',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`snack_id`),
   UNIQUE KEY `snack_id` (`snack_id`),
@@ -314,12 +314,12 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` tinyint(2) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `password` varchar(255) NOT NULL,
   `friendly_name` varchar(60) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '0',
-  `admin` tinyint(1) NOT NULL DEFAULT '0',
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `admin` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -342,7 +342,7 @@ DROP TABLE IF EXISTS `users_funds`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `users_funds` (
-  `user_id` int(2) NOT NULL,
+  `user_id` tinyint(2) unsigned NOT NULL,
   `amount` decimal(4,2) NOT NULL DEFAULT '0.00',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`),
