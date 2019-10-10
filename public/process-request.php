@@ -107,6 +107,7 @@ if (MAINTENANCE) {
                 $valid = false;
                 $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options[$valueType]['greater-than'].'.';
             }
+            //to do: add less than check for timestamp and date
         }
         if ($valid && isset($options['digits-number'])) {
             if (strpos($value, '.')===false) {
@@ -444,10 +445,10 @@ if (MAINTENANCE) {
                     if (!setRequestInputValue($price, true, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'less-than'=>100))) {
                         break;
                     }
-                    if (!setRequestInputValue($snacksPerBox, true, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>3))) {
+                    if (!setRequestInputValue($snacksPerBox, true, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>1000))) {
                         break;
                     }
-                    if (!setRequestInputValue($expirationInDays, true, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>4))) {
+                    if (!setRequestInputValue($expirationInDays, true, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>10000))) {
                         break;
                     }
                     $countable = true;
@@ -508,12 +509,12 @@ if (MAINTENANCE) {
                     } else if (isset($values['price'])) {
                         $types['price'] = 'd';
                     }
-                    if (!setRequestInputValue($values, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>3))) {
+                    if (!setRequestInputValue($values, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>1000))) {
                         break;
                     } else if (isset($values['snacks_per_box'])) {
                         $types['snacks_per_box'] = 'i';
                     }
-                    if (!setRequestInputValue($values, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>4))) {
+                    if (!setRequestInputValue($values, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>10000))) {
                         break;
                     } else if (isset($values['expiration_in_days'])) {
                         $types['expiration_in_days'] = 'i';
@@ -563,13 +564,13 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($options, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'less-than'=>100))) {
                             break;
                         }
-                        if (!setRequestInputValue($options, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>3))) {
+                        if (!setRequestInputValue($options, false, 'snacks-per-box', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>1000))) {
                             break;
                         }
-                        if (!setRequestInputValue($options, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'digits-number'=>4))) {
+                        if (!setRequestInputValue($options, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>10000))) {
                             break;
                         }
-                        if (!setRequestInputValue($expiration, false, 'expiration', array('filter'=>FILTER_SANITIZE_STRING), array('date'=>array('validate'=>true, 'greater-than'=>date('Y-m-d', strtotime('-1 days')))))) {
+                        if (!setRequestInputValue($expiration, false, 'expiration', array('filter'=>FILTER_SANITIZE_STRING), array('date'=>array('validate'=>true, 'greater-than'=>date('Y-m-d', strtotime('-1 days')), 'less-than'=>date('Y-m-d', strtotime('+10000 days')))))) {
                             break;
                         }
                         if (isset($expiration)) {
@@ -600,7 +601,7 @@ if (MAINTENANCE) {
                     if (!checkUserActive()) {
                         break;
                     }
-                    if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
+                    if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>100, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                         break;
                     }
                     $quantity = 1;
