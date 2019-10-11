@@ -86,7 +86,7 @@ if (MAINTENANCE) {
         } else if (isset($options['less-than']) && $value>=$options['less-than']) {
             $valid = false;
             $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['less-than'].'.';
-        } else if ((isset($options['timestamp']['validate']) && $options['timestamp']['validate']) || (isset($options['date']['validate']) && $options['date']['validate'])) {
+        } else if (isset($options['timestamp']) || isset($options['date'])) {
             $format = 'Y-m-d';
             if (isset($options['timestamp'])) {
                 $valueType = 'timestamp';
@@ -310,7 +310,7 @@ if (MAINTENANCE) {
                         break;
                     }
                     if ($commandName=='get-latest-actions') {
-                        if (!setRequestInputValue($timestamp, false, 'timestamp', array('filter'=>FILTER_SANITIZE_STRING), array('timestamp'=>array('validate'=>true)))) {
+                        if (!setRequestInputValue($timestamp, false, 'timestamp', array('filter'=>FILTER_SANITIZE_STRING), array('timestamp'=>true))) {
                             break;
                         }
                         if (!isset($timestamp)) {
@@ -570,7 +570,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($options, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>10000))) {
                             break;
                         }
-                        if (!setRequestInputValue($expiration, false, 'expiration', array('filter'=>FILTER_SANITIZE_STRING), array('date'=>array('validate'=>true, 'greater-than'=>date('Y-m-d', strtotime('-1 days')), 'less-than'=>date('Y-m-d', strtotime('+10000 days')))))) {
+                        if (!setRequestInputValue($expiration, false, 'expiration', array('filter'=>FILTER_SANITIZE_STRING), array('date'=>array('greater-than'=>date('Y-m-d', strtotime('-1 days')), 'less-than'=>date('Y-m-d', strtotime('+10000 days')))))) {
                             break;
                         }
                         if (isset($expiration)) {
