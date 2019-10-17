@@ -103,11 +103,15 @@ if (MAINTENANCE) {
                 }
                 $message .= getTranslatedString('response-messages', 26);
             }
-            if (isset($options[$valueType]['greater-than']) && $timestamp<=strtotime($options[$valueType]['greater-than'])) {
+            if ($valid && isset($options[$valueType]['greater-than']) && $timestamp<=strtotime($options[$valueType]['greater-than'])) {
                 $valid = false;
                 $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options[$valueType]['greater-than'].'.';
             }
-            //to do: add less than check for timestamp and date
+            if ($valid && isset($options[$valueType]['less-than']) && $timestamp>=strtotime($options[$valueType]['less-than'])) {
+                $valid = false;
+                $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options[$valueType]['less-than'].'.';
+            }
+            //to do: test less than date or timestamp check
         }
         if ($valid && isset($options['digits-number'])) {
             if (strpos($value, '.')===false) {
