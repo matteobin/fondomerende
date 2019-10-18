@@ -75,17 +75,17 @@ if (MAINTENANCE) {
         } else if (($options['boolean'] && is_null($value)) || ((!$options['boolean'] && $value===false || $value==='') && !$options['can-be-empty'])) {
             $valid = false;
             $message = getTranslatedString('response-messages', 10);
-        }
-        else if (isset($options['max-length']) && strlen($value)>$options['max-length']) {
+        } else if (isset($options['max-length']) && strlen($value)>$options['max-length']) {
             $valid = false;
             $message = '\''.$value.'\''.getTranslatedString('response-messages', 11).$options['max-length'].getTranslatedString('response-messages', 12);
-        }
-        else if (isset($options['greater-than']) && $value<=$options['greater-than']) {
-            $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options['greater-than'].'.';
-        } else if (isset($options['less-than']) && $value>=$options['less-than']) {
-            $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['less-than'].'.';
+        } else if (isset($options['greater-than']) || isset($options['less-than'])) {
+            if (isset($options['greater-than']) && $value<=$options['greater-than']) {
+                $valid = false;
+                $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options['greater-than'].'.';
+            } else if (isset($options['less-than']) && $value>=$options['less-than']) {
+                $valid = false;
+                $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['less-than'].'.';
+            }
         } else if (isset($options['timestamp']) || isset($options['date'])) {
             $format = 'Y-m-d';
             if (isset($options['timestamp'])) {
