@@ -23,10 +23,10 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
             $_SESSION['user-friendly-name'] = $friendlyName;
             if (!$appRequest) {
                 if ($rememberUser) {
-                    setcookie('user-id', $id, time()+86400*5);
-                    setcookie('user-token', $token, time()+86400*5);
-                    setcookie('user-friendly-name', $friendlyName, time()+86400*5);
-                    setcookie('remember-user', true, time()+86400*5);
+                    setcookie('user-id', $id, time()+432000); //it expires in 5 days
+                    setcookie('user-token', $token, time()+432000);
+                    setcookie('user-friendly-name', $friendlyName, time()+432000);
+                    setcookie('remember-user', true, time()+432000);
                 } else {
                     setcookie('user-id', $id, 0);
                     setcookie('user-token', $token, 0);
