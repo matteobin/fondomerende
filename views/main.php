@@ -38,6 +38,6 @@
     <input type="submit" value="<?php echoTranslatedString('main', 21); ?>">
 </form>
 <footer class="row" style="margin-top:2em">
-    <a class="one-column-row" href="<?php echo $hrefs[8]; ?>"><?php echoUcfirstTranslatedString('credits', 1); ?></a>
-    <a class="one-column-row" href="https://www.gnu.org/licenses/gpl-3.0.en.html"><?php echoTranslatedString('main', 22); ?></a>
+    <p class="one-column-row"><a href="<?php echo $hrefs[8]; ?>"><?php echoUcfirstTranslatedString('credits', 1); ?></a></p>
+    <p class="one-column-row"><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><?php echoTranslatedString('main', 22); ?></a></p>
 </footer>
