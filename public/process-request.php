@@ -406,7 +406,7 @@ if (MAINTENANCE) {
                             break;
                         }
                         if (!checkUserPassword($_SESSION['user-id'], $currentPassword)) {
-                            $response = array('success'=>false, 'status'=>401, 'message'=>'Wrong password!');
+                            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('edit-user', 6));
                             break;
                         }
                     }
