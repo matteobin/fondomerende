@@ -3,6 +3,7 @@ function eat($userId, $snackId, $quantity) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
+        $dbManager->runQuery('LOCK TABLES crates WRITE, snacks_stock WRITE, eaten WRITE, users_funds WRITE, actions WRITE');
         $dbManager->runPreparedQuery('SELECT outflow_id, price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snackId, 0), 'ii');
         $cratesRow = $dbManager->getQueryRes()->fetch_assoc();
         $outflowId = $cratesRow['outflow_id'];
@@ -17,6 +18,7 @@ function eat($userId, $snackId, $quantity) {
         } else {
             $response = array('success'=>false, 'status'=>404, 'message'=>getTranslatedString('response-messages', 29).$snackId.'.');
         }
+        $dbManager->runQuery('UNLOCK TABLES');
         $dbManager->endTransaction();
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();

@@ -5,8 +5,8 @@ function getBuyOption($column, $options, $snackId) {
         $buyOption = $options[$column];
     } else {
         $dbManager->runPreparedQuery('SELECT '.$column.' FROM snacks WHERE id=?', array($snackId), 'i');
-        while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $buyOption = $snacksRow[$column];
+        while ($snacksRow = $dbManager->getQueryRes()->fetch_row()) {
+            $buyOption = $snacksRow[0];
         }
     }
     return $buyOption;
@@ -14,8 +14,8 @@ function getBuyOption($column, $options, $snackId) {
 function checkSnackCountable ($snackId) {
     global $dbManager;
     $dbManager->runPreparedQuery('SELECT countable FROM snacks WHERE id=?', array($snackId), 'i');
-    while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
-        $countable = $snacksRow['countable'];
+    while ($snacksRow = $dbManager->getQueryRes()->fetch_row()) {
+        $countable = $snacksRow[0];
     }
     if ($countable=='1') {
         $countable = true;
@@ -28,6 +28,14 @@ function buy($userId, $snackId, $quantity, array $options) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
+        $isCountable = checkSnackCountable($snackId);
+        $lockQuery = 'LOCK TABLES snacks READ, outflows WRITE, fund_funds WRITE, actions WRITE';
+        if ($isCountable) {
+            $lockQuery .= ', crates WRITE, snacks_stock WRITE';
+        } else {
+            $lockQuery .= ', users READ, users_funds WRITE';
+        }
+        $dbManager->runQuery($lockQuery);
         $unitPrice = getBuyOption('price', $options, $snackId);
         $totalPrice = $unitPrice*$quantity;
         $snacksPerBox = getBuyOption('snacks_per_box', $options, $snackId);
@@ -38,7 +46,7 @@ function buy($userId, $snackId, $quantity, array $options) {
         $outflowId = $dbManager->getQueryRes()->fetch_assoc()['id'];
         $dbManager->runPreparedQuery('UPDATE fund_funds SET amount=amount-?', array($totalPrice), 'd');
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount, outflow_id) VALUES (?, ?, ?, ?, ?,?)', array($userId, 6, $snackId, $snackNumber, $totalPrice, $outflowId), 'iiiidi');
-        if (checkSnackCountable($snackId)) {
+        if ($isCountable) {
             $dbManager->runPreparedQuery('INSERT INTO crates (outflow_id, snack_id, snack_quantity, price_per_snack, expiration) VALUES (?, ?, ?, ?, ?)', array($outflowId, $snackId, $snackNumber, round($unitPrice/$snacksPerBox, 2, PHP_ROUND_HALF_UP), date('Y-m-d', strtotime('+'.$expirationInDays.' days'))), 'iiids');
             $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity=quantity+? WHERE snack_id=?', array($snackNumber, $snackId), 'ii');
         } else {
@@ -52,6 +60,7 @@ function buy($userId, $snackId, $quantity, array $options) {
                 $dbManager->runPreparedQuery('UPDATE users_funds SET amount=amount-? WHERE user_id=?', array($totalPricePerUser, $singleUserId), 'di');
             } 
         }
+        $dbManager->runQuery('UNLOCK TABLES');
         $dbManager->endTransaction(); 
         $response = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
