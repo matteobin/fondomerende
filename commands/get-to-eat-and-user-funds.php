@@ -4,6 +4,7 @@ function getToEatAndUserFunds($userId) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
+        $dbManager->runQuery('LOCK TABLES users_funds READ, snacks_stock READ, crates READ, snacks READ');
 		$userFundsAmount = getUserFunds($userId, false);
 		$snacks = array();
         $dbManager->runPreparedQuery('SELECT snacks_stock.snack_id, snacks_stock.quantity, (SELECT crates.expiration FROM crates WHERE crates.snack_id=snacks_stock.snack_id AND crates.snack_quantity!=? ORDER BY crates.expiration ASC LIMIT 1) as expiration FROM snacks_stock WHERE snacks_stock.quantity!=? ORDER BY expiration ASC', array(0, 0), 'ii');
@@ -21,6 +22,7 @@ function getToEatAndUserFunds($userId) {
 				$snack['friendly-name'] = $snacksRow['friendly_name'];
 			}
         }
+        $dbManager->runQuery('UNLOCK TABLES');
         $dbManager->endTransaction();
         $response['success'] = true;
         if (empty($snacks)) {
