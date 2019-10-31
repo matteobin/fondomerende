@@ -4,6 +4,7 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
     try {
         if ($apiCall) {
             $dbManager->startTransaction();
+            $dbManager->runQuery('LOCK TABLES users WRITE');
         }
         $dbManager->runPreparedQuery('SELECT id, password, friendly_name FROM users WHERE name=?', array($name), 's');
         $hashedPassword = '';
@@ -44,6 +45,7 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
             $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 28));
         }
         if ($apiCall) {
+            $dbManager->runQuery('UNLOCK TABLES');
             $dbManager->endTransaction();          
         }
     } catch (Exception $exception) {

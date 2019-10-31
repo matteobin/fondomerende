@@ -110,6 +110,7 @@ function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
     try {
         if ($apiCall) {
             $dbManager->startTransaction();
+            $dbManager->runQuery('LOCK TABLES actions READ, users READ, edits READ, snacks READ');
         }
         $query = 'SELECT * FROM actions ';
         $params = array();
@@ -139,6 +140,7 @@ function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
             $decodedActions = decodeActions($actions);
         }
         if ($apiCall) {
+            $dbManager->runQuery('UNLOCK TABLES');
             $dbManager->endTransaction();
             $response['success'] = true;
             if (empty($decodedActions)) {

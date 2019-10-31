@@ -43,21 +43,27 @@ if (MAINTENANCE) {
     function checkUserActive() {
         $isActive = false;
         global $dbManager, $response;
+        $dbManager->startTransaction();
+        $dbManager->runQuery('LOCK TABLES users READ');
         $dbManager->runPreparedQuery('SELECT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
-        if ($dbManager->getQueryRes()->fetch_assoc()['active']==1) {
+        if ($dbManager->getQueryRes()->fetch_row()[0]==1) {
             $isActive = true;
         } else {
             $response = array('success'=>true, 'status'=>401, 'message'=>getTranslatedString('response-messages', 7).getTranslatedString('response-messages', 8));
         }
+        $dbManager->runQuery('UNLOCK TABLES');
+        $dbManager->endTransaction();
         return $isActive;
 
     }
     function getIdByUniqueName($table, $name) {
         global $dbManager;
+        $dbManager->startTransaction();
+        $dbManager->runQuery('LOCK TABLES '.$table.' READ');
         $dbManager->runPreparedQuery('SELECT id FROM '.$table.' WHERE name=? LIMIT 1', array($name), 's');
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
-            $id = $row['id'];
-        }
+        $id = $dbManager->getQueryRes()->fetch_row()[0]; 
+        $dbManager->runQuery('UNLOCK TABLES');
+        $dbManager->endTransaction();
         return $id;
     }
     function checkFilteredInputValidity($value, $options=null) {
@@ -166,11 +172,15 @@ if (MAINTENANCE) {
                 } else {
                     $insertUnique = false;
                 }
+                $dbManager->startTransaction();
+                $dbManager->runQuery('LOCK TABLES '.$table.' READ');
                 $dbManager->runPreparedQuery($query, $params, $types);
                 $dbValue = null;
                 while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
                     $dbValue = $row[$selectColumn];
                 }
+                $dbManager->runQuery('UNLOCK TABLES');
+                $dbManager->endTransaction();
                 if ($insertUnique && $dbValue!=null) {
                     $valid = false;
                     $message = $value.''.getTranslatedString('response-messages', 17).$table.getTranslatedString('response-messages', 18).$selectColumn.getTranslatedString('response-messages', 19);
@@ -220,10 +230,10 @@ if (MAINTENANCE) {
         global $dbManager;
         $passwordVerified = false;
         $dbManager->startTransaction();
+        $dbManager->runQuery('LOCK TABLES users READ');
         $dbManager->runPreparedQuery('SELECT password FROM users WHERE id=?', array($userId), 'i');
-        while ($usersRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $hashedPassword = $usersRow['password'];
-        }
+        $hashedPassword = $dbManager->getQueryRes()->fetch_row()[0];
+        $dbManager->runQuery('UNLOCK TABLES');
         $dbManager->endTransaction();
         if (password_verify($password, $hashedPassword)) {
             $passwordVerified = true;

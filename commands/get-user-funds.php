@@ -4,12 +4,14 @@ function getUserFunds($userId, $apiCall=true) {
     try {
         if ($apiCall) {
 			$dbManager->startTransaction();
+            $dbManager->runQuery('LOCK TABLES users_funds READ');
 		}
         $dbManager->runPreparedQuery('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
         while ($usersFundsRow = $dbManager->getQueryRes()->fetch_assoc()) {
             $userFundsAmount = $usersFundsRow['amount'];
         }
 		if ($apiCall) {
+            $dbManager->runQuery('UNLOCK TABLES');
 			$dbManager->endTransaction();
 			$response = array('success'=>true, 'status'=>200, 'data'=>array('user-funds-amount' =>$userFundsAmount));
 		}
