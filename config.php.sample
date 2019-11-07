@@ -3,9 +3,11 @@ if (basename($_SERVER['SCRIPT_FILENAME'])=='index.php') {
     define('BASE_DIR', '/');
 } else {
     define('AUTH_KEY', 'sekrit_PaSSWoRD');
+    define('SNACK_IMAGES_PATH', 'images/snacks/');
+    define('IMAGES_EXTENSION', 'jpeg');
 }
 define('MAINTENANCE', false);
-define('APCU_CACHE_INSTALLED', false);
+define('APCU_INSTALLED', false);
 define('FRIENDLY_URLS', false);
 if (!MAINTENANCE) {
     define('DB_SERVER', '127.0.0.1');

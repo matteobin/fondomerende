@@ -85,7 +85,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             <?php
-                if (APCU_CACHE_INSTALLED) {
+                if (APCU_INSTALLED) {
                     if (apcu_exists('fm-css')) {
                         echo apcu_fetch('fm-css');
                     } else {
