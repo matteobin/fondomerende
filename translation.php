@@ -19,7 +19,7 @@ function getTranslatedString($fileName, $rowNumber) {
     if (isset($$rowsGlobalVariableName[$rowIndex])) {
         $translatedString = $$rowsGlobalVariableName[$rowIndex];
     }
-    else if (APCU_CACHE_INSTALLED && apcu_exists($rowsCacheKey) && isset(($cachedTranslatedRows = apcu_fetch($rowsCacheKey))[$rowIndex])) {
+    else if (APCU_INSTALLED && apcu_exists($rowsCacheKey) && isset(($cachedTranslatedRows = apcu_fetch($rowsCacheKey))[$rowIndex])) {
         $translatedString = $cachedTranslatedRows[$rowIndex];
         if (isset($$rowsGlobalVariableName)) {
             $$rowsGlobalVariableName[$rowIndex] = $translatedString;
@@ -37,7 +37,7 @@ function getTranslatedString($fileName, $rowNumber) {
         }
         if (!isset($translatedString)) {
             $translationRows = file($filePath, FILE_IGNORE_NEW_LINES);
-            if (APCU_CACHE_INSTALLED) {
+            if (APCU_INSTALLED) {
                 apcu_add($rowsCacheKey, $translationRows);
             }
             $$rowsGlobalVariableName = $translationRows;
