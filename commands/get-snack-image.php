@@ -1,6 +1,6 @@
 <?php
 function downloadImageFromGoogle($name) {
-    $query = str_replace(' ', '+', $name);
+    $query = str_replace('-', '+', $name);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'https://www.google.it/search?q='.$query.'&tbm=isch&tbs=isz:i');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -24,11 +24,21 @@ function downloadImageFromGoogle($name) {
 
 function getSnackImage($name, $overwrite) {
     try {
-        $path = SNACK_IMAGES_PATH.str_replace(' ', '-', $name).'.'.IMAGES_EXTENSION;
+        $path = SNACK_IMAGES_PATH.$name.'.'.IMAGES_EXTENSION;
         if ($overwrite || !file_exists($path)) {
             downloadImageFromGoogle($name);
         }
-        $response = file_get_contents($path);
+        if (APCU_INSTALLED) {
+            $cacheKey = 'fm-'.$name.'-snack-image';
+            if (apcu_exists($cacheKey)) {
+                $response = apcu_fetch($cacheKey);
+            } else {
+                $response = file_get_contents($path);
+                apcu_add($cacheKey, $response);
+            }
+        } else {
+            $response = file_get_contents($path);
+        }
     } catch (Exception $exception) {
         $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
