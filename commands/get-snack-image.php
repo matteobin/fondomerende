@@ -22,7 +22,7 @@ function downloadImageFromGoogle($name) {
     }
 }
 
-function getSnackImage($name, $overwrite=false) {
+function getSnackImage($name, $overwrite) {
     try {
         $path = SNACK_IMAGES_PATH.str_replace(' ', '-', $name).'.'.IMAGES_EXTENSION;
         if ($overwrite || !file_exists($path)) {
