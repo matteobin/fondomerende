@@ -245,7 +245,7 @@ if (MAINTENANCE) {
     if (!$appRequest || checkAuth()) {
         require '../DbManager.php';
         $dbManager = new DbManager(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
-        if ((FRIENDLY_URLS && isset($_GET['command-name']) && $_GET['command-name']=='get-main-view-data' && $commandName=$_GET['command-name']) || setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
+        if ((FRIENDLY_URLS && isset($_GET['command-name']) && $_GET['command-name']=='get-main-view-data' && $commandName=$_GET['command-name']) || setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-snack-image', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
             switch ($commandName) {
                 case 'add-user':
                     if (!checkRequestMethod('POST')) {
@@ -495,6 +495,23 @@ if (MAINTENANCE) {
                     $snackId = getIdByUniqueName('snacks', $snackName);
                     require '../commands/get-snack-data.php';
                     $response = getSnackData($snackId);
+                    break;
+                case 'get-snack-image':
+                    if (!checkRequestMethod('GET')) {
+                        break;
+                    }
+                    if (!checkUserToken()) {
+                        break;
+                    }
+                    if (!setRequestInputValue($snackName, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
+                        break;
+                    }
+                    $overwrite = false;
+                    if (!setRequestInputValue($overwrite, false, 'overwrite', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
+                        break;
+                    }
+                    require '../commands/get-snack-image.php';
+                    $response = getSnackImage($snackName, $overwrite);
                     break;
                 case 'edit-snack':
                     if (!checkRequestMethod('POST')) {
