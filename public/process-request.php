@@ -656,7 +656,7 @@ if ($appRequest) {
     if ($response['status']!=200) {
         http_response_code($response['status']);
     }
-    if ($commandName=='get-snack-image' && !is_array($response)) {
+    if (isset($commandName) && $commandName=='get-snack-image' && !is_array($response)) {
         header('Content-Type: image/'.IMAGES_EXTENSION);
     } else {
         header('Content-Type: application/json');
