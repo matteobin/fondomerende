@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8fee7ffd-644c-4a02-8290-d981a0b7237d",
+		"_postman_id": "cd6bbd04-e0db-4de9-8d2a-b23892495bc7",
 		"name": "Fondo Merende",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -439,10 +439,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-fund-funds",
 					"host": [
@@ -471,10 +467,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-fund-funds",
 							"host": [
@@ -560,10 +552,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-user-funds",
 					"host": [
@@ -592,10 +580,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-user-funds",
 							"host": [
@@ -681,10 +665,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-actions&limit=5&offset=0&asc-order=0",
 					"host": [
@@ -725,10 +705,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-actions&limit=5&offset=0&asc-order=0",
 							"host": [
@@ -863,16 +839,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-latest-actions&timestamp=2019-06-19 14:52:30",
 							"host": [
@@ -954,10 +920,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-paginated-actions&limit=10&page=1",
 					"host": [
@@ -994,10 +956,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-paginated-actions&limit=10&page=1",
 							"host": [
@@ -1083,10 +1041,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-main-view-data",
 					"host": [
@@ -1115,10 +1069,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-main-view-data",
 							"host": [
@@ -1204,10 +1154,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-user-data",
 					"host": [
@@ -1236,10 +1182,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-user-data",
 							"host": [
@@ -1782,10 +1724,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-snacks-data",
 					"host": [
@@ -1814,10 +1752,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-snacks-data",
 							"host": [
@@ -1893,6 +1827,76 @@
 			]
 		},
 		{
+			"name": "Get snack image",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "auth-key=sekrit_PaSSWoRD;user-token=706124f2b60d9eb533307bfd",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api?command-name=get-snack-image&name=grog",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api"
+					],
+					"query": [
+						{
+							"key": "command-name",
+							"value": "get-snack-image"
+						},
+						{
+							"key": "name",
+							"value": "grog"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get snack image",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth-key=sekrit_PaSSWoRD;user-token=706124f2b60d9eb533307bfd",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api?command-name=get-snack-image&name=grog",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api"
+							],
+							"query": [
+								{
+									"key": "command-name",
+									"value": "get-snack-image"
+								},
+								{
+									"key": "name",
+									"value": "grog"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
 			"name": "Get snack data",
 			"request": {
 				"method": "GET",
@@ -1903,10 +1907,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-snack-data&name=grog",
 					"host": [
@@ -1939,10 +1939,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-snack-data&name=grog",
 							"host": [
@@ -2203,10 +2199,6 @@
 						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-to-buy",
 					"host": [
@@ -2235,10 +2227,6 @@
 								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-to-buy",
 							"host": [
@@ -2465,10 +2453,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{host}}/api?command-name=get-to-eat-and-user-funds",
 					"host": [
@@ -2497,10 +2481,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{host}}/api?command-name=get-to-eat-and-user-funds",
 							"host": [
@@ -2716,5 +2696,6 @@
 				}
 			]
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
