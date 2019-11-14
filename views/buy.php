@@ -53,7 +53,7 @@ if ($response['status']==404): ?>
                 </div>
                 <div class="column">
                     <label for="expiration-input"><?php echoTranslatedString('snack', 5); ?></label>
-                    <input type="date" id="expiration-input" name="expiration" min="<?php echo date('Y-m-d'); ?>" value="<?php if (isset($_POST['expiration'])) {echo $_POST['expiration'];} ?>">
+                    <input type="date" id="expiration-input" name="expiration" min="<?php echo (new DateTime())->format('Y-m-d'); ?>" max="<?php echo (new DateTime('+10000 days'))->format('Y-m-d'); ?>" value="<?php if (isset($_POST['expiration'])) {echo $_POST['expiration'];} ?>">
                 </div>
             </div>
         </div>

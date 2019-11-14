@@ -100,8 +100,7 @@ if (MAINTENANCE) {
             } else {
                 $valueType = 'date';
             }
-            $timestamp = strtotime($value);
-            if ($value!=date($format, $timestamp)) {
+            if (!$dateTime = DateTime::createFromFormat($format, $value)) {
                 $valid = false;
                 $message = '\''.$value.'\''.getTranslatedString('response-messages', 24);
                 if (isset($options['timestamp'])) {
@@ -109,13 +108,13 @@ if (MAINTENANCE) {
                 }
                 $message .= getTranslatedString('response-messages', 26);
             }
-            if ($valid && isset($options[$valueType]['greater-than']) && $timestamp<=strtotime($options[$valueType]['greater-than'])) {
+            if ($valid && isset($options[$valueType]['greater-than']) && $dateTime<=$options[$valueType]['greater-than']) {
                 $valid = false;
-                $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options[$valueType]['greater-than'].'.';
+                $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options[$valueType]['greater-than']->format($format).'.';
             }
-            if ($valid && isset($options[$valueType]['less-than']) && $timestamp>=strtotime($options[$valueType]['less-than'])) {
+            if ($valid && isset($options[$valueType]['less-than']) && $dateTime>=$options[$valueType]['less-than']) {
                 $valid = false;
-                $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options[$valueType]['less-than'].'.';
+                $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options[$valueType]['less-than']->format($format).'.';
             }
             //to do: test less than date or timestamp check
         }
@@ -328,7 +327,7 @@ if (MAINTENANCE) {
                             break;
                         }
                         if (!isset($timestamp)) {
-                            $timestamp = date('Y-m-d H:i:s', time());
+                            $timestamp = (new DateTime())->format('Y-m-d H:i:s');
                         }
                         require '../commands/get-actions.php';
                         $response = getActions($timestamp, false, false, 'DESC');
@@ -601,12 +600,11 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($options, false, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>10000))) {
                             break;
                         }
-                        if (!setRequestInputValue($expiration, false, 'expiration', array('filter'=>FILTER_SANITIZE_STRING), array('date'=>array('greater-than'=>date('Y-m-d', strtotime('-1 days')), 'less-than'=>date('Y-m-d', strtotime('+10000 days')))))) {
+                        if (!setRequestInputValue($expiration, false, 'expiration', array('filter'=>FILTER_SANITIZE_STRING), array('date'=>array('greater-than'=>(new DateTime('-1 days')), 'less-than'=>(new DateTime('+10000 days')))))) {
                             break;
                         }
                         if (isset($expiration)) {
-                            $todayDate = date('Y-m-d');
-                            $options['expiration_in_days'] = ((new DateTime($todayDate))->diff(new DateTime($expiration)))->d;
+                            $options['expiration_in_days'] = ((new DateTime())->diff(new DateTime($expiration)))->d;
                         }
                     }
                     require '../commands/buy.php';
