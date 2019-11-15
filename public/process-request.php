@@ -116,7 +116,6 @@ if (MAINTENANCE) {
                 $valid = false;
                 $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options[$valueType]['less-than']->format($format).'.';
             }
-            //to do: test less than date or timestamp check
         }
         if ($valid && isset($options['digits-number'])) {
             if (strpos($value, '.')===false) {
@@ -604,7 +603,7 @@ if (MAINTENANCE) {
                             break;
                         }
                         if (isset($expiration)) {
-                            $options['expiration_in_days'] = ((new DateTime())->diff(new DateTime($expiration)))->d;
+                            $options['expiration_in_days'] = ((new DateTime('today'))->diff(new DateTime($expiration)))->days;
                         }
                     }
                     require '../commands/buy.php';
