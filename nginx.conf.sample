@@ -15,7 +15,6 @@ server {
     }
     location / {
         # API
-        rewrite ^\/api\/getphoto\.php\?name=([a-zàA-ZÀ0-9_\-]+)$ /getphoto.php?name=$1 last;
         rewrite ^\/api\/?$ /process-request.php last;
         # English friendly URLs
         rewrite ^\/deposit\/?$ /index.php?view=deposit&command-name=get-user-funds last;
