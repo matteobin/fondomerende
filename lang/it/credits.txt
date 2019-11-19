@@ -2,5 +2,3 @@ riconoscimenti
 È giunto il momento di dare a Cesare quel che è di Cesare!
 Sviluppata da Matteo Bini.
 Traduzione italiana a cura di Matteo Luchetta.
-L'app mobile è stata fatta da dei tirocinanti.
-L'API che recupera le foto per l'app mobile è stata scritta da Lapo Paolacci.
