@@ -36,6 +36,7 @@
     </div>
     <input class="one-column-last-row" type="submit" value="<?php echoTranslatedString('commons', 4); ?>">
 </form>
+<?php require '../echoLibreJS.php'; ?>
 <script>
     function askEditUserConfirm(event) {
         event.preventDefault();

@@ -44,6 +44,7 @@
     </div>
     <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 1); ?>">
 </form>
+<?php require '../echoLibreJS.php'; ?>
 <script>
     function askAddSnackConfirm(event) {
         event.preventDefault();

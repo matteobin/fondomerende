@@ -5,6 +5,10 @@ server {
     index index.php;
     error_page 404 /404;
     server_name fondomerende.company.com;
+    location = /favicon.ico {
+        return 204;
+        access_log off;
+    }
     location ~ \.php$ {
         try_files $uri =404;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
