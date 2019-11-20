@@ -59,6 +59,7 @@ if ($response['status']==404): ?>
         </div>
         <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 4); ?>">
 	</form>
+    <?php require '../echoLibreJS.php'; ?>
 	<script>
         var snacks = <?php echo json_encode($snacks); ?>;
         function getFormFromEventOrFromDocument(event) {

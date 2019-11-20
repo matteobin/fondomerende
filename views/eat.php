@@ -33,7 +33,7 @@
             <input class="one-column-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 5); ?> <?php echo $snack['friendly-name']; ?>">
         </form>
         <hr class="one-column-row" style="width:100%">
-    <?php endforeach; ?>
+    <?php endforeach; require '../echoLibreJS.php'; ?>
     <script>
         function askEatConfirm(event) {
             event.preventDefault();

@@ -24,6 +24,7 @@
     </div>
     <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 3); ?>">
 </form>
+<?php require '../echoLibreJS.php'; ?>
 <script>
     function askDepositConfirm(event) {
         event.preventDefault();
