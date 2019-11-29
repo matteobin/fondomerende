@@ -63,13 +63,13 @@ For security reasons after the registration every user needs to be activated to 
 
 ### API
 To call the API you just need to point to [process-request.php](public/process-request.php) or, if have friendly urls on, to api.  
-You can find more details about it in the [API Postaman collection](Postman/Fondo Merende.postman_collection.json).  
+You can find more details about it in the [API Postaman collection](Postman/Fondo&#32;Merende.postman_collection.json).  
 A little piece of trivia: Fondo Merende was initially developped as a set of APIs for a future client application, then it was later modified to use its own application programming interface to serve web pages with the requested information. This design choice means that every new feature is automatically shared between the website and the API.
 
 ## Roadmap
 Things that I would like to do for the project future (in order of when I'm planning to tackle them):
 
-1. Write some real documentation and not just that [API Postman collection](Postman/Fondo Merende.postman_collection.json).
+1. Write some real documentation and not just that [API Postman collection](Postman/Fondo&#32;Merende.postman_collection.json).
 2. Create a GUI for admin users to activate new ones, instead of having to edit a column in the database.
 3. Add some sort of equally distributed penalty for "lost snacks" (AKA snacks eaten without recording them on Fondo Merende). This power should be handed only to admin users and it should be employed through the aforementioned GUI.
 4. Restructure [DbManager](DbManager.php) code to transform it from class to a series of functions. I want to load into memory only the bits I really need. Moreover I would be quite pleased from an architectural/design perspective if Fondo Merende code were as simple and intuitive as possible.
