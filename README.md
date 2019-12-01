@@ -28,15 +28,15 @@ If you change this value you should update [.gitignore](.gitignore) as well.
 The extension that will be used to save your snack images. Like the previous option this setting is used only for possible client applications calling the API. 
 
 #### MAINTENANCE
-It defines if maintenance mode is on. Set it to true to activate it.  
+It defines if maintenance mode is on. Set it to `true` to activate it.  
 While on maintenance Fondo Merende website and API will show a brief message explaning that the service is not available at the moment, but it should be back in short time. It's useful if you need to make some code changes directly on your production server, if you have to edit the database, or obviously if you are updating the software.
 
 #### APCU\_INSTALLED
-It defines if APCu is installed. Set it to true to activate caching of CSS, translations and images.  
+It defines if APCu is installed. Set it to `true` to activate caching of CSS, translations and images.  
 **As the option name says, to use cached assets you must have APCu installed.**
 
 #### FRIENDLY\_URLS
-It tells Fondo Merende website to use friendly "legible" and localised url in links. Set it to true to activate it.  
+It tells Fondo Merende website to use friendly "legible" and localised url in links. Set it to `true` to activate it.  
 **In order to make friendly urls work you have to copy the rewrites from [nginx.conf.sample](nginx.conf.sample) in your site configuration file, otherwise, if you don't use nginx, you will need to rewrite those rules for your web server of choice.**  
 If you add a new language to the translations you must add new rewrite rules to the web server configuration as well.
 
@@ -59,7 +59,7 @@ Fondo Merende works fairly well with mobile phones too, because its CSS is mobil
 
 ### Create user
 To create an user you need to go to Fondo Merende website, click on Add user in the login page and fill out the registration form.  
-For security reasons after the registration every user needs to be activated to carry out main actions like adding, buying and eating snacks. To activate an user set the active column of Fondo Merende users database table to 1.
+For security reasons after the registration every user needs to be activated to carry out main actions like adding, buying and eating snacks. To activate an user set the active column of Fondo Merende users database table to `1`.
 
 ### API
 To call the API you just need to point to [process-request.php](public/process-request.php) or, if have friendly urls on, to api.  
