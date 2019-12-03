@@ -94,14 +94,12 @@ if ($response['status']==404): ?>
         }
 		function askBuyConfirm(event) {
 			event.preventDefault();
-            console.log(event);
 			var cratesNumber = event.target[2].value;
 			var cratesString = " <?php echoTranslatedString('buy', 5); ?>";
 			if (cratesNumber=='1') {
 				cratesString = " <?php echoTranslatedString('buy', 4); ?>";
 			}
 			var confirmString = '<?php echoUcfirstTranslatedString('commands', 4); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[1][event.target[1].selectedIndex].innerText+'?';
-			console.log(event.target);
 			if (event.target[3].checked) {
 				confirmString += '\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[4].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[5].value+'. \n<?php echoTranslatedString('snack', 5); ?>: '+event.target[6].value+'.';
 			}
