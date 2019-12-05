@@ -87,19 +87,22 @@ function decodeActions($actions) {
                 $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 14).$action['funds-amount'].' €.';
                 break;
             case 4:
-                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 13).getTranslatedString('snack', 2).' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 15).$action['funds-amount'].' €.';
                 break;
             case 5:
+                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 13).getTranslatedString('snack', 2).' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                break;
+            case 6:
                 $decodedEdits = decodeEdits('snack', $action['id'], $action['user-id'], $action['snack-id']);
                 foreach($decodedEdits as $decodedEdit) {
                     $decodedActions[] = $action['created-at'].': '.$decodedEdit;
                 }
                 break;
-            case 6:
-                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 15).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
-                break;
             case 7:
                 $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 16).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                break;
+            case 8:
+                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 17).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
         }
     }

@@ -13,7 +13,7 @@ function eat($userId, $snackId, $quantity) {
             $dbManager->runPreparedQuery('UPDATE snacks_stock SET quantity = quantity-? WHERE snack_id=?', array($quantity, $snackId), 'ii');
             $dbManager->runPreparedQuery('UPDATE eaten SET quantity = quantity+? WHERE user_id=? AND snack_id=?', array($quantity, $userId, $snackId), 'iii');
             $dbManager->runPreparedQuery('UPDATE users_funds SET amount = amount-? WHERE user_id=?', array($totalPrice, $userId), 'di');
-            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount, outflow_id) VALUES (?, ?, ?, ?, ?, ?)', array($userId, 7, $snackId, $quantity, $totalPrice, $outflowId), 'iiiidi');
+            $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount, outflow_id) VALUES (?, ?, ?, ?, ?, ?)', array($userId, 8, $snackId, $quantity, $totalPrice, $outflowId), 'iiiidi');
             $response = array('success'=>true, 'status'=>200);
         } else {
             $response = array('success'=>false, 'status'=>404, 'message'=>getTranslatedString('response-messages', 29).$snackId.'.');

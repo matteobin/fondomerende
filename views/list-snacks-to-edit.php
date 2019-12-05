@@ -1,4 +1,4 @@
-    <h2 class="one-column-row"><?php echoUcfirstTranslatedString('snack', 1); ?></h2>
+    <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
 <?php
     require 'process-request.php';

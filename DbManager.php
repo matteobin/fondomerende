@@ -5,8 +5,8 @@ class DbManager {
     
     public function __construct($server, $user, $password, $database) {
         $connection = new mysqli($server, $user, $password, $database);
-        if ($connection->connect_error) {
-            die('Connection error '.$connection->connect_errno.'. '.$connection->connect_error);
+        if ($connection->connect_errno) {
+            throw new Exception('Connection error code '.$connection->connect_errno.'. '.$connection->connect_error);
         } else {
             $this->connection = $connection;
         }
