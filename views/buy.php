@@ -15,7 +15,7 @@
         $snacks = $_SESSION['buy-form-data']['snacks'];
     }
 ?>
-    <h2 class="one-column-row"><?php echoUcfirstTranslatedString('commands', 4); ?></h2>
+    <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row"><?php echo $response['message']; ?></p>
@@ -57,7 +57,7 @@ if ($response['status']==404): ?>
                 </div>
             </div>
         </div>
-        <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 4); ?>">
+        <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 5); ?>">
 	</form>
     <?php require '../echoLibreJS.php'; ?>
 	<script>
@@ -99,7 +99,7 @@ if ($response['status']==404): ?>
 			if (cratesNumber=='1') {
 				cratesString = " <?php echoTranslatedString('buy', 4); ?>";
 			}
-			var confirmString = '<?php echoUcfirstTranslatedString('commands', 4); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[1][event.target[1].selectedIndex].innerText+'?';
+			var confirmString = '<?php echoUcfirstTranslatedString('commands', 5); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[1][event.target[1].selectedIndex].innerText+'?';
 			if (event.target[3].checked) {
 				confirmString += '\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[4].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[5].value+'. \n<?php echoTranslatedString('snack', 5); ?>: '+event.target[6].value+'.';
 			}

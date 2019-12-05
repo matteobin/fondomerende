@@ -12,6 +12,7 @@ expiration days
  to 
  added 
  deposited 
+ withdrawn 
  bought 
  ate 
 Previous

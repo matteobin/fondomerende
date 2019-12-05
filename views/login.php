@@ -1,27 +1,18 @@
-    <h2 class="one-column-row"><?php echoUcfirstTranslatedString('login', 1); ?></h2>
-</header>
 <?php
 	if (isset($_POST['command-name'])) {
 		require 'process-request.php';
 	}
-	if (isset($response['status']) && $response['status']==201) {
+	if ((isset($response['status']) && $response['status']==201) || isset($_SESSION['user-id'], $_SESSION['user-token'], $_SESSION['user-friendly-name'])) {
         $headerString = 'location: '.BASE_DIR;
         if (!FRIENDLY_URLS) {
             $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
         }
         header($headerString);
 		exit();
-    } else if (isset($response['status']) && $response['status']==200) {
-        $headerString = 'location: '.BASE_DIR;
-        if (FRIENDLY_URLS) {
-            $headerString .= getTranslatedString('login', 1);
-        } else {
-            $headerString .= 'index.php?view='.getTranslatedString('login', 1);
-        }
-        header($headerString);
-        exit();
     }
 ?>
+    <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
+</header>
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row"><?php echo $response['message']; ?></p>
 <?php endif; ?>
