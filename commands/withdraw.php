@@ -10,7 +10,7 @@ function withdraw($userId, $amount) {
         $response['success'] = true;
         if ($amount>$fundAmount) {
             $response['status'] = 404;
-            $response['message'] = 'There are not enough fund funds to withdraw '.$amount.' € now.';
+            $response['message'] = getTranslatedString('response-messages', 29).$amount.getTranslatedString('response-messages', 30);
         } else {
             executeDepositOrWithdrawQueries($userId, $amount, false);
             $response['status'] = 200;

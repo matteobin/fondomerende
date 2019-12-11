@@ -26,4 +26,6 @@ nessun parametro è stato inviato.
 ' di MySQL e MariaDB.
 chiave di autenticazione mancante o errata.
 Errore di autenticazione: credenziali errate.
+Al momento non ci sono abbastanza fondi nel Fondo per ritirare 
+ €.
 Nessuna cassa che contiene la merendina con id
