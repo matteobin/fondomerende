@@ -26,4 +26,6 @@ no parameters were sent.
 ' format.
 missing or wrong auth key.
 Login error: wrong credentials.
+There are not enough Fund funds to withdraw 
+ € now.
 No crates containing snack id 
