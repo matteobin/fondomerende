@@ -6,8 +6,8 @@ server {
     error_page 404 /404;
     server_name fondomerende.company.com;
     location = /favicon.ico {
-        return 204;
         access_log off;
+        return 204;
     }
     location ~ \.php$ {
         try_files $uri =404;
