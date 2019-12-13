@@ -58,12 +58,12 @@ The website is entirely text-based since it was designed to be cheap, fast and s
 Fondo Merende works fairly well with mobile phones too, because its CSS is mobile friendly and mobile first.
 
 ### Create user
-To create an user you need to go to Fondo Merende website, click on Add user in the login page and fill out the registration form. You might as well send the Add user request from Postman or any client application (see [API Postaman collection](Postman/Fondo&#32;Merende.postman_collection.json) for further details).  
+To create an user you need to go to Fondo Merende website, click on Add user in the login page and fill out the registration form. You might as well send the Add user request from Postman or any client application (see [API Postman collection](Postman/Fondo&#32;Merende.postman_collection.json) for further details).  
 For security reasons after the registration every user needs to be activated to carry out main actions like adding, buying and eating snacks. To activate an user set the active column of Fondo Merende users database table to `1`.
 
 ### API
 To call the API you just need to point to [process-request.php](public/process-request.php) or, if have friendly urls on, to api.  
-You can find more details about it in the [API Postaman collection](Postman/Fondo&#32;Merende.postman_collection.json).  
+You can find more details about it in the [API Postman collection](Postman/Fondo&#32;Merende.postman_collection.json).  
 A little piece of trivia: Fondo Merende was initially developped as a set of APIs for a future client application, then it was later modified to use its own application programming interface to serve web pages with the requested information. This design choice means that every new feature is automatically shared between the website and the API.
 
 ## Roadmap
