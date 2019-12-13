@@ -58,7 +58,7 @@ The website is entirely text-based since it was designed to be cheap, fast and s
 Fondo Merende works fairly well with mobile phones too, because its CSS is mobile friendly and mobile first.
 
 ### Create user
-To create an user you need to go to Fondo Merende website, click on Add user in the login page and fill out the registration form.  
+To create an user you need to go to Fondo Merende website, click on Add user in the login page and fill out the registration form. You might as well use the Add user API request from Postman or a client application (see [API Postaman collection](Postman/Fondo&#32;Merende.postman_collection.json) for further details).  
 For security reasons after the registration every user needs to be activated to carry out main actions like adding, buying and eating snacks. To activate an user set the active column of Fondo Merende users database table to `1`.
 
 ### API

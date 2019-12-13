@@ -26,6 +26,6 @@ no parameters were sent.
 ' format.
 missing or wrong auth key.
 Login error: wrong credentials.
-There are not enough Fund Moolah to withdraw 
+There is not enough Fund Moolah to withdraw 
  € now.
 No crates containing snack id 

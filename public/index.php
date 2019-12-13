@@ -110,13 +110,15 @@
                     http_response_code($response['status']);
                 }
             ?>
-        <footer class="row" style="margin-top:2em">
-            <?php if ($view['name']==getTranslatedString('main', 1)): ?>
-                <p class="one-column-row"><a href="<?php echo $hrefs[9]; ?>"><?php echoUcfirstTranslatedString('credits', 1); ?></a></p>
-                <p class="one-column-row"><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><?php echoTranslatedString('main', 24); ?></a></p>
-            <?php else: ?>
-                <p class="one-column-row"><?php echoTranslatedString('commons', 8); ?><a href="<?php echo BASE_DIR ?>"><?php echoTranslatedString('commons', 9); ?></a>.</p>
-            <?php endif; ?>
-        </footer>
+        <?php if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=404 && $currentView['name']!=getTranslatedString('login', 1)): ?>
+            <footer class="row" style="margin-top:2em">
+                <?php if ($currentView['name']==getTranslatedString('main', 1)): ?>
+                    <p class="one-column-row"><a href="<?php echo $hrefs[9]; ?>"><?php echoUcfirstTranslatedString('credits', 1); ?></a></p>
+                    <p class="one-column-row"><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><?php echoTranslatedString('main', 24); ?></a></p>
+                <?php else: ?>
+                    <p class="one-column-row"><?php echoTranslatedString('commons', 8); ?><a href="<?php echo BASE_DIR ?>"><?php echoTranslatedString('commons', 9); ?></a>.</p>
+                <?php endif; ?>
+            </footer>
+        <?php endif; ?>
 	</body>
 </html>
