@@ -28,14 +28,14 @@
                 <li><?php echoTranslatedString('snack', 5) ?>: <time datetime="<?php echo $snack['expiration']; ?>"><?php echo $snack['expiration']; ?></time></li>
             </ul>
             <input type="hidden" name="id" value="<?php echo $snack['id']; ?>">
-            <input class="one-column-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 5); ?> <?php echo $snack['friendly-name']; ?>">
+            <input class="one-column-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 6); ?> <?php echo $snack['friendly-name']; ?>">
         </form>
         <hr class="one-column-row" style="width:100%">
     <?php endforeach; require '../echoLibreJS.php'; ?>
     <script>
         function askEatConfirm(event) {
             event.preventDefault();
-            if (confirm('<?php echoUcfirstTranslatedString('commands', 5) ?> '+event.target.childNodes[3].innerText+'?')) {
+            if (confirm('<?php echoUcfirstTranslatedString('commands', 6) ?> '+event.target.childNodes[3].innerText+'?')) {
                 event.target.submit();
             }
         }
