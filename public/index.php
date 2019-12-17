@@ -110,9 +110,9 @@
                     http_response_code($response['status']);
                 }
             ?>
-        <?php if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=404 && $currentView['name']!=getTranslatedString('login', 1)): ?>
+        <?php if ($currentView['file-name']!='maintenance' && $currentView['name']!=404 && $currentView['file-name']!='login'): ?>
             <footer class="row" style="margin-top:2em">
-                <?php if ($currentView['name']==getTranslatedString('main', 1)): ?>
+                <?php if ($currentView['file-name']=='main'): ?>
                     <p class="one-column-row"><a href="<?php echo $hrefs[9]; ?>"><?php echoUcfirstTranslatedString('credits', 1); ?></a></p>
                     <p class="one-column-row"><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><?php echoTranslatedString('main', 24); ?></a></p>
                 <?php else: ?>
