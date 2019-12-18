@@ -79,7 +79,7 @@ function decodeActions($actions) {
     foreach($actions as $action) {
         switch ($action['command-id']) {
             case 1:
-                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 3);
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 3);
                 break;
             case 2:
                 $decodedEdits = decodeEdits('user', $action['id'], $action['user-id']);
@@ -88,13 +88,13 @@ function decodeActions($actions) {
                 }
                 break;
             case 3:
-                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 15).$action['funds-amount'].' €.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 15).$action['funds-amount'].' €.';
                 break;
             case 4:
-                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 16).$action['funds-amount'].' €.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 16).$action['funds-amount'].' €.';
                 break;
             case 5:
-                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 14).getTranslatedString('snack', 2).' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 14).getTranslatedString('snack', 2).' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
             case 6:
                 $decodedEdits = decodeEdits('snack', $action['id'], $action['user-id'], $action['snack-id']);
@@ -103,10 +103,10 @@ function decodeActions($actions) {
                 }
                 break;
             case 7:
-                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 17).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 17).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
             case 8:
-                $decodedActions[] = $action['created-at'].': '.$dbManager->getByUniqueId('friendly_name', 'users', $action['user-id']).getTranslatedString('actions', 18).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 18).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
         }
     }
