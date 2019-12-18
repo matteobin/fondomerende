@@ -11,7 +11,7 @@
     <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
 <?php if (isset($response['message'])): ?> 
-        <p class="one-column-row"><?php echo $response['message']; ?></p>
+    <p class="one-column-row"><?php echo $response['message']; ?></p>
 <?php endif; ?>
 <h3 class="one-column-row"><?php echo $fundsTypeLabel; ?>: <?php echo $funds; ?> €</h3>
 <form class="row" method="post">
