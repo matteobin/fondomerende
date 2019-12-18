@@ -1,4 +1,12 @@
 <?php
+function getUserFriendlyName($userId) {
+    if ($_SESSION['user-id']==$userId) {
+        return $_SESSION['user-friendly-name'];
+    } else {
+        global $dbManager;
+        return $dbManager->getByUniqueId('friendly_name', 'users', $userId);
+    }
+}
 function decodeEdits($editType, $actionId, $userId, $snackId=null) {
     global $dbManager;
     $userEdit = false;
@@ -12,41 +20,41 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
     $decodedEdits = array();
     if (isset($edits)) {
         foreach($edits as $columnName=>$edit) {
-            $editSentence = '';
+            $editSentence = getUserFriendlyName($userId).getTranslatedString('actions', 4);
             switch ($columnName) {
                 case 'name':
+                    $editSentence .= getTranslatedString('actions', 5);
                     if ($userEdit) {
-                        $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId);
-                        $editSentence .= getTranslatedString('actions', 4).getTranslatedString('actions', 5).getTranslatedString('actions', 12).$edit['old-s-value'].getTranslatedString('actions', 13).$edit['new-s-value'].'.';
+                        $editSentence .= getTranslatedString('actions', 12).$edit['old-s-value'].getTranslatedString('actions', 13).$edit['new-s-value'].'.';
                     } else {
-                        $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 4).getTranslatedString('actions', 5).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edits['friendly_name']['old-s-value'].getTranslatedString('actions', 13).$edits['friendly_name']['new-s-value'].'.';
+                        $editSentence .= getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edits['friendly_name']['old-s-value'].getTranslatedString('actions', 13).$edits['friendly_name']['new-s-value'].'.';
                     }
                     $decodedEdits[] = $editSentence;
                     break;
                 case 'friendly_name':
                     if ($userEdit) {
-                        $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 4).getTranslatedString('actions', 6).getTranslatedString('actions', 12).$edit['old-s-value'].getTranslatedString('actions', 13).$edit['new-s-value'].'.';
+                        $editSentence .= getTranslatedString('actions', 6).getTranslatedString('actions', 12).$edit['old-s-value'].getTranslatedString('actions', 13).$edit['new-s-value'].'.';
                         $decodedEdits[] = $editSentence;
                     }
                     break;
                 case 'password':
-                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 4).getTranslatedString('actions', 7).'.';
+                    $editSentence .= getTranslatedString('actions', 7).'.';
                         $decodedEdits[] = $editSentence;
                     break;
                 case 'price':
-                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 4).getTranslatedString('actions', 8).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-d-value'].' €'.getTranslatedString('actions', 13).$edit['new-d-value'].' €.';
+                    $editSentence .= getTranslatedString('actions', 8).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-d-value'].' €'.getTranslatedString('actions', 13).$edit['new-d-value'].' €.';
                     $decodedEdits[] = $editSentence;
                     break;
                 case 'snacks_per_box':
-                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 4).getTranslatedString('actions', 9).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-i-value'].getTranslatedString('actions', 13).$edit['new-i-value'].'.';
+                    $editSentence .= getTranslatedString('actions', 9).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-i-value'].getTranslatedString('actions', 13).$edit['new-i-value'].'.';
                     $decodedEdits[] = $editSentence;
                     break;
                 case 'expiration_in_days':
-                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 4).getTranslatedString('actions', 10).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-i-value'].getTranslatedString('actions', 13).$edit['new-i-value'].'.';
+                    $editSentence .= getTranslatedString('actions', 10).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-i-value'].getTranslatedString('actions', 13).$edit['new-i-value'].'.';
                     $decodedEdits[] = $editSentence;
                     break;
                 case 'visible':
-                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'users', $userId).getTranslatedString('actions', 4).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12);
+                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12);
                     if ($edit['old-i-value']==1) {
                         $editSentence .= getTranslatedString('snack', 8);
                     } else {
