@@ -6,8 +6,13 @@ if (isset($_POST['funds-amount'])) {
 } else {
     $funds = $response['data']['fund-funds-amount'];
 }
+if ($funds<=0) {
+    $maxAmount = 0;
+    $response['status'] = 404;
+} else {
+    $maxAmount = $funds;
+}
 $commandName = 'withdraw';
-$maxAmount = $funds;
 if (isset($_POST['amount'])) {
     $amount = $_POST['amount'];
 }
