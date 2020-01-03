@@ -15,16 +15,16 @@
 <h3 class="one-column-row"><?php echoTranslatedString('main', 3) ?></h3>
 <p class="one-column-row"><?php echoTranslatedString('main', 4); echo ' '.$_SESSION['user-friendly-name']; ?>!<br><?php echoTranslatedString('main', 5); ?><br><?php echoTranslatedString('main', 6) ?></p>
 <ul class="one-column-row">
-    <li><?php echoTranslatedString('main', 7); ?> <a href="<?php echo $hrefs[0]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 3); ?></strong></a> <?php echoTranslatedString('main', 8); ?></li>
-    <li><?php echoTranslatedString('main', 9); ?> <a href="<?php echo $hrefs[1]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a> <?php echoTranslatedString('main', 10); ?></li>
-    <li><?php echoTranslatedString('main', 11); ?> <a href="<?php echo $hrefs[2]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a> <?php echoTranslatedString('main', '12'); ?></li>
-    <li><?php echoTranslatedString('main', 13); ?> <a href="<?php echo $hrefs[3]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 6); ?></strong></a> <?php echoTranslatedString('main', 14) ?></li>
-    <li><a href="<?php echo $hrefs[4]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a> <?php echoTranslatedString('main', 15); ?> <strong><?php echoTranslatedString('main', 16); ?></strong></li>
+    <li><?php echoTranslatedString('main', 7); ?> <a href="<?php echo $hrefs[0]; ?>" title="<?php echoTranslatedString('deposit', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 3); ?></strong></a> <?php echoTranslatedString('main', 8); ?></li>
+    <li><?php echoTranslatedString('main', 9); ?> <a href="<?php echo $hrefs[1]; ?>" title="<?php echoTranslatedString('add-snack', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a> <?php echoTranslatedString('main', 10); ?></li>
+    <li><?php echoTranslatedString('main', 11); ?> <a href="<?php echo $hrefs[2]; ?>" title="<?php echoTranslatedString('buy', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a> <?php echoTranslatedString('main', '12'); ?></li>
+    <li><?php echoTranslatedString('main', 13); ?> <a href="<?php echo $hrefs[3]; ?>" title="<?php echoTranslatedString('eat', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 6); ?></strong></a> <?php echoTranslatedString('main', 14) ?></li>
+    <li><a href="<?php echo $hrefs[4]; ?>" title="<?php echoTranslatedString('withdraw', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 4); ?></strong></a> <?php echoTranslatedString('main', 15); ?> <strong><?php echoTranslatedString('main', 16); ?></strong></li>
 </ul>
 <p class="one-column-row"><?php echoTranslatedString('main', 17); ?></p>
 <ul class="one-column-row">
-    <li><?php echoTranslatedString('main', 18); ?> <a href="<?php echo $hrefs[5]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 2); ?> <?php echoStrtoupperTranslatedString('user', 1); ?></strong></a>.</li>
-    <li><?php echoTranslatedString('main', 19); ?> <a href="<?php echo $hrefs[6]; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 2); ?> <?php echoStrtoupperTranslatedString('snack', 1); ?></strong></a>.</li>
+    <li><?php echoTranslatedString('main', 18); ?> <a href="<?php echo $hrefs[5]; ?>" title="<?php echoTranslatedString('edit-user', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 2); ?> <?php echoStrtoupperTranslatedString('user', 1); ?></strong></a>.</li>
+    <li><?php echoTranslatedString('main', 19); ?> <a href="<?php echo $hrefs[6]; ?>" title="<?php echoTranslatedString('edit-snack', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 2); ?> <?php echoStrtoupperTranslatedString('snack', 1); ?></strong></a>.</li>
 </ul>
 <h3 class="one-column-row"><?php echoTranslatedString('main', 20); ?></h3>
 <ol class="one-column-row">
@@ -32,7 +32,7 @@
         <li><?php echo $action; ?></li>
     <?php endforeach; ?>
 </ol>
-<a class="one-column-row" href="<?php echo $hrefs[7]; ?>"><?php echoTranslatedString('main', 21); ?></a>
+<a class="one-column-row" href="<?php echo $hrefs[7]; ?>" title="<?php echoTranslatedString('actions', 2); ?>"><?php echoTranslatedString('main', 21); ?></a>
 <h3 class="one-column-row"><?php echoTranslatedString('main', 22); ?></h3>
 <form class="one-column-row" action="<?php echo $hrefs[8]; ?>" method="post">
     <input type="hidden" name="command-name" value="logout">
