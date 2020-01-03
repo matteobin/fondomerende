@@ -17,7 +17,7 @@
     <h3 class="one-column-row"><?php echoTranslatedString('commons', 2); ?>: <?php echo $response['data']['user-funds-amount']; ?> €</h3>
 <?php endif; if ($response['status']==404): ?>
     <h3 class="one-column-row"><?php echoTranslatedString('commons', 5); ?>!</h3>
-    <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echoTranslatedString('commands', 5); else: echo 'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-buy'; endif; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
+    <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echoTranslatedString('commands', 5); else: echo 'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-buy'; endif; ?>" title="<?php echoTranslatedString('buy', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
     <?php elseif ($response['status']==200): foreach($response['data']['snacks'] as $snack): ?>
         <form class="row" method="post">
             <input type="hidden" name="command-name" value="eat"></label>
