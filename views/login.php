@@ -25,7 +25,7 @@
         </div>
         <div class="column">
             <label for="password-input"><?php echoUcfirstTranslatedString('user', 3); ?></label>
-            <input type="password" id="password-input" name="password" placeholder="long is better" value="<?php if (isset($_POST['password'])) {echo $_POST['password'];} ?>" required>
+            <input type="password" id="password-input" name="password" placeholder="<?php echoTranslatedString('user', 4); ?>" value="<?php if (isset($_POST['password'])) {echo $_POST['password'];} ?>" required>
         </div>
     </div>
     <div class="one-column-row">

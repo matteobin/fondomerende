@@ -2,9 +2,9 @@
 Fondo Merende is a web management-software for office snacks supplies.
 
 ## Requirements
-1. Any web server that supports PHP (nginx is recommended for friendly urls).
-2. MariaDB or MySQL.
-3. APCu, if you would like to have cached CSS, translations and images (optional).
+1. Any web server that supports [PHP](https://www.php.net/) ([nginx](https://nginx.org/) is recommended for friendly urls).
+2. [MariaDB](https://mariadb.org/) or [MySQL](https://www.mysql.com/).
+3. [APCu](https://www.php.net/manual/en/book.apcu.php), if you would like to have cached CSS, translations and images (optional).
 
 ## Installation
 1. Clone the repository in your webserver www folder and expose just the public directory. If you use nginx take a look at [nginx.conf.sample](nginx.conf.sample).  
