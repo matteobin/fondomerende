@@ -27,7 +27,7 @@ CREATE TABLE `actions` (
   `user_id` tinyint(2) unsigned NOT NULL,
   `command_id` tinyint(2) unsigned NOT NULL,
   `snack_id` tinyint(2) unsigned DEFAULT NULL,
-  `snack_quantity` tinyint(2) unsigned DEFAULT NULL,
+  `snack_quantity` int(3) unsigned DEFAULT NULL,
   `funds_amount` decimal(5,2) DEFAULT NULL,
   `inflow_id` int(10) unsigned DEFAULT NULL,
   `outflow_id` int(10) unsigned DEFAULT NULL,
@@ -90,7 +90,7 @@ DROP TABLE IF EXISTS `crates`;
 CREATE TABLE `crates` (
   `outflow_id` int(10) unsigned NOT NULL,
   `snack_id` tinyint(2) unsigned NOT NULL,
-  `snack_quantity` smallint(3) unsigned NOT NULL,
+  `snack_quantity` int(3) unsigned NOT NULL,
   `price_per_snack` decimal(5,2) NOT NULL,
   `expiration` date NOT NULL,
   PRIMARY KEY (`outflow_id`),
@@ -240,7 +240,7 @@ CREATE TABLE `outflows` (
   KEY `outflows_ibfk_1_idx` (`user_id`),
   KEY `outflows_ibfk_2` (`snack_id`),
   CONSTRAINT `outflows_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `outflows_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`)
+  CONSTRAINT `outflows_ibfk_2` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
