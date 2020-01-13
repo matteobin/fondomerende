@@ -40,7 +40,7 @@
             }
             return $logged;
         }
-        $views = array(array('name'=>getTranslatedString('login', 1), 'file-name'=>'login', 'title'=>getUcfirstTranslatedString('login', 1), 'description'=>getUcfirstTranslatedString('login', 2)), array('name'=>getTranslatedString('main', 1), 'file-name'=>'main', 'title'=>getUcfirstTranslatedString('main', 1), 'description'=>getTranslatedString('main', 2)), array('name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1), 'file-name'=>'edit-user', 'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('edit-user', 1)), array('name'=>getTranslatedString('commands', 3), 'file-name'=>'deposit', 'title'=>getUcfirstTranslatedString('commands', 3), 'description'=>getTranslatedString('deposit', 1)), array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2), 'file-name'=>'add-snack', 'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('snack', 2), 'description'=>getTranslatedString('add-snack', 1)), array('name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('snack', 2), 'file-name'=>'edit-snack', 'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('snack', 2), 'description'=>getTranslatedString('edit-snack', 1)), array('name'=>getTranslatedString('snack', 1), 'file-name'=>'list-snacks-to-edit', 'title'=>getUcfirstTranslatedString('snack', 1), 'description'=>getTranslatedString('list-snacks-to-edit', 1)), array('name'=>getTranslatedString('commands', 4), 'file-name'=>'buy', 'title'=>getUcfirstTranslatedString('commands', 4), 'description'=>getTranslatedString('buy', 1)), array('name'=>getTranslatedString('commands', 5), 'file-name'=>'eat', 'title'=>getUcfirstTranslatedString('commands', 5), 'description'=>getTranslatedString('eat', 1)), array('name'=>getTranslatedString('actions', 1), 'file-name'=>'actions', 'title'=>getUcfirstTranslatedString('actions', 1), 'description'=>getTranslatedString('actions', 2)), array('name'=>getTranslatedString('credits', 1), 'file-name'=>'credits', 'title'=>getUcfirstTranslatedString('credits', 1), 'description'=>getTranslatedString('credits', 2)));
+        require '../views-array.php';
         if (checkLogin()) {
             $noView = true;
             foreach ($views as $view) {
@@ -101,14 +101,24 @@
 	</head>
 	<body class="row">
         <header class="row">
-            <div class="one-column-row">
-                <h1 style="margin: 0.5em 0 0">Fondo Merende</h1>
-            </div>
+            <h1 class="one-column-row" style="margin:.75em 0 .25em">Fondo Merende</h1>
             <?php
                 require '../views/'.$currentView['file-name'].'.php';
                 if (isset($response['status']) && $response['status']!=200) {
                     http_response_code($response['status']);
                 }
             ?>
+        <?php if ($currentView['file-name']!='maintenance' && $currentView['name']!=404 && $currentView['file-name']!='login'): ?>
+            <footer class="row" style="margin-top:2em">
+                <?php if ($currentView['file-name']=='main'): ?>
+                    <p class="one-column-row"><a href="<?php echo $hrefs[9]; ?>" title="<?php echoTranslatedString('credits', 2); ?>"><?php echoUcfirstTranslatedString('credits', 1); ?></a></p>
+                    <p class="one-column-row"><a href="https://www.gnu.org/licenses/gpl-3.0.en.html" title="Freedom like you never GNU."><?php echoTranslatedString('main', 24); ?></a></p>
+                <?php elseif ($currentView['file-name']=='add-user'): ?>
+                    <p class="one-column-row"><?php echoTranslatedString('commons', 8); ?><a href="<?php echo BASE_DIR; if (!FRIENDLY_URLS) {echo 'index.php?view=';} echoTranslatedString('login', 1); ?>" title="<?php echoTranslatedString('login', 2); ?>"><?php echoTranslatedString('add-user', 2); ?></a>.</p>
+                <?php else: ?>
+                    <p class="one-column-row"><?php echoTranslatedString('commons', 8); ?><a href="<?php echo BASE_DIR; ?>" title="<?php echoTranslatedString('main', 2); ?>"><?php echoTranslatedString('commons', 9); ?></a>.</p>
+                <?php endif; ?>
+            </footer>
+        <?php endif; ?>
 	</body>
 </html>

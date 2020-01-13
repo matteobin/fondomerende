@@ -9,7 +9,7 @@
         exit();
     }
 ?>
-    <h2 class="one-column-row"><?php echoUcfirstTranslatedString('commands', 2); ?> <?php echoTranslatedString('snack', 2); ?></h2>
+    <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row"><?php echo $response['message']; ?></p>
@@ -44,6 +44,7 @@
     </div>
     <input class="one-column-last-row" type="submit" value="<?php echoTranslatedString('commons', 4); ?>">
 </form>
+<?php require '../echoLibreJS.php'; ?>
 <script>
     function askEditSnackConfirm(event) {
         event.preventDefault();

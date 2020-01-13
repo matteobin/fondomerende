@@ -15,14 +15,14 @@
         $snacks = $_SESSION['buy-form-data']['snacks'];
     }
 ?>
-    <h2 class="one-column-row"><?php echoUcfirstTranslatedString('commands', 4); ?></h2>
+    <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row"><?php echo $response['message']; ?></p>
 <?php endif;
 if ($response['status']==404): ?>
     <h3 class="one-column-row"><?php echoTranslatedString('commons', 5); ?>!</h3>
-    <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); endif; ?>"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
+    <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); endif; ?>" title="<?php echoTranslatedString('add-snack', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php elseif ($response['status']==200 || $response['status']==400): ?>
 	<form class="row" method="post">
         <input type="hidden" name="command-name" value="buy">
@@ -57,8 +57,9 @@ if ($response['status']==404): ?>
                 </div>
             </div>
         </div>
-        <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 4); ?>">
+        <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 5); ?>">
 	</form>
+    <?php require '../echoLibreJS.php'; ?>
 	<script>
         var snacks = <?php echo json_encode($snacks); ?>;
         function getFormFromEventOrFromDocument(event) {
@@ -93,14 +94,12 @@ if ($response['status']==404): ?>
         }
 		function askBuyConfirm(event) {
 			event.preventDefault();
-            console.log(event);
 			var cratesNumber = event.target[2].value;
 			var cratesString = " <?php echoTranslatedString('buy', 5); ?>";
 			if (cratesNumber=='1') {
 				cratesString = " <?php echoTranslatedString('buy', 4); ?>";
 			}
-			var confirmString = '<?php echoUcfirstTranslatedString('commands', 4); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[1][event.target[1].selectedIndex].innerText+'?';
-			console.log(event.target);
+			var confirmString = '<?php echoUcfirstTranslatedString('commands', 5); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[1][event.target[1].selectedIndex].innerText+'?';
 			if (event.target[3].checked) {
 				confirmString += '\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[4].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[5].value+'. \n<?php echoTranslatedString('snack', 5); ?>: '+event.target[6].value+'.';
 			}

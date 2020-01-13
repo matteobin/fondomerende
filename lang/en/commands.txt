@@ -1,5 +1,6 @@
 add
 edit
 deposit
+withdraw
 buy
 eat

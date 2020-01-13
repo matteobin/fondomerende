@@ -18,7 +18,7 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $cou
                 $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
             }
         }
-        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 4, $snackId), 'iii');
+        $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 5, $snackId), 'iii');
         $dbManager->runQuery('UNLOCK TABLES');
         $dbManager->endTransaction();
         $response = array('success'=>true, 'status'=>201, 'data'=>array('snack-id'=>$snackId));
