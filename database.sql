@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `actions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `actions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` tinyint(2) unsigned NOT NULL,
@@ -61,7 +61,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `commands`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `commands` (
   `id` tinyint(2) unsigned NOT NULL,
   `name` varchar(15) NOT NULL,
@@ -86,7 +86,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `crates`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `crates` (
   `outflow_id` int(10) unsigned NOT NULL,
   `snack_id` tinyint(2) unsigned NOT NULL,
@@ -115,7 +115,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `eaten`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `eaten` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `snack_id` tinyint(2) unsigned NOT NULL,
@@ -145,7 +145,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `edits`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `edits` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `action_id` bigint(20) unsigned NOT NULL,
@@ -177,7 +177,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `fund_funds`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `fund_funds` (
   `amount` decimal(5,2) NOT NULL DEFAULT '0.00',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -201,7 +201,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `inflows`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `inflows` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` tinyint(2) unsigned NOT NULL,
@@ -228,7 +228,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `outflows`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `outflows` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `amount` decimal(5,2) NOT NULL,
@@ -259,7 +259,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `snacks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `snacks` (
   `id` tinyint(2) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
@@ -289,7 +289,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `snacks_stock`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `snacks_stock` (
   `snack_id` tinyint(2) unsigned NOT NULL,
   `quantity` smallint(3) unsigned DEFAULT '0',
@@ -315,7 +315,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` tinyint(2) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
@@ -343,7 +343,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `users_funds`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `users_funds` (
   `user_id` tinyint(2) unsigned NOT NULL,
   `amount` decimal(4,2) NOT NULL DEFAULT '0.00',
