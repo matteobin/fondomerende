@@ -44,7 +44,7 @@ If you add a new language to the translations you must add new rewrite rules to 
 The host of the database. You need to change the default value if you want to install the database on a different computer from the one with the web server. 
 
 #### DB\_USER
-The user that can access Fondo Merende database to write and read. Usually it's better to avoid using root: instead create a dedicated user who only has access to the required database.
+The user that can access Fondo Merende database to write and read. Usually it's better to avoid using root: instead create a dedicated user who has access to the required database only.
 
 #### DB\_PASSWORD
 The password for the user that can access Fondo Merende database. As for penises a long one is definitely better.
