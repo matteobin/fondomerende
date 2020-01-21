@@ -81,7 +81,7 @@ Things that I would like to do for the project future (in order of when I'm plan
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to modify.  
-Be sure to check out the [dev branch](/dev/) before proposing new features, because they might be already in the works!
+Be sure to check out the [dev branch](/tree/dev/) before proposing new features, because they might be already in the works!
 
 ## Authors and acknowledgment
 Developed by Matteo Bini.  
