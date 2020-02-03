@@ -1,6 +1,6 @@
 <?php
-    require '../config.php';
-    require '../translation.php';
+    require_once '../config.php';
+    require_once '../translation.php';
     if (MAINTENANCE) {
         http_response_code(503);
         $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
@@ -17,15 +17,15 @@
                 $sessionTokenSet = true;
                 $logged = true;
                 if (!isset($tokenCookie)) {
-                    setCookie('user-token', $_SESSION['user-token']);
+                    setcookie('user-token', $_SESSION['user-token']);
                 }
                 if (!isset($idCookie)) {
-                    setCookie('user-id', $_SESSION['user-id']);
+                    setcookie('user-id', $_SESSION['user-id']);
                 }
                 if (!isset($friendlyNameCookie)) {
-                    setCookie('user-friendly-name', $_SESSION['user-friendly-name']);
+                    setcookie('user-friendly-name', $_SESSION['user-friendly-name']);
                 }
-            } 
+            }
             if ($rememberUserCookie && isset($tokenCookie) && isset($idCookie) && isset($friendlyNameCookie)) {
                 if (!$sessionTokenSet) {
                     $logged = true;
@@ -40,7 +40,7 @@
             }
             return $logged;
         }
-        require '../views-array.php';
+        require_once '../views-array.php';
         if (checkLogin()) {
             $noView = true;
             foreach ($views as $view) {
@@ -74,7 +74,7 @@
     }
     ob_start('sanitizeOutput');
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="<?php echo $_SESSION['user-lang']; ?>">
 	<head>
 		<meta charset="utf-8">
