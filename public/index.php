@@ -17,13 +17,13 @@
                 $sessionTokenSet = true;
                 $logged = true;
                 if (!isset($tokenCookie)) {
-                    setCookie('user-token', $_SESSION['user-token']);
+                    setcookie('user-token', $_SESSION['user-token']);
                 }
                 if (!isset($idCookie)) {
-                    setCookie('user-id', $_SESSION['user-id']);
+                    setcookie('user-id', $_SESSION['user-id']);
                 }
                 if (!isset($friendlyNameCookie)) {
-                    setCookie('user-friendly-name', $_SESSION['user-friendly-name']);
+                    setcookie('user-friendly-name', $_SESSION['user-friendly-name']);
                 }
             } 
             if ($rememberUserCookie && isset($tokenCookie) && isset($idCookie) && isset($friendlyNameCookie)) {
@@ -33,10 +33,10 @@
                     $_SESSION['user-token'] = $tokenCookie;
                     $_SESSION['user-friendly-name'] = $friendlyNameCookie;
                 }
-                setcookie('user-id', $idCookie, time()+86400*5);
-                setcookie('user-token', $tokenCookie, time()+86400*5);
-                setcookie('user-friendly-name', $friendlyNameCookie, time()+86400*5);
-                setcookie('remember-user', true, time()+86400*5);
+                setcookie('user-id', $idCookie, time()+432000); // it expires in 5 days
+                setcookie('user-token', $tokenCookie, time()+432000);
+                setcookie('user-friendly-name', $friendlyNameCookie, time()+432000);
+                setcookie('remember-user', true, time()+432000);
             }
             return $logged;
         }
@@ -74,7 +74,7 @@
     }
     ob_start('sanitizeOutput');
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="<?php echo $_SESSION['user-lang']; ?>">
 	<head>
 		<meta charset="utf-8">

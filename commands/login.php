@@ -24,7 +24,7 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
             $_SESSION['user-friendly-name'] = $friendlyName;
             if (!$appRequest) {
                 if ($rememberUser) {
-                    setcookie('user-id', $id, time()+432000); //it expires in 5 days
+                    setcookie('user-id', $id, time()+432000); // it expires in 5 days
                     setcookie('user-token', $token, time()+432000);
                     setcookie('user-friendly-name', $friendlyName, time()+432000);
                     setcookie('remember-user', true, time()+432000);

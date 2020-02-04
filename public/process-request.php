@@ -28,12 +28,12 @@ if (MAINTENANCE) {
     }
     function checkUserToken() {
         $isAuth = false;
-        global $userToken, $response;
+        global $response;
         $userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        if (isset($userToken) && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
+        if ($userToken && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
             $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 6));
