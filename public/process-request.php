@@ -17,22 +17,18 @@ if (MAINTENANCE) {
         return $isAuth;
     }
     function checkRequestMethod($acceptedMethod) {
+        global $requestMethod, $response;
         $requestMethodRight = true;
-        global $requestMethod;
         if ($requestMethod!=$acceptedMethod) {
             $requestMethodRight = false;
-            global $response;
             $response = array('success'=>false, 'status'=>405, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 4).$acceptedMethod.getTranslatedString('response-messages', 5));
         }
         return $requestMethodRight;
     }
     function checkUserToken() {
-        $isAuth = false;
         global $response;
+        $isAuth = false;
         $userToken = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
         if ($userToken && isset($_SESSION['user-token']) && $_SESSION['user-token']==$userToken) {
             $isAuth = true;
         } else {
@@ -661,7 +657,7 @@ if ($appRequest) {
     setcookie('auth-key', '', time()-3600);
     setcookie('user-token', '', time()-3600);
     if (isset($commandName) && $commandName=='get-snack-image' && !is_array($response)) {
-        header('Content-Type: image/'.IMAGES_EXTENSION);
+        header('Content-Type: image/'.IMG_EXT);
     } else {
         if ($response['status']!=200) {
             http_response_code($response['status']);

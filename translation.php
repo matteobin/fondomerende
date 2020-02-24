@@ -1,7 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 function getTranslatedString($fileName, $rowNumber) {
     if (isset($_GET['lang'])) {
         $lang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_STRING);

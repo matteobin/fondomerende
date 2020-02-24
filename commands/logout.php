@@ -2,13 +2,14 @@
 function logout($appRequest) {
     if (!$appRequest) {
         unset($_COOKIE['user-id']);
-        unset($_COOKIE['user-token']);
         unset($_COOKIE['user-friendly-name']);
+        unset($_COOKIE['user-token']);
         unset($_COOKIE['remember-user']);
-        setcookie('user-id', null, time()-3600);
-        setcookie('user-token', null, time()-3600);
-        setcookie('user-friendly-name', null, time()-3600);
-        setcookie('remember-user', null, time()-3600);
+        $expires = time()-86400;
+        setFmCookie('user-id', null, $expires);
+        setFmCookie('user-friendly-name', null, $expires);
+        setFmCookie('user-token', null, $expires);
+        setFmCookie('remember-user', null, $expires);
     }
     session_unset();
     session_destroy();

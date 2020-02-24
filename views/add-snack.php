@@ -26,7 +26,7 @@
         <div class="first-row">
             <div class="first-column">
                 <label for="price-input"><?php echoUcfirstTranslatedString('snack', 3); ?></label>
-                <input type="number" name="price" id="price-input" min="0.01" step="0.01" max="99.99" placeholder="3.45" value="<?php if (isset($_POST['price'])) {echo $_POST['price'];} ?>" required>
+                <input type="number" name="price" id="price-input" min="0.01" step="0.01" max="99.99" placeholder="<?php echo number_format(3.45, 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)); ?>" value="<?php if (isset($_POST['price'])) {echo $_POST['price'];} ?>" required>
             </div>
             <div class="column">
                 <label for="snacks-per-box-input"><?php echoUcfirstTranslatedString('snack', 4); ?></label>
@@ -44,11 +44,14 @@
     </div>
     <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 1); ?>">
 </form>
-<?php require '../echoLibreJS.php'; ?>
+<?php echoResource('librejs-html'); ?>
 <script>
+    var decimalPointSeparator = '<?php echoTranslatedString('number-separators', 1); ?>';
+    var thousandsSeparator = '<?php echoTranslatedString('number-separators', 2); ?>';
+    <?php echoResource('format-number-string-js'); ?>
     function askAddSnackConfirm(event) {
         event.preventDefault();
-        var confirmString = '<?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('snack', 2); ?> '+event.target[1].value+'?\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[2].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[3].value+'.\n<?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>: '+event.target[4].value+'.\n';
+        var confirmString = '<?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('snack', 2); ?> '+event.target[1].value+'?\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+formatNumberString(event.target[2].value)+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[3].value+'.\n<?php echoTranslatedString('snack', 5); ?> <?php echoTranslatedString('snack', 6); ?>: '+event.target[4].value+'.\n';
         if (event.target[5].checked) {
             confirmString += '<?php echoTranslatedString('add-snack', 2); ?>';
         } else {

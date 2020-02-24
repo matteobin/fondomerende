@@ -1,5 +1,5 @@
 # Fondo Merende
-Fondo Merende is a web management-software for office snacks supplies.
+Fondo Merende is a web management software for office snacks supplies.
 
 ## Requirements
 1. Any web server that supports [PHP](https://www.php.net/) ([nginx](https://nginx.org/) is recommended for friendly urls).
@@ -8,7 +8,7 @@ Fondo Merende is a web management-software for office snacks supplies.
 
 ## Installation
 1. Clone the repository and configure your webserver to expose just the [public directory](public). If you use nginx take a look at [nginx.conf.sample](nginx.conf.sample).  
-2. Create a MariaDB or MySQL database and run [database.sql](database.sql) script on it.  
+2. Create a MariaDB or MySQL database and run [db-structure.sql](db-structure.sql) script on it.  
 3. Create a config.php file from [config.php.sample](config.php.sample).  
 
 ### Options  
@@ -19,13 +19,6 @@ The base dir of the website. You need to change the default value if you want to
 #### AUTH\_KEY
 The authorization key to access the API. Like for passwords long is better.  
 **YOU SHOULD ALWAYS CHANGE THE DEFAULT VALUE!**
-
-#### SNACK\_IMAGES\_PATH\_FROM\_PUBLIC\_DIR (clients)
-The relative path from the public directory where you would like to save your snack images. As of now this option is used only for possible client applications calling the API, because Fondo Merende website is entirely text-based.  
-If you change this value you should update [.gitignore](.gitignore) as well.
-
-#### IMAGES\_EXTENSION (clients)
-The extension that will be used to save your snack images. Like the previous option this setting is used only for possible client applications calling the API. 
 
 #### MAINTENANCE
 It defines if maintenance mode is on. Set it to `true` to activate it.  

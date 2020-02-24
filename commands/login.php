@@ -15,25 +15,17 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
         }
         if (password_verify($password, $hashedPassword)) {
             $dbManager->runPreparedQuery('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
-            $token = bin2hex(random_bytes(12.5)); 
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+            $token = bin2hex(random_bytes(17));
             $_SESSION['user-id'] = $id;
-            $_SESSION['user-token'] = $token;
             $_SESSION['user-friendly-name'] = $friendlyName;
+            $_SESSION['user-token'] = $token;
             if (!$appRequest) {
                 if ($rememberUser) {
-                    setcookie('user-id', $id, time()+432000); // it expires in 5 days
-                    setcookie('user-token', $token, time()+432000);
-                    setcookie('user-friendly-name', $friendlyName, time()+432000);
-                    setcookie('remember-user', true, time()+432000);
+                    $expires = time()+432000; // it expires in 5 days
                 } else {
-                    setcookie('user-id', $id, 0);
-                    setcookie('user-token', $token, 0);
-                    setcookie('user-friendly-name', $friendlyName, 0);
-                    setcookie('remember-user', false, 0);
+                    $expires = 0;
                 }
+                setFmCookie('user-token', $token, $expires);
             }
             if ($apiCall) {
                 $response = array('success'=>true, 'status'=>201);

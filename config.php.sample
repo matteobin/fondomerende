@@ -3,8 +3,6 @@ if (basename($_SERVER['SCRIPT_FILENAME'])=='index.php') {
     define('BASE_DIR', '/');
 } else {
     define('AUTH_KEY', 'sekrit_PaSSWoRD');
-    define('SNACK_IMAGES_PATH_FROM_PUBLIC_DIR', '../images/snacks/');
-    define('IMAGES_EXTENSION', 'jpeg');
 }
 define('MAINTENANCE', false);
 define('APCU_INSTALLED', false);

@@ -10,8 +10,8 @@
 <?php if (isset($response['message'])): ?>
     <p style="clear:left"><?php echo $response['message']; ?></p>
 <?php endif; ?>
-<h3 class="one-column-row"><?php echoTranslatedString('commons', 1); ?>: <?php echo $response['data']['fund-funds-amount']; ?> €</h3>
-<h3 class="one-column-row"><?php echoTranslatedString('commons', 2); ?>: <?php echo $response['data']['user-funds-amount']; ?> €</h3>
+<h3 class="one-column-row"><?php echoTranslatedString('commons', 1); ?>: <?php echo number_format($response['data']['fund-funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)); ?> €</h3>
+<h3 class="one-column-row"><?php echoTranslatedString('commons', 2); ?>: <?php echo number_format($response['data']['user-funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 1)); ?> €</h3>
 <h3 class="one-column-row"><?php echoTranslatedString('main', 3) ?></h3>
 <p class="one-column-row"><?php echoTranslatedString('main', 4); echo ' '.$_SESSION['user-friendly-name']; ?>!<br><?php echoTranslatedString('main', 5); ?><br><?php echoTranslatedString('main', 6) ?></p>
 <ul class="one-column-row">

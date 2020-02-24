@@ -14,7 +14,7 @@
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row"><?php echo $response['message']; ?></p>
 <?php endif; if (isset($response['data']['user-funds-amount'])): ?>
-    <h3 class="one-column-row"><?php echoTranslatedString('commons', 2); ?>: <?php echo $response['data']['user-funds-amount']; ?> €</h3>
+    <h3 class="one-column-row"><?php echoTranslatedString('commons', 2); ?>: <?php echo number_format($response['data']['user-funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)); ?> €</h3>
 <?php endif; if ($response['status']==404 && $commandName=='get-to-eat-and-user-funds'): ?>
     <h3 class="one-column-row"><?php echoTranslatedString('commons', 5); ?>!</h3>
     <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echoTranslatedString('commands', 5); else: echo 'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-buy'; endif; ?>" title="<?php echoTranslatedString('buy', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
@@ -24,14 +24,14 @@
             <label class="one-column-row"><?php echo $snack['friendly-name']; ?></label>
             <ul class="one-column-row">
                 <li><?php echoUcfirstTranslatedString('eat', 2); ?>: <?php echo $snack['quantity']; ?></li>
-                <li><?php echoUcfirstTranslatedString('snack', 3) ?>: <?php echo $snack['price-per-snack']; ?> €</li>
+                <li><?php echoUcfirstTranslatedString('snack', 3) ?>: <?php echo number_format($snack['price-per-snack'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)); ?> €</li>
                 <li><?php echoTranslatedString('snack', 5) ?>: <time datetime="<?php echo $snack['expiration']; ?>"><?php echo $snack['expiration']; ?></time></li>
             </ul>
             <input type="hidden" name="id" value="<?php echo $snack['id']; ?>">
             <input class="one-column-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 6); ?> <?php echo $snack['friendly-name']; ?>">
         </form>
         <hr class="one-column-row" style="width:100%">
-    <?php endforeach; require '../echoLibreJS.php'; ?>
+    <?php endforeach; echoResource('librejs-html'); ?>
     <script>
         function askEatConfirm(event) {
             event.preventDefault();

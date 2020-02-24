@@ -6,41 +6,36 @@
         $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
     } else {
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
+        function setFmCookie($name, $value, $expires) {
+            if (version_compare(phpversion(), '7.3.0', '>=')) {
+                $options = array('expires'=>$expires, 'path'=>BASE_DIR, 'httponly'=>true, 'samesite'=>'Strict');
+                setcookie($name, $value, $options);
+            } else {
+                setcookie($name, $value, $expires, BASE_DIR, '', false, true);
+            }
+        }
         function checkLogin() {
             $logged = false;
-            $idCookie = filter_input(INPUT_COOKIE, 'user-id', FILTER_SANITIZE_STRING);
-            $tokenCookie = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
-            $friendlyNameCookie = filter_input(INPUT_COOKIE, 'user-friendly-name', FILTER_SANITIZE_STRING);
-            $rememberUserCookie = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
-            $sessionTokenSet = false;
-            if (isset($_SESSION['user-token'])) {
-                $sessionTokenSet = true;
+            $sessionSet = false;
+            if (isset($_SESSION['user-token'], $_SESSION['user-id'], $_SESSION['user-friendly-name'])) {
+                $sessionSet = true;
                 $logged = true;
-                if (!isset($tokenCookie)) {
-                    setcookie('user-token', $_SESSION['user-token']);
-                }
-                if (!isset($idCookie)) {
-                    setcookie('user-id', $_SESSION['user-id']);
-                }
-                if (!isset($friendlyNameCookie)) {
-                    setcookie('user-friendly-name', $_SESSION['user-friendly-name']);
-                }
             } 
-            if ($rememberUserCookie && isset($tokenCookie) && isset($idCookie) && isset($friendlyNameCookie)) {
-                if (!$sessionTokenSet) {
+            $tokenCookie = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
+            $rememberUserCookie = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
+            if ($tokenCookie && $rememberUserCookie) {
+                if (!$sessionSet) {
+                    // to do: find a way to check if an user token is valid, when session values are not set
                     $logged = true;
-                    $_SESSION['user-id'] = $idCookie;
                     $_SESSION['user-token'] = $tokenCookie;
-                    $_SESSION['user-friendly-name'] = $friendlyNameCookie;
                 }
-                setcookie('user-id', $idCookie, time()+432000); // it expires in 5 days
-                setcookie('user-token', $tokenCookie, time()+432000);
-                setcookie('user-friendly-name', $friendlyNameCookie, time()+432000);
-                setcookie('remember-user', true, time()+432000);
+                $expires = time()+432000; // it expires in 5 days
+                setFmCookie('user-token', $tokenCookie, $expires);
+                setFmCookie('remember-user', true, $expires);
             }
             return $logged;
         }
-        require '../views-array.php';
+        require '../views.php';
         if (checkLogin()) {
             $noView = true;
             foreach ($views as $view) {
@@ -84,18 +79,9 @@
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-            <?php
-                if (APCU_INSTALLED) {
-                    if (apcu_exists('fm-css')) {
-                        echo apcu_fetch('fm-css');
-                    } else {
-                        $css = file_get_contents('../style.min.css');
-                        apcu_add('fm-css', $css);
-                        echo $css;
-                    }
-                } else {
-                    echo file_get_contents('../style.min.css');
-                }
+            <?php 
+                require '../echo-resource.php'; 
+                echoResource('css');
             ?>
         </style>
 	</head>

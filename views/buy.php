@@ -59,8 +59,11 @@ if ($response['status']==404): ?>
         </div>
         <input class="one-column-last-row" type="submit" value="<?php echoUcfirstTranslatedString('commands', 5); ?>">
 	</form>
-    <?php require '../echoLibreJS.php'; ?>
+    <?php echoResource('librejs-html'); ?>
 	<script>
+        var decimalPointSeparator = '<?php echoTranslatedString('number-separators', 1); ?>';
+        var thousandsSeparator = '<?php echoTranslatedString('number-separators', 2); ?>';
+        <?php echoResource('format-number-string-js'); ?>
         var snacks = <?php echo json_encode($snacks); ?>;
         function getFormFromEventOrFromDocument(event) {
             var form;
@@ -101,7 +104,7 @@ if ($response['status']==404): ?>
 			}
 			var confirmString = '<?php echoUcfirstTranslatedString('commands', 5); ?> '+cratesNumber+cratesString+' <?php echoTranslatedString('buy', 6); ?> '+event.target[1][event.target[1].selectedIndex].innerText+'?';
 			if (event.target[3].checked) {
-				confirmString += '\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[4].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[5].value+'. \n<?php echoTranslatedString('snack', 5); ?>: '+event.target[6].value+'.';
+				confirmString += '\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+formatNumberString(event.target[4].value)+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[5].value+'. \n<?php echoTranslatedString('snack', 5); ?>: '+event.target[6].value+'.';
 			}
 			if (confirm(confirmString)) {
 				event.target.submit();

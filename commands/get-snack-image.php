@@ -1,4 +1,7 @@
 <?php
+define('IMG_PATH', '../img/snacks/');
+define('IMG_EXT', 'jpeg');
+
 function downloadImageFromGoogle($name) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'https://www.google.it/search?q='.str_replace('-', '+', $name).'&tbm=isch&tbs=isz:i');
@@ -13,23 +16,22 @@ function downloadImageFromGoogle($name) {
             $images[] = substr($result, $startPosition, strpos($result, '"', $offset)-$startPosition);
         }
         if (!empty($images)) {
-            if (!file_exists(SNACK_IMAGES_PATH_FROM_PUBLIC_DIR)) {
-                echo 'ora';
-                mkdir(SNACK_IMAGES_PATH_FROM_PUBLIC_DIR, 0744, true);
+            if (!file_exists(IMG_PATH)) {
+                mkdir(IMG_PATH, 0744, true);
             }
-            file_put_contents(SNACK_IMAGES_PATH_FROM_PUBLIC_DIR.$name.'.'.IMAGES_EXTENSION, file_get_contents($images[rand(0, count($images)-1)]));        
+            file_put_contents(IMG_PATH.$name.'.'.IMG_EXT, file_get_contents($images[rand(0, count($images)-1)]));        
         }
     }
 }
 
 function getSnackImage($name, $overwrite) {
     try {
-        $path = SNACK_IMAGES_PATH_FROM_PUBLIC_DIR.$name.'.'.IMAGES_EXTENSION;
+        $path = IMG_PATH.$name.'.'.IMG_EXT;
         if (true && ($overwrite || !file_exists($path))) {
             downloadImageFromGoogle($name);
         }
         if (APCU_INSTALLED) {
-            $cacheKey = 'fm-'.$name.'-snack-image';
+            $cacheKey = 'fm-'.$name.'-snack-img';
             if (apcu_exists($cacheKey)) {
                 $response = apcu_fetch($cacheKey);
             } else {

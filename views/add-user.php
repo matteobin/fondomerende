@@ -11,7 +11,7 @@
         exit();
     }
  ?>
-     <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
+    <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row"><?php echo $response['message']; ?></p>

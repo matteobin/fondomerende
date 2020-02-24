@@ -44,12 +44,15 @@
     </div>
     <input class="one-column-last-row" type="submit" value="<?php echoTranslatedString('commons', 4); ?>">
 </form>
-<?php require '../echoLibreJS.php'; ?>
+<?php echoResource('librejs-html'); ?>
 <script>
+    var decimalPointSeparator = '<?php echoTranslatedString('number-separators', 1); ?>';
+    var thousandsSeparator = '<?php echoTranslatedString('number-separators', 2); ?>';
+    <?php echoResource('format-number-string-js'); ?>
     function askEditSnackConfirm(event) {
         event.preventDefault();
         console.log(event);
-        var confirmString = '<?php echo getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('snack', 2); ?> '+event.target[2].value+'?\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+event.target[3].value+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[4].value+'.\n<?php echo getUcfirstTranslatedString('snack', 5).' '.getTranslatedString('snack', 6); ?>: '+event.target[5].value+'.';
+        var confirmString = '<?php echo getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('snack', 2); ?> '+event.target[2].value+'?\n\n<?php echoUcfirstTranslatedString('snack', 3); ?>: '+formatNumberString(event.target[3].value)+' €.\n<?php echoUcfirstTranslatedString('snack', 4); ?>: '+event.target[4].value+'.\n<?php echo getUcfirstTranslatedString('snack', 5).' '.getTranslatedString('snack', 6); ?>: '+event.target[5].value+'.';
         if (event.target[7].checked) {
             confirmString += '\n<?php echoUcfirstTranslatedString('snack', 7); ?>.';
         } else {
