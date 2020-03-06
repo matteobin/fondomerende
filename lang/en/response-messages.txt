@@ -3,7 +3,7 @@ Request
  is not valid: 
 you should send it through 
  instead.
-missing or expired user token.
+missing or expired token.
 Unauthorized action: 
 user is not active.
 value missing.
@@ -24,7 +24,7 @@ no parameters were sent.
  is not standard MySQL and MariaDB 'YYYY-MM-DD
  hh:mm:ss
 ' format.
-missing or wrong auth key.
+missing or wrong key.
 Login error: wrong credentials.
 There is not enough Fund Moolah to withdraw 
  € now.

@@ -2,7 +2,7 @@
 if (basename($_SERVER['SCRIPT_FILENAME'])=='index.php') {
     define('BASE_DIR', '/');
 } else {
-    define('AUTH_KEY', 'sekrit_PaSSWoRD');
+    define('API_KEY', 'sekrit_PaSSWoRD');
 }
 define('MAINTENANCE', false);
 define('APCU_INSTALLED', false);

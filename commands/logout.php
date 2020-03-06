@@ -1,18 +1,25 @@
 <?php
-function logout($appRequest) {
-    if (!$appRequest) {
-        unset($_COOKIE['user-id']);
-        unset($_COOKIE['user-friendly-name']);
-        unset($_COOKIE['user-token']);
-        unset($_COOKIE['remember-user']);
-        $expires = time()-86400;
-        setFmCookie('user-id', null, $expires);
-        setFmCookie('user-friendly-name', null, $expires);
-        setFmCookie('user-token', null, $expires);
-        setFmCookie('remember-user', null, $expires);
+function logout() {
+    global $dbManager, $apiRequest;
+    try {
+        $dbManager->startTransaction();
+        $dbManager->runQuery('LOCK TABLES tokens WRITE');
+        $dbManager->runPreparedQuery('DELETE FROM tokens WHERE token=?', array($_SESSION['token']), 's');
+        if (!$apiRequest) {
+            unset($_COOKIE['token']);
+            unset($_COOKIE['remember-user']);
+            $expires = time()-86400;
+            setFmCookie('token', null, $expires);
+            setFmCookie('remember-user', null, $expires);
+        }
+        session_unset();
+        session_destroy();
+        $response = array('success'=>true, 'status'=>200);
+        $dbManager->runQuery('UNLOCK TABLES');
+        $dbManager->endTransaction();   
+    } catch (Exception $exception) {
+        $dbManager->rollbackTransaction();
+        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
-    session_unset();
-    session_destroy();
-	$response = array('success'=>true, 'status'=>200);
 	return $response;
 }

@@ -68,7 +68,7 @@ Things that I would like to do for the project future (in order of when I'm plan
 4. Design a GUI for admin users to activate new ones, instead of having to edit a column in the database.
 5. Implement some sort of equally distributed penalty for "lost snacks" (AKA snacks eaten without recording them on Fondo Merende). This power should be handed only to admin users and it should be employed through the aforementioned GUI.
 6. A possible alternative to the previous point would be to create a tax model.
-7. Restructure [DbManager](DbManager.php) code to transform it from class to a series of functions. I want to load into memory only the bits I really need. Moreover I would be quite pleased from an architectural/design perspective if Fondo Merende code were as simple and intuitive as possible.
+7. Restructure [DbManager](DbManager.php) code from class to a series of functions. I want Fondo Merende code to be as simple and straightforward as possible.
 8. Write a web install script, like the one you're prompted with when you first set up WordPress or PrestaShop.
 9. Add nice looking graphics... maybe.
 

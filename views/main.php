@@ -8,7 +8,7 @@
 ?>
 </header>
 <?php if (isset($response['message'])): ?>
-    <p style="clear:left"><?php echo $response['message']; ?></p>
+    <p class="one-column-row error" style="clear:left"><?php echo $response['message']; ?></p>
 <?php endif; ?>
 <h3 class="one-column-row"><?php echoTranslatedString('commons', 1); ?>: <?php echo number_format($response['data']['fund-funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)); ?> €</h3>
 <h3 class="one-column-row"><?php echoTranslatedString('commons', 2); ?>: <?php echo number_format($response['data']['user-funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 1)); ?> €</h3>

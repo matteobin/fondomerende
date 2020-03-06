@@ -1,6 +1,6 @@
 <?php
 require 'login.php';
-function addUser($name, $password, $friendlyName, $admin, $appRequest) {
+function addUser($name, $password, $friendlyName, $admin) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
@@ -19,7 +19,7 @@ function addUser($name, $password, $friendlyName, $admin, $appRequest) {
         $dbManager->runPreparedQuery('INSERT INTO actions (user_id, command_id) VALUES (?, ?)', array($userId, 1), 'ii');
         $dbManager->runQuery('UNLOCK TABLES');
         $dbManager->endTransaction();
-        $response = array('success'=>true, 'status'=>201, 'data'=>array('token'=>login($name, $password, false, $appRequest, false)));
+        $response = array('success'=>true, 'status'=>201, 'data'=>array('token'=>login($name, $password, false, false)));
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
 		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());

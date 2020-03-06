@@ -17,25 +17,97 @@
         function checkLogin() {
             $logged = false;
             $sessionSet = false;
-            if (isset($_SESSION['user-token'], $_SESSION['user-id'], $_SESSION['user-friendly-name'])) {
+            if (isset($_SESSION['user-id'], $_SESSION['user-friendly-name'], $_SESSION['token'])) {
                 $sessionSet = true;
                 $logged = true;
-            } 
-            $tokenCookie = filter_input(INPUT_COOKIE, 'user-token', FILTER_SANITIZE_STRING);
-            $rememberUserCookie = filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN);
-            if ($tokenCookie && $rememberUserCookie) {
+            }
+            if (isset($_COOKIE['token'])) {
                 if (!$sessionSet) {
-                    // to do: find a way to check if an user token is valid, when session values are not set
-                    $logged = true;
-                    $_SESSION['user-token'] = $tokenCookie;
+                    require '../check-token.php';
+                    $logged = checkToken();
                 }
-                $expires = time()+432000; // it expires in 5 days
-                setFmCookie('user-token', $tokenCookie, $expires);
-                setFmCookie('remember-user', true, $expires);
+                if ($logged && filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN)) {
+                    $expires = time()+432000; // it expires in 5 days
+                    setFmCookie('token', filter_input(INPUT_COOKIE, 'token', FILTER_SANITIZE_STRING), $expires);
+                    setFmCookie('remember-user', true, $expires);
+                }
             }
             return $logged;
         }
-        require '../views.php';
+        $views = array(
+            array(
+                'name'=>getTranslatedString('login', 1),
+                'file-name'=>'login',
+                'title'=>getUcfirstTranslatedString('login', 1),
+                'description'=>getUcfirstTranslatedString('login', 2)
+            ),
+            array(
+                'name'=>getTranslatedString('main', 1),
+                'file-name'=>'main',
+                'title'=>getUcfirstTranslatedString('main', 1),
+                'description'=>getTranslatedString('main', 2)
+            ),
+            array(
+                'name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1),
+                'file-name'=>'edit-user',
+                'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('user', 1),
+                'description'=>getTranslatedString('edit-user', 1)
+            ),
+            array(
+                'name'=>getTranslatedString('commands', 3),
+                'file-name'=>'deposit',
+                'title'=>getUcfirstTranslatedString('commands', 3),
+                'description'=>getTranslatedString('deposit', 1)
+            ),
+            array(
+                'name'=>getTranslatedString('commands', 4),
+                'file-name'=>'withdraw',
+                'title'=>getUcfirstTranslatedString('commands', 4),
+                'description'=>getTranslatedString('withdraw', 1)
+            ),
+            array(
+                'name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2),
+                'file-name'=>'add-snack',
+                'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('snack', 2),
+                'description'=>getTranslatedString('add-snack', 1)
+            ),
+            array(
+                'name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('snack', 2),
+                'file-name'=>'edit-snack',
+                'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('snack', 2),
+                'description'=>getTranslatedString('edit-snack', 1)
+            ),
+            array(
+                'name'=>getTranslatedString('snack', 1),
+                'file-name'=>'list-snacks-to-edit',
+                'title'=>getUcfirstTranslatedString('snack', 1),
+                'description'=>getTranslatedString('list-snacks-to-edit', 1)
+            ),
+            array(
+                'name'=>getTranslatedString('commands', 5),
+                'file-name'=>'buy',
+                'title'=>getUcfirstTranslatedString('commands', 5),
+                'description'=>getTranslatedString('buy', 1)
+            ),
+            array(
+                'name'=>getTranslatedString('commands', 6),
+                'file-name'=>'eat',
+                'title'=>getUcfirstTranslatedString('commands', 6),
+                'description'=>getTranslatedString('eat', 1)
+            ),
+            array(
+                'name'=>getTranslatedString('actions', 1),
+                'file-name'=>'actions',
+                'title'=>getUcfirstTranslatedString('actions', 1),
+                'description'=>getTranslatedString('actions', 2)
+            ),
+            array(
+                'name'=>getTranslatedString('credits', 1),
+                'file-name'=>'credits',
+                'title'=>getUcfirstTranslatedString('credits', 1),
+                'description'=>getTranslatedString('credits', 2)
+            )
+        );
         if (checkLogin()) {
             $noView = true;
             foreach ($views as $view) {
@@ -80,7 +152,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             <?php 
-                require '../echo-resource.php'; 
+                function echoResource($name) {
+                    switch($name) {
+                        case 'css':
+                            $path = '../style.min.css';
+                            break;
+                        case 'librejs-html':
+                            $path = '../librejs.html';
+                            break;
+                        case 'format-number-string-js';
+                            $path = '../format-number-string.js';
+                            break;
+                    }
+                    if (APCU_INSTALLED) {
+                        if ($name=='librejs-html') {
+                            $cacheKey = $name;
+                        } else {
+                            $cacheKey = 'fm-'.$name;
+                        }
+                        if (apcu_exists($cacheKey)) {
+                            echo apcu_fetch($cacheKey);
+                        } else {
+                            $file = file_get_contents('../style.min.css');
+                            apcu_add($cacheKey, $file);
+                            echo $file;
+                        }
+                    } else {
+                        echo file_get_contents($path);
+                    }
+                }
                 echoResource('css');
             ?>
         </style>

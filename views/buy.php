@@ -17,10 +17,7 @@
 ?>
     <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
-<?php if (isset($response['message'])): ?> 
-    <p class="one-column-row"><?php echo $response['message']; ?></p>
-<?php endif;
-if ($response['status']==404): ?>
+<?php if ($response['status']==404): ?>
     <h3 class="one-column-row"><?php echoTranslatedString('commons', 5); ?>!</h3>
     <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); endif; ?>" title="<?php echoTranslatedString('add-snack', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 1); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php elseif ($response['status']==200 || $response['status']==400): ?>
@@ -116,4 +113,6 @@ if ($response['status']==404): ?>
 		document.querySelector('form select').addEventListener('change', updateBuyOptions);
 		document.querySelector('form').addEventListener('submit', askBuyConfirm);
 	</script>
-<?php endif; ?>
+<?php endif; if (isset($response['message'])): ?> 
+    <p class="one-column-row error"><?php echo $response['message']; ?></p>
+<?php endif;

@@ -11,9 +11,6 @@
 ?>
     <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
-<?php if (isset($response['message'])): ?> 
-    <p class="one-column-row"><?php echo $response['message']; ?></p>
-<?php endif; ?>
 <form class="row" method="post">
     <input type="hidden" name="command-name" value="edit-snack">
     <input type="hidden" name="id" value="<?php if (isset($_POST['id'])) {echo $_POST['id'];} else {echo $response['data']['snack']['id'];} ?>">
@@ -44,7 +41,9 @@
     </div>
     <input class="one-column-last-row" type="submit" value="<?php echoTranslatedString('commons', 4); ?>">
 </form>
-<?php echoResource('librejs-html'); ?>
+<?php if (isset($response['message'])): ?> 
+    <p class="one-column-row error"><?php echo $response['message']; ?></p>
+<?php endif; echoResource('librejs-html'); ?>
 <script>
     var decimalPointSeparator = '<?php echoTranslatedString('number-separators', 1); ?>';
     var thousandsSeparator = '<?php echoTranslatedString('number-separators', 2); ?>';

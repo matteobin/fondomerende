@@ -1,10 +1,10 @@
 <?php
-function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
-    global $dbManager;
+function login($name, $password, $rememberUser, $apiCall=true) {
+    global $apiRequest, $dbManager;
     try {
         if ($apiCall) {
             $dbManager->startTransaction();
-            $dbManager->runQuery('LOCK TABLES users WRITE');
+            $dbManager->runQuery('LOCK TABLES users WRITE, tokens WRITE');
         }
         $dbManager->runPreparedQuery('SELECT id, password, friendly_name FROM users WHERE name=?', array($name), 's');
         $hashedPassword = '';
@@ -15,21 +15,32 @@ function login($name, $password, $rememberUser, $appRequest, $apiCall=true) {
         }
         if (password_verify($password, $hashedPassword)) {
             $dbManager->runPreparedQuery('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
-            $token = bin2hex(random_bytes(17));
+            $tokenUnique = true;
+            do {
+                $token = bin2hex(random_bytes(16));
+                $dbManager->runPreparedQuery('SELECT user_id FROM tokens WHERE token=? LIMIT 1', array($token), 's');
+                while ($tokenRow = $dbManager->getQueryRes()->fetch_array(MYSQLI_NUM)) {
+                    $tokenUnique = false;
+                }
+            } while (!$tokenUnique);
             $_SESSION['user-id'] = $id;
             $_SESSION['user-friendly-name'] = $friendlyName;
-            $_SESSION['user-token'] = $token;
-            if (!$appRequest) {
+            $_SESSION['token'] = $token;
+            $device = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
+            $tokenExpires = null;
+            if (!$apiRequest) {
                 if ($rememberUser) {
-                    $expires = time()+432000; // it expires in 5 days
+                    $cookieExpires = time()+432000; // it expires in 5 days
                 } else {
-                    $expires = 0;
+                    $cookieExpires = 0;
+                    $tokenExpires = (new DateTime('+5 days'))->format('Y-m-d H:i:s');
                 }
-                setFmCookie('user-token', $token, $expires);
+                setFmCookie('token', $token, $cookieExpires);
             }
+            $dbManager->runPreparedQuery('INSERT INTO tokens (user_id, token, device, expires_at, api_request) VALUES (?,?,?,?,?)', array($id, $token, $device, $tokenExpires, $apiRequest), 'isssi');
             if ($apiCall) {
                 $response = array('success'=>true, 'status'=>201);
-                if ($appRequest) {
+                if ($apiRequest) {
                     $response['data'] = array('token'=>$token);   
                 }
             }

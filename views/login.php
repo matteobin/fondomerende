@@ -13,9 +13,6 @@
 ?>
     <h2 class="one-column-row"><?php echoUcfirstTranslatedString('login', 1); ?></h2>
 </header>
-<?php if (isset($response['message'])): ?> 
-    <p class="one-column-row"><?php echo $response['message']; ?></p>
-<?php endif; ?>
 <form class="row" method="POST">
     <input type="hidden" name="command-name" value="login">
     <div class="row">
@@ -34,6 +31,9 @@
     </div>
     <input class="one-column-row" type="submit" value="<?php echoUcfirstTranslatedString('login', 1); ?>">
 </form>
+<?php if (isset($response['message'])): ?> 
+    <p class="one-column-row error"><?php echo $response['message']; ?></p>
+<?php endif; ?>
 <div class="one-column-row">
     <a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); endif; ?>" title="<?php echoTranslatedString('add-user', 1); ?>"><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>
 </div>

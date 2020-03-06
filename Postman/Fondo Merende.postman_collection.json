@@ -12,7 +12,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD",
+						"value": "key=sekrit_PaSSWoRD",
 						"type": "text"
 					}
 				],
@@ -64,7 +64,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD",
+								"value": "key=sekrit_PaSSWoRD",
 								"type": "text"
 							}
 						],
@@ -138,11 +138,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -173,7 +173,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD",
+						"value": "key=sekrit_PaSSWoRD",
 						"type": "text"
 					}
 				],
@@ -215,7 +215,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD",
+								"value": "key=sekrit_PaSSWoRD",
 								"type": "text"
 							}
 						],
@@ -279,11 +279,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -314,7 +314,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=706124f2b60d9eb533307bfd",
+						"value": "key=sekrit_PaSSWoRD;token=706124f2b60d9eb533307bfd",
 						"type": "text"
 					}
 				],
@@ -346,7 +346,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=706124f2b60d9eb533307bfd",
+								"value": "key=sekrit_PaSSWoRD;token=706124f2b60d9eb533307bfd",
 								"type": "text"
 							}
 						],
@@ -400,11 +400,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -435,7 +435,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -467,7 +467,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -521,11 +521,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -556,7 +556,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -588,7 +588,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -642,11 +642,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -677,7 +677,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+						"value": "key=sekrit_PaSSWoRD;token=538a3b8b51c3a4a82fce1478",
 						"type": "text"
 					}
 				],
@@ -721,7 +721,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+								"value": "key=sekrit_PaSSWoRD;token=538a3b8b51c3a4a82fce1478",
 								"type": "text"
 							}
 						],
@@ -795,11 +795,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						}
 					],
 					"cookie": [],
@@ -817,7 +817,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+						"value": "key=sekrit_PaSSWoRD;token=538a3b8b51c3a4a82fce1478",
 						"type": "text"
 					}
 				],
@@ -859,7 +859,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+								"value": "key=sekrit_PaSSWoRD;token=538a3b8b51c3a4a82fce1478",
 								"type": "text"
 							}
 						],
@@ -925,11 +925,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						}
 					],
 					"cookie": [],
@@ -944,7 +944,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+						"value": "key=sekrit_PaSSWoRD;token=538a3b8b51c3a4a82fce1478",
 						"type": "text"
 					}
 				],
@@ -984,7 +984,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=538a3b8b51c3a4a82fce1478",
+								"value": "key=sekrit_PaSSWoRD;token=538a3b8b51c3a4a82fce1478",
 								"type": "text"
 							}
 						],
@@ -1054,11 +1054,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						}
 					],
 					"cookie": [],
@@ -1073,7 +1073,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1105,7 +1105,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1159,11 +1159,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -1194,7 +1194,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1226,7 +1226,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1280,11 +1280,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -1315,7 +1315,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1362,7 +1362,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1435,11 +1435,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -1470,7 +1470,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1507,7 +1507,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1566,11 +1566,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -1601,7 +1601,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1638,7 +1638,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1705,11 +1705,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						}
 					],
 					"cookie": [],
@@ -1724,7 +1724,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1781,7 +1781,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1860,11 +1860,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -1895,7 +1895,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -1927,7 +1927,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -1981,11 +1981,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -2016,7 +2016,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=706124f2b60d9eb533307bfd",
+						"value": "key=sekrit_PaSSWoRD;token=706124f2b60d9eb533307bfd",
 						"type": "text"
 					}
 				],
@@ -2052,7 +2052,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=706124f2b60d9eb533307bfd",
+								"value": "key=sekrit_PaSSWoRD;token=706124f2b60d9eb533307bfd",
 								"type": "text"
 							}
 						],
@@ -2094,7 +2094,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -2130,7 +2130,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -2188,11 +2188,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -2223,7 +2223,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -2280,7 +2280,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -2359,11 +2359,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -2395,7 +2395,7 @@
 					{
 						"key": "Cookie",
 						"type": "text",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78"
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78"
 					}
 				],
 				"body": {
@@ -2427,7 +2427,7 @@
 							{
 								"key": "Cookie",
 								"type": "text",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78"
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78"
 							}
 						],
 						"body": {
@@ -2480,11 +2480,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -2515,7 +2515,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -2557,7 +2557,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -2621,11 +2621,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -2656,7 +2656,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -2688,7 +2688,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -2742,11 +2742,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",
@@ -2777,7 +2777,7 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+						"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 						"type": "text"
 					}
 				],
@@ -2819,7 +2819,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "auth-key=sekrit_PaSSWoRD;user-token=aef8a98ec3ff920032510a78",
+								"value": "key=sekrit_PaSSWoRD;token=aef8a98ec3ff920032510a78",
 								"type": "text"
 							}
 						],
@@ -2883,11 +2883,11 @@
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "auth-key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "key=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Set-Cookie",
-							"value": "user-token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
+							"value": "token=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0"
 						},
 						{
 							"key": "Content-Length",

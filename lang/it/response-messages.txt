@@ -3,7 +3,7 @@ Invio richiesta
  non valido: 
 dovresti inviarla attraverso 
 .
-token utente mancante o scaduto.
+token mancante o scaduto.
 Azione non autorizzata: 
 l'utente non è attivo.
 valore mancante.
@@ -24,7 +24,7 @@ nessun parametro è stato inviato.
  non è nel formato standard 'YYYY-MM-DD
  hh:mm:ss
 ' di MySQL e MariaDB.
-chiave di autenticazione mancante o errata.
+chiave mancante o errata.
 Errore di autenticazione: credenziali errate.
 Al momento non ci sono abbastanza Quattrini nel Fondo per ritirare 
  €.

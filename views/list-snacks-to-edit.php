@@ -3,7 +3,7 @@
 <?php
     require 'process-request.php';
     if (isset($response['message'])): ?> 
-        <p class="one-column-row"><?php echo $response['message']; ?></p>
+        <p class="one-column-row error"><?php echo $response['message']; ?></p>
     <?php endif;
     if ($response['status']==404): ?>
         <h3 class="one-column-row"><?php echoTranslatedString('commons', 5); ?>!</h3>

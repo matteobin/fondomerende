@@ -10,9 +10,7 @@
 ?>
     <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
-<?php if (isset($response['message'])): ?> 
-    <p class="one-column-row"><?php echo $response['message']; ?></p>
-<?php endif; if ($response['status']==404 && !isset($response['message'])): ?>
+<?php if ($response['status']==404 && !isset($response['message'])): ?>
     <h3 class="one-column-row"><?php echoTranslatedString('withdraw', 2); ?></h3>
     <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echoTranslatedString('commands', 3); else: echo 'index.php?view='.getTranslatedString('commands', 3).'&command-name=get-user-funds'; endif; ?>" title="<?php echoTranslatedString('deposit', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 3); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php else: ?>
@@ -39,4 +37,6 @@
         }
         document.querySelector('form').addEventListener('submit', askDepositOrWithdrawConfirm);
     </script>
+<?php endif; if (isset($response['message'])): ?> 
+    <p class="one-column-row error"><?php echo $response['message']; ?></p>
 <?php endif; ?>
