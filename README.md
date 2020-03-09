@@ -79,6 +79,7 @@ Be sure to check out the dev branch before proposing new features, because they 
 ## Authors and acknowledgment
 Developed by Matteo Bini.  
 Italian translation by Matteo Luchetta.
+README template by [Make a README](https://www.makeareadme.com/).
 
 ## License
 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0)

@@ -677,10 +677,10 @@ if (MAINTENANCE) {
 }
 if ($apiRequest) {
     unset($_COOKIE['key']);
-    setcookie('key', '', time()-86400);
+    setFmCookie('key', '', time()-86400);
     if (isset($_COOKIE['token'])) {
         unset($_COOKIE['token']);
-        setcookie('token', '', time()-86400);
+        setFmCookie('token', '', time()-86400);
     }
     if (isset($commandName) && $commandName=='get-snack-image' && !is_array($response)) {
         header('Content-Type: image/'.IMG_EXT);

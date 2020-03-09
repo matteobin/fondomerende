@@ -7,11 +7,19 @@
     } else {
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
         function setFmCookie($name, $value, $expires) {
+            global $apiRequest;
+            if (!isset($apiRequest)) {
+                $apiRequest = false;
+            }
+            $httponly = true;
+            if ($apiRequest) {
+                $httponly = false;
+            }
             if (version_compare(phpversion(), '7.3.0', '>=')) {
-                $options = array('expires'=>$expires, 'path'=>BASE_DIR, 'httponly'=>true, 'samesite'=>'Strict');
+                $options = array('expires'=>$expires, 'path'=>BASE_DIR, 'httponly'=>$httponly, 'samesite'=>'Strict');
                 setcookie($name, $value, $options);
             } else {
-                setcookie($name, $value, $expires, BASE_DIR, '', false, true);
+                setcookie($name, $value, $expires, BASE_DIR, '', false, $httponly);
             }
         }
         function checkLogin() {
