@@ -47,7 +47,7 @@ The name of Fondo Merende database. Change it accordingly to the name of the dat
 
 ## Usage
 You can visit your Fondo Merende like every other website or call its API to develop a client application.  
-The website is entirely text-based since it was designed to be cheap, fast and small; it doesn't need JavaScript, but the few lines of it are compatible with [LibreJS](https://www.gnu.org/software/librejs/).  
+The website is entirely text-based since it was designed to be cheap to host, fast and small both in script execution and development cycle; it doesn't need JavaScript, but the few lines of it are compatible with [LibreJS](https://www.gnu.org/software/librejs/).  
 Fondo Merende works fairly well with mobile phones too, because its CSS is mobile friendly and mobile first.
 
 ### Create user

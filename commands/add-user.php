@@ -9,8 +9,8 @@ function addUser($name, $password, $friendlyName, $admin) {
         $dbManager->runQuery('SELECT id FROM users ORDER BY id DESC LIMIT 1');
         $userId = $dbManager->getQueryRes()->fetch_row()[0];
         $dbManager->runQuery('SELECT id FROM snacks');
-        while ($snacksRow = $dbManager->getQueryRes()->fetch_row()) {
-            $snackIds[] = $snacksRow[0];
+        while ($row = $dbManager->getQueryRes()->fetch_row()) {
+            $snackIds[] = $row[0];
         }
         foreach($snackIds as $snackId) {
             $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');
@@ -22,7 +22,7 @@ function addUser($name, $password, $friendlyName, $admin) {
         $response = array('success'=>true, 'status'=>201, 'data'=>array('token'=>login($name, $password, false, false)));
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }

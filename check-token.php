@@ -20,11 +20,11 @@ function checkToken() {
             $dbManager->startTransaction();
             $nowToday = (new DateTime())->format('Y-m-d H:i:s');
             $dbManager->runQuery('LOCK TABLES tokens WRITE, users READ');
-            $dbManager->runPreparedQuery('SELECT users.id, users.friendly_name FROM tokens JOIN users ON tokens.user_id=users.id WHERE tokens.token=? AND (tokens.expires_at<=? OR tokens.expires_at IS NULL)', array($token, $nowToday), 'ss');
-            while ($usersRow = $dbManager->getQueryRes()->fetch_assoc()) {
+            $dbManager->runPreparedQuery('SELECT users.id, users.friendly_name FROM tokens JOIN users ON tokens.user_id=users.id WHERE tokens.token=? AND (tokens.expires_at>? OR tokens.expires_at IS NULL)', array($token, $nowToday), 'ss');
+            while ($tokensRow = $dbManager->getQueryRes()->fetch_assoc()) {
                 $isValid = true;
-                $_SESSION['user-id'] = $usersRow['id'];
-                $_SESSION['user-friendly-name'] = $usersRow['friendly_name'];
+                $_SESSION['user-id'] = $tokensRow['id'];
+                $_SESSION['user-friendly-name'] = $tokensRow['friendly_name'];
                 $_SESSION['token'] = $token;
             }
             $device = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);

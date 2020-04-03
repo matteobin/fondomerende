@@ -11,8 +11,8 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $cou
         if ($countable) {
             $dbManager->runPreparedQuery('INSERT INTO snacks_stock (snack_id) VALUES (?)', array($snackId), 'i');
             $dbManager->runQuery('SELECT id FROM users');
-            while ($usersRow = $dbManager->getQueryRes()->fetch_row()) {
-                $usersId[] = $usersRow[0];
+            while ($row = $dbManager->getQueryRes()->fetch_row()) {
+                $usersId[] = $row[0];
             }
             foreach($usersId as $userId) {   
                 $dbManager->runPreparedQuery('INSERT INTO eaten (snack_id, user_id) VALUES (?, ?)', array($snackId, $userId), 'ii');

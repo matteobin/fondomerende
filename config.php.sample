@@ -1,12 +1,12 @@
 <?php
 if (basename($_SERVER['SCRIPT_FILENAME'])=='index.php') {
     define('BASE_DIR', '/');
+    define('FRIENDLY_URLS', false);
 } else {
     define('API_KEY', 'sekrit_PaSSWoRD');
 }
 define('MAINTENANCE', false);
 define('APCU_INSTALLED', false);
-define('FRIENDLY_URLS', false);
 if (!MAINTENANCE) {
     define('DB_SERVER', '127.0.0.1');
     define('DB_USER', 'root');
