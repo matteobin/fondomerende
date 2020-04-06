@@ -9,7 +9,7 @@ function deposit($userId, $amount) {
         $response = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }

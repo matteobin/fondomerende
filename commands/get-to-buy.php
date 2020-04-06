@@ -5,8 +5,8 @@ function getToBuy() {
         $dbManager->startTransaction();
         $dbManager->runQuery('LOCK TABLES snacks READ');
         $dbManager->runPreparedQuery('SELECT id, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks WHERE visible=? ORDER BY friendly_name ASC', array(1), 'i');
-        while ($snacksRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $snacks[] = array('id'=>$snacksRow['id'], 'friendly_name'=>$snacksRow['friendly_name'], 'price'=>$snacksRow['price'], 'snacks-per-box'=>$snacksRow['snacks_per_box'], 'expiration'=>(new DateTime('+'.$snacksRow['expiration_in_days'].' days'))->format('Y-m-d'));
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $snacks[] = array('id'=>$row['id'], 'friendly_name'=>$row['friendly_name'], 'price'=>$row['price'], 'snacks-per-box'=>$row['snacks_per_box'], 'expiration'=>(new DateTime('+'.$row['expiration_in_days'].' days'))->format('Y-m-d'));
         }
         $dbManager->runQuery('UNLOCK TABLES');
         $dbManager->endTransaction();
@@ -19,7 +19,7 @@ function getToBuy() {
         }
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }

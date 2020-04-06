@@ -1,4 +1,5 @@
 <?php
+    $apiRequest = false;
     require '../config.php';
     require '../translation.php';
     if (MAINTENANCE) {
@@ -8,13 +9,7 @@
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
         function setFmCookie($name, $value, $expires) {
             global $apiRequest;
-            if (!isset($apiRequest)) {
-                $apiRequest = false;
-            }
-            $httponly = true;
-            if ($apiRequest) {
-                $httponly = false;
-            }
+            $httponly = $apiRequest ? false : true;
             if (version_compare(phpversion(), '7.3.0', '>=')) {
                 $options = array('expires'=>$expires, 'path'=>BASE_DIR, 'httponly'=>$httponly, 'samesite'=>'Strict');
                 setcookie($name, $value, $options);

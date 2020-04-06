@@ -1,9 +1,9 @@
 <?php
-if (basename($_SERVER['SCRIPT_FILENAME'])=='index.php') {
+if ($apiRequest) {
+    define('API_KEY', 'sekrit_PaSSWoRD');
+} else {
     define('BASE_DIR', '/');
     define('FRIENDLY_URLS', false);
-} else {
-    define('API_KEY', 'sekrit_PaSSWoRD');
 }
 define('MAINTENANCE', false);
 define('APCU_INSTALLED', false);

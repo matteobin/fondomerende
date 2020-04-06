@@ -22,7 +22,7 @@ function eat($userId, $snackId, $quantity) {
         $dbManager->endTransaction();
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }

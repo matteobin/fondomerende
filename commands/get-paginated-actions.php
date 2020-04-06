@@ -7,9 +7,7 @@ function getPaginatedActions($limit, $page, $order) {
         $dbManager->runQuery('LOCK TABLES actions READ, users READ, edits READ, snacks READ');
         $actions = getActions(false, $limit, ($page-1)*$limit, $order, false);
         $dbManager->runQuery('SELECT count(id) as actions_total FROM actions ORDER BY created_at '.$order);
-        while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $actionsTotal = $actionsRow['actions_total'];
-        }
+        $actionsTotal = $dbManager->getQueryRes()->fetch_row()[0];
         $dbManager->runQuery('UNLOCK TABLES');
         $dbManager->endTransaction();
         $response['success'] = true;

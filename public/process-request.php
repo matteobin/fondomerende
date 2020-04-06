@@ -1,10 +1,10 @@
 <?php
-$apiRequest = false;
-if (basename($_SERVER['SCRIPT_FILENAME'])=='process-request.php') {
-    $apiRequest = true;
+$apiRequest = (isset($apiRequest)) ? $apiRequest : true;
+if ($apiRequest) {
     require '../config.php';
     require '../translation.php';
 }
+unset($baseScriptFilename);
 if (MAINTENANCE) {
     $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
 } else {

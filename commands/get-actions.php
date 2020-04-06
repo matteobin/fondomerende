@@ -14,8 +14,8 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
         $userEdit = true;
     }
     $dbManager->runPreparedQuery('SELECT column_name, old_s_value, new_s_value, old_d_value, new_d_value, old_i_value, new_i_value FROM edits WHERE action_id=?', array($actionId), 'i');
-    while ($editsRow = $dbManager->getQueryRes()->fetch_assoc()) {
-        $edits[$editsRow['column_name']] = array('old-s-value'=>$editsRow['old_s_value'], 'new-s-value'=>$editsRow['new_s_value'], 'old-d-value'=>$editsRow['old_d_value'], 'new-d-value'=>$editsRow['new_d_value'], 'old-i-value'=>$editsRow['old_i_value'], 'new-i-value'=>$editsRow['new_i_value']);
+    while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+        $edits[$row['column_name']] = array('old-s-value'=>$row['old_s_value'], 'new-s-value'=>$row['new_s_value'], 'old-d-value'=>$row['old_d_value'], 'new-d-value'=>$row['new_d_value'], 'old-i-value'=>$row['old_i_value'], 'new-i-value'=>$row['new_i_value']);
     }
     $decodedEdits = array();
     if (isset($edits)) {
@@ -139,8 +139,8 @@ function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
             $types .= 'i';
         }
         $dbManager->runPreparedQuery($query, $params, $types);
-        while ($actionsRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $actions[] = array('id'=>$actionsRow['id'], 'user-id'=>$actionsRow['user_id'], 'command-id'=>$actionsRow['command_id'], 'snack-id'=>$actionsRow['snack_id'], 'snack-quantity'=>$actionsRow['snack_quantity'], 'funds-amount'=>$actionsRow['funds_amount'], 'created-at'=>$actionsRow['created_at']);
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $actions[] = array('id'=>$row['id'], 'user-id'=>$row['user_id'], 'command-id'=>$row['command_id'], 'snack-id'=>$row['snack_id'], 'snack-quantity'=>$row['snack_quantity'], 'funds-amount'=>$row['funds_amount'], 'created-at'=>$row['created_at']);
         }
         $decodedActions = array();
         if (isset($actions)) {

@@ -8,21 +8,19 @@ function login($name, $password, $rememberUser, $apiCall=true) {
         }
         $dbManager->runPreparedQuery('SELECT id, password, friendly_name FROM users WHERE name=?', array($name), 's');
         $hashedPassword = '';
-        while ($usersRow = $dbManager->getQueryRes()->fetch_assoc()) {
-            $id = $usersRow['id'];
-            $hashedPassword = $usersRow['password'];
-            $friendlyName = $usersRow['friendly_name'];
+        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+            $id = $row['id'];
+            $hashedPassword = $row['password'];
+            $friendlyName = $row['friendly_name'];
         }
         if (password_verify($password, $hashedPassword)) {
             $dbManager->runPreparedQuery('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
-            $tokenUnique = true;
+            $notUniqueToken = false;
             do {
                 $token = bin2hex(random_bytes(16));
                 $dbManager->runPreparedQuery('SELECT user_id FROM tokens WHERE token=? LIMIT 1', array($token), 's');
-                while ($tokenRow = $dbManager->getQueryRes()->fetch_array(MYSQLI_NUM)) {
-                    $tokenUnique = false;
-                }
-            } while (!$tokenUnique);
+                $notUniqueToken = (bool)$dbManager->getQueryRes()->fetch_row()[0];
+            } while ($notUniqueToken);
             $_SESSION['user-id'] = $id;
             $_SESSION['user-friendly-name'] = $friendlyName;
             $_SESSION['token'] = $token;
