@@ -33,6 +33,7 @@ function login($name, $password, $rememberUser, $apiCall=true) {
                     $cookieExpires = 0;
                     $tokenExpires = (new DateTime('+5 days'))->format('Y-m-d H:i:s');
                 }
+                require 'set-fm-cookie.php';
                 setFmCookie('token', $token, $cookieExpires);
             }
             $dbManager->runPreparedQuery('INSERT INTO tokens (user_id, token, device, expires_at, api_request) VALUES (?,?,?,?,?)', array($id, $token, $device, $tokenExpires, $apiRequest), 'isssi');

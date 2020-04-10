@@ -10,10 +10,10 @@ function deleteExpiredTokens($fromCli=true, $verbose=0) {
         }
         $dbManager->runQuery($lockQuery);
         if ($verbose) {
-            $query = 'SELECT tokens.token, users.id'; 
+            $query = 'SELECT tokens.id, tokens.token, users.id'; 
             if ($verbose==2) {
                 if ($fromCli) {
-                    echo "Now today is: {$nowToday}.\n";
+                    echo getTranslatedString('tokens', 1)."{$nowToday}.\n";
                 } else {
                     $response['data']['now-today'] = $nowToday;
                 }
@@ -27,17 +27,17 @@ function deleteExpiredTokens($fromCli=true, $verbose=0) {
             }
             $toDeleteNum = count($toDelete);
             if (!$toDeleteNum && $fromCli) {
-                echo "No tokens to delete.\n";
+                echo getTranslatedString('tokens', 2)."\n";
             }
             for ($i=0; $i<$toDeleteNum; $i++) {
-                $dbManager->runPreparedQuery('DELETE FROM tokens WHERE tokens.token=?', array($toDelete[$i]['token']), 's');
+                $dbManager->runPreparedQuery('DELETE FROM tokens WHERE tokens.id=?', array($toDelete[$i]['id']), 'i');
                 if ($fromCli) {
                     if (!$i && $verbose==2) {
                         echo "\n";
                     }
-                    echo "Deleted token {$toDelete[$i]['token']} of user id {$toDelete[$i]['id']}";
+                    echo getTranslatedString('tokens', 3)."{$toDelete[$i]['token']}".getTranslatedString('tokens', 4)."{$toDelete[$i]['id']}";
                     if ($verbose==2) {
-                        echo " ({$toDelete[$i]['name']} AKA {$toDelete[$i]['friendly_name']}) with device {$toDelete[$i]['device']}, expired at {$toDelete[$i]['expires_at']}";
+                        echo " ({$toDelete[$i]['name']}".getTranslatedString('tokens', 5)."{$toDelete[$i]['friendly_name']})".getTranslatedString('tokens', 6)."{$toDelete[$i]['device']}".getTranslatedString('tokens', 6)."{$toDelete[$i]['expires_at']}";
                     }
                     echo ".\n";
                 } else {
@@ -64,9 +64,7 @@ function deleteExpiredTokens($fromCli=true, $verbose=0) {
         }
     } catch (Exception $exception) {
         if ($fromCli) {
-            if ($verbose) {
-                echo $exception->getMessage();    
-            }
+            throw new Exception($exception->getMessage());    
             return false;
         } else {
             return array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
@@ -78,6 +76,7 @@ if (php_sapi_name()=='cli') {
     chdir(dirname(__FILE__).'/../');
     $apiRequest = false;
     require 'config.php';
+    require 'translation.php';
     $verbose = 0;
     foreach($argv as $arg) {
         if ($arg=='-v' || $arg=='--verbose') {
@@ -89,16 +88,20 @@ if (php_sapi_name()=='cli') {
         }
     }
     if (MAINTENANCE) {
-        echo "Fondo Merende is not available at the moment.\n";
+        echo getTranslatedString('maintenance', 5)."\n";
         if ($verbose) {
-            echo "Please wait for our team of experts to perfom the required updates.\n";
+            echo getTranslatedString('maintenance', 6)."\n";
             if ($verbose==2) {
-                echo "Don't be an asshole, wait and DO NOT COMPLAIN!\n"; 
+                echo getTranslatedString('maintenance', 7).' '.getTranslatedString('maintenance', 8)."!\n"; 
             }
         }
     } else {
         require 'DbManager.php';
-        $dbManager = new DbManager(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
-        deleteExpiredTokens(true, $verbose);
+        try {
+            $dbManager = new DbManager(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
+            deleteExpiredTokens(true, $verbose);
+        } catch (Exception $exception) {
+            echo $exception->getMessage();
+        }
     }
 }

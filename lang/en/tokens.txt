@@ -1,0 +1,7 @@
+Now today is: 
+No tokens to delete.
+Deleted token 
+ of user id 
+ AKA 
+ with device 
+, expired at 

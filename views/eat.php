@@ -1,8 +1,8 @@
 <?php 
-    require 'process-request.php'; 
+    require 'public/process-request.php'; 
     if (isset($_POST['command-name']) && $_POST['command-name']=='eat' && $response['status']==200) {
         $headerString = 'location: '.BASE_DIR;
-        if (!FRIENDLY_URLS) {
+        if (!CLEAN_URLS) {
             $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
         }
         header($headerString);
@@ -17,7 +17,7 @@
     <h3 class="one-column-row"><?php echoTranslatedString('commons', 2); ?>: <?php echo number_format($response['data']['user-funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)); ?> €</h3>
 <?php endif; if ($response['status']==404 && $commandName=='get-to-eat-and-user-funds'): ?>
     <h3 class="one-column-row"><?php echoTranslatedString('commons', 5); ?>!</h3>
-    <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echoTranslatedString('commands', 5); else: echo 'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-buy'; endif; ?>" title="<?php echoTranslatedString('buy', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
+    <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (CLEAN_URLS): echoTranslatedString('commands', 5); else: echo 'index.php?view='.getTranslatedString('commands', 5).'&command-name=get-to-buy'; endif; ?>" title="<?php echoTranslatedString('buy', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 5); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
     <?php elseif ($response['status']==200): foreach($response['data']['snacks'] as $snack): ?>
         <form class="row" method="post">
             <input type="hidden" name="command-name" value="eat"></label>

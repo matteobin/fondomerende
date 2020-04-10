@@ -8,7 +8,7 @@ Fondo Merende is a web management software for office snacks supplies.
 
 ## Installation
 1. Clone the repository and configure your webserver to expose just the [public directory](public). If you use nginx take a look at [nginx.conf.sample](nginx.conf.sample).  
-2. Create a MariaDB or MySQL database and run [db-structure.sql](db-structure.sql) script on it.  
+2. Create a MariaDB or MySQL database, extract [db-structure.sql.bz2](db-structure.sql.bz2) and run the SQL script on the database.  
 3. Create a config.php file from [config.php.sample](config.php.sample).  
 
 ### Options  
@@ -28,9 +28,9 @@ While on maintenance Fondo Merende website and API will show a brief message exp
 It defines if APCu is installed. Set it to `true` to activate caching of CSS, translations and images.  
 **As the option name says, to use cached assets you must have APCu installed.**
 
-#### FRIENDLY\_URLS
-It tells Fondo Merende website to use friendly "legible" and localised url in links. Set it to `true` to activate it.  
-**In order to make friendly urls work you have to copy the rewrites from [nginx.conf.sample](nginx.conf.sample) in your site configuration file, otherwise, if you don't use nginx, you will need to rewrite those rules for your web server of choice.**  
+#### CLEAN\_URLS
+It tells Fondo Merende website to use pretty, "legible" and localised url in links. Set it to `true` to activate it.  
+**In order to make clean urls work you have to copy the rewrites from [nginx.conf.sample](nginx.conf.sample) in your site configuration file, otherwise, if you don't use nginx, you will need to rewrite those rules for your web server of choice.**  
 If you add a new language to the translations you must add new rewrite rules to the web server configuration as well.
 
 #### DB\_SERVER
@@ -78,7 +78,7 @@ Be sure to check out the dev branch before proposing new features, because they 
 
 ## Authors and acknowledgment
 Developed by Matteo Bini.  
-Italian translation by Matteo Luchetta.
+Italian translation by Matteo Luchetta.  
 README template by [Make a README](https://www.makeareadme.com/).
 
 ## License

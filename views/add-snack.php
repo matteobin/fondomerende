@@ -1,10 +1,10 @@
 <?php
     if (isset($_POST['name'])) {
-        require 'process-request.php';
+        require 'public/process-request.php';
     }
     if (isset($response['status']) && $response['status']==201) {
         $headerString = 'location: '.BASE_DIR;
-        if (!FRIENDLY_URLS) {
+        if (!CLEAN_URLS) {
             $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
         }
         header($headerString);

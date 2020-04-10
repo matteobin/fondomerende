@@ -4,20 +4,20 @@
     function echoPageHref($limit, $page) {
         global $limit;
         echo BASE_DIR;
-        if (FRIENDLY_URLS) {
+        if (CLEAN_URLS) {
             echo getTranslatedString('actions', 1).'/'.$limit.'/'.$page;
         } else {
             echo 'index.php?view='.getTranslatedString('actions', 1).'&command-name=get-paginated-actions&limit='.$limit.'&page='.$page;
         }
         if (isset($_GET['asc-order'])) {
-            if (FRIENDLY_URLS) {
+            if (CLEAN_URLS) {
                 echo '/'.$_GET['asc-order'];
             } else {
                 echo '&asc-order='.$_GET['asc-order'];
             }
         }
     }
-    require 'process-request.php';
+    require 'public/process-request.php';
     if (isset($response['message'])):
 ?>
     <p class="one-column-row error"><?php echo $response['message']; ?></p>

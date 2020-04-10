@@ -9,6 +9,7 @@ function logout() {
             unset($_COOKIE['token']);
             unset($_COOKIE['remember-user']);
             $expires = time()-86400;
+            require 'set-fm-cookie.php';
             setFmCookie('token', null, $expires);
             setFmCookie('remember-user', null, $expires);
         }

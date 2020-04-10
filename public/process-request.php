@@ -1,10 +1,10 @@
 <?php
-$apiRequest = (isset($apiRequest)) ? $apiRequest : true;
+$apiRequest = isset($apiRequest) ? $apiRequest : true;
 if ($apiRequest) {
-    require '../config.php';
-    require '../translation.php';
+    chdir(dirname(__FILE__).'/../');
+    require 'config.php';
+    require 'translation.php';
 }
-unset($baseScriptFilename);
 if (MAINTENANCE) {
     $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
 } else {
@@ -25,7 +25,7 @@ if (MAINTENANCE) {
         }
         return $requestMethodRight;
     }
-    require_once '../check-token.php';
+    require_once 'check-token.php';
     function checkUserActive() {
         $isActive = false;
         global $dbManager, $response;
@@ -229,10 +229,10 @@ if (MAINTENANCE) {
     if (!$apiRequest || checkApiKey()) {
         try {
             if (!isset($dbManager)) {
-                require '../DbManager.php';
+                require 'DbManager.php';
                 $dbManager = new DbManager(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
             }
-            if ((FRIENDLY_URLS && isset($_GET['command-name']) && $_GET['command-name']=='get-main-view-data' && $commandName=$_GET['command-name']) || setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-snack-image', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
+            if ((CLEAN_URLS && isset($_GET['command-name']) && $_GET['command-name']=='get-main-view-data' && $commandName=$_GET['command-name']) || setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-snack-image', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
                 switch ($commandName) {
                     case 'add-user':
                         if ($apiRequest && !checkRequestMethod('POST')) {
@@ -251,7 +251,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
-                        require '../commands/add-user.php';
+                        require 'commands/add-user.php';
                         $response = addUser($name, $password, $friendlyName, $admin);
                         break;
                     case 'login':
@@ -268,7 +268,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($rememberUser, false, 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
-                        require '../commands/login.php';
+                        require 'commands/login.php';
                         $response = login($userName, $password, $rememberUser);
                         break;
                     case 'logout':
@@ -280,7 +280,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require '../commands/logout.php';
+                        require 'commands/logout.php';
                         $response = logout();
                         break;
                     case 'get-fund-funds':
@@ -292,7 +292,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require '../commands/get-fund-funds.php';
+                        require 'commands/get-fund-funds.php';
                         $response = getFundFunds();
                         break;
                     case 'get-user-funds':
@@ -304,7 +304,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require '../commands/get-user-funds.php';
+                        require 'commands/get-user-funds.php';
                         $response = getUserFunds($_SESSION['user-id']);
                         break;
                     case 'get-actions':
@@ -325,7 +325,7 @@ if (MAINTENANCE) {
                             if (!isset($timestamp)) {
                                 $timestamp = (new DateTime())->format('Y-m-d H:i:s');
                             }
-                            require '../commands/get-actions.php';
+                            require 'commands/get-actions.php';
                             $response = getActions($timestamp, false, false, 'DESC');
                         } else  {
                             $timestamp = false;
@@ -350,10 +350,10 @@ if (MAINTENANCE) {
                                 $order = 'ASC';
                             }
                             if ($commandName=='get-actions' || $commandName=='get-latest-actions') {
-                                require '../commands/get-actions.php';
+                                require 'commands/get-actions.php';
                                 $response = getActions($timestamp, $limit, $offset, $order);
                             } else {
-                                require '../commands/get-paginated-actions.php';
+                                require 'commands/get-paginated-actions.php';
                                 $response = getPaginatedActions($limit, $page, $order);
                             }
                         }
@@ -367,7 +367,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require '../commands/get-main-view-data.php';
+                        require 'commands/get-main-view-data.php';
                         $response = getMainViewData($_SESSION['user-id']);
                         break;
                     case 'get-user-data':
@@ -379,7 +379,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require '../commands/get-user-data.php';
+                        require 'commands/get-user-data.php';
                         $response = getUserData($_SESSION['user-id']);
                         break;
                     case 'edit-user':
@@ -425,7 +425,7 @@ if (MAINTENANCE) {
                             $values['password'] = password_hash($values['password'], PASSWORD_DEFAULT);
                             $types['password'] = 's';
                         }
-                        require '../commands/edit-snack-or-user.php';
+                        require 'commands/edit-snack-or-user.php';
                         $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $values, $types);
                         break;
                     case 'deposit':
@@ -445,10 +445,10 @@ if (MAINTENANCE) {
                             break;
                         }
                         if ($commandName=='deposit') {
-                            require '../commands/deposit.php';
+                            require 'commands/deposit.php';
                             $response = deposit($_SESSION['user-id'], $amount);
                         } else {
-                            require '../commands/withdraw.php';
+                            require 'commands/withdraw.php';
                             $response = withdraw($_SESSION['user-id'], $amount);
                         }
                         break;
@@ -480,7 +480,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
-                        require '../commands/add-snack.php';
+                        require 'commands/add-snack.php';
                         $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
                         break;
                     case 'get-snacks-data':
@@ -492,7 +492,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require '../commands/get-snacks-data.php';
+                        require 'commands/get-snacks-data.php';
                         $response = getSnacksData();
                         break;
                     case 'get-snack-data':
@@ -508,7 +508,7 @@ if (MAINTENANCE) {
                             break;
                         }
                         $snackId = getIdByUniqueName('snacks', $snackName);
-                        require '../commands/get-snack-data.php';
+                        require 'commands/get-snack-data.php';
                         $response = getSnackData($snackId);
                         break;
                     case 'get-snack-image':
@@ -525,7 +525,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($overwrite, false, 'overwrite', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
-                        require '../commands/get-snack-image.php';
+                        require 'commands/get-snack-image.php';
                         $response = getSnackImage($snackName, $overwrite);
                         break;
                     case 'edit-snack':
@@ -572,7 +572,7 @@ if (MAINTENANCE) {
                         } else if (isset($values['visible'])) {
                             $types['visible'] = 'i';
                         }
-                        require '../commands/edit-snack-or-user.php';
+                        require 'commands/edit-snack-or-user.php';
                         $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                         break;
                     case 'get-to-buy':
@@ -584,7 +584,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require '../commands/get-to-buy.php';
+                        require 'commands/get-to-buy.php';
                         $response = getToBuy();
                         break;
                     case 'buy':
@@ -629,7 +629,7 @@ if (MAINTENANCE) {
                                 $options['expiration_in_days'] = ((new DateTime('today'))->diff(new DateTime($expiration)))->days;
                             }
                         }
-                        require '../commands/buy.php';
+                        require 'commands/buy.php';
                         $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                         break;
                     case 'get-to-eat-and-user-funds':
@@ -641,7 +641,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require '../commands/get-to-eat-and-user-funds.php';
+                        require 'commands/get-to-eat-and-user-funds.php';
                         $response = getToEatAndUserFunds($_SESSION['user-id']);
                         break;
                     case 'eat':
@@ -663,7 +663,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($quantity, false, 'quantity', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                             break;
                         }
-                        require '../commands/eat.php';
+                        require 'commands/eat.php';
                         $response = eat($_SESSION['user-id'], $snackId, $quantity);
                         break;
                 }
@@ -677,6 +677,7 @@ if (MAINTENANCE) {
 }
 if ($apiRequest) {
     unset($_COOKIE['key']);
+    require 'set-fm-cookie.php';
     setFmCookie('key', '', time()-86400);
     if (isset($_COOKIE['token'])) {
         unset($_COOKIE['token']);

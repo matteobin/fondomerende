@@ -1,0 +1,7 @@
+Oggi in questo momento è: 
+Nessun token da cancellare.
+Cancellato il token 
+ dell'utente con id 
+ alias 
+ con dispositivo 
+, scaduto il 

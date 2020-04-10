@@ -1,8 +1,8 @@
 <?php
-    require 'process-request.php';    
+    require 'public/process-request.php';    
     if (isset($_POST['command-name']) && $_POST['command-name']=='edit-snack' && isset($response['status']) && $response['status']==200) {
         $headerString = 'location: '.BASE_DIR;
-        if (!FRIENDLY_URLS) {
+        if (!CLEAN_URLS) {
             $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
         }
         header($headerString);

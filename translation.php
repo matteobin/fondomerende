@@ -25,12 +25,12 @@ function getTranslatedString($fileName, $rowNumber) {
             $$rowsGlobalVariableName = $cachedTranslatedRows;
         }
     } else {
-        $filePath = '../lang/'.$lang.'/'.$fileName.'.txt';
+        $filePath = 'lang/'.$lang.'/'.$fileName.'.txt';
         if (!is_file($filePath)) {
             if ($lang=='en') {
                 $translatedString = 'Invalid translation file name: there is no '.$fileName.' for en lang.';
             } else {
-                $filePath = '../lang/en/'.$fileName.'.txt';
+                $filePath = 'lang/en/'.$fileName.'.txt';
             }
         }
         if (!isset($translatedString)) {

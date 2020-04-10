@@ -1,10 +1,10 @@
 <?php
 	if (isset($_POST['command-name'])) {
-		require 'process-request.php';
+		require 'public/process-request.php';
 	}
 	if ((isset($response['status']) && $response['status']==201) || isset($_SESSION['user-id'], $_SESSION['user-token'], $_SESSION['user-friendly-name'])) {
         $headerString = 'location: '.BASE_DIR;
-        if (!FRIENDLY_URLS) {
+        if (!CLEAN_URLS) {
             $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
         }
         header($headerString);
@@ -35,5 +35,5 @@
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
 <?php endif; ?>
 <div class="one-column-row">
-    <a href="<?php echo BASE_DIR; if (FRIENDLY_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); endif; ?>" title="<?php echoTranslatedString('add-user', 1); ?>"><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>
+    <a href="<?php echo BASE_DIR; if (CLEAN_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); endif; ?>" title="<?php echoTranslatedString('add-user', 1); ?>"><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>
 </div>

@@ -3,9 +3,9 @@ if ($apiRequest) {
     define('API_KEY', 'sekrit_PaSSWoRD');
 } else {
     define('BASE_DIR', '/');
-    define('FRIENDLY_URLS', false);
 }
 define('MAINTENANCE', false);
+define('CLEAN_URLS', false);
 define('APCU_INSTALLED', false);
 if (!MAINTENANCE) {
     define('DB_SERVER', '127.0.0.1');
