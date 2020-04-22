@@ -1,5 +1,5 @@
 <?php
-if ($apiRequest) {
+if (API_REQUEST) {
     define('API_KEY', 'sekrit_PaSSWoRD');
 } else {
     define('BASE_DIR', '/');

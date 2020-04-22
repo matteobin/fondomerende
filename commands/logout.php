@@ -1,11 +1,11 @@
 <?php
 function logout() {
-    global $dbManager, $apiRequest;
+    global $dbManager;
     try {
         $dbManager->startTransaction();
         $dbManager->runQuery('LOCK TABLES tokens WRITE');
         $dbManager->runPreparedQuery('DELETE FROM tokens WHERE token=?', array($_SESSION['token']), 's');
-        if (!$apiRequest) {
+        if (!API_REQUEST) {
             unset($_COOKIE['token']);
             unset($_COOKIE['remember-user']);
             $expires = time()-86400;
@@ -22,5 +22,5 @@ function logout() {
         $dbManager->rollbackTransaction();
         $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
-	return $response;
+    return $response;
 }

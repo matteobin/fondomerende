@@ -2,7 +2,7 @@
 Fondo Merende is a web management software for office snacks supplies.
 
 ## Requirements
-1. Any web server that supports [PHP](https://www.php.net/) ([nginx](https://nginx.org/) is recommended for friendly urls).
+1. Any web server that supports [PHP](https://www.php.net/) ([nginx](https://nginx.org/) is recommended for clean URLs).
 2. [MariaDB](https://mariadb.org/) or [MySQL](https://www.mysql.com/).
 3. [APCu](https://www.php.net/manual/en/book.apcu.php), if you would like to have cached CSS, translations and images (optional).
 
@@ -29,8 +29,8 @@ It defines if APCu is installed. Set it to `true` to activate caching of CSS, tr
 **As the option name says, to use cached assets you must have APCu installed.**
 
 #### CLEAN\_URLS
-It tells Fondo Merende website to use pretty, "legible" and localised url in links. Set it to `true` to activate it.  
-**In order to make clean urls work you have to copy the rewrites from [nginx.conf.sample](nginx.conf.sample) in your site configuration file, otherwise, if you don't use nginx, you will need to rewrite those rules for your web server of choice.**  
+It tells Fondo Merende website to use pretty, "legible" and localised URL in links. Set it to `true` to activate it.  
+**In order to make clean URLs work you have to copy the rewrites from [nginx.conf.sample](nginx.conf.sample) in your site configuration file, otherwise, if you don't use nginx, you will need to rewrite those rules for your web server of choice.**  
 If you add a new language to the translations you must add new rewrite rules to the web server configuration as well.
 
 #### DB\_SERVER
@@ -55,7 +55,7 @@ To create an user you need to go to Fondo Merende website, click on Add user in 
 For security reasons after the registration every user needs to be activated to carry out main actions like adding, buying and eating snacks. To activate an user set the active column of Fondo Merende users database table to `1`.
 
 ### API
-To call the API you just need to point to [process-request.php](public/process-request.php) or, if have friendly urls on, to api.  
+To call the API you just need to point to [process-request.php](public/process-request.php) or, if have clean URLs on, to api.  
 You can find more details about it in the [API Postman collection](Postman/Fondo&#32;Merende.postman_collection.json).  
 A little piece of trivia: Fondo Merende was initially developped as a set of APIs for a future client application, then it was later modified to use its own application programming interface to serve web pages with the requested information. This design choice means that every new feature is automatically shared between the website and the API.
 

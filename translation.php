@@ -3,16 +3,16 @@ session_start();
 function getTranslatedString($fileName, $rowNumber) {
     if (isset($_GET['lang'])) {
         $lang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_STRING);
-        $_SESSION['user-lang'] = $lang;
-    } else if (isset($_SESSION['user-lang'])) {
-        $lang = $_SESSION['user-lang'];
+        $_SESSION['lang'] = $lang;
+    } else if (isset($_SESSION['lang'])) {
+        $lang = $_SESSION['lang'];
     } else {
         $lang = substr(filter_input(INPUT_SERVER, 'HTTP_ACCEPT_LANGUAGE', FILTER_SANITIZE_STRING), 0, 2);
-        $_SESSION['user-lang'] = $lang;
+        $_SESSION['lang'] = $lang;
     }
     $rowIndex = $rowNumber-1;
-    $rowsCacheKey = 'fm-'.$_SESSION['user-lang'].'-'.$fileName.'-translation-rows';
-    $rowsGlobalVariableName = $_SESSION['user-lang'].str_replace('-', '', ucwords($fileName, '-')).'TranslationRows';
+    $rowsCacheKey = 'fm-'.$_SESSION['lang'].'-'.$fileName.'-translation-rows';
+    $rowsGlobalVariableName = $_SESSION['lang'].str_replace('-', '', ucwords($fileName, '-')).'TranslationRows';
     global $$rowsGlobalVariableName;
     if (isset($$rowsGlobalVariableName[$rowIndex])) {
         $translatedString = $$rowsGlobalVariableName[$rowIndex];

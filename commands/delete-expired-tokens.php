@@ -74,7 +74,7 @@ function deleteExpiredTokens($fromCli=true, $verbose=0) {
 
 if (php_sapi_name()=='cli') { 
     chdir(dirname(__FILE__).'/../');
-    $apiRequest = false;
+    define('API_REQUEST', false);
     require 'config.php';
     require 'translation.php';
     $verbose = 0;

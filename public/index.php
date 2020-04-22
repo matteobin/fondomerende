@@ -1,5 +1,6 @@
 <?php
     chdir(dirname(__FILE__).'/../');
+    define('API_REQUEST', false);
     $apiRequest = false;
     require 'config.php';
     require 'translation.php';
@@ -138,7 +139,7 @@
     ob_start('sanitizeOutput');
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['user-lang']; ?>">
+<html lang="<?php echo $_SESSION['lang']; ?>">
 	<head>
 		<meta charset="utf-8">
         <title>Fondo Merende | <?php if ($currentView['name']!=getTranslatedString('main', 1)): echo $currentView['title']; endif; if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=getTranslatedString('login', 1) && $currentView['name']!=getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1) && $currentView['name']!='404'): if ($currentView['name']!=getTranslatedString('main', 1)): echo ' - '; endif; echo $_SESSION['user-friendly-name']; endif; ?></title>

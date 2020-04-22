@@ -1,6 +1,6 @@
 <?php
 function login($name, $password, $rememberUser, $apiCall=true) {
-    global $apiRequest, $dbManager;
+    global $dbManager;
     try {
         if ($apiCall) {
             $dbManager->startTransaction();
@@ -26,7 +26,7 @@ function login($name, $password, $rememberUser, $apiCall=true) {
             $_SESSION['token'] = $token;
             $device = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
             $tokenExpires = null;
-            if (!$apiRequest) {
+            if (!API_REQUEST) {
                 if ($rememberUser) {
                     $cookieExpires = time()+432000; // it expires in 5 days
                 } else {
@@ -36,10 +36,10 @@ function login($name, $password, $rememberUser, $apiCall=true) {
                 require 'set-fm-cookie.php';
                 setFmCookie('token', $token, $cookieExpires);
             }
-            $dbManager->runPreparedQuery('INSERT INTO tokens (user_id, token, device, expires_at, api_request) VALUES (?,?,?,?,?)', array($id, $token, $device, $tokenExpires, $apiRequest), 'isssi');
+            $dbManager->runPreparedQuery('INSERT INTO tokens (user_id, token, device, expires_at, api_request) VALUES (?,?,?,?,?)', array($id, $token, $device, $tokenExpires, API_REQUEST), 'isssi');
             if ($apiCall) {
                 $response = array('success'=>true, 'status'=>201);
-                if ($apiRequest) {
+                if (API_REQUEST) {
                     $response['data'] = array('token'=>$token);   
                 }
             }

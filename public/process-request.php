@@ -1,6 +1,8 @@
 <?php
-$apiRequest = isset($apiRequest) ? $apiRequest : true;
-if ($apiRequest) {
+if (!defined('API_REQUEST')) {
+    define('API_REQUEST', true);
+}
+if (API_REQUEST) {
     chdir(dirname(__FILE__).'/../');
     require 'config.php';
     require 'translation.php';
@@ -17,9 +19,9 @@ if (MAINTENANCE) {
         return $isValid;
     }
     function checkRequestMethod($acceptedMethod) {
-        global $requestMethod, $response;
+        global $response;
         $requestMethodRight = true;
-        if ($requestMethod!=$acceptedMethod) {
+        if (REQUEST_METHOD!=$acceptedMethod) {
             $requestMethodRight = false;
             $response = array('success'=>false, 'status'=>405, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 4).$acceptedMethod.getTranslatedString('response-messages', 5));
         }
@@ -41,16 +43,6 @@ if (MAINTENANCE) {
         $dbManager->endTransaction();
         return $isActive;
 
-    }
-    function getIdByUniqueName($table, $name) {
-        global $dbManager;
-        $dbManager->startTransaction();
-        $dbManager->runQuery('LOCK TABLES '.$table.' READ');
-        $dbManager->runPreparedQuery('SELECT id FROM '.$table.' WHERE name=? LIMIT 1', array($name), 's');
-        $id = $dbManager->getQueryRes()->fetch_row()[0]; 
-        $dbManager->runQuery('UNLOCK TABLES');
-        $dbManager->endTransaction();
-        return $id;
     }
     function checkFilteredInputValidity($value, $options=null) {
         $valid = true;
@@ -189,13 +181,13 @@ if (MAINTENANCE) {
             $filterOptions = $inputFilterAndOptions['options'];
         }
 		$noInputError = true;
-        global $requestMethod, ${'_'.$requestMethod};
-        if ($mandatory || isset(${'_'.$requestMethod}[$requestVariableName])) {
-            $value = filter_input(constant('INPUT_'.$requestMethod), $requestVariableName, $inputFilterAndOptions['filter'], $filterOptions);
-			if ($inputFilterAndOptions['filter']==FILTER_VALIDATE_BOOLEAN) {
-				$validityOptions['boolean'] = true;
-			}
-			$checkResult = checkFilteredInputValidity($value, $validityOptions);
+        global ${'_'.REQUEST_METHOD};
+        if ($mandatory || isset(${'_'.REQUEST_METHOD}[$requestVariableName])) {
+            $value = filter_input(constant('INPUT_'.REQUEST_METHOD), $requestVariableName, $inputFilterAndOptions['filter'], $filterOptions);
+            if ($inputFilterAndOptions['filter']==FILTER_VALIDATE_BOOLEAN) {
+                $validityOptions['boolean'] = true;
+            }
+            $checkResult = checkFilteredInputValidity($value, $validityOptions);
             if ($checkResult['valid']) {
                 if (gettype($valueDestination)=='array') {
                     $valueDestination[$dbColumnValueName] = $value;
@@ -210,23 +202,9 @@ if (MAINTENANCE) {
         }
         return $noInputError;
     }
-    function checkUserPassword($userId, $password) {
-        global $dbManager;
-        $passwordVerified = false;
-        $dbManager->startTransaction();
-        $dbManager->runQuery('LOCK TABLES users READ');
-        $dbManager->runPreparedQuery('SELECT password FROM users WHERE id=?', array($userId), 'i');
-        $hashedPassword = $dbManager->getQueryRes()->fetch_row()[0];
-        $dbManager->runQuery('UNLOCK TABLES');
-        $dbManager->endTransaction();
-        if (password_verify($password, $hashedPassword)) {
-            $passwordVerified = true;
-        }
-        return $passwordVerified;
-    }
-    $requestMethod = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
+    define('REQUEST_METHOD', filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING));
     $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 23));
-    if (!$apiRequest || checkApiKey()) {
+    if (!API_REQUEST || checkApiKey()) {
         try {
             if (!isset($dbManager)) {
                 require 'DbManager.php';
@@ -235,7 +213,7 @@ if (MAINTENANCE) {
             if ((CLEAN_URLS && isset($_GET['command-name']) && $_GET['command-name']=='get-main-view-data' && $commandName=$_GET['command-name']) || setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-snack-image', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
                 switch ($commandName) {
                     case 'add-user':
-                        if ($apiRequest && !checkRequestMethod('POST')) {
+                        if (API_REQUEST && !checkRequestMethod('POST')) {
                             break;
                         }
                         if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
@@ -255,7 +233,7 @@ if (MAINTENANCE) {
                         $response = addUser($name, $password, $friendlyName, $admin);
                         break;
                     case 'login':
-                        if ($apiRequest && !checkRequestMethod('POST')) {
+                        if (API_REQUEST && !checkRequestMethod('POST')) {
                             break;
                         }
                         if (!setRequestInputValue($userName, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30))) {
@@ -272,7 +250,7 @@ if (MAINTENANCE) {
                         $response = login($userName, $password, $rememberUser);
                         break;
                     case 'logout':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('POST')) {
                                 break;
                             }
@@ -284,7 +262,7 @@ if (MAINTENANCE) {
                         $response = logout();
                         break;
                     case 'get-fund-funds':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('GET')) {
                                 break;
                             }
@@ -296,7 +274,7 @@ if (MAINTENANCE) {
                         $response = getFundFunds();
                         break;
                     case 'get-user-funds':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('GET')) {
                                 break;
                             }
@@ -310,7 +288,7 @@ if (MAINTENANCE) {
                     case 'get-actions':
                     case 'get-latest-actions':
                     case 'get-paginated-actions':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('GET')) {
                                 break;
                             }
@@ -359,7 +337,7 @@ if (MAINTENANCE) {
                         }
                         break;
                     case 'get-main-view-data':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('GET')) {
                                 break;
                             }
@@ -371,7 +349,7 @@ if (MAINTENANCE) {
                         $response = getMainViewData($_SESSION['user-id']);
                         break;
                     case 'get-user-data':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('GET')) {
                                 break;
                             }
@@ -383,7 +361,7 @@ if (MAINTENANCE) {
                         $response = getUserData($_SESSION['user-id']);
                         break;
                     case 'edit-user':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('POST')) {
                                 break;
                             }
@@ -402,7 +380,7 @@ if (MAINTENANCE) {
                         } else if (isset($values['friendly_name'])) {
                             $types['friendly_name'] = 's';
                         }
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!setRequestInputValue($values, false, 'password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
                                 break;
                             }
@@ -416,6 +394,7 @@ if (MAINTENANCE) {
                             if (!setRequestInputValue($currentPassword, true, 'current-password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
                                 break;
                             }
+                            require 'check-user-password.php';
                             if (!checkUserPassword($_SESSION['user-id'], $currentPassword)) {
                                 $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('edit-user', 6));
                                 break;
@@ -430,7 +409,7 @@ if (MAINTENANCE) {
                         break;
                     case 'deposit':
                     case 'withdraw':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('POST')) {
                                 break;
                             }
@@ -453,7 +432,7 @@ if (MAINTENANCE) {
                         }
                         break;
                     case 'add-snack':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('POST')) {
                                 break;
                             }
@@ -484,7 +463,7 @@ if (MAINTENANCE) {
                         $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
                         break;
                     case 'get-snacks-data':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('GET')) {
                                 break;
                             }
@@ -496,7 +475,7 @@ if (MAINTENANCE) {
                         $response = getSnacksData();
                         break;
                     case 'get-snack-data':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('GET')) {
                                 break;
                             }
@@ -507,9 +486,8 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($snackName, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                             break;
                         }
-                        $snackId = getIdByUniqueName('snacks', $snackName);
                         require 'commands/get-snack-data.php';
-                        $response = getSnackData($snackId);
+                        $response = getSnackData($snackName);
                         break;
                     case 'get-snack-image':
                         if (!checkRequestMethod('GET')) {
@@ -529,7 +507,7 @@ if (MAINTENANCE) {
                         $response = getSnackImage($snackName, $overwrite);
                         break;
                     case 'edit-snack':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('POST')) {
                                 break;
                             }
@@ -576,7 +554,7 @@ if (MAINTENANCE) {
                         $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                         break;
                     case 'get-to-buy':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('GET')) {
                                 break;
                             }
@@ -588,7 +566,7 @@ if (MAINTENANCE) {
                         $response = getToBuy();
                         break;
                     case 'buy':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('POST')) {
                                 break;
                             }
@@ -606,13 +584,13 @@ if (MAINTENANCE) {
                             break;
                         }
                         $customiseBuyOptions = false;
-                        if (!$apiRequest) {
+                        if (!API_REQUEST) {
                             if (!setRequestInputValue($customiseBuyOptions, false, 'customise-buy-options', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                                 break;
                             }
                         }
                         $options = array();
-                        if ($apiRequest || $customiseBuyOptions) {
+                        if (API_REQUEST || $customiseBuyOptions) {
                             if (!setRequestInputValue($options, false, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'less-than'=>100))) {
                                 break;
                             }
@@ -633,7 +611,7 @@ if (MAINTENANCE) {
                         $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                         break;
                     case 'get-to-eat-and-user-funds':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('GET')) {
                                 break;
                             }
@@ -645,7 +623,7 @@ if (MAINTENANCE) {
                         $response = getToEatAndUserFunds($_SESSION['user-id']);
                         break;
                     case 'eat':
-                        if ($apiRequest) {
+                        if (API_REQUEST) {
                             if (!checkRequestMethod('POST')) {
                                 break;
                             }
@@ -675,7 +653,7 @@ if (MAINTENANCE) {
         $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 27));
     }
 }
-if ($apiRequest) {
+if (API_REQUEST) {
     unset($_COOKIE['key']);
     require 'set-fm-cookie.php';
     setFmCookie('key', '', time()-86400);

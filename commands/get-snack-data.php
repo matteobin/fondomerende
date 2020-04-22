@@ -1,9 +1,15 @@
 <?php
-function getSnackData($snackId) {
+function getSnackData($snackIdOrName) {
     global $dbManager;
     try {
         $dbManager->startTransaction();
         $dbManager->runQuery('LOCK TABLES snacks READ');
+        if ((int)$snackIdOrName) {
+            $snackId = $snackIdOrName;
+        } else {
+            $dbManager->runPreparedQuery('SELECT id FROM snacks WHERE name=?', array($snackIdOrName), 's'); 
+            $snackId = $dbManager->getQueryRes()->fetch_row()[0]; 
+        }
         $dbManager->runPreparedQuery('SELECT id, friendly_name, price, snacks_per_box, expiration_in_days, visible FROM snacks WHERE id=?', array($snackId), 'i');
         while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
             $snack = array('id'=>$row['id'], 'friendly-name'=>$row['friendly_name'], 'price'=>$row['price'], 'snacks-per-box'=>$row['snacks_per_box'], 'expiration-in-days'=>$row['expiration_in_days'], 'visible'=>$row['visible']);
