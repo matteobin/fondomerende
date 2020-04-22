@@ -140,11 +140,11 @@
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['lang']; ?>">
-	<head>
-		<meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
         <title>Fondo Merende | <?php if ($currentView['name']!=getTranslatedString('main', 1)): echo $currentView['title']; endif; if ($currentView['name']!=getTranslatedString('maintenance', 1) && $currentView['name']!=getTranslatedString('login', 1) && $currentView['name']!=getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1) && $currentView['name']!='404'): if ($currentView['name']!=getTranslatedString('main', 1)): echo ' - '; endif; echo $_SESSION['user-friendly-name']; endif; ?></title>
-		<meta name="description" content="<?php echo $currentView['description']; ?>">
-		<meta name="author" content="Matteo Bini">
+        <meta name="description" content="<?php echo $currentView['description']; ?>">
+        <meta name="author" content="Matteo Bini">
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
@@ -181,8 +181,8 @@
                 echoResource('css');
             ?>
         </style>
-	</head>
-	<body class="row">
+    </head>
+    <body class="row">
         <header class="row">
             <h1 class="one-column-row" style="margin:.75em 0 .25em">Fondo Merende</h1>
             <?php
@@ -203,5 +203,5 @@
                 <?php endif; ?>
             </footer>
         <?php endif; ?>
-	</body>
+    </body>
 </html>
