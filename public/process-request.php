@@ -47,7 +47,7 @@ if (MAINTENANCE) {
     function checkFilteredInputValidity($value, $options=null) {
         $valid = true;
         $message = '';
-		if (!isset($options['boolean'])) {
+            if (!isset($options['boolean'])) {
             $options['boolean'] = false;
         }
         if (!isset($options['can-be-empty'])) {
@@ -180,7 +180,7 @@ if (MAINTENANCE) {
         if (isset($inputFilterAndOptions['options'])) {
             $filterOptions = $inputFilterAndOptions['options'];
         }
-		$noInputError = true;
+        $noInputError = true;
         global ${'_'.REQUEST_METHOD};
         if ($mandatory || isset(${'_'.REQUEST_METHOD}[$requestVariableName])) {
             $value = filter_input(constant('INPUT_'.REQUEST_METHOD), $requestVariableName, $inputFilterAndOptions['filter'], $filterOptions);
