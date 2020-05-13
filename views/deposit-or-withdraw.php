@@ -12,7 +12,7 @@
 </header>
 <?php if ($response['status']==404 && !isset($response['message'])): ?>
     <h3 class="one-column-row"><?php echoTranslatedString('withdraw', 2); ?></h3>
-    <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (CLEAN_URLS): echoTranslatedString('commands', 3); else: echo 'index.php?view='.getTranslatedString('commands', 3).'&command-name=get-user-funds'; endif; ?>" title="<?php echoTranslatedString('deposit', 1); ?>"><strong><?php echoStrtoupperTranslatedString('commands', 3); ?></strong></a><?php echoTranslatedString('commons', 7) ?></p>
+    <p class="one-column-row"><?php echoTranslatedString('commons', '6'); ?><a href="<?php echo BASE_DIR; if (CLEAN_URLS): echoTranslatedString('commands', 3); else: echo 'index.php?view='.getTranslatedString('commands', 3).'&command-name=get-user-funds'; endif; ?>" title="<?php echoTranslatedString('deposit', 1); ?>"><b><?php echoStrtoupperTranslatedString('commands', 3); ?></b></a><?php echoTranslatedString('commons', 7) ?></p>
 <?php else: ?>
     <h3 class="one-column-row"><?php echo $fundsTypeLabel; ?>: <?php echo number_format($funds, 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)); ?> €</h3>
     <form class="row" method="post">

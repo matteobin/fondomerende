@@ -2,7 +2,6 @@
 function eat($userId, $snackId, $quantity) {
     global $dbManager;
     try {
-        $dbManager->startTransaction();
         $dbManager->runQuery('LOCK TABLES crates WRITE, snacks_stock WRITE, eaten WRITE, users_funds WRITE, actions WRITE');
         $dbManager->runPreparedQuery('SELECT outflow_id, price_per_snack FROM crates WHERE snack_id=? AND snack_quantity!=? ORDER BY expiration ASC LIMIT 1', array($snackId, 0), 'ii');
         $cratesRow = $dbManager->getQueryRes()->fetch_assoc();

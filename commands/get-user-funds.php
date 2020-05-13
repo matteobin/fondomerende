@@ -2,15 +2,9 @@
 function getUserFunds($userId, $apiCall=true) {
     global $dbManager;
     try {
+        $dbManager->query('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
+        $userFundsAmount = $dbManager->result->fetch_row()[0];
         if ($apiCall) {
-            $dbManager->startTransaction();
-            $dbManager->runQuery('LOCK TABLES users_funds READ');
-        }
-        $dbManager->runPreparedQuery('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
-        $userFundsAmount = $dbManager->getQueryRes()->fetch_row()[0];
-        if ($apiCall) {
-            $dbManager->runQuery('UNLOCK TABLES');
-            $dbManager->endTransaction();
             $response = array('success'=>true, 'status'=>200, 'data'=>array('user-funds-amount' =>$userFundsAmount));
         }
     } catch (Exception $exception) {

@@ -1,7 +1,6 @@
 <?php
     chdir(dirname(__FILE__).'/../');
     define('API_REQUEST', false);
-    $apiRequest = false;
     require 'config.php';
     require 'translation.php';
     if (MAINTENANCE) {

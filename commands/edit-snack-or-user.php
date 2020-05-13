@@ -26,7 +26,6 @@ function editSnackOrUser(array $ids, array $newValues, array $types) {
         $oldValueCheckExceptions = array('password');
     }
     try {
-        $dbManager->startTransaction();
         $lockQuery = 'LOCK TABLES actions WRITE, edits WRITE';
         if ($table=='snacks') {
             $lockQuery .= ', snacks WRITE';
@@ -45,11 +44,6 @@ function editSnackOrUser(array $ids, array $newValues, array $types) {
         }
         if ($table=='users' && isset($newValues['friendly_name']) && $newValues['friendly_name']!=$oldValues['friendly_name']) {
             $_SESSION['user-friendly-name'] = $newValues['friendly_name'];
-            if (filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN)) {
-                setcookie('user-friendly-name', $newValues['friendly_name'], time()+86400*5);
-            } else {
-                setcookie('user-friendly-name', $newValues['friendly_name'], 0);
-            }
         }
         $dbManager->runQuery('UNLOCK TABLES');
         $dbManager->endTransaction();

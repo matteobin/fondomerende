@@ -2,7 +2,6 @@
 function getSnackData($snackIdOrName) {
     global $dbManager;
     try {
-        $dbManager->startTransaction();
         $dbManager->runQuery('LOCK TABLES snacks READ');
         if ((int)$snackIdOrName) {
             $snackId = $snackIdOrName;

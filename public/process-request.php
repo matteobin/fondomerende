@@ -31,18 +31,13 @@ if (MAINTENANCE) {
     function checkUserActive() {
         $isActive = false;
         global $dbManager, $response;
-        $dbManager->startTransaction();
-        $dbManager->runQuery('LOCK TABLES users READ');
         $dbManager->runPreparedQuery('SELECT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
         if ($dbManager->getQueryRes()->fetch_row()[0]==1) {
             $isActive = true;
         } else {
             $response = array('success'=>true, 'status'=>401, 'message'=>getTranslatedString('response-messages', 7).getTranslatedString('response-messages', 8));
         }
-        $dbManager->runQuery('UNLOCK TABLES');
-        $dbManager->endTransaction();
         return $isActive;
-
     }
     function checkFilteredInputValidity($value, $options=null) {
         $valid = true;
@@ -148,15 +143,11 @@ if (MAINTENANCE) {
                 } else {
                     $insertUnique = false;
                 }
-                $dbManager->startTransaction();
-                $dbManager->runQuery('LOCK TABLES '.$table.' READ');
                 $dbManager->runPreparedQuery($query, $params, $types);
                 $dbValue = null;
                 while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
                     $dbValue = $row[$selectColumn];
                 }
-                $dbManager->runQuery('UNLOCK TABLES');
-                $dbManager->endTransaction();
                 if ($insertUnique && $dbValue!=null) {
                     $valid = false;
                     $message = $value.''.getTranslatedString('response-messages', 17).$table.getTranslatedString('response-messages', 18).$selectColumn.getTranslatedString('response-messages', 19);
@@ -189,7 +180,7 @@ if (MAINTENANCE) {
             }
             $checkResult = checkFilteredInputValidity($value, $validityOptions);
             if ($checkResult['valid']) {
-                if (gettype($valueDestination)=='array') {
+                if (is_array($valueDestination)) {
                     $valueDestination[$dbColumnValueName] = $value;
                 } else {
                     $valueDestination = $value;
@@ -208,14 +199,15 @@ if (MAINTENANCE) {
         try {
             if (!isset($dbManager)) {
                 require 'DbManager.php';
-                $dbManager = new DbManager(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
+                $dbManager = new DbManager();
             }
-            if ((CLEAN_URLS && isset($_GET['command-name']) && $_GET['command-name']=='get-main-view-data' && $commandName=$_GET['command-name']) || setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-snack-image', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
+            if ((CLEAN_URLS && $commandName=filter_input(INPUT_GET, 'command-name', FILTER_SANITIZE_STRING) && $commandName=='get-main-view-data') || setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-snack-image', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
                 switch ($commandName) {
                     case 'add-user':
                         if (API_REQUEST && !checkRequestMethod('POST')) {
                             break;
                         }
+                        $dbManager->beginTransactionAndLock(array('users'=>'w', 'snacks'=>'r', 'eaten'=>'w', 'users_funds'=>'w', 'actions'=>'w', 'tokens'=>'w'));
                         if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                             break;
                         }
@@ -247,6 +239,7 @@ if (MAINTENANCE) {
                             break;
                         }
                         require 'commands/login.php';
+                        $dbManager->beginTransactionAndLock(array('users'=>'w', 'tokens'=>'w'));
                         $response = login($userName, $password, $rememberUser);
                         break;
                     case 'logout':
@@ -259,6 +252,7 @@ if (MAINTENANCE) {
                             }
                         }
                         require 'commands/logout.php';
+                        $dbManager->beginTransactionAndLock(array('tokens'=>'w'));
                         $response = logout();
                         break;
                     case 'get-fund-funds':
@@ -271,6 +265,7 @@ if (MAINTENANCE) {
                             }
                         }
                         require 'commands/get-fund-funds.php';
+                        $dbManager->beginTransactionAndLock(array('fund_funds'=>'r'));
                         $response = getFundFunds();
                         break;
                     case 'get-user-funds':
@@ -283,6 +278,7 @@ if (MAINTENANCE) {
                             }
                         }
                         require 'commands/get-user-funds.php';
+                        $dbManager->beginTransactionAndLock(array('users_funds'=>'r'));
                         $response = getUserFunds($_SESSION['user-id']);
                         break;
                     case 'get-actions':
@@ -296,6 +292,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
+                        $dbManager->beginTransactionAndLock(array('actions'=>'r', 'users'=>'r', 'edits'=>'r', 'snacks'=>'r'));
                         if ($commandName=='get-latest-actions') {
                             if (!setRequestInputValue($timestamp, false, 'timestamp', array('filter'=>FILTER_SANITIZE_STRING), array('timestamp'=>true))) {
                                 break;
@@ -346,6 +343,7 @@ if (MAINTENANCE) {
                             }
                         }
                         require 'commands/get-main-view-data.php';
+                        $dbManager->beginTransactionAndLock(array('fund_funds'=>'r', 'users_funds'=>'r', 'actions'=>'r', 'users'=>'r', 'edits'=>'r', 'snacks'=>'r'));
                         $response = getMainViewData($_SESSION['user-id']);
                         break;
                     case 'get-user-data':

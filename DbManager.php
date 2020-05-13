@@ -1,31 +1,45 @@
 <?php
 class DbManager {
-    private $connection;
-    private $queryRes;
+    private $connection = null;
+    public $inTransaction = false;
+    public $result = null;
     
-    public function __construct($server, $user, $password, $database) {
-        $connection = new mysqli($server, $user, $password, $database);
-        if ($connection->connect_errno) {
-            throw new Exception('Connection error code '.$connection->connect_errno.'. '.$connection->connect_error);
-        } else {
+    public function __construct() {
+        $connection = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
+        if ($connection) {
             $this->connection = $connection;
+        } else {
+            throw new Exception('Connection error code '.mysqli_connect_errno().'. '.mysqli_connect_error());
         }
     }
 
     public function __destruct() {
-        if ($this->connection!=null) {
+        if (!is_null($this->connection)) {
+            if ($this->inTransaction) {
+                $this->connection->commit();
+                $this->query('UNLOCK TABLES');
+            }
             $this->connection->close();
         }
     }
 
-    public function endTransaction() {
-        $this->connection->commit();
-        $this->connection->autocommit(true);
+    public function beginTransactionAndLock(array $tables) {
+        if (!$this->inTransaction) {
+            $this->connection->autocommit(false);
+            $this->inTransaction = true;
+        }
+        $lockQuery = 'LOCK TABLES ';
+        foreach ($tables as $table=>$lockType) {
+            $lockType = $lockType=='w' || $lockType=='write' || $lockType==1 ? 'WRITE' : 'READ';
+            $lockQuery .= $table.' '.$lockType.', ';
+        }
+        $lockQuery = substr($lockQuery, 0, -2);
+        $this->query($lockQuery);
     }
 
     public function getByUniqueId($column, $table, $id) {
-        $this->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE id=?', array($id), 'i');
-        while ($row = $this->getQueryRes()->fetch_assoc()) {
+        $this->query('SELECT '.$column.' FROM '.$table.' WHERE id=?', array($id), 'i');
+        while ($row = $this->result->fetch_assoc()) {
             $result = $row[$column];
         }
         return $result;
@@ -35,8 +49,8 @@ class DbManager {
         $oldValues = array();
         foreach($newValues as $column=>$newValue) {
             if (!isset($exceptions[$column])) {
-                $this->runPreparedQuery('SELECT '.$column.' FROM '.$table.' WHERE '.$whereColumn.'=?', array($whereId), 'i');
-                while ($row = $this->getQueryRes()->fetch_assoc()) {
+                $this->query('SELECT '.$column.' FROM '.$table.' WHERE '.$whereColumn.'=?', array($whereId), 'i');
+                while ($row = $this->result->fetch_assoc()) {
                     $oldValues[$column] = $row[$column];
                 }
             }
@@ -44,41 +58,38 @@ class DbManager {
         return $oldValues;
     }
 
-    public function getQueryRes() {
-        return $this->queryRes;
-    }
-
     public function rollbackTransaction() {
         $this->connection->rollback();
     }
 
-    public function runPreparedQuery($query, array $params, $paramTypes) {
-        $bindings = array();
-        $bindings[] = & $paramTypes;
-        $paramsLen = count($params);
-        for ($i=0; $i<$paramsLen; $i++) {
-            $bindings[$i+1] = & $params[$i];
-        }
-        $statement = $this->connection->prepare($query);
-        if ($statement===false) {
-            throw new Exception('Statement error in \''.$query.'\'. '.$this->connection->error.'.');
-        } else {
-            call_user_func_array(array($statement, 'bind_param'), $bindings);
-            if (!$statement->execute()) {
-                throw new Exception('Execution error in \''.$query.'\'. '.$this->connection->error.'.');
+    public function query($query, array $params=array(), $paramTypes='') {
+        if (empty($params) || !$paramTypes) {
+            $this->result = $this->connection->query($query);
+            if ($this->result===false) {
+                throw new Exception('Query error in \''.$query.'\'. '.$this->connection->error.'.');
             }
-            $this->queryRes = $statement->get_result();
+        } else {
+            $bindings = array();
+            $bindings[] = & $paramTypes;
+            $paramsLen = count($params);
+            for ($i=0; $i<$paramsLen; $i++) {
+                $bindings[$i+1] = & $params[$i];
+            }
+            $statement = $this->connection->prepare($query);
+            if ($statement===false) {
+                throw new Exception('Statement error in \''.$query.'\'. '.$this->connection->error.'.');
+            } else {
+                call_user_func_array(array($statement, 'bind_param'), $bindings);
+                if (!$statement->execute()) {
+                    throw new Exception('Execution error in \''.$query.'\'. '.$this->connection->error.'.');
+                }
+                $this->result = $statement->get_result();
+                $statement->close();
+            }
         }
     }
 
-    public function runQuery($query) {
-        $this->queryRes = $this->connection->query($query);
-        if ($this->queryRes===false) {
-            throw new Exception('Query error in \''.$query.'\'. '.$this->connection->error.'.');
-        }
-    }
-
-    public function runUpdateQuery($table, array $newValues, array $paramTypesArray, $whereColumn, $whereId, array $oldValues=null) {
+    public function updateQuery($table, array $newValues, array $paramTypesArray, $whereColumn, $whereId, array $oldValues=null) {
         $query = 'UPDATE '.$table.' SET ';
         $params = array();
         $paramTypes = '';
@@ -112,12 +123,8 @@ class DbManager {
             $query .= ' WHERE '.$whereColumn.'=?';
             $params[] = $whereId;
             $paramTypes .= 'i';
-            $this->runPreparedQuery($query, $params, $paramTypes);
+            $this->query($query, $params, $paramTypes);
             return true;
         } else return false;
-    }
-
-    public function startTransaction() {
-        $this->connection->autocommit(false);
     }
 }

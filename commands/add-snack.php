@@ -24,7 +24,7 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $cou
         $response = array('success'=>true, 'status'=>201, 'data'=>array('snack-id'=>$snackId));
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();
-		$response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
     }
     return $response;
 }

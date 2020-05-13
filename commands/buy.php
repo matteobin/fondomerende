@@ -19,7 +19,6 @@ function checkSnackCountable ($snackId) {
 function buy($userId, $snackId, $quantity, array $options) {
     global $dbManager;
     try {
-        $dbManager->startTransaction();
         $isCountable = checkSnackCountable($snackId);
         $lockQuery = 'LOCK TABLES snacks READ, outflows WRITE, fund_funds WRITE, actions WRITE';
         if ($isCountable) {

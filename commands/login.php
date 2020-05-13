@@ -2,24 +2,20 @@
 function login($name, $password, $rememberUser, $apiCall=true) {
     global $dbManager;
     try {
-        if ($apiCall) {
-            $dbManager->startTransaction();
-            $dbManager->runQuery('LOCK TABLES users WRITE, tokens WRITE');
-        }
-        $dbManager->runPreparedQuery('SELECT id, password, friendly_name FROM users WHERE name=?', array($name), 's');
+        $dbManager->query('SELECT id, password, friendly_name FROM users WHERE name=?', array($name), 's');
         $hashedPassword = '';
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+        while ($row = $dbManager->result->fetch_assoc()) {
             $id = $row['id'];
             $hashedPassword = $row['password'];
             $friendlyName = $row['friendly_name'];
         }
         if (password_verify($password, $hashedPassword)) {
-            $dbManager->runPreparedQuery('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
+            $dbManager->query('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
             $notUniqueToken = false;
             do {
                 $token = bin2hex(random_bytes(16));
-                $dbManager->runPreparedQuery('SELECT user_id FROM tokens WHERE token=? LIMIT 1', array($token), 's');
-                $notUniqueToken = (bool)$dbManager->getQueryRes()->fetch_row()[0];
+                $dbManager->query('SELECT user_id FROM tokens WHERE token=?', array($token), 's');
+                $notUniqueToken = (bool)$dbManager->result->fetch_row()[0];
             } while ($notUniqueToken);
             $_SESSION['user-id'] = $id;
             $_SESSION['user-friendly-name'] = $friendlyName;
@@ -36,7 +32,7 @@ function login($name, $password, $rememberUser, $apiCall=true) {
                 require 'set-fm-cookie.php';
                 setFmCookie('token', $token, $cookieExpires);
             }
-            $dbManager->runPreparedQuery('INSERT INTO tokens (user_id, token, device, expires_at, api_request) VALUES (?,?,?,?,?)', array($id, $token, $device, $tokenExpires, API_REQUEST), 'isssi');
+            $dbManager->query('INSERT INTO tokens (user_id, token, device, expires_at, api_request) VALUES (?,?,?,?,?)', array($id, $token, $device, $tokenExpires, API_REQUEST), 'isssi');
             if ($apiCall) {
                 $response = array('success'=>true, 'status'=>201);
                 if (API_REQUEST) {
@@ -45,10 +41,6 @@ function login($name, $password, $rememberUser, $apiCall=true) {
             }
         } else if ($apiCall) {
             $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 28));
-        }
-        if ($apiCall) {
-            $dbManager->runQuery('UNLOCK TABLES');
-            $dbManager->endTransaction();          
         }
     } catch (Exception $exception) {
         if ($apiCall) {

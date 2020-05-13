@@ -13,8 +13,8 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
     if ($editType=='user') {
         $userEdit = true;
     }
-    $dbManager->runPreparedQuery('SELECT column_name, old_s_value, new_s_value, old_d_value, new_d_value, old_i_value, new_i_value FROM edits WHERE action_id=?', array($actionId), 'i');
-    while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+    $dbManager->query('SELECT column_name, old_s_value, new_s_value, old_d_value, new_d_value, old_i_value, new_i_value FROM edits WHERE action_id=?', array($actionId), 'i');
+    while ($row = $dbManager->result->fetch_assoc()) {
         $edits[$row['column_name']] = array('old-s-value'=>$row['old_s_value'], 'new-s-value'=>$row['new_s_value'], 'old-d-value'=>$row['old_d_value'], 'new-d-value'=>$row['new_d_value'], 'old-i-value'=>$row['old_i_value'], 'new-i-value'=>$row['new_i_value']);
     }
     $decodedEdits = array();
@@ -115,10 +115,6 @@ function decodeActions($actions) {
 function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
     global $dbManager;
     try {
-        if ($apiCall) {
-            $dbManager->startTransaction();
-            $dbManager->runQuery('LOCK TABLES actions READ, users READ, edits READ, snacks READ');
-        }
         $query = 'SELECT * FROM actions ';
         $params = array();
         $types = '';
@@ -138,8 +134,8 @@ function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
             $params[] = $offset;
             $types .= 'i';
         }
-        $dbManager->runPreparedQuery($query, $params, $types);
-        while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+        $dbManager->query($query, $params, $types);
+        while ($row = $dbManager->result->fetch_assoc()) {
             $actions[] = array('id'=>$row['id'], 'user-id'=>$row['user_id'], 'command-id'=>$row['command_id'], 'snack-id'=>$row['snack_id'], 'snack-quantity'=>$row['snack_quantity'], 'funds-amount'=>$row['funds_amount'], 'created-at'=>$row['created_at']);
         }
         $decodedActions = array();
@@ -147,8 +143,6 @@ function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
             $decodedActions = decodeActions($actions);
         }
         if ($apiCall) {
-            $dbManager->runQuery('UNLOCK TABLES');
-            $dbManager->endTransaction();
             $response['success'] = true;
             if (empty($decodedActions)) {
                 $response['status'] = 404;
