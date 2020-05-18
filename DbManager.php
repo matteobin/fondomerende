@@ -60,6 +60,7 @@ class DbManager {
 
     public function rollbackTransaction() {
         $this->connection->rollback();
+        $this->inTransaction = false;
     }
 
     public function query($query, array $params=array(), $paramTypes='') {
