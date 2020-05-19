@@ -3,9 +3,7 @@ require 'execute-deposit-or-withdraw-queries.php';
 function deposit($userId, $amount) {
     global $dbManager;
     try {
-        $dbManager->startTransaction();
         executeDepositOrWithdrawQueries($userId, $amount);
-        $dbManager->endTransaction();
         $response = array('success'=>true, 'status'=>200);
     } catch (Exception $exception) {
         $dbManager->rollbackTransaction();

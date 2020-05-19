@@ -32,7 +32,7 @@ function login($name, $password, $rememberUser, $apiCall=true) {
                 require 'set-fm-cookie.php';
                 setFmCookie('token', $token, $cookieExpires);
             }
-            $dbManager->query('INSERT INTO tokens (user_id, token, device, expires_at, api_request) VALUES (?,?,?,?,?)', array($id, $token, $device, $tokenExpires, API_REQUEST), 'isssi');
+            $dbManager->query('INSERT INTO tokens (user_id, token, device, expires_at, api_request) VALUES (?, ?, ?, ?, ?)', array($id, $token, $device, $tokenExpires, API_REQUEST), 'isssi');
             if ($apiCall) {
                 $response = array('success'=>true, 'status'=>201);
                 if (API_REQUEST) {

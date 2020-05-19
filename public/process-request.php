@@ -356,6 +356,7 @@ if (MAINTENANCE) {
                             }
                         }
                         require 'commands/get-user-data.php';
+                        $dbManager->beginTransactionAndLock(array('users'=>'r'));
                         $response = getUserData($_SESSION['user-id']);
                         break;
                     case 'edit-user':
@@ -367,6 +368,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
+                        $dbManager->beginTransactionAndLock(array('actions'=>'w', 'edits'=>'w', 'users'=>'w'));
                         $values = array();
                         if (!setRequestInputValue($values, false, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array($dbManager->getByUniqueId('name', 'users', $_SESSION['user-id'])))))) {
                             break;
@@ -423,9 +425,11 @@ if (MAINTENANCE) {
                         }
                         if ($commandName=='deposit') {
                             require 'commands/deposit.php';
+                            $dbManager->beginTransactionAndLock(array('inflows'=>'w', 'users_funds'=>'w', 'fund_funds'=>'w', 'actions'=>'w'));
                             $response = deposit($_SESSION['user-id'], $amount);
                         } else {
                             require 'commands/withdraw.php';
+                            $dbManager->beginTransactionAndLock(array('outflows'=>'w', 'users_funds'=>'w', 'fund_funds'=>'w', 'actions'=>'w'));
                             $response = withdraw($_SESSION['user-id'], $amount);
                         }
                         break;
@@ -441,6 +445,7 @@ if (MAINTENANCE) {
                         if (!checkUserActive()) {
                             break;
                         }
+                        $dbManager->beginTransactionAndLock(array('snacks'=>'w', 'snacks_stock'=>'w', 'users'=>'r', 'eaten'=>'w', 'actions'=>'w'));
                         if (!setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
                             break;
                         }
@@ -470,6 +475,7 @@ if (MAINTENANCE) {
                             }
                         }
                         require 'commands/get-snacks-data.php';
+                        $dbManager->beginTransactionAndLock(array('snacks'=>'r'));
                         $response = getSnacksData();
                         break;
                     case 'get-snack-data':
