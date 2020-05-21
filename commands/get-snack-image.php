@@ -1,5 +1,5 @@
 <?php
-define('IMG_PATH', '../img/snacks/');
+define('IMG_PATH', BASE_DIR_PATH.'img/snacks/');
 define('IMG_EXT', 'jpeg');
 
 function downloadImageFromGoogle($name) {
@@ -25,24 +25,20 @@ function downloadImageFromGoogle($name) {
 }
 
 function getSnackImage($name, $overwrite) {
-    try {
-        $path = IMG_PATH.$name.'.'.IMG_EXT;
-        if (true && ($overwrite || !file_exists($path))) {
-            downloadImageFromGoogle($name);
-        }
-        if (APCU_INSTALLED) {
-            $cacheKey = 'fm-'.$name.'-snack-img';
-            if (apcu_exists($cacheKey)) {
-                $response = apcu_fetch($cacheKey);
-            } else {
-                $response = file_get_contents($path);
-                apcu_add($cacheKey, $response);
-            }
+    $path = IMG_PATH.$name.'.'.IMG_EXT;
+    if (true && ($overwrite || !file_exists($path))) {
+        downloadImageFromGoogle($name);
+    }
+    if (APCU_INSTALLED) {
+        $cacheKey = 'fm-'.$name.'-snack-img';
+        if (apcu_exists($cacheKey)) {
+            $response = apcu_fetch($cacheKey);
         } else {
             $response = file_get_contents($path);
+            apcu_add($cacheKey, $response);
         }
-    } catch (Exception $exception) {
-        $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    } else {
+        $response = file_get_contents($path);
     }
     return $response;
 }

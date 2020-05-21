@@ -3,9 +3,9 @@ if (!defined('API_REQUEST')) {
     define('API_REQUEST', true);
 }
 if (API_REQUEST) {
-    chdir(dirname(__FILE__).'/../');
-    require 'config.php';
-    require 'translation.php';
+    define('BASE_DIR_PATH', realpath(__DIR__.'/../').DIRECTORY_SEPARATOR);
+    require BASE_DIR_PATH.'config.php';
+    require BASE_DIR_PATH.'translation.php';
 }
 if (MAINTENANCE) {
     $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
@@ -27,12 +27,12 @@ if (MAINTENANCE) {
         }
         return $requestMethodRight;
     }
-    require_once 'check-token.php';
+    require_once BASE_DIR_PATH.'check-token.php';
     function checkUserActive() {
         $isActive = false;
         global $dbManager, $response;
-        $dbManager->runPreparedQuery('SELECT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
-        if ($dbManager->getQueryRes()->fetch_row()[0]==1) {
+        $dbManager->query('SELECT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
+        if ($dbManager->result->fetch_row()[0]==1) {
             $isActive = true;
         } else {
             $response = array('success'=>true, 'status'=>401, 'message'=>getTranslatedString('response-messages', 7).getTranslatedString('response-messages', 8));
@@ -143,7 +143,7 @@ if (MAINTENANCE) {
                 } else {
                     $insertUnique = false;
                 }
-                $dbManager->runPreparedQuery($query, $params, $types);
+                $dbManager->query($query, $params, $types);
                 $dbValue = null;
                 while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
                     $dbValue = $row[$selectColumn];
@@ -198,7 +198,7 @@ if (MAINTENANCE) {
     if (!API_REQUEST || checkApiKey()) {
         try {
             if (!isset($dbManager)) {
-                require 'DbManager.php';
+                require BASE_DIR_PATH.'DbManager.php';
                 $dbManager = new DbManager();
             }
             if ((CLEAN_URLS && $commandName=filter_input(INPUT_GET, 'command-name', FILTER_SANITIZE_STRING) && $commandName=='get-main-view-data') || setRequestInputValue($commandName, true, 'command-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>25, 'database'=>array('table'=>'commands', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence', 'exceptions'=>array('login', 'logout', 'get-fund-funds', 'get-user-funds', 'get-actions', 'get-latest-actions', 'get-paginated-actions', 'get-main-view-data', 'get-user-data', 'get-snacks-data', 'get-snack-data', 'get-snack-image', 'get-to-buy', 'get-to-eat-and-user-funds'))))) {
@@ -491,6 +491,7 @@ if (MAINTENANCE) {
                             break;
                         }
                         require 'commands/get-snack-data.php';
+                        $dbManager->beginTransactionAndLock(array('snacks'=>'r'));
                         $response = getSnackData($snackName);
                         break;
                     case 'get-snack-image':
@@ -522,6 +523,7 @@ if (MAINTENANCE) {
                         if (!checkUserActive()) {
                             break;
                         }
+                        $dbManager->beginTransactionAndLock(array('actions'=>'w', 'edits'=>'w', 'snacks'=>'w'));
                         if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                             break;
                         }
@@ -567,6 +569,7 @@ if (MAINTENANCE) {
                             }
                         }
                         require 'commands/get-to-buy.php';
+                        $dbManager->beginTransactionAndLock(array('snacks'=>'r'));
                         $response = getToBuy();
                         break;
                     case 'buy':
@@ -581,6 +584,8 @@ if (MAINTENANCE) {
                         if (!checkUserActive()) {
                             break;
                         }
+                        $lockTables = array('snacks'=>'r', 'outflow'=>'w', 'fund_funds'=>'w', 'actions'=>'w');
+                        $dbManager->beginTransactionAndLock($lockTables);
                         if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                             break;
                         }
@@ -624,6 +629,7 @@ if (MAINTENANCE) {
                             }
                         }
                         require 'commands/get-to-eat-and-user-funds.php';
+                        $dbManager->beginTransactionAndLock(array('users_funds'=>'r', 'snacks_stock'=>'r', 'crates'=>'r', 'snacks'=>'r'));
                         $response = getToEatAndUserFunds($_SESSION['user-id']);
                         break;
                     case 'eat':
@@ -638,6 +644,7 @@ if (MAINTENANCE) {
                         if (!checkUserActive()) {
                             break;
                         }
+                        $dbManager->beginTransactionAndLock(array('crates'=>'w', 'snacks_stock'=>'w', 'eaten'=>'w', 'users_funds'=>'w', 'actions'=>'w'));
                         if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>100, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
                             break;
                         }
@@ -651,6 +658,7 @@ if (MAINTENANCE) {
                 }
             }
         } catch (Exception $exception) {
+            $dbManager->rollbackTransaction();
             $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
         }
     } else {
@@ -659,7 +667,7 @@ if (MAINTENANCE) {
 }
 if (API_REQUEST) {
     unset($_COOKIE['key']);
-    require 'set-fm-cookie.php';
+    require BASE_DIR_PATH.'set-fm-cookie.php';
     setFmCookie('key', '', time()-86400);
     if (isset($_COOKIE['token'])) {
         unset($_COOKIE['token']);

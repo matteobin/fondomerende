@@ -114,50 +114,41 @@ function decodeActions($actions) {
 }
 function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
     global $dbManager;
-    try {
-        $query = 'SELECT * FROM actions ';
-        $params = array();
-        $types = '';
-        if ($timestamp) {
-            $query .= 'WHERE actions.created_at>? '; 
-            $params[] = $timestamp;
-            $types .= 's';
-        }
-        $query .= 'ORDER BY actions.created_at '.$order; 
-        if ($limit) {
-            $query .= ' LIMIT ? ';
-            $params[] = $limit;
-            $types .= 'i';
-        }
-        if ($offset) {
-            $query .= 'OFFSET ?';
-            $params[] = $offset;
-            $types .= 'i';
-        }
-        $dbManager->query($query, $params, $types);
-        while ($row = $dbManager->result->fetch_assoc()) {
-            $actions[] = array('id'=>$row['id'], 'user-id'=>$row['user_id'], 'command-id'=>$row['command_id'], 'snack-id'=>$row['snack_id'], 'snack-quantity'=>$row['snack_quantity'], 'funds-amount'=>$row['funds_amount'], 'created-at'=>$row['created_at']);
-        }
-        $decodedActions = array();
-        if (isset($actions)) {
-            $decodedActions = decodeActions($actions);
-        }
-        if ($apiCall) {
-            $response['success'] = true;
-            if (empty($decodedActions)) {
-                $response['status'] = 404;
-            } else {
-                $response['status'] = 200;
-                $response['data']['actions'] = $decodedActions;
-            } 
-        }
-    } catch (Exception $exception) {
-        if ($apiCall) {
-            $dbManager->rollbackTransaction();
-            $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+    $query = 'SELECT * FROM actions ';
+    $params = array();
+    $types = '';
+    if ($timestamp) {
+        $query .= 'WHERE actions.created_at>? '; 
+        $params[] = $timestamp;
+        $types .= 's';
+    }
+    $query .= 'ORDER BY actions.created_at '.$order; 
+    if ($limit) {
+        $query .= ' LIMIT ? ';
+        $params[] = $limit;
+        $types .= 'i';
+    }
+    if ($offset) {
+        $query .= 'OFFSET ?';
+        $params[] = $offset;
+        $types .= 'i';
+    }
+    $dbManager->query($query, $params, $types);
+    while ($row = $dbManager->result->fetch_assoc()) {
+        $actions[] = array('id'=>$row['id'], 'user-id'=>$row['user_id'], 'command-id'=>$row['command_id'], 'snack-id'=>$row['snack_id'], 'snack-quantity'=>$row['snack_quantity'], 'funds-amount'=>$row['funds_amount'], 'created-at'=>$row['created_at']);
+    }
+    $decodedActions = array();
+    if (isset($actions)) {
+        $decodedActions = decodeActions($actions);
+    }
+    if ($apiCall) {
+        $response['success'] = true;
+        if (empty($decodedActions)) {
+            $response['status'] = 404;
         } else {
-            throw new Exception($exception->getMessage());
-        }
+            $response['status'] = 200;
+            $response['data']['actions'] = $decodedActions;
+        } 
     }
     if ($apiCall) {
        return $response; 

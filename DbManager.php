@@ -2,6 +2,7 @@
 class DbManager {
     private $connection = null;
     public $inTransaction = false;
+    private $needsCommit = false;
     public $result = null;
     
     public function __construct() {
@@ -16,7 +17,9 @@ class DbManager {
     public function __destruct() {
         if (!is_null($this->connection)) {
             if ($this->inTransaction) {
-                $this->connection->commit();
+                if ($this->needsCommit) {
+                    $this->connection->commit();
+                }
                 $this->query('UNLOCK TABLES');
             }
             $this->connection->close();
@@ -30,7 +33,12 @@ class DbManager {
         }
         $lockQuery = 'LOCK TABLES ';
         foreach ($tables as $table=>$lockType) {
-            $lockType = $lockType=='w' || $lockType=='write' || $lockType==1 ? 'WRITE' : 'READ';
+            if ($lockType=='w' || $lockType=='write' || $lockType==1) {
+                $lockType = 'WRITE';
+                $this->needsCommit = true;
+            } else {
+                $lockType = 'READ';
+            }
             $lockQuery .= $table.' '.$lockType.', ';
         }
         $lockQuery = substr($lockQuery, 0, -2);

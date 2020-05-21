@@ -2,7 +2,7 @@
 if (API_REQUEST) {
     define('API_KEY', 'sekrit_PaSSWoRD');
 } else {
-    define('BASE_DIR', '/');
+    define('WEB_BASE_DIR', '/');
 }
 define('MAINTENANCE', false);
 define('CLEAN_URLS', false);

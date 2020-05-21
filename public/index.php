@@ -1,8 +1,8 @@
 <?php
-    chdir(dirname(__FILE__).'/../');
+    define('BASE_DIR_PATH', realpath(__DIR__.'/../').DIRECTORY_SEPARATOR);
     define('API_REQUEST', false);
-    require 'config.php';
-    require 'translation.php';
+    require BASE_DIR_PATH.'config.php';
+    require BASE_DIR_PATH.'translation.php';
     if (MAINTENANCE) {
         http_response_code(503);
         $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
@@ -17,13 +17,13 @@
             }
             if (isset($_COOKIE['token'])) {
                 if (!$sessionSet) {
-                    require 'check-token.php';
+                    require BASE_DIR_PATH.'check-token.php';
                     // to do: handle exceptions
                     $logged = checkToken();
                 }
                 if ($logged && filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN)) {
                     $expires = time()+432000; // it expires in 5 days
-                    require 'set-fm-cookie.php';
+                    require BASE_DIR_PATH.'set-fm-cookie.php';
                     setFmCookie('token', filter_input(INPUT_COOKIE, 'token', FILTER_SANITIZE_STRING), $expires);
                     setFmCookie('remember-user', true, $expires);
                 }
@@ -119,7 +119,7 @@
                         $currentView = $views[1];
                         $_GET['command-name'] = 'get-main-view-data';
                     } else {
-                        header('location: '.BASE_DIR.'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data');
+                        header('location: '.WEB_BASE_DIR.'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data');
                     }
                 } else {
                     http_response_code(404);
@@ -149,15 +149,16 @@
         <style>
             <?php 
                 function echoResource($name) {
+                    $path = BASE_DIR_PATH;
                     switch($name) {
                         case 'css':
-                            $path = 'style.min.css';
+                            $path .= 'style.min.css';
                             break;
                         case 'librejs-html':
-                            $path = 'librejs.html';
+                            $path .= 'librejs.html';
                             break;
                         case 'format-number-string-js';
-                            $path = 'format-number-string.js';
+                            $path .= 'format-number-string.js';
                             break;
                     }
                     if (APCU_INSTALLED) {
@@ -169,7 +170,7 @@
                         if (apcu_exists($cacheKey)) {
                             echo apcu_fetch($cacheKey);
                         } else {
-                            $file = file_get_contents('style.min.css');
+                            $file = file_get_contents($path);
                             apcu_add($cacheKey, $file);
                             echo $file;
                         }
@@ -185,7 +186,7 @@
         <header class="row">
             <h1 class="one-column-row" style="margin:.75em 0 .25em">Fondo Merende</h1>
             <?php
-                require 'views/'.$currentView['file-name'].'.php';
+                require BASE_DIR_PATH.'views/'.$currentView['file-name'].'.php';
                 if (isset($response['status']) && $response['status']!=200) {
                     http_response_code($response['status']);
                 }
@@ -196,9 +197,9 @@
                     <p class="one-column-row"><a href="<?php echo $hrefs[9]; ?>" title="<?php echoTranslatedString('credits', 2); ?>"><?php echoUcfirstTranslatedString('credits', 1); ?></a></p>
                     <p class="one-column-row"><a href="https://www.gnu.org/licenses/gpl-3.0.en.html" title="Freedom like you never GNU."><?php echoTranslatedString('main', 24); ?></a></p>
                 <?php elseif ($currentView['file-name']=='add-user'): ?>
-                    <p class="one-column-row"><?php echoTranslatedString('commons', 8); ?><a href="<?php echo BASE_DIR; if (!CLEAN_URLS) {echo 'index.php?view=';} echoTranslatedString('login', 1); ?>" title="<?php echoTranslatedString('login', 2); ?>"><?php echoTranslatedString('add-user', 2); ?></a>.</p>
+                    <p class="one-column-row"><?php echoTranslatedString('commons', 8); ?><a href="<?php echo WEB_BASE_DIR; if (!CLEAN_URLS) {echo 'index.php?view=';} echoTranslatedString('login', 1); ?>" title="<?php echoTranslatedString('login', 2); ?>"><?php echoTranslatedString('add-user', 2); ?></a>.</p>
                 <?php else: ?>
-                    <p class="one-column-row"><?php echoTranslatedString('commons', 8); ?><a href="<?php echo BASE_DIR; ?>" title="<?php echoTranslatedString('main', 2); ?>"><?php echoTranslatedString('commons', 9); ?></a>.</p>
+                    <p class="one-column-row"><?php echoTranslatedString('commons', 8); ?><a href="<?php echo WEB_BASE_DIR; ?>" title="<?php echoTranslatedString('main', 2); ?>"><?php echoTranslatedString('commons', 9); ?></a>.</p>
                 <?php endif; ?>
             </footer>
         <?php endif; ?>
