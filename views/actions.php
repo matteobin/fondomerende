@@ -3,7 +3,7 @@
 <?php
     function echoPageHref($limit, $page) {
         global $limit;
-        echo BASE_DIR;
+        echo WEB_BASE_DIR;
         if (CLEAN_URLS) {
             echo getTranslatedString('actions', 1).'/'.$limit.'/'.$page;
         } else {
@@ -17,7 +17,7 @@
             }
         }
     }
-    require 'public/process-request.php';
+    require BASE_DIR_PATH.'public/process-request.php';
     if (isset($response['message'])):
 ?>
     <p class="one-column-row error"><?php echo $response['message']; ?></p>

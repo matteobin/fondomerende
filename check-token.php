@@ -11,7 +11,7 @@ function checkToken() {
         } else {
             try {
                 if (!isset($dbManager)) {
-                    require 'DbManager.php';
+                    require BASE_DIR_PATH.'DbManager.php';
                     $dbManager = new DbManager();
                 }
                 $dbManager->beginTransactionAndLock(array('tokens'=>'w', 'users'=>'r'));

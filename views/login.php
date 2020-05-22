@@ -34,6 +34,4 @@
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
 <?php endif; ?>
-<div class="one-column-row">
-    <a href="<?php echo WEB_BASE_DIR; if (CLEAN_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); endif; ?>" title="<?php echoTranslatedString('add-user', 1); ?>"><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>
-</div>
+<a class="one-column-row" href="<?php echo WEB_BASE_DIR; if (CLEAN_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1); endif; ?>" title="<?php echoTranslatedString('add-user', 1); ?>"><?php echoUcfirstTranslatedString('commands', 1); ?> <?php echoTranslatedString('user', 1); ?></a>

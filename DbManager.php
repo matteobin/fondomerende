@@ -7,15 +7,15 @@ class DbManager {
     
     public function __construct() {
         $connection = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
-        if ($connection) {
-            $this->connection = $connection;
-        } else {
+        if (mysqli_connect_errno()) {
             throw new Exception('Connection error code '.mysqli_connect_errno().'. '.mysqli_connect_error());
+        } else {
+            $this->connection = $connection;
         }
     }
 
     public function __destruct() {
-        if (!is_null($this->connection)) {
+        if (!$this->connection) {
             if ($this->inTransaction) {
                 if ($this->needsCommit) {
                     $this->connection->commit();
@@ -67,8 +67,10 @@ class DbManager {
     }
 
     public function rollbackTransaction() {
-        $this->connection->rollback();
-        $this->inTransaction = false;
+        if (!$this->connection) {
+            $this->connection->rollback();
+            $this->inTransaction = false;
+        }
     }
 
     public function query($query, array $params=array(), $paramTypes='') {

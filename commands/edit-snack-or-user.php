@@ -26,7 +26,7 @@ function editSnackOrUser(array $ids, array $newValues, array $types) {
         $oldValueCheckExceptions = ['password'];
     }
     $oldValues = $dbManager->getOldValues($newValues, $table, 'id', $whereId, $oldValueCheckExceptions);
-    if ($dbManager->runUpdateQuery($table, $newValues, $types, 'id', $whereId, $oldValues)) {
+    if ($dbManager->updateQuery($table, $newValues, $types, 'id', $whereId, $oldValues)) {
         if ($table=='snacks') {
             $dbManager->query('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', [$ids['user'], 6, $ids['snack']], 'iii');
         } else {

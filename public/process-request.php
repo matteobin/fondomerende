@@ -145,7 +145,7 @@ if (MAINTENANCE) {
                 }
                 $dbManager->query($query, $params, $types);
                 $dbValue = null;
-                while ($row = $dbManager->getQueryRes()->fetch_assoc()) {
+                while ($row = $dbManager->result->fetch_assoc()) {
                     $dbValue = $row[$selectColumn];
                 }
                 if ($insertUnique && $dbValue!=null) {
@@ -221,7 +221,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
-                        require 'commands/add-user.php';
+                        require BASE_DIR_PATH.'commands/add-user.php';
                         $response = addUser($name, $password, $friendlyName, $admin);
                         break;
                     case 'login':
@@ -238,7 +238,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($rememberUser, false, 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
-                        require 'commands/login.php';
+                        require BASE_DIR_PATH.'commands/login.php';
                         $dbManager->beginTransactionAndLock(array('users'=>'w', 'tokens'=>'w'));
                         $response = login($userName, $password, $rememberUser);
                         break;
@@ -251,7 +251,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require 'commands/logout.php';
+                        require BASE_DIR_PATH.'commands/logout.php';
                         $dbManager->beginTransactionAndLock(array('tokens'=>'w'));
                         $response = logout();
                         break;
@@ -264,7 +264,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require 'commands/get-fund-funds.php';
+                        require BASE_DIR_PATH.'commands/get-fund-funds.php';
                         $dbManager->beginTransactionAndLock(array('fund_funds'=>'r'));
                         $response = getFundFunds();
                         break;
@@ -277,7 +277,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require 'commands/get-user-funds.php';
+                        require BASE_DIR_PATH.'commands/get-user-funds.php';
                         $dbManager->beginTransactionAndLock(array('users_funds'=>'r'));
                         $response = getUserFunds($_SESSION['user-id']);
                         break;
@@ -300,7 +300,7 @@ if (MAINTENANCE) {
                             if (!isset($timestamp)) {
                                 $timestamp = (new DateTime())->format('Y-m-d H:i:s');
                             }
-                            require 'commands/get-actions.php';
+                            require BASE_DIR_PATH.'commands/get-actions.php';
                             $response = getActions($timestamp, false, false, 'DESC');
                         } else  {
                             $timestamp = false;
@@ -325,10 +325,10 @@ if (MAINTENANCE) {
                                 $order = 'ASC';
                             }
                             if ($commandName=='get-actions' || $commandName=='get-latest-actions') {
-                                require 'commands/get-actions.php';
+                                require BASE_DIR_PATH.'commands/get-actions.php';
                                 $response = getActions($timestamp, $limit, $offset, $order);
                             } else {
-                                require 'commands/get-paginated-actions.php';
+                                require BASE_DIR_PATH.'commands/get-paginated-actions.php';
                                 $response = getPaginatedActions($limit, $page, $order);
                             }
                         }
@@ -342,7 +342,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require 'commands/get-main-view-data.php';
+                        require BASE_DIR_PATH.'commands/get-main-view-data.php';
                         $dbManager->beginTransactionAndLock(array('fund_funds'=>'r', 'users_funds'=>'r', 'actions'=>'r', 'users'=>'r', 'edits'=>'r', 'snacks'=>'r'));
                         $response = getMainViewData($_SESSION['user-id']);
                         break;
@@ -355,7 +355,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require 'commands/get-user-data.php';
+                        require BASE_DIR_PATH.'commands/get-user-data.php';
                         $dbManager->beginTransactionAndLock(array('users'=>'r'));
                         $response = getUserData($_SESSION['user-id']);
                         break;
@@ -394,7 +394,7 @@ if (MAINTENANCE) {
                             if (!setRequestInputValue($currentPassword, true, 'current-password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
                                 break;
                             }
-                            require 'check-user-password.php';
+                            require BASE_DIR_PATH.'check-user-password.php';
                             if (!checkUserPassword($_SESSION['user-id'], $currentPassword)) {
                                 $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('edit-user', 6));
                                 break;
@@ -404,7 +404,7 @@ if (MAINTENANCE) {
                             $values['password'] = password_hash($values['password'], PASSWORD_DEFAULT);
                             $types['password'] = 's';
                         }
-                        require 'commands/edit-snack-or-user.php';
+                        require BASE_DIR_PATH.'commands/edit-snack-or-user.php';
                         $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $values, $types);
                         break;
                     case 'deposit':
@@ -424,11 +424,11 @@ if (MAINTENANCE) {
                             break;
                         }
                         if ($commandName=='deposit') {
-                            require 'commands/deposit.php';
+                            require BASE_DIR_PATH.'commands/deposit.php';
                             $dbManager->beginTransactionAndLock(array('inflows'=>'w', 'users_funds'=>'w', 'fund_funds'=>'w', 'actions'=>'w'));
                             $response = deposit($_SESSION['user-id'], $amount);
                         } else {
-                            require 'commands/withdraw.php';
+                            require BASE_DIR_PATH.'commands/withdraw.php';
                             $dbManager->beginTransactionAndLock(array('outflows'=>'w', 'users_funds'=>'w', 'fund_funds'=>'w', 'actions'=>'w'));
                             $response = withdraw($_SESSION['user-id'], $amount);
                         }
@@ -462,7 +462,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
-                        require 'commands/add-snack.php';
+                        require BASE_DIR_PATH.'commands/add-snack.php';
                         $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
                         break;
                     case 'get-snacks-data':
@@ -474,7 +474,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require 'commands/get-snacks-data.php';
+                        require BASE_DIR_PATH.'commands/get-snacks-data.php';
                         $dbManager->beginTransactionAndLock(array('snacks'=>'r'));
                         $response = getSnacksData();
                         break;
@@ -490,7 +490,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($snackName, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'existence')))) {
                             break;
                         }
-                        require 'commands/get-snack-data.php';
+                        require BASE_DIR_PATH.'commands/get-snack-data.php';
                         $dbManager->beginTransactionAndLock(array('snacks'=>'r'));
                         $response = getSnackData($snackName);
                         break;
@@ -508,7 +508,7 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($overwrite, false, 'overwrite', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                             break;
                         }
-                        require 'commands/get-snack-image.php';
+                        require BASE_DIR_PATH.'commands/get-snack-image.php';
                         $response = getSnackImage($snackName, $overwrite);
                         break;
                     case 'edit-snack':
@@ -556,7 +556,7 @@ if (MAINTENANCE) {
                         } else if (isset($values['visible'])) {
                             $types['visible'] = 'i';
                         }
-                        require 'commands/edit-snack-or-user.php';
+                        require BASE_DIR_PATH.'commands/edit-snack-or-user.php';
                         $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                         break;
                     case 'get-to-buy':
@@ -568,7 +568,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require 'commands/get-to-buy.php';
+                        require BASE_DIR_PATH.'commands/get-to-buy.php';
                         $dbManager->beginTransactionAndLock(array('snacks'=>'r'));
                         $response = getToBuy();
                         break;
@@ -616,7 +616,7 @@ if (MAINTENANCE) {
                                 $options['expiration_in_days'] = ((new DateTime('today'))->diff(new DateTime($expiration)))->days;
                             }
                         }
-                        require 'commands/buy.php';
+                        require BASE_DIR_PATH.'commands/buy.php';
                         $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
                         break;
                     case 'get-to-eat-and-user-funds':
@@ -628,7 +628,7 @@ if (MAINTENANCE) {
                                 break;
                             }
                         }
-                        require 'commands/get-to-eat-and-user-funds.php';
+                        require BASE_DIR_PATH.'commands/get-to-eat-and-user-funds.php';
                         $dbManager->beginTransactionAndLock(array('users_funds'=>'r', 'snacks_stock'=>'r', 'crates'=>'r', 'snacks'=>'r'));
                         $response = getToEatAndUserFunds($_SESSION['user-id']);
                         break;
@@ -652,13 +652,15 @@ if (MAINTENANCE) {
                         if (!setRequestInputValue($quantity, false, 'quantity', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0))) {
                             break;
                         }
-                        require 'commands/eat.php';
+                        require BASE_DIR_PATH.'commands/eat.php';
                         $response = eat($_SESSION['user-id'], $snackId, $quantity);
                         break;
                 }
             }
         } catch (Exception $exception) {
-            $dbManager->rollbackTransaction();
+            if (isset($dbManager)) {
+                $dbManager->rollbackTransaction();
+            }
             $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
         }
     } else {

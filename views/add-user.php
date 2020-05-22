@@ -1,9 +1,9 @@
 <?php
    if (isset($_POST['name'])) {
-        require 'public/process-request.php';
+        require BASE_DIR_PATH.'public/process-request.php';
     }
     if (isset($response['status']) && $response['status']==201) {
-        $headerString = 'location: '.BASE_DIR;
+        $headerString = 'location: '.WEB_BASE_DIR;
         if (!CLEAN_URLS) {
             $headerString .= 'index.php?view='.getTranslatedString('main', 1).'&command-name=get-main-view-data';
         }
