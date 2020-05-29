@@ -149,7 +149,7 @@
         <style>
             <?php 
                 function echoResource($name) {
-                    $path = BASE_DIR_PATH;
+                    $path = BASE_DIR_PATH.'resources/';
                     switch($name) {
                         case 'css':
                             $path .= 'style.min.css';
