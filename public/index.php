@@ -2,7 +2,8 @@
     define('BASE_DIR_PATH', realpath(__DIR__.'/../').DIRECTORY_SEPARATOR);
     define('API_REQUEST', false);
     require BASE_DIR_PATH.'config.php';
-    require BASE_DIR_PATH.'translation.php';
+    session_start();
+    require BASE_DIR_PATH.'functions/get-translated-string.php';
     if (MAINTENANCE) {
         http_response_code(503);
         $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
