@@ -1,12 +1,13 @@
 <?php
     define('BASE_DIR_PATH', realpath(__DIR__.'/../').DIRECTORY_SEPARATOR);
+    define('FUNCTIONS_PATH', BASE_DIR_PATH.'functions'.DIRECTORY_SEPARATOR);
     define('API_REQUEST', false);
     require BASE_DIR_PATH.'config.php';
     session_start();
-    require BASE_DIR_PATH.'functions/get-translated-string.php';
+    require FUNCTIONS_PATH.'get-translated-string.php';
     if (MAINTENANCE) {
         http_response_code(503);
-        $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>getUcfirstTranslatedString('maintenance', 1), 'description'=>getTranslatedString('maintenance', 2));
+        $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>ucfirst(getTranslatedString('maintenance', 1)), 'description'=>getTranslatedString('maintenance', 2));
     } else {
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
         function checkLogin() {
@@ -18,13 +19,13 @@
             }
             if (isset($_COOKIE['token'])) {
                 if (!$sessionSet) {
-                    require BASE_DIR_PATH.'check-token.php';
+                    require FUNCTIONS_PATH.'check-token.php';
                     // to do: handle exceptions
                     $logged = checkToken();
                 }
                 if ($logged && filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN)) {
                     $expires = time()+432000; // it expires in 5 days
-                    require BASE_DIR_PATH.'set-fm-cookie.php';
+                    require FUNCTIONS_PATH.'set-fm-cookie.php';
                     setFmCookie('token', filter_input(INPUT_COOKIE, 'token', FILTER_SANITIZE_STRING), $expires);
                     setFmCookie('remember-user', true, $expires);
                 }
@@ -35,73 +36,73 @@
             array(
                 'name'=>getTranslatedString('login', 1),
                 'file-name'=>'login',
-                'title'=>getUcfirstTranslatedString('login', 1),
-                'description'=>getUcfirstTranslatedString('login', 2)
+                'title'=>ucfirst(getTranslatedString('login', 1)),
+                'description'=>getTranslatedString('login', 2)
             ),
             array(
                 'name'=>getTranslatedString('main', 1),
                 'file-name'=>'main',
-                'title'=>getUcfirstTranslatedString('main', 1),
+                'title'=>ucfirst(getTranslatedString('main', 1)),
                 'description'=>getTranslatedString('main', 2)
             ),
             array(
                 'name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('user', 1),
                 'file-name'=>'edit-user',
-                'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('user', 1),
+                'title'=>ucfirst(getTranslatedString('commands', 2)).' '.getTranslatedString('user', 1),
                 'description'=>getTranslatedString('edit-user', 1)
             ),
             array(
                 'name'=>getTranslatedString('commands', 3),
                 'file-name'=>'deposit',
-                'title'=>getUcfirstTranslatedString('commands', 3),
+                'title'=>ucfirst(getTranslatedString('commands', 3)),
                 'description'=>getTranslatedString('deposit', 1)
             ),
             array(
                 'name'=>getTranslatedString('commands', 4),
                 'file-name'=>'withdraw',
-                'title'=>getUcfirstTranslatedString('commands', 4),
+                'title'=>ucfirst(getTranslatedString('commands', 4)),
                 'description'=>getTranslatedString('withdraw', 1)
             ),
             array(
                 'name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2),
                 'file-name'=>'add-snack',
-                'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('snack', 2),
+                'title'=>ucfirst(getTranslatedString('commands', 1)).' '.getTranslatedString('snack', 2),
                 'description'=>getTranslatedString('add-snack', 1)
             ),
             array(
                 'name'=>getTranslatedString('commands', 2).'-'.getTranslatedString('snack', 2),
                 'file-name'=>'edit-snack',
-                'title'=>getUcfirstTranslatedString('commands', 2).' '.getTranslatedString('snack', 2),
+                'title'=>ucfirst(getTranslatedString('commands', 2)).' '.getTranslatedString('snack', 2),
                 'description'=>getTranslatedString('edit-snack', 1)
             ),
             array(
                 'name'=>getTranslatedString('snack', 1),
                 'file-name'=>'list-snacks-to-edit',
-                'title'=>getUcfirstTranslatedString('snack', 1),
+                'title'=>ucfirst(getTranslatedString('snack', 1)),
                 'description'=>getTranslatedString('list-snacks-to-edit', 1)
             ),
             array(
                 'name'=>getTranslatedString('commands', 5),
                 'file-name'=>'buy',
-                'title'=>getUcfirstTranslatedString('commands', 5),
+                'title'=>ucfirst(getTranslatedString('commands', 5)),
                 'description'=>getTranslatedString('buy', 1)
             ),
             array(
                 'name'=>getTranslatedString('commands', 6),
                 'file-name'=>'eat',
-                'title'=>getUcfirstTranslatedString('commands', 6),
+                'title'=>ucfirst(getTranslatedString('commands', 6)),
                 'description'=>getTranslatedString('eat', 1)
             ),
             array(
                 'name'=>getTranslatedString('actions', 1),
                 'file-name'=>'actions',
-                'title'=>getUcfirstTranslatedString('actions', 1),
+                'title'=>ucfirst(getTranslatedString('actions', 1)),
                 'description'=>getTranslatedString('actions', 2)
             ),
             array(
                 'name'=>getTranslatedString('credits', 1),
                 'file-name'=>'credits',
-                'title'=>getUcfirstTranslatedString('credits', 1),
+                'title'=>ucfirst(getTranslatedString('credits', 1)),
                 'description'=>getTranslatedString('credits', 2)
             )
         );
@@ -128,7 +129,7 @@
                 }
             }
         } else if ($currentViewName==getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1)) {
-            $currentView = array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1), 'file-name'=>'add-user', 'title'=>getUcfirstTranslatedString('commands', 1).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('add-user', 1));
+            $currentView = array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1), 'file-name'=>'add-user', 'title'=>ucfirst(getTranslatedString('commands', 1)).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('add-user', 1));
         } else {
             $currentView = $views[0];
         }
@@ -187,7 +188,7 @@
         <header class="row">
             <h1 class="one-column-row" style="margin:.75em 0 .25em">Fondo Merende</h1>
             <?php
-                require BASE_DIR_PATH.'views/'.$currentView['file-name'].'.php';
+                require BASE_DIR_PATH.'views'.DIRECTORY_SEPARATOR.$currentView['file-name'].'.php';
                 if (isset($response['status']) && $response['status']!=200) {
                     http_response_code($response['status']);
                 }

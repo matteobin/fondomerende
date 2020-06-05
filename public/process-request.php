@@ -4,17 +4,19 @@ if (!defined('API_REQUEST')) {
 }
 if (API_REQUEST) {
     define('BASE_DIR_PATH', realpath(__DIR__.'/../').DIRECTORY_SEPARATOR);
+    define('FUNCTIONS_PATH', BASE_DIR_PATH.'functions'.DIRECTORY_SEPARATOR);
     require BASE_DIR_PATH.'config.php';
     session_start();
-    require BASE_DIR_PATH.'functions/get-translated-string.php';
+    require FUNCTIONS_PATH.'get-translated-string.php';
 }
 if (MAINTENANCE) {
     $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
 } else {
+    define('INJECTIONS_PATH', BASE_DIR_PATH.'injections'.DIRECTORY_SEPARATOR);
     define('REQUEST_METHOD', filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING));
     if (API_REQUEST) {
-        require BASE_DIR_PATH.'functions/check-request-method.php';
-        require BASE_DIR_PATH.'functions/check-token.php';
+        require FUNCTIONS_PATH.'check-request-method.php';
+        require FUNCTIONS_PATH.'check-token.php';
     }
     function checkFilteredInputValidity($value, $options=null) {
         $valid = true;
@@ -43,17 +45,17 @@ if (MAINTENANCE) {
                 $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['less-than'].'.';
             }
         } else if (isset($options['timestamp']) || isset($options['date'])) {
-            require BASE_DIR_PATH.'injections/timestamp-or-date-check.php';
+            require INJECTIONS_PATH.'timestamp-or-date-check.php';
         }
         if ($valid && isset($options['digits-number'])) {
-            require BASE_DIR_PATH.'injections/digits-number-check.php';
+            require INJECTIONS_PATH.'digits-number-check.php';
         }
         if ($valid && isset($options['decimals-number']) && strlen($value)-(strpos($value, '.')+1)>$options['decimals-number']) {
             $valid = false;
             $message = '\''.$value.'\''.getTranslatedString('response-messages', 16).$options['decimals-number'].'.'; 
         }
         if ($valid && isset($options['database'])) {
-            require BASE_DIR_PATH.'injections/database-check.php';
+            require INJECTIONS_PATH.'database-check.php';
         }
         return array('valid'=>$valid, 'message'=>$message);
     }
@@ -89,14 +91,14 @@ if (MAINTENANCE) {
     if (!API_REQUEST || ($key=filter_input(INPUT_COOKIE, 'key', FILTER_SANITIZE_STRING))&&$key==API_KEY) {
         try {
             $commandName = filter_input(constant('INPUT_'.REQUEST_METHOD), 'command-name', FILTER_SANITIZE_STRING);
-            $processRequestFilePath = BASE_DIR_PATH.'injections/requests/'.$commandName.'.php';
+            $processRequestFilePath = INJECTIONS_PATH.'requests'.DIRECTORY_SEPARATOR.$commandName.'.php';
             if (is_file($processRequestFilePath)) {
                 if (!isset($dbManager)) {
                     require BASE_DIR_PATH.'DbManager.php';
                     $dbManager = new DbManager();
                 }
                 if ($commandName=='deposit' || $commandName=='withdraw' || $commandName=='add-snack' || $commandName=='edit-snack' || $commandName=='buy' || $commandName=='eat') {
-                    require BASE_DIR_PATH.'functions/check-user-active.php';
+                    require FUNCTIONS_PATH.'check-user-active.php';
                 }
                 require $processRequestFilePath;
             }
@@ -111,5 +113,5 @@ if (MAINTENANCE) {
     }
 }
 if (API_REQUEST) {
-    require BASE_DIR_PATH.'injections/api-request-echo.php';
+    require INJECTIONS_PATH.'api-request-echo.php';
 }
