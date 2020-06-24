@@ -34,7 +34,7 @@ while (true) {
             $options['expiration_in_days'] = ((new DateTime('today'))->diff(new DateTime($expiration)))->days;
         }
     }
-    require BASE_DIR_PATH.'functions/commands/buy.php';
+    require COMMANDS_PATH.'buy.php';
     $response = buy($_SESSION['user-id'], $snackId, $quantity, $options);
     break;
 }

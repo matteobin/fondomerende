@@ -1,5 +1,5 @@
 <?php
-require BASE_DIR_PATH.'public/process-request.php';
+require BASE_DIR_PATH.'public'.DIRECTORY_SEPARATOR.'process-request.php';
 $fundsTypeLabel = getTranslatedString('commons', 1);
 if (isset($_POST['funds-amount'])) {
     $funds = $_POST['funds-amount'];
@@ -16,4 +16,4 @@ $commandName = 'withdraw';
 if (isset($_POST['amount'])) {
     $amount = $_POST['amount'];
 }
-require BASE_DIR_PATH.'views/deposit-or-withdraw.php';
+require BASE_DIR_PATH.'views'.DIRECTORY_SEPARATOR.'deposit-or-withdraw.php';

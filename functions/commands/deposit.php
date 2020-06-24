@@ -1,5 +1,5 @@
 <?php
-require BASE_DIR_PATH.'functions/commands/execute-deposit-or-withdraw-queries.php';
+require COMMANDS_PATH.'execute-deposit-or-withdraw-queries.php';
 function deposit($userId, $amount) {
     global $dbManager;
     executeDepositOrWithdrawQueries($userId, $amount);

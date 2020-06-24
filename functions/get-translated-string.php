@@ -1,43 +1,43 @@
 <?php
 function getTranslatedString($fileName, $rowNumber) {
+    global $translatedStrings;
+    if (!isset($translatedStrings)) {
+        $translatedStrings = array();
+    }
     $lang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_STRING);
     if ($lang) {
         $_SESSION['lang'] = $lang;
     } else if (isset($_SESSION['lang'])) {
         $lang = $_SESSION['lang'];
     } else {
-        $lang = substr(filter_input(INPUT_SERVER, 'HTTP_ACCEPT_LANGUAGE', FILTER_SANITIZE_STRING), 0, 2);
+        $lang = filter_input(INPUT_SERVER, 'HTTP_ACCEPT_LANGUAGE', FILTER_SANITIZE_STRING);
+        $lang = $lang ? substr($lang, 0, 2) : 'en';
         $_SESSION['lang'] = $lang;
     }
     $rowIndex = $rowNumber-1;
-    $rowsCacheKey = 'fm-'.$_SESSION['lang'].'-'.$fileName.'-translation-rows';
-    $rowsGlobalVariableName = $_SESSION['lang'].str_replace('-', '', ucwords($fileName, '-')).'TranslationRows';
-    global $$rowsGlobalVariableName;
-    if (isset($$rowsGlobalVariableName[$rowIndex])) {
-        $translatedString = $$rowsGlobalVariableName[$rowIndex];
-    }
-    else if (APCU_INSTALLED && apcu_exists($rowsCacheKey) && isset(($cachedTranslatedRows = apcu_fetch($rowsCacheKey))[$rowIndex])) {
-        $translatedString = $cachedTranslatedRows[$rowIndex];
-        if (isset($$rowsGlobalVariableName)) {
-            $$rowsGlobalVariableName[$rowIndex] = $translatedString;
-        } else {
-            $$rowsGlobalVariableName = $cachedTranslatedRows;
+    $cacheKey = 'fm-'.$_SESSION['lang'].'-'.$fileName.'-lang';
+    if (isset($translatedStrings[$fileName], $translatedStrings[$fileName][$rowIndex])) {
+        $translatedString = $translatedStrings[$fileName][$rowIndex];
+    } else if (APCU_INSTALLED && apcu_exists($cacheKey) && ($translationRows=apcu_fetch($cacheKey)) && isset($translationRows[$rowIndex])) {
+        $translatedString = $translationRows[$rowIndex];
+        if (!isset($translatedStrings[$fileName])) {
+            $translatedStrings[$fileName] = $translationRows;
         }
     } else {
-        $filePath = BASE_DIR_PATH.'lang/'.$lang.'/'.$fileName.'.txt';
+        $filePath = BASE_DIR_PATH.'lang'.DIRECTORY_SEPARATOR.$lang.DIRECTORY_SEPARATOR.$fileName.'.txt';
         if (!is_file($filePath)) {
             if ($lang=='en') {
                 $translatedString = 'Invalid translation file name: there is no '.$fileName.' for en lang.';
             } else {
-                $filePath = BASE_DIR_PATH.'lang/en/'.$fileName.'.txt';
+                $filePath = BASE_DIR_PATH.'lang'.DIRECTORY_SEPARATOR.'en'.DIRECTORY_SEPARATOR.$fileName.'.txt';
             }
         }
         if (!isset($translatedString)) {
             $translationRows = file($filePath, FILE_IGNORE_NEW_LINES);
             if (APCU_INSTALLED) {
-                apcu_add($rowsCacheKey, $translationRows);
+                apcu_add($cacheKey, $translationRows);
             }
-            $$rowsGlobalVariableName = $translationRows;
+            $translatedStrings[$fileName] = $translationRows;
             if ($rowNumber<=0 || $rowNumber>count($translationRows)) {
                 $translatedString = 'Invalid translation row number: there is no row number '.$rowNumber.' in '.$lang.' '.$fileName.' lang file.';
             } else {

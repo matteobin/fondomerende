@@ -6,7 +6,7 @@ if ((!API_REQUEST || checkRequestMethod('POST')&&checkToken()) && checkUserActiv
             $dbManager->lockTables(array('inflows'=>'w', 'users_funds'=>'w', 'fund_funds'=>'w', 'actions'=>'w'));
             $response = deposit($_SESSION['user-id'], $amount);
         } else {
-            require BASE_DIR_PATH.'functions/commands/withdraw.php';
+            require COMMANDS_PATH.'withdraw.php';
             $dbManager->lockTables(array('outflows'=>'w', 'users_funds'=>'w', 'fund_funds'=>'w', 'actions'=>'w'));
             $response = withdraw($_SESSION['user-id'], $amount);
         }

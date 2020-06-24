@@ -8,7 +8,7 @@ if (!API_REQUEST || checkRequestMethod('GET')&&checkToken()) {
                 if ($ascOrder) {
                     $order = 'ASC';
                 }
-                require BASE_DIR_PATH.'functions/commands/get-actions.php';
+                require COMMANDS_PATH.'get-actions.php';
                 $dbManager->lockTables(array('actions'=>'r', 'users'=>'r', 'edits'=>'r', 'snacks'=>'r'));
                 $response = getActions(false, $limit, $offset, $order);
             }

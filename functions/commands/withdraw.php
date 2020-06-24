@@ -1,9 +1,12 @@
 <?php
-require BASE_DIR_PATH.'functions/commands/execute-deposit-or-withdraw-queries.php';
+require COMMANDS_PATH.'execute-deposit-or-withdraw-queries.php';
 function withdraw($userId, $amount) {
     global $dbManager;
     $dbManager->query('SELECT amount FROM fund_funds');
-    $fundAmount = $dbManager->result->fetch_row()[0];
+    $fundAmount = 0;
+    while ($row = $dbManager->result->fetch_row()) {
+        $fundAmount = $row[0];
+    }
     $response['success'] = true;
     if ($amount>$fundAmount) {
         $response['status'] = 404;

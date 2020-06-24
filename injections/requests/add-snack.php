@@ -7,7 +7,7 @@ if ((!API_REQUEST || checkRequestMethod('POST')&&checkToken()) && checkUserActiv
                 if (setRequestInputValue($expirationInDays, true, 'expiration-in-days', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'less-than'=>10000))) {
                     $countable = true;
                     if (setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
-                        require BASE_DIR_PATH.'functions/commands/add-snack.php';
+                        require COMMANDS_PATH.'add-snack.php';
                         $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
                     }
                 }

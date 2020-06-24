@@ -26,7 +26,7 @@ if ((!API_REQUEST || checkRequestMethod('POST')&&checkToken()) && checkUserActiv
                             if (isset($values['visible'])) {
                                 $types['visible'] = 'i';
                             }
-                            require BASE_DIR_PATH.'functions/commands/edit-snack-or-user.php';
+                            require COMMANDS_PATH.'edit-snack-or-user.php';
                             $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                         }
                     }

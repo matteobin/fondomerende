@@ -12,6 +12,7 @@ if (API_REQUEST) {
 if (MAINTENANCE) {
     $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
 } else {
+    define('COMMANDS_PATH', FUNCTIONS_PATH.'commands'.DIRECTORY_SEPARATOR);
     define('INJECTIONS_PATH', BASE_DIR_PATH.'injections'.DIRECTORY_SEPARATOR);
     define('REQUEST_METHOD', filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING));
     if (API_REQUEST) {

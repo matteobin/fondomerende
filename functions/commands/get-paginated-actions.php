@@ -1,5 +1,5 @@
 <?php
-require BASE_DIR_PATH.'functions/commands/get-actions.php';
+require COMMANDS_PATH.'get-actions.php';
 function getPaginatedActions($limit, $page, $order) {
     global $dbManager;
     $actions = getActions(false, $limit, ($page-1)*$limit, $order, false);

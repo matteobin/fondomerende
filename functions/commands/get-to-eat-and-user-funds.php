@@ -1,5 +1,5 @@
 <?php
-require BASE_DIR_PATH.'functions/commands/get-user-funds.php';
+require COMMANDS_PATH.'get-user-funds.php';
 function getToEatAndUserFunds($userId) {
     global $dbManager;
     $userFundsAmount = getUserFunds($userId, false);

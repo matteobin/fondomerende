@@ -6,7 +6,7 @@ if (!API_REQUEST || checkRequestMethod('POST')) {
             if (setRequestInputValue($friendlyName, true, 'friendly-name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60))) {
                 $admin = false;
                 if (setRequestInputValue($admin, false, 'admin', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
-                    require BASE_DIR_PATH.'functions/commands/add-user.php';
+                    require COMMANDS_PATH.'add-user.php';
                     $response = addUser($name, $password, $friendlyName, $admin);
                 }
             }

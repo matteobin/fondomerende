@@ -17,7 +17,7 @@
             }
         }
     }
-    require BASE_DIR_PATH.'public/process-request.php';
+    require BASE_DIR_PATH.'public'.DIRECTORY_SEPARATOR.'process-request.php';
     if (isset($response['message'])):
 ?>
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
@@ -29,13 +29,13 @@
     </ol>
 <div class="row">
 <?php if ($page>1 && $page<=$response['data']['available-pages']): ?>
-    <a class="column" href="<?php echoPageHref($limit, $page-1); ?>"><?php echoTranslatedString('actions', 19); ?></a>
+    <a class="column" href="<?php echoPageHref($limit, $page-1); ?>"><?php echo getTranslatedString('actions', 19); ?></a>
 <?php endif; ?>
 <?php if ($page<$response['data']['available-pages']): ?>
-    <a class="column" href="<?php echoPageHref($limit, $page+1); ?>"><?php echoTranslatedString('actions', 20); ?></a>
+    <a class="column" href="<?php echoPageHref($limit, $page+1); ?>"><?php echo getTranslatedString('actions', 20); ?></a>
 <?php endif; ?>
 </div>
 <?php elseif (!isset($response['message'])): ?>
-    <h3 class="one-column-row"><?php echoTranslatedString('actions', 21); ?></h3>
-    <p class="one-column-row"><?php echoTranslatedString('commons', 6); echoTranslatedString('actions', 22); ?></p>
+    <h3 class="one-column-row"><?php echo getTranslatedString('actions', 21); ?></h3>
+    <p class="one-column-row"><?php echo getTranslatedString('commons', 6); echo getTranslatedString('actions', 22); ?></p>
 <?php endif; ?>

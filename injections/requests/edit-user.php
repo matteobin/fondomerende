@@ -39,7 +39,7 @@ while (true) {
         $values['password'] = password_hash($values['password'], PASSWORD_DEFAULT);
         $types['password'] = 's';
     }
-    require BASE_DIR_PATH.'functions/commands/edit-snack-or-user.php';
+    require COMMANDS_PATH.'edit-snack-or-user.php';
     $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $values, $types);
     break;
 }

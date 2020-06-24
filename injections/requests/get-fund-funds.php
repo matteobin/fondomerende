@@ -1,6 +1,6 @@
 <?php
 if (!API_REQUEST || checkRequestMethod('GET')&&checkToken()) {
-    require BASE_DIR_PATH.'functions/commands/get-fund-funds.php';
+    require COMMANDS_PATH.'get-fund-funds.php';
     $dbManager->lockTables(array('fund_funds'=>'r'));
     $response = getFundFunds();
 }

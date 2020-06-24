@@ -10,11 +10,13 @@ function login($name, $password, $rememberUser, $apiCall=true) {
     }
     if (password_verify($password, $hashedPassword)) {
         $dbManager->query('UPDATE users SET password=? WHERE id=?', array(password_hash($password, PASSWORD_DEFAULT), $id), 'si');
-        $notUniqueToken = false;
         do {
             $token = bin2hex(random_bytes(16));
             $dbManager->query('SELECT user_id FROM tokens WHERE token=?', array($token), 's');
-            $notUniqueToken = (bool)$dbManager->result->fetch_row()[0];
+            $notUniqueToken = false;
+            while ($row = $dbManager->result->fetch_row()) {
+                $notUniqueToken = (bool)$row[0];
+            }
         } while ($notUniqueToken);
         $_SESSION['user-id'] = $id;
         $_SESSION['user-friendly-name'] = $friendlyName;

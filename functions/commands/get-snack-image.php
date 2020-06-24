@@ -1,5 +1,5 @@
 <?php
-define('IMG_PATH', BASE_DIR_PATH.'img/snacks/');
+define('IMG_PATH', BASE_DIR_PATH.'img'.DIRECTORY_SEPARATOR.'snacks'.DIRECTORY_SEPARATOR);
 define('IMG_EXT', 'jpeg');
 
 function downloadImageFromGoogle($name) {
