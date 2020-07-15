@@ -1,5 +1,5 @@
 <?php
-if ((!API_REQUEST || checkRequestMethod('POST')&&checkToken()) && checkUserActive()) {
+if ((!API_REQUEST || (require FUNCTIONS_PATH.'check-request-method.php')&&checkRequestMethod('POST', $response)&&(require FUNCTIONS_PATH.'check-token.php')&&checkToken($dbManager)) && (require FUNCTIONS_PATH.'check-user-active.php') && checkUserActive($dbManager, $response)) {
     $dbManager->lockTables(array('actions'=>'w', 'edits'=>'w', 'snacks'=>'w'));
     if (setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
         $values = array();
@@ -27,7 +27,7 @@ if ((!API_REQUEST || checkRequestMethod('POST')&&checkToken()) && checkUserActiv
                                 $types['visible'] = 'i';
                             }
                             require COMMANDS_PATH.'edit-snack-or-user.php';
-                            $response = editSnackOrUser(array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
+                            $response = editSnackOrUser($dbManager, array('user'=>$_SESSION['user-id'], 'snack'=>$snackId), $values, $types);
                         }
                     }
                 }

@@ -31,18 +31,9 @@
             <input class="one-column-row" type="submit" value="<?php echo ucfirst(getTranslatedString('commands', 6)); ?> <?php echo $snack['friendly-name']; ?>">
         </form>
         <hr class="one-column-row" style="width:100%">
-    <?php endforeach; echoResource('librejs-html'); ?>
+    <?php endforeach; require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
     <script>
-        function askEatConfirm(event) {
-            event.preventDefault();
-            if (confirm('<?php echo ucfirst(getTranslatedString('commands', 6)); ?> '+event.target.childNodes[3].innerText+'?')) {
-                event.target.submit();
-            }
-        }
-        var submits = document.getElementsByTagName('form');
-        var submitsNumber = submits.length;
-        for (var index=0; index<submitsNumber; index++) {
-            submits[index].addEventListener('submit', askEatConfirm);
-        }
+        var translatedStrings = ["<?php echo ucfirst(getTranslatedString('commands', 6)); ?>"];
     </script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/eat.js" defer></script>
 <?php endif; ?>

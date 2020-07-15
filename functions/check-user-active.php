@@ -1,6 +1,5 @@
 <?php
-function checkUserActive() {
-    global $dbManager, $response;
+function checkUserActive(DbManager $dbManager, &$response) {
     $dbManager->lockTables(array('users'=>'r'));
     $dbManager->query('SELECT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
     $isActive = false;

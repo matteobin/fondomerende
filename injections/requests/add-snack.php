@@ -1,5 +1,5 @@
 <?php
-if ((!API_REQUEST || checkRequestMethod('POST')&&checkToken()) && checkUserActive()) {
+if ((!API_REQUEST || (require FUNCTIONS_PATH.'check-request-method.php')&&checkRequestMethod('POST', $response)&&(require FUNCTIONS_PATH.'check-token.php')&&checkToken($dbManager)) && (require FUNCTIONS_PATH.'check-user-active.php') && checkUserActive($dbManager, $response)) {
     $dbManager->lockTables(array('snacks'=>'w', 'snacks_stock'=>'w', 'users'=>'r', 'eaten'=>'w', 'actions'=>'w'));
     if (setRequestInputValue($name, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>60, 'database'=>array('table'=>'snacks', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique')))) {
         if (setRequestInputValue($price, true, 'price', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2, 'less-than'=>100))) {
@@ -8,7 +8,7 @@ if ((!API_REQUEST || checkRequestMethod('POST')&&checkToken()) && checkUserActiv
                     $countable = true;
                     if (setRequestInputValue($countable, false, 'countable', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                         require COMMANDS_PATH.'add-snack.php';
-                        $response = addSnack($_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
+                        $response = addSnack($dbManager, $_SESSION['user-id'], $name, $price, $snacksPerBox, $expirationInDays, $countable);
                     }
                 }
             }

@@ -1,14 +1,14 @@
 <?php
-if ((!API_REQUEST || checkRequestMethod('POST')&&checkToken()) && checkUserActive()) {
+if ((!API_REQUEST || (require FUNCTIONS_PATH.'check-request-method.php')&&checkRequestMethod('POST', $response)&&(require FUNCTIONS_PATH.'check-token.php')&&checkToken($dbManager)) && (require FUNCTIONS_PATH.'check-user-active.php') && checkUserActive($dbManager, $response)) {
    if (setRequestInputValue($amount, true, 'amount', array('filter'=>FILTER_VALIDATE_FLOAT), array('greater-than'=>0, 'digits-number'=>4, 'decimals-number'=>2))) {
         if ($commandName=='deposit') {
-            require BASE_DIR_PATH.'commands/deposit.php';
+            require COMMANDS_PATH.'deposit.php';
             $dbManager->lockTables(array('inflows'=>'w', 'users_funds'=>'w', 'fund_funds'=>'w', 'actions'=>'w'));
-            $response = deposit($_SESSION['user-id'], $amount);
+            $response = deposit($dbManager, $_SESSION['user-id'], $amount);
         } else {
             require COMMANDS_PATH.'withdraw.php';
             $dbManager->lockTables(array('outflows'=>'w', 'users_funds'=>'w', 'fund_funds'=>'w', 'actions'=>'w'));
-            $response = withdraw($_SESSION['user-id'], $amount);
+            $response = withdraw($dbManager, $_SESSION['user-id'], $amount);
         }
    }
 }

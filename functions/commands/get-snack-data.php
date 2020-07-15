@@ -1,6 +1,5 @@
 <?php
-function getSnackData($snackIdOrName) {
-    global $dbManager;
+function getSnackData(DbManager $dbManager, $snackIdOrName) {
     if ((int)$snackIdOrName) {
         $snackId = $snackIdOrName;
     } else {

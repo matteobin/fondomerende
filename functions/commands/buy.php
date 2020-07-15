@@ -1,6 +1,5 @@
 <?php
-function getBuyOption($column, $options, $snackId) {
-    global $dbManager;
+function getBuyOption(DbManager $dbManager, $column, $options, $snackId) {
     if (isset($options[$column])) {
         $option = $options[$column];
     } else {
@@ -11,8 +10,7 @@ function getBuyOption($column, $options, $snackId) {
     }
     return $option;
 }
-function checkSnackCountable($snackId) {
-    global $dbManager;
+function checkSnackCountable(DbManager $dbManager, $snackId) {
     $dbManager->query('SELECT countable FROM snacks WHERE id=?', array($snackId), 'i');
     $countable = true;
     while ($row = $dbManager->result->fetch_row()) {
@@ -20,9 +18,8 @@ function checkSnackCountable($snackId) {
     }
     return $countable;
 }
-function buy($userId, $snackId, $quantity, array $options) {
-    global $dbManager;
-    $isCountable = checkSnackCountable($snackId);
+function buy(DbManager $dbManager, $userId, $snackId, $quantity, array $options) {
+    $isCountable = checkSnackCountable($dbManager, $snackId);
     $lockQuery = 'LOCK TABLES snacks READ, outflows WRITE, fund_funds WRITE, actions WRITE';
     if ($isCountable) {
         $lockQuery .= ', crates WRITE, snacks_stock WRITE';
@@ -30,11 +27,11 @@ function buy($userId, $snackId, $quantity, array $options) {
         $lockQuery .= ', users READ, users_funds WRITE';
     }
     $dbManager->query($lockQuery);
-    $unitPrice = getBuyOption('price', $options, $snackId);
+    $unitPrice = getBuyOption($dbManager, 'price', $options, $snackId);
     $totalPrice = $unitPrice*$quantity;
-    $snacksPerBox = getBuyOption('snacks_per_box', $options, $snackId);
+    $snacksPerBox = getBuyOption($dbManager, 'snacks_per_box', $options, $snackId);
     $snackNumber = $snacksPerBox*$quantity;
-    $expirationInDays = getBuyOption('expiration_in_days', $options, $snackId);
+    $expirationInDays = getBuyOption($dbManager, 'expiration_in_days', $options, $snackId);
     $dbManager->query('INSERT INTO outflows (amount, snack_id, quantity) VALUES (?, ?, ?)', array($totalPrice, $snackId, $quantity), 'sii');
     $dbManager->query('SELECT id FROM outflows ORDER BY id DESC LIMIT 1');
     $outflowId = 0;

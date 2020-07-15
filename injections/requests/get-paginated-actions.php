@@ -9,7 +9,7 @@ if (!API_REQUEST || checkRequestMethod('GET')&&checkToken()) {
                 }
                 require COMMANDS_PATH.'get-paginated-actions.php';
                 $dbManager->lockTables(array('actions'=>'r', 'users'=>'r', 'edits'=>'r', 'snacks'=>'r'));
-                $response = getPaginatedActions($limit, $page, $order);
+                $response = getPaginatedActions($dbManager, $limit, $page, $order);
             }
         }
     }

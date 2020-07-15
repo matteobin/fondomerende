@@ -1,6 +1,5 @@
 <?php
-function getToBuy() {
-    global $dbManager;
+function getToBuy(DbManager $dbManager) {
     $dbManager->query('SELECT id, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks WHERE visible=? ORDER BY friendly_name ASC', array(1), 'i');
     $snacks = array();
     while ($row = $dbManager->result->fetch_assoc()) {

@@ -1,6 +1,5 @@
 <?php
-function deleteExpiredTokens($fromCli=true, $verbose=0) {
-    global $dbManager;
+function deleteExpiredTokens(DbManager $dbManager, $fromCli=true, $verbose=0) {
     $nowToday = (new DateTime())->format('Y-m-d H:i:s');
     if ($verbose) {
         $query = 'SELECT tokens.id, tokens.token, users.id'; 

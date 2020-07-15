@@ -1,6 +1,5 @@
 <?php
-function logout() {
-    global $dbManager;
+function logout(DbManager $dbManager) {
     $dbManager->query('DELETE FROM tokens WHERE token=?', array($_SESSION['token']), 's');
     if (!API_REQUEST) {
         unset($_COOKIE['token']);

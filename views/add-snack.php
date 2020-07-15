@@ -13,7 +13,7 @@
 ?>
     <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
-<form class="row" method="post">
+<form id="add-snack-form" class="row" method="post">
     <input type="hidden" name="command-name" value="add-snack">
     <div class="one-column-row">
         <label for="snack-name-input"><?php echo ucfirst(getTranslatedString('commons', 3)); ?></label>
@@ -43,24 +43,20 @@
 </form>
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
-<?php endif; ?>
-<?php echoResource('librejs-html'); ?>
+<?php endif; require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
 <script>
-    var decimalPointSeparator = '<?php echo getTranslatedString('number-separators', 1); ?>';
-    var thousandsSeparator = '<?php echo getTranslatedString('number-separators', 2); ?>';
-    <?php echoResource('format-number-string-js'); ?>
-    function askAddSnackConfirm(event) {
-        event.preventDefault();
-        var confirmString = '<?php echo ucfirst(getTranslatedString('commands', 1)); ?> <?php echo getTranslatedString('snack', 2); ?> '+event.target[1].value+'?\n\n<?php echo ucfirst(getTranslatedString('snack', 3)); ?>: '+formatNumberString(event.target[2].value)+' €.\n<?php echo ucfirst(getTranslatedString('snack', 4)); ?>: '+event.target[3].value+'.\n<?php echo getTranslatedString('snack', 5); ?> <?php echo getTranslatedString('snack', 6); ?>: '+event.target[4].value+'.\n';
-        if (event.target[5].checked) {
-            confirmString += '<?php echo getTranslatedString('add-snack', 2); ?>';
-        } else {
-            confirmString += '<?php echo getTranslatedString('add-snack', 3); ?>';
-        }
-        confirmString += '.';
-        if (confirm(confirmString)) {
-            event.target.submit();
-        }
-    }
-    document.querySelector('form').addEventListener('submit', askAddSnackConfirm);
+    var translatedStrings = [
+        "<?php echo getTranslatedString('number-separators', 1); ?>",
+        "<?php echo getTranslatedString('number-separators', 2); ?>",
+        "<?php echo ucfirst(getTranslatedString('commands', 1)); ?>",
+        "<?php echo getTranslatedString('snack', 2); ?>",
+        "<?php echo ucfirst(getTranslatedString('snack', 3)); ?>",
+        "<?php echo ucfirst(getTranslatedString('snack', 4)); ?>",
+        "<?php echo getTranslatedString('snack', 5); ?>",
+        "<?php echo getTranslatedString('snack', 6); ?>",
+        "<?php echo getTranslatedString('add-snack', 2); ?>",
+        "<?php echo getTranslatedString('add-snack', 3); ?>"
+    ];
 </script>
+<script src="<?php echo WEB_BASE_DIR; ?>js/format-number-string.js" async></script>
+<script src="<?php echo WEB_BASE_DIR; ?>js/add-snack.js" defer></script>

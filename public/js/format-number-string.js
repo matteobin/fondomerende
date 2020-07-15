@@ -5,9 +5,9 @@ function formatNumberString(number) {
         if (number[index]!='-' && number[index]!='+') {
             if (isNaN(number[index])) {
                 if (passedDecimalPointSeparator) {
-                    number[index] = thousandsSeparator;
+                    number[index] = translatedStrings[1];
                 } else {
-                    number[index] = decimalPointSeparator;
+                    number[index] = translatedStrings[0];
                     passedDecimalPointSeparator = true;
                 }
             }

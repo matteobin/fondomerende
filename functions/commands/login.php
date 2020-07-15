@@ -1,6 +1,5 @@
 <?php
-function login($name, $password, $rememberUser, $apiCall=true) {
-    global $dbManager;
+function login(DbManager $dbManager, $name, $password, $rememberUser, $apiCall=true) {
     $dbManager->query('SELECT id, password, friendly_name FROM users WHERE name=?', array($name), 's');
     $hashedPassword = '';
     while ($row = $dbManager->result->fetch_assoc()) {

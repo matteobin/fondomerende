@@ -1,6 +1,5 @@
 <?php
-function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $countable) {
-    global $dbManager;
+function addSnack(DbManager $dbManager, $userId, $name, $price, $snacksPerBox, $expirationInDays, $countable) {
     $subjectUserId = $userId;
     $dbManager->query('INSERT INTO snacks (name, friendly_name, price, snacks_per_box, expiration_in_days, countable) VALUES (?, ?, ?, ?, ?, ?)', array(str_replace(' ', '-', strtolower($name)), $name, $price, $snacksPerBox, $expirationInDays, $countable), 'ssdiii');
     $dbManager->query('SELECT id FROM snacks ORDER BY id DESC LIMIT 1');
@@ -20,5 +19,5 @@ function addSnack($userId, $name, $price, $snacksPerBox, $expirationInDays, $cou
         }
     }
     $dbManager->query('INSERT INTO actions (user_id, command_id, snack_id) VALUES (?, ?, ?)', array($subjectUserId, 5, $snackId), 'iii');
-    return array('success'=>true, 'status'=>201, 'data'=>('snack-id'=>$snackId));
+    return array('success'=>true, 'status'=>201, 'data'=>array('snack-id'=>$snackId));
 }

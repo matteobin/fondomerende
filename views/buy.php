@@ -21,10 +21,10 @@
     <h3 class="one-column-row"><?php echo getTranslatedString('commons', 5); ?>!</h3>
     <p class="one-column-row"><?php echo getTranslatedString('commons', 6); ?><a href="<?php echo WEB_BASE_DIR; if (CLEAN_URLS): echo getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); else: echo 'index.php?view='.getTranslatedString('commands', 1).'-'.getTranslatedString('snack', 2); endif; ?>" title="<?php echo getTranslatedString('add-snack', 1); ?>"><b><?php echo strtoupper(getTranslatedString('commands', 1)); ?></b></a><?php echo getTranslatedString('commons', 7) ?></p>
 <?php elseif ($response['status']==200 || $response['status']==400): ?>
-	<form class="row" method="post">
+	<form id="buy-form" class="row" method="post">
         <input type="hidden" name="command-name" value="buy">
         <div class="row">
-            <select class="column" name="id" required>
+            <select id="snacks-select" class="column" name="id" required>
                 <?php foreach($snacks as $snack): ?>
                     <option value="<?php echo $snack['id']; ?>"<?php if (isset($_POST['id']) && $_POST['id']==$snack['id']) {echo 'selected';} ?>><?php echo $snack['friendly_name']; ?></option>
                 <?php endforeach; $_SESSION['snacks'] = $snacks; ?> 
@@ -38,7 +38,7 @@
             <label for="customise-buy-options-input"><?php echo getTranslatedString('buy', 3); ?></label>
             <input type="checkbox" id="customise-buy-options-input" name="customise-buy-options" value="yes" <?php if (isset($_POST['customise-buy-options']) && $_POST['customise-buy-options']=='yes') {echo 'checked';} ?>>
         </div>
-        <div class="options row">
+        <div id="buy-options" class="options row">
             <div class="first-row last-row">
                 <div class="column">
                     <label for="price-input"><?php echo ucfirst(getTranslatedString('snack', 3)); ?></label>
@@ -56,63 +56,23 @@
         </div>
         <input class="one-column-last-row" type="submit" value="<?php echo ucfirst(getTranslatedString('commands', 5)); ?>">
 	</form>
-    <?php echoResource('librejs-html'); ?>
+    <?php require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
 	<script>
-        var decimalPointSeparator = '<?php echo getTranslatedString('number-separators', 1); ?>';
-        var thousandsSeparator = '<?php echo getTranslatedString('number-separators', 2); ?>';
-        <?php echoResource('format-number-string-js'); ?>
         var snacks = <?php echo json_encode($snacks); ?>;
-        function getFormFromEventOrFromDocument(event) {
-            var form;
-            if (typeof event=='undefined') {
-                form = document.querySelector('form');
-            } else {
-                form = event.target.form; 
-            }
-            return form;
-        }
-        function enableOrDisableBuyOptions(event) {
-            var form = getFormFromEventOrFromDocument(event);
-            if (form[3].checked) {
-                document.querySelector('form .options').style.opacity = 1;
-                form[4].disabled = false;
-                form[5].disabled = false;
-                form[6].disabled = false;
-            } else {
-                document.querySelector('form .options').style.opacity = 0.5;
-                form[4].disabled = true;
-                form[5].disabled = true;
-                form[6].disabled = true;
-            }
-        }
-        function updateBuyOptions(event) {
-            var form = getFormFromEventOrFromDocument(event);
-            var snackIndex = form[1].selectedIndex;
-            form[4].value = snacks[snackIndex]['price'];
-            form[5].value = snacks[snackIndex]['snacks-per-box'];
-            form[6].value = snacks[snackIndex]['expiration'];
-        }
-		function askBuyConfirm(event) {
-			event.preventDefault();
-			var cratesNumber = event.target[2].value;
-			var cratesString = " <?php echo getTranslatedString('buy', 5); ?>";
-			if (cratesNumber=='1') {
-				cratesString = " <?php echo getTranslatedString('buy', 4); ?>";
-			}
-			var confirmString = '<?php echo ucfirst(getTranslatedString('commands', 5)); ?> '+cratesNumber+cratesString+' <?php echo getTranslatedString('buy', 6); ?> '+event.target[1][event.target[1].selectedIndex].innerText+'?';
-			if (event.target[3].checked) {
-				confirmString += '\n\n<?php echo ucfirst(getTranslatedString('snack', 3)); ?>: '+formatNumberString(event.target[4].value)+' €.\n<?php echo ucfirst(getTranslatedString('snack', 4)); ?>: '+event.target[5].value+'. \n<?php echo getTranslatedString('snack', 5); ?>: '+event.target[6].value+'.';
-			}
-			if (confirm(confirmString)) {
-				event.target.submit();
-			}
-		}
-        enableOrDisableBuyOptions();
-		document.getElementById('customise-buy-options-input').addEventListener('change', enableOrDisableBuyOptions);
-        updateBuyOptions();
-		document.querySelector('form select').addEventListener('change', updateBuyOptions);
-		document.querySelector('form').addEventListener('submit', askBuyConfirm);
+        var translatedStrings = [
+            "<?php echo getTranslatedString('number-separators', 1); ?>",
+            "<?php echo getTranslatedString('number-separators', 2); ?>",
+            "<?php echo getTranslatedString('buy', 5); ?>",
+            "<?php echo getTranslatedString('buy', 4); ?>",
+            "<?php echo ucfirst(getTranslatedString('commands', 5)); ?>",
+            "<?php echo getTranslatedString('buy', 6); ?>",
+            "<?php echo ucfirst(getTranslatedString('snack', 3)); ?>",
+            "<?php echo ucfirst(getTranslatedString('snack', 4)); ?>",
+            "<?php echo getTranslatedString('snack', 5); ?>"
+        ];
 	</script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/format-number-string.js" async></script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/buy.js" defer></script>
 <?php endif; if (isset($response['message'])): ?> 
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
 <?php endif;

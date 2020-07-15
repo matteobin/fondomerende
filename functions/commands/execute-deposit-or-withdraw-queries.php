@@ -1,6 +1,5 @@
 <?php
-function executeDepositOrWithdrawQueries($userId, $amount, $isDeposit=true) {
-    global $dbManager;
+function executeDepositOrWithdrawQueries(DbManager $dbManager, $userId, $amount, $isDeposit=true) {
     if ($isDeposit) {
         $flowWay = 'in';
         $operator = '+';

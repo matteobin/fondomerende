@@ -1,6 +1,6 @@
 <?php
 while (true) {
-    if (API_REQUEST && (!checkRequestMethod('POST')||!checkToken())) {
+    if (API_REQUEST && ((require FUNCTIONS_PATH.'check-request-method.php')&&!checkRequestMethod('POST', $response)||(require FUNCTIONS_PATH.'check-token.php')!checkToken($dbManager))) {
         break;
     }
     $dbManager->lockTables(array('actions'=>'w', 'edits'=>'w', 'users'=>'w'));
@@ -40,6 +40,6 @@ while (true) {
         $types['password'] = 's';
     }
     require COMMANDS_PATH.'edit-snack-or-user.php';
-    $response = editSnackOrUser(array('user'=>$_SESSION['user-id']), $values, $types);
+    $response = editSnackOrUser($dbManager, array('user'=>$_SESSION['user-id']), $values, $types);
     break;
 }

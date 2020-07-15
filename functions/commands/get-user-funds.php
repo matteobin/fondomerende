@@ -1,6 +1,5 @@
 <?php
-function getUserFunds($userId, $apiCall=true) {
-    global $dbManager;
+function getUserFunds(DbManager $dbManager, $userId, $apiCall=true) {
     $dbManager->query('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
     $userFundsAmount = $dbManager->result->fetch_row()[0];
     if ($apiCall) {

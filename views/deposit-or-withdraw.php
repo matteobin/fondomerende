@@ -15,7 +15,7 @@
     <p class="one-column-row"><?php echo getTranslatedString('commons', '6'); ?><a href="<?php echo WEB_BASE_DIR; if (CLEAN_URLS): echo getTranslatedString('commands', 3); else: echo 'index.php?view='.getTranslatedString('commands', 3).'&command-name=get-user-funds'; endif; ?>" title="<?php echo getTranslatedString('deposit', 1); ?>"><b><?php echo strtoupper(getTranslatedString('commands', 3)); ?></b></a><?php echo getTranslatedString('commons', 7) ?></p>
 <?php else: ?>
     <h3 class="one-column-row"><?php echo $fundsTypeLabel; ?>: <?php echo number_format($funds, 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)); ?> €</h3>
-    <form class="row" method="post">
+    <form id="deposit-or-withdraw-form" class="row" method="post">
         <input type="hidden" name="command-name" value="<?php echo $commandName ?>">
         <input type="hidden" name="funds-amount" value="<?php echo $funds; ?>">
         <div class="one-column-row">
@@ -24,19 +24,16 @@
         </div>
         <input class="one-column-last-row" type="submit" value="<?php echo $currentView['title']; ?>">
     </form>
-    <?php echoResource('librejs-html'); ?>
+    <?php require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
     <script>
-        var decimalPointSeparator = '<?php echo getTranslatedString('number-separators', 1); ?>';
-        var thousandsSeparator = '<?php echo getTranslatedString('number-separators', 2); ?>';
-        <?php echoResource('format-number-string-js'); ?>
-        function askDepositOrWithdrawConfirm(event) {
-            event.preventDefault();
-            if (confirm('<?php echo $currentView['title']; ?> '+formatNumberString(event.target[2].value)+' €?')) {
-                event.target.submit();
-            }
-        }
-        document.querySelector('form').addEventListener('submit', askDepositOrWithdrawConfirm);
+        var translatedStrings = [
+            "<?php echo getTranslatedString('number-separators', 1); ?>",
+            "<?php echo getTranslatedString('number-separators', 2); ?>",
+            "<?php echo $currentView['title']; ?>"
+        ];
     </script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/format-number-string.js" async></script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/deposit-or-withdraw.js" defer></script>
 <?php endif; if (isset($response['message'])): ?> 
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
 <?php endif; ?>

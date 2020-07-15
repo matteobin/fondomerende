@@ -1,8 +1,6 @@
 <?php
-unset($_COOKIE['key']);
-require BASE_DIR_PATH.'set-fm-cookie.php';
-setFmCookie('key', '', time()-86400);
 if (isset($_COOKIE['token'])) {
+    require FUNCTIONS_PATH.'set-fm-cookie.php';
     unset($_COOKIE['token']);
     setFmCookie('token', '', time()-86400);
 }

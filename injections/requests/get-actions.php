@@ -10,7 +10,7 @@ if (!API_REQUEST || checkRequestMethod('GET')&&checkToken()) {
                 }
                 require COMMANDS_PATH.'get-actions.php';
                 $dbManager->lockTables(array('actions'=>'r', 'users'=>'r', 'edits'=>'r', 'snacks'=>'r'));
-                $response = getActions(false, $limit, $offset, $order);
+                $response = getActions($dbManager, false, $limit, $offset, $order);
             }
         }
     }

@@ -1,6 +1,5 @@
 <?php
-function checkToken() {
-    global $dbManager;
+function checkToken(&$dbManager) {
     $isValid = false;
     $token = filter_input(INPUT_COOKIE, 'token', FILTER_SANITIZE_STRING);
     if ($token) {

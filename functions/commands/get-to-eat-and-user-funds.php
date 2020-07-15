@@ -1,8 +1,7 @@
 <?php
 require COMMANDS_PATH.'get-user-funds.php';
-function getToEatAndUserFunds($userId) {
-    global $dbManager;
-    $userFundsAmount = getUserFunds($userId, false);
+function getToEatAndUserFunds(DbManager $dbManager, $userId) {
+    $userFundsAmount = getUserFunds($dbManager, $userId, false);
     $snacks = array();
     $dbManager->query('SELECT snacks_stock.snack_id, snacks.friendly_name, snacks_stock.quantity, (SELECT crates.expiration FROM crates WHERE crates.snack_id=snacks_stock.snack_id AND crates.snack_quantity!=? ORDER BY crates.expiration ASC LIMIT 1) as expiration FROM snacks_stock JOIN snacks ON snacks_stock.snack_id=snacks.id WHERE snacks_stock.quantity!=? ORDER BY expiration ASC', array(0, 0), 'ii');
     while ($snacksStockRow = $dbManager->result->fetch_assoc()) {

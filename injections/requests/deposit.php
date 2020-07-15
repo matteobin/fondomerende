@@ -1,2 +1,2 @@
 <?php
-require BASE_DIR_PATH.'injections/requests/deposit-or-withdraw.php';
+require INJECTIONS_PATH.'requests'.DIRECTORY_SEPARATOR.'deposit-or-withdraw.php';

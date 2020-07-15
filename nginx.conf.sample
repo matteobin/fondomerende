@@ -3,8 +3,8 @@ server {
     listen 443 default_server ssl;
     root /var/www/fondomerende/public/;
     index index.php;
+    server_name fondomerende.company.com fm.company.com;
     error_page 404 /404;
-    server_name fondomerende.company.com;
     location = /favicon.ico {
         access_log off;
         return 204;
@@ -20,7 +20,7 @@ server {
     location / {
         # API
         rewrite ^\/api\/?$ /process-request.php last;
-        # English friendly URLs
+        # English clean URLs
         rewrite ^\/deposit\/?$ /index.php?view=deposit&command-name=get-user-funds last;
         rewrite ^\/buy\/?$ /index.php?view=buy&command-name=get-to-buy last;
         rewrite ^\/eat\/?$ /index.php?view=eat&command-name=get-to-eat-and-user-funds last;
@@ -33,7 +33,7 @@ server {
         rewrite ^\/actions\/([0-9]+)\/?$ /index.php?view=actions&command-name=get-paginated-actions&limit=$1&page=1 last;
         rewrite ^\/actions\/([0-9]+)\/([0-9]+)\/?$ /index.php?view=actions&command-name=get-paginated-actions&limit=$1&page=$2 last;
         rewrite ^\/actions\/([0-9]+)\/([0-9]+)\/([a-zàA-ZÀ0-9_\-]+)\/?$ /index.php?view=actions&command-name=get-paginated-actions&limit=$1&page=$2&asc-order=$3 last;
-        # Italian friendly URLs
+        # Italian clean URLs
         rewrite ^\/deposita\/?$ /index.php?view=deposita&command-name=get-user-funds last;
         rewrite ^\/compra\/?$ /index.php?view=compra&command-name=get-to-buy last;
         rewrite ^\/mangia\/?$ /index.php?view=mangia&command-name=get-to-eat-and-user-funds last;
@@ -46,7 +46,12 @@ server {
         rewrite ^\/azioni\/([0-9]+)\/?$ /index.php?view=azioni&command-name=get-paginated-actions&limit=$1&page=1 last;
         rewrite ^\/azioni\/([0-9]+)\/([0-9]+)\/?$ /index.php?view=azioni&command-name=get-paginated-actions&limit=$1&page=$2 last;
         rewrite ^\/azioni\/([0-9]+)\/([0-9]+)\/([a-zàA-ZÀ0-9_\-]+)\/?$ /index.php?view=azioni&command-name=get-paginated-actions&limit=$1&page=$2&asc-order=$3 last;
-        # All languages friendly URLs
+        # All languages clean URLs
         rewrite ^\/([a-zàA-ZÀ0-9_\-]+)\/?$ /index.php?view=$1 last;
+    }
+    location ~* .(css|js)$ {
+        access_log off;
+        expires max;
+        log_not_found off;
     }
 }

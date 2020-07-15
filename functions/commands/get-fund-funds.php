@@ -1,6 +1,5 @@
 <?php
-function getFundFunds($apiCall=true) {
-    global $dbManager;
+function getFundFunds(DbManager $dbManager, $apiCall=true) {
     $dbManager->query('SELECT amount FROM fund_funds');
     $fundFundsAmount = $dbManager->result->fetch_row()[0];
     if ($apiCall) {

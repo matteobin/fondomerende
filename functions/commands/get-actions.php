@@ -1,14 +1,12 @@
 <?php
-function getUserFriendlyName($userId) {
+function getUserFriendlyName(DbManager $dbManager, $userId) {
     if ($_SESSION['user-id']==$userId) {
         return $_SESSION['user-friendly-name'];
     } else {
-        global $dbManager;
         return $dbManager->getByUniqueId('friendly_name', 'users', $userId);
     }
 }
-function decodeEdits($editType, $actionId, $userId, $snackId=null) {
-    global $dbManager;
+function decodeEdits(DbManager $dbManager, $editType, $actionId, $userId, $snackId=null) {
     $userEdit = false;
     if ($editType=='user') {
         $userEdit = true;
@@ -20,7 +18,7 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
     $decodedEdits = array();
     if (isset($edits)) {
         foreach($edits as $columnName=>$edit) {
-            $editSentence = getUserFriendlyName($userId).getTranslatedString('actions', 4);
+            $editSentence = getUserFriendlyName($dbManager, $userId).getTranslatedString('actions', 4);
             switch ($columnName) {
                 case 'name':
                     $editSentence .= getTranslatedString('actions', 5);
@@ -73,47 +71,45 @@ function decodeEdits($editType, $actionId, $userId, $snackId=null) {
     }
     return $decodedEdits;
 }
-function decodeActions($actions) {
-    global $dbManager;
+function decodeActions(DbManager $dbManager, $actions) {
     $decodedActions = array();
     foreach($actions as $action) {
         switch ($action['command-id']) {
             case 1:
-                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 3);
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 3);
                 break;
             case 2:
-                $decodedEdits = decodeEdits('user', $action['id'], $action['user-id']);
+                $decodedEdits = decodeEdits($dbManager, 'user', $action['id'], $action['user-id']);
                 foreach($decodedEdits as $decodedEdit) {
                     $decodedActions[] = $action['created-at'].': '.$decodedEdit;
                 }
                 break;
             case 3:
-                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 15).number_format($action['funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)).' €.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 15).number_format($action['funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)).' €.';
                 break;
             case 4:
-                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 16).number_format($action['funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)).' €.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 16).number_format($action['funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)).' €.';
                 break;
             case 5:
-                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 14).getTranslatedString('snack', 2).' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 14).getTranslatedString('snack', 2).' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
             case 6:
-                $decodedEdits = decodeEdits('snack', $action['id'], $action['user-id'], $action['snack-id']);
+                $decodedEdits = decodeEdits($dbManager, 'snack', $action['id'], $action['user-id'], $action['snack-id']);
                 foreach($decodedEdits as $decodedEdit) {
                     $decodedActions[] = $action['created-at'].': '.$decodedEdit;
                 }
                 break;
             case 7:
-                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 17).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 17).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
             case 8:
-                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($action['user-id']).getTranslatedString('actions', 18).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 18).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
         }
     }
     return $decodedActions;
 }
-function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
-    global $dbManager;
+function getActions(DbManager $dbManager, $timestamp, $limit, $offset, $order, $apiCall=true) {
     $query = 'SELECT * FROM actions ';
     $params = array();
     $types = '';
@@ -139,7 +135,7 @@ function getActions($timestamp, $limit, $offset, $order, $apiCall=true) {
     }
     $decodedActions = array();
     if (isset($actions)) {
-        $decodedActions = decodeActions($actions);
+        $decodedActions = decodeActions($dbManager, $actions);
     }
     if ($apiCall) {
         $response['success'] = true;

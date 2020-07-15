@@ -13,12 +13,10 @@ if (MAINTENANCE) {
     $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
 } else {
     define('COMMANDS_PATH', FUNCTIONS_PATH.'commands'.DIRECTORY_SEPARATOR);
-    define('INJECTIONS_PATH', BASE_DIR_PATH.'injections'.DIRECTORY_SEPARATOR);
-    define('REQUEST_METHOD', filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING));
     if (API_REQUEST) {
-        require FUNCTIONS_PATH.'check-request-method.php';
-        require FUNCTIONS_PATH.'check-token.php';
+        define('INJECTIONS_PATH', BASE_DIR_PATH.'injections'.DIRECTORY_SEPARATOR);
     }
+    define('REQUEST_METHOD', filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING));
     function checkFilteredInputValidity($value, $options=null) {
         $valid = true;
         $message = '';
@@ -89,7 +87,7 @@ if (MAINTENANCE) {
         return $noInputError;
     }
     $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 23));
-    if (!API_REQUEST || ($key=filter_input(INPUT_COOKIE, 'key', FILTER_SANITIZE_STRING))&&$key==API_KEY) {
+    if (!API_REQUEST || filter_input(INPUT_SERVER, 'API-Key', FILTER_SANITIZE_STRING)==API_KEY) {
         try {
             $commandName = filter_input(constant('INPUT_'.REQUEST_METHOD), 'command-name', FILTER_SANITIZE_STRING);
             $processRequestFilePath = INJECTIONS_PATH.'requests'.DIRECTORY_SEPARATOR.$commandName.'.php';
@@ -97,9 +95,6 @@ if (MAINTENANCE) {
                 if (!isset($dbManager)) {
                     require BASE_DIR_PATH.'DbManager.php';
                     $dbManager = new DbManager();
-                }
-                if ($commandName=='deposit' || $commandName=='withdraw' || $commandName=='add-snack' || $commandName=='edit-snack' || $commandName=='buy' || $commandName=='eat') {
-                    require FUNCTIONS_PATH.'check-user-active.php';
                 }
                 require $processRequestFilePath;
             }

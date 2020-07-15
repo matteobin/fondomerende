@@ -1,6 +1,5 @@
 <?php
-function checkUserPassword($userId, $password) {
-    global $dbManager;
+function checkUserPassword(DbManager $dbManager, $userId, $password) {
     $dbManager->query('SELECT password FROM users WHERE id=?', array($userId), 'i'); 
     $hashedPassword = '';
     while ($row = $dbManager->result->fetch_row()) {

@@ -11,7 +11,7 @@
 ?>
     <h2 class="one-column-row"><?php echo $currentView['title']; ?></h2>
 </header>
-<form class="row" method="post">
+<form id="edit-user-form" class="row" method="post">
     <input type="hidden" name="command-name" value="edit-user">
     <div class="row">
         <div class="column">
@@ -35,13 +35,11 @@
 </form>
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
-<?php endif; echoResource('librejs-html'); ?>
+<?php endif; require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
 <script>
-    function askEditUserConfirm(event) {
-        event.preventDefault();
-        if (confirm('<?php echo ucfirst(getTranslatedString('commands', 2)); ?> <?php echo getTranslatedString('user', 1); ?> '+event.target[2].value+'?')) {
-            event.target.submit();
-        }
-    }
-    document.querySelector('form').addEventListener('submit', askEditUserConfirm);
+    var translatedStrings = [
+        "<?php echo ucfirst(getTranslatedString('commands', 2)); ?>",
+        "<?php echo getTranslatedString('user', 1); ?>"
+    ];
 </script>
+<script src="<?php echo WEB_BASE_DIR; ?>js/edit-user.js" defer></script>
