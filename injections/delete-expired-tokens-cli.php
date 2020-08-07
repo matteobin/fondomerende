@@ -28,7 +28,7 @@ if (MAINTENANCE) {
         $lockTables = $verbose ? array('tokens'=>'w', 'users'=>'r') : array('tokens'=>'w');
         $dbManager->lockTables($lockTables);
         deleteExpiredTokens(true, $verbose);
-    } catch (Exception $exception) {
-        echo $exception->getMessage();
+    } catch (Exception $e) {
+        echo $e->getMessage();
     }
 }

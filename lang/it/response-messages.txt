@@ -24,7 +24,7 @@ nessun parametro è stato inviato.
  non è nel formato standard 'YYYY-MM-DD
  hh:mm:ss
 ' di MySQL e MariaDB.
-chiave mancante o errata.
+chiave API mancante o errata.
 Errore di autenticazione: credenziali errate.
 Al momento non ci sono abbastanza Quattrini nel Fondo per ritirare 
  €.

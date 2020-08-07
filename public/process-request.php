@@ -98,11 +98,11 @@ if (MAINTENANCE) {
                 }
                 require $processRequestFilePath;
             }
-        } catch (Exception $exception) {
+        } catch (Exception $e) {
             if (isset($dbManager)) {
                 $dbManager->rollbackTransaction();
             }
-            $response = array('success'=>false, 'status'=>500, 'message'=>$exception->getMessage());
+            $response = array('success'=>false, 'status'=>500, 'message'=>$e->getMessage());
         }
     } else {
         $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 27));

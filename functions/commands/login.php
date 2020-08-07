@@ -29,7 +29,7 @@ function login(DbManager $dbManager, $name, $password, $rememberUser, $apiCall=t
                 $cookieExpires = 0;
                 $tokenExpires = (new DateTime('+5 days'))->format('Y-m-d H:i:s');
             }
-            require BASE_DIR_PATH.'functions/set-fm-cookie.php';
+            require FUNCTIONS_PATH.'set-fm-cookie.php';
             setFmCookie('token', $token, $cookieExpires);
         }
         $dbManager->query('INSERT INTO tokens (user_id, token, device, expires_at, api_request) VALUES (?, ?, ?, ?, ?)', array($id, $token, $device, $tokenExpires, API_REQUEST), 'isssi');

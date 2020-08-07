@@ -24,7 +24,7 @@ no parameters were sent.
  is not standard MySQL and MariaDB 'YYYY-MM-DD
  hh:mm:ss
 ' format.
-missing or wrong key.
+missing or wrong API key.
 Login error: wrong credentials.
 There is not enough Fund Moolah to withdraw 
  € now.

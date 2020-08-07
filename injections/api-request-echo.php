@@ -1,9 +1,4 @@
 <?php
-if (isset($_COOKIE['token'])) {
-    require FUNCTIONS_PATH.'set-fm-cookie.php';
-    unset($_COOKIE['token']);
-    setFmCookie('token', '', time()-86400);
-}
 if (isset($commandName) && $commandName=='get-snack-image' && !is_array($response)) {
     header('Content-Type: image/'.IMG_EXT);
 } else {

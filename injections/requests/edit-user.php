@@ -1,6 +1,6 @@
 <?php
 while (true) {
-    if (API_REQUEST && ((require FUNCTIONS_PATH.'check-request-method.php')&&!checkRequestMethod('POST', $response)||(require FUNCTIONS_PATH.'check-token.php')!checkToken($dbManager))) {
+    if (API_REQUEST && ((require FUNCTIONS_PATH.'check-request-method.php')&&!checkRequestMethod('POST', $response)||(require FUNCTIONS_PATH.'check-token.php')!checkToken($response, $dbManager))) {
         break;
     }
     $dbManager->lockTables(array('actions'=>'w', 'edits'=>'w', 'users'=>'w'));

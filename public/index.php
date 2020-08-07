@@ -11,7 +11,7 @@
         $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>ucfirst(getTranslatedString('maintenance', 1)), 'description'=>getTranslatedString('maintenance', 2));
     } else {
         $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
-        function checkLogin(&$dbManager) {
+        function checkLogin(&$response, &$dbManager) {
             $logged = false;
             $sessionSet = false;
             if (isset($_SESSION['user-id'], $_SESSION['user-friendly-name'], $_SESSION['token'])) {
@@ -23,7 +23,7 @@
                 if (!$sessionSet) {
                     require FUNCTIONS_PATH.'check-token.php';
                     // to do: handle exceptions
-                    $logged = checkToken($dbManager);
+                    $logged = checkToken($response, $dbManager);
                 }
                 if ($logged && filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN)) {
                     $expires = time()+432000; // it expires in 5 days
@@ -108,8 +108,9 @@
                 'description'=>getTranslatedString('credits', 2)
             )
         );
+        $response;
         $dbManager;
-        if (checkLogin($dbManager)) {
+        if (checkLogin($response, $dbManager)) {
             $noView = true;
             foreach ($views as $view) {
                 if ($currentViewName==$view['name']) {

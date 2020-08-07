@@ -1,5 +1,5 @@
 <?php
-if (!API_REQUEST || checkRequestMethod('POST')) {
+if (!API_REQUEST || (require FUNCTIONS_PATH.'check-request-method.php')&&checkRequestMethod('POST', $response)) {
     if (setRequestInputValue($userName, true, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30))) {
         if (setRequestInputValue($password, true, 'password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>255))) {
             $rememberUser = false;
