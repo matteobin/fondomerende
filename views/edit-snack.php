@@ -43,7 +43,7 @@
 </form>
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
-<?php endif; require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
+<?php endif; ?>
 <script>
     var translatedStrings = [
         "<?php echo getTranslatedString('number-separators', 1); ?>",
@@ -58,5 +58,5 @@
         "<?php echo ucfirst(getTranslatedString('snack', 8)); ?>"
     ];
 </script>
-<script src="<?php echo WEB_BASE_DIR; ?>js/format-number-string.js" async></script>
-<script src="<?php echo WEB_BASE_DIR; ?>js/edit-snack.js" defer></script>
+<script src="<?php echo WEB_BASE_DIR; ?>js/format-number-string.min.js" async></script>
+<script src="<?php echo WEB_BASE_DIR; ?>js/edit-snack.min.js" defer></script>

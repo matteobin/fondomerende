@@ -1,3 +1,4 @@
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt GPL-v3-or-Later
 function enableOrDisableBuyOptions() {
     var form = document.getElementById('buy-form');
     if (form[3].checked) {
@@ -39,3 +40,4 @@ document.getElementById('customise-buy-options-input').addEventListener('change'
 updateBuyOptions();
 document.getElementById('snacks-select').addEventListener('change', updateBuyOptions);
 document.getElementById('buy-form').addEventListener('submit', askBuyConfirm);
+// @license-end

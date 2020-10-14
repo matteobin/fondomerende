@@ -29,3 +29,4 @@ Errore di autenticazione: credenziali errate.
 Al momento non ci sono abbastanza Quattrini nel Fondo per ritirare 
  €.
 Nessuna cassa che contiene la merendina con id 
+l'utente non è un amministratore.

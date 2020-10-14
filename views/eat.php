@@ -31,9 +31,9 @@
             <input class="one-column-row" type="submit" value="<?php echo ucfirst(getTranslatedString('commands', 6)); ?> <?php echo $snack['friendly-name']; ?>">
         </form>
         <hr class="one-column-row" style="width:100%">
-    <?php endforeach; require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
+    <?php endforeach; ?>
     <script>
         var translatedStrings = ["<?php echo ucfirst(getTranslatedString('commands', 6)); ?>"];
     </script>
-    <script src="<?php echo WEB_BASE_DIR; ?>js/eat.js" defer></script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/eat.min.js" defer></script>
 <?php endif; ?>

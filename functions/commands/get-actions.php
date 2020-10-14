@@ -144,7 +144,7 @@ function getActions(DbManager $dbManager, $timestamp, $limit, $offset, $order, $
         } else {
             $response['status'] = 200;
             $response['data']['actions'] = $decodedActions;
-        } 
+        }
     }
     if ($apiCall) {
        return $response; 

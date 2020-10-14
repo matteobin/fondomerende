@@ -14,7 +14,7 @@ function checkToken(&$response, &$dbManager) {
                 $dbManager = new DbManager();
             }
             $dbManager->lockTables(array('tokens'=>'w', 'users'=>'r'));
-            $nowToday = (new DateTime())->format('Y-m-d H:i:s');
+            $nowToday = (new DateTime())->format('Y-m-d H:i:s'); 
             $dbManager->query('SELECT users.id, users.friendly_name FROM tokens JOIN users ON tokens.user_id=users.id WHERE tokens.token=? AND (tokens.expires_at>? OR tokens.expires_at IS NULL)', array($token, $nowToday), 'ss');
             while ($row = $dbManager->result->fetch_assoc()) {
                 $isValid = true;

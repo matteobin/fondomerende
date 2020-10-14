@@ -8,7 +8,7 @@ foreach($argv as $arg) {
     if ($arg=='-v' || $arg=='--verbose') {
         $verbose = 1;
         break;
-    } else if ($arg=='-vv' || $arg=='--very-verbose') {
+    } else if ($arg=='-V' || $arg=='--very-verbose') {
         $verbose = 2;
         break;
     }
@@ -27,7 +27,7 @@ if (MAINTENANCE) {
         $dbManager = new DbManager();
         $lockTables = $verbose ? array('tokens'=>'w', 'users'=>'r') : array('tokens'=>'w');
         $dbManager->lockTables($lockTables);
-        deleteExpiredTokens(true, $verbose);
+        deleteExpiredTokens($dbManager, $verbose);
     } catch (Exception $e) {
         echo $e->getMessage();
     }

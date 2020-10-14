@@ -56,7 +56,6 @@
         </div>
         <input class="one-column-last-row" type="submit" value="<?php echo ucfirst(getTranslatedString('commands', 5)); ?>">
 	</form>
-    <?php require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
 	<script>
         var snacks = <?php echo json_encode($snacks); ?>;
         var translatedStrings = [
@@ -71,8 +70,8 @@
             "<?php echo getTranslatedString('snack', 5); ?>"
         ];
 	</script>
-    <script src="<?php echo WEB_BASE_DIR; ?>js/format-number-string.js" async></script>
-    <script src="<?php echo WEB_BASE_DIR; ?>js/buy.js" defer></script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/format-number-string.min.js" async></script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/buy.min.js" defer></script>
 <?php endif; if (isset($response['message'])): ?> 
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
 <?php endif;

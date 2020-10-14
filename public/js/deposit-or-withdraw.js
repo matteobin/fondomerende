@@ -1,3 +1,4 @@
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt GPL-v3-or-Later
 function askDepositOrWithdrawConfirm(event) {
     event.preventDefault();
     if (confirm(translatedStrings[2]+' '+formatNumberString(event.target[2].value)+' €?')) {
@@ -5,3 +6,4 @@ function askDepositOrWithdrawConfirm(event) {
     }
 }
 document.getElementById('deposit-or-withdraw-form').addEventListener('submit', askDepositOrWithdrawConfirm);
+// @license-end

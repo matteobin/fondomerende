@@ -10,7 +10,6 @@
         http_response_code(503);
         $currentView = array('name'=>getTranslatedString('maintenance', 1), 'file-name'=>'maintenance', 'title'=>ucfirst(getTranslatedString('maintenance', 1)), 'description'=>getTranslatedString('maintenance', 2));
     } else {
-        $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
         function checkLogin(&$response, &$dbManager) {
             $logged = false;
             $sessionSet = false;
@@ -22,8 +21,11 @@
             if ($token) {
                 if (!$sessionSet) {
                     require FUNCTIONS_PATH.'check-token.php';
-                    // to do: handle exceptions
-                    $logged = checkToken($response, $dbManager);
+                    try {
+                        $logged = checkToken($response, $dbManager);
+                    } catch (Exception $e) {
+                        $response = array('success'=>false, 'status'=>500, 'message'=>$e->getMessage());
+                    }
                 }
                 if ($logged && filter_input(INPUT_COOKIE, 'remember-user', FILTER_VALIDATE_BOOLEAN)) {
                     $expires = time()+432000; // it expires in 5 days
@@ -106,10 +108,23 @@
                 'file-name'=>'credits',
                 'title'=>ucfirst(getTranslatedString('credits', 1)),
                 'description'=>getTranslatedString('credits', 2)
+            ),
+            array(
+                'name'=>getTranslatedString('js-licenses', 1),
+                'file-name'=>'js-licenses',
+                'title'=>ucfirst(getTranslatedString('js-licenses', 2)),
+                'description'=>getTranslatedString('js-licenses', 3)
+            ),
+            array(
+                'name'=>getTranslatedString('tokens', 8),
+                'file-name'=>'delete-expired-tokens',
+                'title'=>getTranslatedString('tokens', 9),
+                'description'=>getTranslatedString('tokens', 10)
             )
         );
         $response;
         $dbManager;
+        $currentViewName = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_STRING);
         if (checkLogin($response, $dbManager)) {
             $noView = true;
             foreach ($views as $view) {
@@ -134,6 +149,8 @@
             }
         } else if ($currentViewName==getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1)) {
             $currentView = array('name'=>getTranslatedString('commands', 1).'-'.getTranslatedString('user', 1), 'file-name'=>'add-user', 'title'=>ucfirst(getTranslatedString('commands', 1)).' '.getTranslatedString('user', 1), 'description'=>getTranslatedString('add-user', 1));
+        } else if ($currentViewName==getTranslatedString('js-licenses', 1)) {
+            $currentView = $views[12];
         } else {
             $currentView = $views[0];
         }
@@ -172,6 +189,9 @@
                     <p class="one-column-row"><?php echo getTranslatedString('commons', 8); ?><a href="<?php echo WEB_BASE_DIR; if (!CLEAN_URLS) {echo 'index.php?view=';} echo getTranslatedString('login', 1); ?>" title="<?php echo getTranslatedString('login', 2); ?>"><?php echo getTranslatedString('add-user', 2); ?></a>.</p>
                 <?php else: ?>
                     <p class="one-column-row"><?php echo getTranslatedString('commons', 8); ?><a href="<?php echo WEB_BASE_DIR; ?>" title="<?php echo getTranslatedString('main', 2); ?>"><?php echo getTranslatedString('commons', 9); ?></a>.</p>
+                    <?php if ($currentView['file-name']=='deposit'||$currentView['file-name']=='add-snack'||$currentView['file-name']=='buy'||$currentView['file-name']=='eat'||$currentView['file-name']=='withdraw'||$currentView['file-name']=='edit-user'||$currentView['file-name']=='edit-snack'): ?>
+                        <a class="one-column-row" href="<?php echo WEB_BASE_DIR; if (!CLEAN_URLS) {echo 'index.php?view=';} echo getTranslatedString('js-licenses', 1); ?>" title="<?php echo getTranslatedString('js-licenses', 3); ?>" data-jslicense="1"><?php echo getTranslatedString('js-licenses', 2); ?></a>
+                    <?php endif; ?>
                 <?php endif; ?>
             </footer>
         <?php endif; ?>

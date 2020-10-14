@@ -26,7 +26,7 @@ function downloadImageFromGoogle($name) {
 
 function getSnackImage($name, $overwrite) {
     $path = IMG_PATH.$name.'.'.IMG_EXT;
-    if (true && ($overwrite || !file_exists($path))) {
+    if ($overwrite || !file_exists($path)) {
         downloadImageFromGoogle($name);
     }
     if (APCU_INSTALLED) {

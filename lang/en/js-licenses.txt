@@ -1,0 +1,6 @@
+js-licenses
+JavaScript licenses
+List of all the JavaScript scripts used on Fondo Merende website and their licenses (all GPL, obviously).
+Script
+License
+Code

@@ -35,11 +35,11 @@
 </form>
 <?php if (isset($response['message'])): ?> 
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
-<?php endif; require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
+<?php endif; ?>
 <script>
     var translatedStrings = [
         "<?php echo ucfirst(getTranslatedString('commands', 2)); ?>",
         "<?php echo getTranslatedString('user', 1); ?>"
     ];
 </script>
-<script src="<?php echo WEB_BASE_DIR; ?>js/edit-user.js" defer></script>
+<script src="<?php echo WEB_BASE_DIR; ?>js/edit-user.min.js" defer></script>

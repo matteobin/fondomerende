@@ -1,6 +1,8 @@
 <?php
-function deleteExpiredTokens(DbManager $dbManager, $fromCli=true, $verbose=0) {
-    $nowToday = (new DateTime())->format('Y-m-d H:i:s');
+function deleteExpiredTokens(DbManager $dbManager, $verbose=0) {
+    $fromCli = php_sapi_name()=='cli' ? true : false;
+    $nowToday = new DateTime();
+    $nowToday = $nowToday->format('Y-m-d H:i:s');
     if ($verbose) {
         $query = 'SELECT tokens.id, tokens.token, users.id'; 
         if ($verbose==2) {
@@ -18,8 +20,12 @@ function deleteExpiredTokens(DbManager $dbManager, $fromCli=true, $verbose=0) {
             $toDelete[] = $tokensRow; 
         }
         $toDeleteNum = count($toDelete);
-        if (!$toDeleteNum && $fromCli) {
-            echo getTranslatedString('tokens', 2)."\n";
+        if (!$toDeleteNum) {
+            if ($fromCli) {
+                echo getTranslatedString('tokens', 2)."\n";
+            } else {
+                $response['data'] = array('deleted-tokens' => array());
+            }
         }
         for ($i=0; $i<$toDeleteNum; $i++) {
             $dbManager->query('DELETE FROM tokens WHERE tokens.id=?', array($toDelete[$i]['id']), 'i');
@@ -27,9 +33,9 @@ function deleteExpiredTokens(DbManager $dbManager, $fromCli=true, $verbose=0) {
                 if (!$i && $verbose==2) {
                     echo "\n";
                 }
-                echo getTranslatedString('tokens', 3)."{$toDelete[$i]['token']}".getTranslatedString('tokens', 4)."{$toDelete[$i]['id']}";
+                echo getTranslatedString('tokens', 3).$toDelete[$i]['token'].getTranslatedString('tokens', 4).$toDelete[$i]['id'];
                 if ($verbose==2) {
-                    echo " ({$toDelete[$i]['name']}".getTranslatedString('tokens', 5)."{$toDelete[$i]['friendly_name']})".getTranslatedString('tokens', 6)."{$toDelete[$i]['device']}".getTranslatedString('tokens', 6)."{$toDelete[$i]['expires_at']}";
+                    echo ' ('.$toDelete[$i]['name'].getTranslatedString('tokens', 5).$toDelete[$i]['friendly_name'].')'.getTranslatedString('tokens', 6).$toDelete[$i]['device'].getTranslatedString('tokens', 6).$toDelete[$i]['expires_at'];
                 }
                 echo ".\n";
             } else {
@@ -48,7 +54,7 @@ function deleteExpiredTokens(DbManager $dbManager, $fromCli=true, $verbose=0) {
     if ($fromCli) {
         return true;
     } else {
-        $reponse['success'] = true;
+        $response['success'] = true;
         $response['status'] = 200;
         return $response;
     }

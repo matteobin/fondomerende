@@ -5,3 +5,6 @@ Cancellato il token
  alias 
  con dispositivo 
 , scaduto il 
+cancella-token-scaduti
+Cancella i token scanduti
+Sezione amministrativa riservata alla cancellazione dei token utente scaduti.

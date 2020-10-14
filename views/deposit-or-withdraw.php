@@ -24,7 +24,6 @@
         </div>
         <input class="one-column-last-row" type="submit" value="<?php echo $currentView['title']; ?>">
     </form>
-    <?php require INJECTIONS_PATH.'echo-librejs-html.php'; ?>
     <script>
         var translatedStrings = [
             "<?php echo getTranslatedString('number-separators', 1); ?>",
@@ -32,8 +31,8 @@
             "<?php echo $currentView['title']; ?>"
         ];
     </script>
-    <script src="<?php echo WEB_BASE_DIR; ?>js/format-number-string.js" async></script>
-    <script src="<?php echo WEB_BASE_DIR; ?>js/deposit-or-withdraw.js" defer></script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/format-number-string.min.js" async></script>
+    <script src="<?php echo WEB_BASE_DIR; ?>js/deposit-or-withdraw.min.js" defer></script>
 <?php endif; if (isset($response['message'])): ?> 
     <p class="one-column-row error"><?php echo $response['message']; ?></p>
 <?php endif; ?>
