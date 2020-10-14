@@ -184,7 +184,7 @@
             <footer class="row">
                 <?php if ($currentView['file-name']=='main'): ?>
                     <p class="one-column-row"><a href="<?php echo $hrefs[9]; ?>" title="<?php echo getTranslatedString('credits', 2); ?>"><?php echo ucfirst(getTranslatedString('credits', 1)); ?></a></p>
-                    <p class="one-column-row"><a href="https://www.gnu.org/licenses/gpl-3.0.en.html" title="Freedom like you never GNU."><?php echo getTranslatedString('main', 24); ?></a></p>
+                    <p class="one-column-row"><a href="https://www.gnu.org/licenses/agpl-3.0.en.html" title="Freedom like you never GNU."><?php echo getTranslatedString('main', 24); ?></a></p>
                 <?php elseif ($currentView['file-name']=='add-user'): ?>
                     <p class="one-column-row"><?php echo getTranslatedString('commons', 8); ?><a href="<?php echo WEB_BASE_DIR; if (!CLEAN_URLS) {echo 'index.php?view=';} echo getTranslatedString('login', 1); ?>" title="<?php echo getTranslatedString('login', 2); ?>"><?php echo getTranslatedString('add-user', 2); ?></a>.</p>
                 <?php else: ?>
