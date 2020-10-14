@@ -81,4 +81,4 @@ Italian translation by Matteo Luchetta.
 README template by [Make a README](https://www.makeareadme.com/).
 
 ## License
-[GPL-3.0](https://www.gnu.org/licenses/gpl-3.0)
+[AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.en.html)
