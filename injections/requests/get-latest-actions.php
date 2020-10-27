@@ -5,7 +5,6 @@ if (!API_REQUEST || (require FUNCTIONS_PATH.'check-request-method.php')&&checkRe
             $timestamp = (new DateTime())->format('Y-m-d H:i:s');
         }
         require COMMANDS_PATH.'get-actions.php';
-        $dbManager->lockTables(array('actions'=>'r', 'users'=>'r', 'edits'=>'r', 'snacks'=>'r'));
         $response = getActions($dbManager, $timestamp, false, false, 'DESC');
     }
 }

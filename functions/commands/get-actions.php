@@ -129,6 +129,9 @@ function getActions(DbManager $dbManager, $timestamp, $limit, $offset, $order, $
         $params[] = $offset;
         $types .= 'i';
     }
+    if (!$dbManager->transactionBegun) {
+        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_ONLY);
+    }
     $dbManager->query($query, $params, $types);
     while ($row = $dbManager->result->fetch_assoc()) {
         $actions[] = array('id'=>$row['id'], 'user-id'=>$row['user_id'], 'command-id'=>$row['command_id'], 'snack-id'=>$row['snack_id'], 'snack-quantity'=>$row['snack_quantity'], 'funds-amount'=>$row['funds_amount'], 'created-at'=>$row['created_at']);

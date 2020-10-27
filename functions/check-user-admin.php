@@ -1,6 +1,5 @@
 <?php
 function checkUserAdmin(DbManager $dbManager, &$response) {
-    $dbManager->lockTables(array('users'=>'r'));
     $dbManager->query('SELECT admin FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
     $isAdmin = false;
     while ($row = $dbManager->result->fetch_row()) {

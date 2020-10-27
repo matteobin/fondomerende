@@ -6,7 +6,7 @@ if (API_REQUEST) {
 }
 define('MAINTENANCE', false);
 define('CLEAN_URLS', false);
-define('APCU_INSTALLED', false);
+define('APCU_ENABLED', function_exists('apcu_enabled') && apcu_enabled());
 if (!MAINTENANCE) {
     define('DB_SERVER', '127.0.0.1');
     define('DB_USER', 'root');

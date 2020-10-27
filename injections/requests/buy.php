@@ -3,7 +3,6 @@ while (true) {
     if ((API_REQUEST && ((require FUNCTIONS_PATH.'check-request-method.php')&&!checkRequestMethod('POST', $response)||(require FUNCTIONS_PATH.'check-token.php')&&!checkToken($response, $dbManager)) || (require FUNCTIONS_PATH.'check-user-active.php') && !checkUserActive($bManager, $response)) {
         break;
     }
-    $dbManager->lockTables(array('snacks'=>'r', 'outflows'=>'w', 'fund_funds'=>'w', 'actions'=>'w'));
     if (!setRequestInputValue($snackId, true, 'id', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>0, 'database'=>array('table'=>'snacks', 'select-column'=>'id', 'value-type'=>'i', 'check-type'=>'existence')))) {
         break;
     }

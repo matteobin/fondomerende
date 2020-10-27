@@ -26,6 +26,9 @@ function editSnackOrUser(DbManager $dbManager, array $ids, array $newValues, arr
         $whereId = $ids['user'];
         $oldValueCheckExceptions = ['password'];
     }
+    if (!$dbManager->transactionBegun) {
+        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_WRITE);
+    }
     $oldValues = $dbManager->getOldValues($newValues, $table, 'id', $whereId, $oldValueCheckExceptions);
     if ($dbManager->updateQuery($table, $newValues, $types, 'id', $whereId, $oldValues)) {
         if ($table=='snacks') {

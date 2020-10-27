@@ -3,7 +3,6 @@ while (true) {
     if (API_REQUEST && ((require FUNCTIONS_PATH.'check-request-method.php')&&!checkRequestMethod('POST', $response)||(require FUNCTIONS_PATH.'check-token.php')!checkToken($response, $dbManager))) {
         break;
     }
-    $dbManager->lockTables(array('actions'=>'w', 'edits'=>'w', 'users'=>'w'));
     $values = array();
     if (!setRequestInputValue($values, false, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array($dbManager->getByUniqueId('name', 'users', $_SESSION['user-id'])))))) {
         break;

@@ -3,8 +3,6 @@ if ((!API_REQUEST || (require FUNCTIONS_PATH.'check-request-method.php')&&checkR
     $verbose = 0;
     if (setRequestInputValue($verbose, false, 'verbose', array('filter'=>FILTER_VALIDATE_INT), array('greater-than'=>-1, 'less-than'=>3))) {
         require COMMANDS_PATH.'delete-expired-tokens.php';
-        $lockTables = $verbose ? array('tokens'=>'w', 'users'=>'r') : array('tokens'=>'w');
-        $dbManager->lockTables($lockTables);
         $response = deleteExpiredTokens($dbManager, $verbose);
     }
 }

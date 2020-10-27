@@ -18,7 +18,7 @@ function getTranslatedString($fileName, $rowNumber) {
     $cacheKey = 'fm-'.$_SESSION['lang'].'-'.$fileName.'-lang';
     if (isset($translatedStrings[$fileName], $translatedStrings[$fileName][$rowIndex])) {
         $translatedString = $translatedStrings[$fileName][$rowIndex];
-    } else if (APCU_INSTALLED && apcu_exists($cacheKey) && ($translationRows=apcu_fetch($cacheKey)) && isset($translationRows[$rowIndex])) {
+    } else if (APCU_ENABLED && apcu_exists($cacheKey) && ($translationRows=apcu_fetch($cacheKey)) && isset($translationRows[$rowIndex])) {
         $translatedString = $translationRows[$rowIndex];
         if (!isset($translatedStrings[$fileName])) {
             $translatedStrings[$fileName] = $translationRows;
@@ -34,7 +34,7 @@ function getTranslatedString($fileName, $rowNumber) {
         }
         if (!isset($translatedString)) {
             $translationRows = file($filePath, FILE_IGNORE_NEW_LINES);
-            if (APCU_INSTALLED) {
+            if (APCU_ENABLED) {
                 apcu_add($cacheKey, $translationRows);
             }
             $translatedStrings[$fileName] = $translationRows;

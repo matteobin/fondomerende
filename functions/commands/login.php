@@ -1,5 +1,8 @@
 <?php
 function login(DbManager $dbManager, $name, $password, $rememberUser, $apiCall=true) {
+    if (!$dbManager->transactionBegun) {
+        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_WRITE);
+    }
     $dbManager->query('SELECT id, password, friendly_name FROM users WHERE name=?', array($name), 's');
     $hashedPassword = '';
     while ($row = $dbManager->result->fetch_assoc()) {
@@ -27,7 +30,8 @@ function login(DbManager $dbManager, $name, $password, $rememberUser, $apiCall=t
                 $cookieExpires = time()+432000; // it expires in 5 days
             } else {
                 $cookieExpires = 0;
-                $tokenExpires = (new DateTime('+5 days'))->format('Y-m-d H:i:s');
+                $tokenExpires = new DateTime('+5 days');
+                $tokenExpires = $tokenExpires->format('Y-m-d H:i:s');
             }
             require FUNCTIONS_PATH.'set-fm-cookie.php';
             setFmCookie('token', $token, $cookieExpires);

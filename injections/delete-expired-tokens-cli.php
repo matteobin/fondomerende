@@ -25,8 +25,7 @@ if (MAINTENANCE) {
     require BASE_DIR_PATH.'DbManager.php';
     try {
         $dbManager = new DbManager();
-        $lockTables = $verbose ? array('tokens'=>'w', 'users'=>'r') : array('tokens'=>'w');
-        $dbManager->lockTables($lockTables);
+        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_WRITE);
         deleteExpiredTokens($dbManager, $verbose);
     } catch (Exception $e) {
         echo $e->getMessage();

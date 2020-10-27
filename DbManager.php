@@ -1,9 +1,8 @@
 <?php
 class DbManager {
     private $connection = null;
-    private $lockedTables = false;
-    private $needsCommit = false;
     public $result = null;
+    public $transactionBegun = false;
     
     public function __construct() {
         $connection = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
@@ -11,36 +10,29 @@ class DbManager {
             throw new Exception('Connection error code '.mysqli_connect_errno().'. '.mysqli_connect_error());
         } else {
             $this->connection = $connection;
-            $this->connection->autocommit(false);
         }
     }
 
     public function __destruct() {
         if (!is_null($this->connection)) {
-            if ($this->needsCommit) {
+            if ($this->transactionBegun) {
                 $this->connection->commit();
-            }
-            if ($this->lockedTables) {
-                $this->query('UNLOCK TABLES');
             }
             $this->connection->close();
         }
     }
-
-    public function lockTables(array $tables) {
-        $lockQuery = 'LOCK TABLES ';
-        foreach ($tables as $table=>$lockType) {
-            if ($lockType=='w' || $lockType=='write' || $lockType==1) {
-                $lockType = 'WRITE';
-                $this->needsCommit = true;
+    
+    public function beginTransaction($flag) {
+        if ($this->transactionBegun) {
+            throw new Exception('Transaction already begun.');
+        } else {
+            if (version_compare(phpversion(), '5.5.0', '>=')) {
+                $this->connection->begin_transaction($flag);
             } else {
-                $lockType = 'READ';
+                $this->connection->autocommit(false);
             }
-            $lockQuery .= $table.' '.$lockType.', ';
+            $this->transactionBegun = true;
         }
-        $lockQuery = substr($lockQuery, 0, -2);
-        $this->query($lockQuery);
-        $this->lockedTables = true;
     }
 
     public function getByUniqueId($column, $table, $id) {
@@ -67,7 +59,7 @@ class DbManager {
     public function rollbackTransaction() {
         if (!is_null($this->connection)) {
             $this->connection->rollback();
-            $this->needsCommit = false;
+            $this->transactionBegun = false;
         }
     }
 
