@@ -32,8 +32,8 @@ if (!$isException) {
         $insertUnique = false;
     }
     if (!$dbManager->transactionBegun) {
-        $transactionFlag = isset($options['database']['read-transaction']) && $options['database']['read-transaction'] ? MYSQLI_TRANS_START_READ_ONLY : MYSQLI_TRANS_START_READ_WRITE;
-        $dbManager->beginTransaction($transactionFlag);
+        $readTransaction = isset($options['database']['read-transaction']) && $options['database']['read-transaction'] ? true : false;
+        $dbManager->beginTransaction($readTransaction);
     }
     $dbManager->query($query, $params, $types);
     $dbValue = null;

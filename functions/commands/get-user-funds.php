@@ -1,7 +1,7 @@
 <?php
 function getUserFunds(DbManager $dbManager, $userId, $apiCall=true) {
     if (!$dbManager->transactionBegun) {
-        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_ONLY);
+        $dbManager->beginTransaction(true);
     }
     $dbManager->query('SELECT amount FROM users_funds WHERE user_id=?', array($userId), 'i');
     $userFundsAmount = 0;

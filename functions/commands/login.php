@@ -1,7 +1,7 @@
 <?php
 function login(DbManager $dbManager, $name, $password, $rememberUser, $apiCall=true) {
     if (!$dbManager->transactionBegun) {
-        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_WRITE);
+        $dbManager->beginTransaction();
     }
     $dbManager->query('SELECT id, password, friendly_name FROM users WHERE name=?', array($name), 's');
     $hashedPassword = '';

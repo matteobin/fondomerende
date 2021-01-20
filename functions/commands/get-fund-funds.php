@@ -1,7 +1,7 @@
 <?php
 function getFundFunds(DbManager $dbManager, $apiCall=true) {
     if (!$dbManager->transactionBegun) {
-        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_ONLY);
+        $dbManager->beginTransaction(true);
     }
     $dbManager->query('SELECT amount FROM fund_funds');
     $fundFundsAmount = 0;

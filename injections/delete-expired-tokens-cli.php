@@ -1,5 +1,5 @@
 <?php
-define('API_REQUEST', false);
+const API_REQUEST = false;
 require BASE_DIR_PATH.'config.php';
 session_start();
 require BASE_DIR_PATH.'functions'.DIRECTORY_SEPARATOR.'get-translated-string.php';
@@ -25,7 +25,7 @@ if (MAINTENANCE) {
     require BASE_DIR_PATH.'DbManager.php';
     try {
         $dbManager = new DbManager();
-        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_WRITE);
+        $dbManager->beginTransaction();
         deleteExpiredTokens($dbManager, $verbose);
     } catch (Exception $e) {
         echo $e->getMessage();

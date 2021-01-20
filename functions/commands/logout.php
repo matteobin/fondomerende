@@ -1,7 +1,7 @@
 <?php
 function logout(DbManager $dbManager) {
     if (!$dbManager->transactionBegun) {
-        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_WRITE);
+        $dbManager->beginTransaction();
     }
     $dbManager->query('DELETE FROM tokens WHERE token=?', array($_SESSION['token']), 's');
     if (!API_REQUEST) {

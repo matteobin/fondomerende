@@ -1,7 +1,7 @@
 <?php
 function getToBuy(DbManager $dbManager) {
     if (!$dbManager->transactionBegun) {
-        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_ONLY);
+        $dbManager->beginTransaction(true);
     }
     $dbManager->query('SELECT id, friendly_name, price, snacks_per_box, expiration_in_days FROM snacks WHERE visible=? ORDER BY friendly_name ASC', array(1), 'i');
     $snacks = array();

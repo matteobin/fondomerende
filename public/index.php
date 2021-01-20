@@ -1,8 +1,8 @@
 <?php
     define('BASE_DIR_PATH', realpath(__DIR__.'/../').DIRECTORY_SEPARATOR);
-    define('FUNCTIONS_PATH', BASE_DIR_PATH.'functions'.DIRECTORY_SEPARATOR);
-    define('INJECTIONS_PATH', BASE_DIR_PATH.'injections'.DIRECTORY_SEPARATOR);
-    define('API_REQUEST', false);
+    const FUNCTIONS_PATH = BASE_DIR_PATH.'functions'.DIRECTORY_SEPARATOR;
+    const INJECTIONS_PATH = BASE_DIR_PATH.'injections'.DIRECTORY_SEPARATOR;
+    const API_REQUEST = false;
     require BASE_DIR_PATH.'config.php';
     session_start();
     require FUNCTIONS_PATH.'get-translated-string.php';

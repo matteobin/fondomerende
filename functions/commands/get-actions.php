@@ -1,9 +1,10 @@
 <?php
+require FUNCTIONS_PATH.'get-by-id.php';
 function getUserFriendlyName(DbManager $dbManager, $userId) {
     if ($_SESSION['user-id']==$userId) {
         return $_SESSION['user-friendly-name'];
     } else {
-        return $dbManager->getByUniqueId('friendly_name', 'users', $userId);
+        return getById($dbManager, 'friendly_name', 'users', $userId);
     }
 }
 function decodeEdits(DbManager $dbManager, $editType, $actionId, $userId, $snackId=null) {
@@ -25,7 +26,7 @@ function decodeEdits(DbManager $dbManager, $editType, $actionId, $userId, $snack
                     if ($userEdit) {
                         $editSentence .= getTranslatedString('actions', 12).$edit['old-s-value'].getTranslatedString('actions', 13).$edit['new-s-value'].'.';
                     } else {
-                        $editSentence .= getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edits['friendly_name']['old-s-value'].getTranslatedString('actions', 13).$edits['friendly_name']['new-s-value'].'.';
+                        $editSentence .= getTranslatedString('actions', 11).getById($dbManager, 'friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edits['friendly_name']['old-s-value'].getTranslatedString('actions', 13).$edits['friendly_name']['new-s-value'].'.';
                     }
                     $decodedEdits[] = $editSentence;
                     break;
@@ -40,19 +41,19 @@ function decodeEdits(DbManager $dbManager, $editType, $actionId, $userId, $snack
                         $decodedEdits[] = $editSentence;
                     break;
                 case 'price':
-                    $editSentence .= getTranslatedString('actions', 8).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).number_format($edit['old-d-value'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)).' €'.getTranslatedString('actions', 13).number_format($edit['new-d-value'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)).' €.';
+                    $editSentence .= getTranslatedString('actions', 8).getTranslatedString('actions', 11).getById($dbManager, 'friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).number_format($edit['old-d-value'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)).' €'.getTranslatedString('actions', 13).number_format($edit['new-d-value'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)).' €.';
                     $decodedEdits[] = $editSentence;
                     break;
                 case 'snacks_per_box':
-                    $editSentence .= getTranslatedString('actions', 9).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-i-value'].getTranslatedString('actions', 13).$edit['new-i-value'].'.';
+                    $editSentence .= getTranslatedString('actions', 9).getTranslatedString('actions', 11).getById($dbManager, 'friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-i-value'].getTranslatedString('actions', 13).$edit['new-i-value'].'.';
                     $decodedEdits[] = $editSentence;
                     break;
                 case 'expiration_in_days':
-                    $editSentence .= getTranslatedString('actions', 10).getTranslatedString('actions', 11).$dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-i-value'].getTranslatedString('actions', 13).$edit['new-i-value'].'.';
+                    $editSentence .= getTranslatedString('actions', 10).getTranslatedString('actions', 11).getById($dbManager, 'friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12).$edit['old-i-value'].getTranslatedString('actions', 13).$edit['new-i-value'].'.';
                     $decodedEdits[] = $editSentence;
                     break;
                 case 'visible':
-                    $editSentence .= $dbManager->getByUniqueId('friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12);
+                    $editSentence .= getById($dbManager, 'friendly_name', 'snacks', $snackId).getTranslatedString('actions', 12);
                     if ($edit['old-i-value']==1) {
                         $editSentence .= getTranslatedString('snack', 8);
                     } else {
@@ -91,7 +92,7 @@ function decodeActions(DbManager $dbManager, $actions) {
                 $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 16).number_format($action['funds-amount'], 2, getTranslatedString('number-separators', 1), getTranslatedString('number-separators', 2)).' €.';
                 break;
             case 5:
-                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 14).getTranslatedString('snack', 2).' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 14).getTranslatedString('snack', 2).' '.getById($dbManager, 'friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
             case 6:
                 $decodedEdits = decodeEdits($dbManager, 'snack', $action['id'], $action['user-id'], $action['snack-id']);
@@ -100,10 +101,10 @@ function decodeActions(DbManager $dbManager, $actions) {
                 }
                 break;
             case 7:
-                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 17).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 17).$action['snack-quantity'].' '.getById($dbManager, 'friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
             case 8:
-                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 18).$action['snack-quantity'].' '.$dbManager->getByUniqueId('friendly_name', 'snacks', $action['snack-id']).'.';
+                $decodedActions[] = $action['created-at'].': '.getUserFriendlyName($dbManager, $action['user-id']).getTranslatedString('actions', 18).$action['snack-quantity'].' '.getById($dbManager, 'friendly_name', 'snacks', $action['snack-id']).'.';
                 break;
         }
     }
@@ -130,7 +131,7 @@ function getActions(DbManager $dbManager, $timestamp, $limit, $offset, $order, $
         $types .= 'i';
     }
     if (!$dbManager->transactionBegun) {
-        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_ONLY);
+        $dbManager->beginTransaction(true);
     }
     $dbManager->query($query, $params, $types);
     while ($row = $dbManager->result->fetch_assoc()) {

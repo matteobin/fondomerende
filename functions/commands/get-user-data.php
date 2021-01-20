@@ -1,7 +1,7 @@
 <?php
 function getUserData(DbManager $dbManager, $userId) {
     if (!$dbManager->transactionBegun) {
-        $dbManager->beginTransaction(MYSQLI_TRANS_START_READ_ONLY);
+        $dbManager->beginTransaction(true);
     }
     $dbManager->query('SELECT name, friendly_name FROM users WHERE id=?', array($userId), 'i');
     while ($row = $dbManager->result->fetch_assoc()) {
