@@ -1,5 +1,8 @@
 <?php
 function logout(DbManager $dbManager) {
+    if (!$dbManager->transactionBegun) {
+        $dbManager->beginTransaction();
+    }
     $dbManager->query('DELETE FROM tokens WHERE token=?', array($_SESSION['token']), 's');
     if (!API_REQUEST) {
         unset($_COOKIE['token']);

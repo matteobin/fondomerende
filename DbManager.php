@@ -1,9 +1,9 @@
 <?php
 class DbManager {
     private $connection = null;
-    private $lockedTables = false;
     private $needsCommit = false;
     public $result = null;
+    public $transactionBegun = false;
     
     public function __construct() {
         $connection = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
@@ -11,63 +11,30 @@ class DbManager {
             throw new Exception('Connection error code '.mysqli_connect_errno().'. '.mysqli_connect_error());
         } else {
             $this->connection = $connection;
-            $this->connection->autocommit(false);
         }
     }
 
     public function __destruct() {
         if (!is_null($this->connection)) {
-            if ($this->needsCommit) {
+            if ($this->transactionBegun && $this->needsCommit) {
                 $this->connection->commit();
-            }
-            if ($this->lockedTables) {
-                $this->query('UNLOCK TABLES');
             }
             $this->connection->close();
         }
     }
-
-    public function lockTables(array $tables) {
-        $lockQuery = 'LOCK TABLES ';
-        foreach ($tables as $table=>$lockType) {
-            if ($lockType=='w' || $lockType=='write' || $lockType==1) {
-                $lockType = 'WRITE';
-                $this->needsCommit = true;
+    
+    public function beginTransaction($readOnly=false) {
+        if ($this->transactionBegun) {
+            throw new Exception('Transaction already begun.');
+        } else {
+            if (version_compare(phpversion(), '5.5.0', '>=')) {
+                $flag = $readOnly ? MYSQLI_TRANS_START_READ_ONLY : MYSQLI_TRANS_START_READ_WRITE;
+                $this->connection->begin_transaction($flag);
             } else {
-                $lockType = 'READ';
+                $this->connection->autocommit(false);
             }
-            $lockQuery .= $table.' '.$lockType.', ';
-        }
-        $lockQuery = substr($lockQuery, 0, -2);
-        $this->query($lockQuery);
-        $this->lockedTables = true;
-    }
-
-    public function getByUniqueId($column, $table, $id) {
-        $this->query('SELECT '.$column.' FROM '.$table.' WHERE id=?', array($id), 'i');
-        while ($row = $this->result->fetch_assoc()) {
-            $result = $row[$column];
-        }
-        return $result;
-    }
-
-    public function getOldValues(array $newValues, $table, $whereColumn, $whereId, array $exceptions=null) {
-        $oldValues = array();
-        foreach($newValues as $column=>$newValue) {
-            if (!isset($exceptions[$column])) {
-                $this->query('SELECT '.$column.' FROM '.$table.' WHERE '.$whereColumn.'=?', array($whereId), 'i');
-                while ($row = $this->result->fetch_assoc()) {
-                    $oldValues[$column] = $row[$column];
-                }
-            }
-        }
-        return $oldValues;
-    }
-
-    public function rollbackTransaction() {
-        if (!is_null($this->connection)) {
-            $this->connection->rollback();
-            $this->needsCommit = false;
+            $this->transactionBegun = true;
+            $this->needsCommit = $readOnly ? false : true;
         }
     }
 
@@ -97,43 +64,12 @@ class DbManager {
             }
         }
     }
-
-    public function updateQuery($table, array $newValues, array $paramTypesArray, $whereColumn, $whereId, array $oldValues=null) {
-        $query = 'UPDATE '.$table.' SET ';
-        $params = array();
-        $paramTypes = '';
-        foreach ($newValues as $column=>$newValue) {
-            if (isset($oldValues[$column])) {
-                if ($newValue!=$oldValues[$column]) {
-                    if ($paramTypes=='') {
-                        $query .= $column.'=?';
-                    } else {
-                        $query .= ', '.$column.'=?';
-                    }
-                    $params[] = $newValue;
-                    if (isset($paramTypesArray[$column])) {
-                        $paramTypes .= $paramTypesArray[$column];
-                    } else {
-                        $backtrace = debug_backtrace();
-                        throw new Exception($column.' type is missing in types array at line '.$backtrace[1]['line'].' in '.$backtrace[1]['file'].'.');
-                    }
-                }
-            } else {
-                if ($paramTypes=='') {
-                    $query .= $column.'=?';
-                } else {
-                    $query .= ', '.$column.'=?';
-                }
-                $params[] = $newValue;
-                $paramTypes .= $paramTypesArray[$column];
-            }
+    
+    public function rollbackTransaction() {
+        if (!is_null($this->connection)) {
+            $this->connection->rollback();
+            $this->transactionBegun = false;
+            $this->needsCommit = false;
         }
-        if ($paramTypes!='') {
-            $query .= ' WHERE '.$whereColumn.'=?';
-            $params[] = $whereId;
-            $paramTypes .= 'i';
-            $this->query($query, $params, $paramTypes);
-            return true;
-        } else return false;
     }
 }

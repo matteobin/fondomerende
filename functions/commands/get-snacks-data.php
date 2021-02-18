@@ -1,5 +1,8 @@
 <?php
 function getSnacksData(DbManager $dbManager) {
+    if (!$dbManager->transactionBegun) {
+        $dbManager->beginTransaction(true);
+    }
     $dbManager->query('SELECT id, name, friendly_name, price, snacks_per_box, expiration_in_days, visible FROM snacks ORDER BY friendly_name ASC');
     $snacks = array();
     while ($row = $dbManager->result->fetch_assoc()) {

@@ -3,9 +3,9 @@ while (true) {
     if (API_REQUEST && ((require FUNCTIONS_PATH.'check-request-method.php')&&!checkRequestMethod('POST', $response)||(require FUNCTIONS_PATH.'check-token.php')!checkToken($response, $dbManager))) {
         break;
     }
-    $dbManager->lockTables(array('actions'=>'w', 'edits'=>'w', 'users'=>'w'));
     $values = array();
-    if (!setRequestInputValue($values, false, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array($dbManager->getByUniqueId('name', 'users', $_SESSION['user-id'])))))) {
+    require FUNCTIONS_PATH.'get-by-id.php';
+    if (!setRequestInputValue($values, false, 'name', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>30, 'database'=>array('table'=>'users', 'select-column'=>'name', 'value-type'=>'s', 'check-type'=>'insert-unique', 'exceptions'=>array(getById($dbManager, 'name', 'users', $_SESSION['user-id'])))))) {
         break;
     } else if (isset($values['name'])) {
         $types['name'] = 's';
@@ -29,7 +29,14 @@ while (true) {
         if (!setRequestInputValue($currentPassword, true, 'current-password', array('filter'=>FILTER_SANITIZE_STRING), array('max-length'=>125))) {
             break;
         }
-        require BASE_DIR_PATH.'check-user-password.php';
+        function checkUserPassword(DbManager $dbManager, $userId, $password) {
+            $dbManager->query('SELECT password FROM users WHERE id=?', array($userId), 'i'); 
+            $hashedPassword = '';
+            while ($row = $dbManager->result->fetch_row()) {
+                $hashedPassword = $row[0];
+            }
+            return password_verify($password, $hashedPassword);
+        }
         if (!checkUserPassword($_SESSION['user-id'], $currentPassword)) {
             $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('edit-user', 6));
             break;

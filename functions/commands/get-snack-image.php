@@ -29,7 +29,7 @@ function getSnackImage($name, $overwrite) {
     if ($overwrite || !file_exists($path)) {
         downloadImageFromGoogle($name);
     }
-    if (APCU_INSTALLED) {
+    if (APCU_ENABLED) {
         $cacheKey = 'fm-'.$name.'-snack-img';
         if (apcu_exists($cacheKey)) {
             $response = apcu_fetch($cacheKey);

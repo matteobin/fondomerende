@@ -5,7 +5,6 @@ if (!API_REQUEST || (require FUNCTIONS_PATH.'check-request-method.php')&&checkRe
             $rememberUser = false;
             if (setRequestInputValue($rememberUser, false, 'remember-user', array('filter'=>FILTER_VALIDATE_BOOLEAN, 'options'=>array('flags'=>FILTER_NULL_ON_FAILURE)), array())) {
                 require COMMANDS_PATH.'login.php';
-                $dbManager->lockTables(array('users'=>'w', 'tokens'=>'w'));
                 $response = login($dbManager, $userName, $password, $rememberUser);
             }
         }

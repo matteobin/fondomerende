@@ -1,6 +1,8 @@
 <?php
-function checkUserActive(DbManager $dbManager, &$response) {
-    $dbManager->lockTables(array('users'=>'r'));
+function checkUserActive(DbManager $dbManager, &$response, $readTransaction=false) {
+    if (!$dbManager->transactionBegun) {
+        $dbManager->beginTransaction($readTransaction);
+    }
     $dbManager->query('SELECT active FROM users WHERE id=?', array($_SESSION['user-id']), 'i');
     $isActive = false;
     while ($row = $dbManager->result->fetch_row()) {

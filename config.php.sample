@@ -4,9 +4,9 @@ if (API_REQUEST) {
 } else {
     define('WEB_BASE_DIR', '/');
 }
-define('MAINTENANCE', false);
-define('CLEAN_URLS', false);
-define('APCU_INSTALLED', false);
+const MAINTENANCE = false;
+const CLEAN_URLS = false;
+define('APCU_ENABLED', function_exists('apcu_enabled') && apcu_enabled());
 if (!MAINTENANCE) {
     define('DB_SERVER', '127.0.0.1');
     define('DB_USER', 'root');

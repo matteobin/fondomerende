@@ -31,6 +31,10 @@ if (!$isException) {
     } else {
         $insertUnique = false;
     }
+    if (!$dbManager->transactionBegun) {
+        $readTransaction = isset($options['database']['read-transaction']) && $options['database']['read-transaction'] ? true : false;
+        $dbManager->beginTransaction($readTransaction);
+    }
     $dbManager->query($query, $params, $types);
     $dbValue = null;
     while ($row = $dbManager->result->fetch_assoc()) {
