@@ -11,9 +11,9 @@
 <table id="jslicense-labels1" class="one-column-row" border="1">
     <thead>
         <tr>
-            <th><?php echo getTranslatedString('js-licenses', 4); ?></th>
-            <th><?php echo getTranslatedString('js-licenses', 5); ?></th>
-            <th><?php echo getTranslatedString('js-licenses', 6); ?></th>
+            <th><?php echo getStringInLang('js-licenses', 4); ?></th>
+            <th><?php echo getStringInLang('js-licenses', 5); ?></th>
+            <th><?php echo getStringInLang('js-licenses', 6); ?></th>
         </tr>
     </thead>
     <tbody>

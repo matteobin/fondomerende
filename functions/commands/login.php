@@ -44,7 +44,7 @@ function login(DbManager $dbManager, $name, $password, $rememberUser, $apiCall=t
             }
         }
     } else if ($apiCall) {
-        $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 28));
+        $response = array('success'=>false, 'status'=>401, 'message'=>getStringInLang('response-messages', 28));
     }
     if ($apiCall) {
         return $response;

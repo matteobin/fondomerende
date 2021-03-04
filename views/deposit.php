@@ -1,6 +1,6 @@
 <?php
 require BASE_DIR_PATH.'public'.DIRECTORY_SEPARATOR.'process-request.php';
-$fundsTypeLabel = getTranslatedString('commons', 2);
+$fundsTypeLabel = getStringInLang('commons', 2);
 if (isset($_POST['funds-amount'])) {
     $funds = $_POST['funds-amount'];
 } else {

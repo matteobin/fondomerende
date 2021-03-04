@@ -46,7 +46,7 @@ class DbManager {
             }
         } else {
             $bindings = array();
-            $bindings[] = & $paramTypes;
+            $bindings[] = &$paramTypes;
             $paramsLen = count($params);
             for ($i=0; $i<$paramsLen; $i++) {
                 $bindings[$i+1] = & $params[$i];

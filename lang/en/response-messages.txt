@@ -30,3 +30,8 @@ There is not enough Fund Moolah to withdraw
  € now.
 No crates containing snack id 
 user is not admin.
+Missing default format: there is no gb format file.
+Format
+there is no row number 
+ in 
+ format file

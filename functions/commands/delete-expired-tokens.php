@@ -7,7 +7,7 @@ function deleteExpiredTokens(DbManager $dbManager, $verbose=0) {
         $query = 'SELECT tokens.id, tokens.token, users.id'; 
         if ($verbose==2) {
             if ($fromCli) {
-                echo getTranslatedString('tokens', 1)."{$nowToday}.\n";
+                echo getStringInLang('tokens', 1)."{$nowToday}.\n";
             } else {
                 $response['data']['now-today'] = $nowToday;
             }
@@ -22,7 +22,7 @@ function deleteExpiredTokens(DbManager $dbManager, $verbose=0) {
         $toDeleteNum = count($toDelete);
         if (!$toDeleteNum) {
             if ($fromCli) {
-                echo getTranslatedString('tokens', 2)."\n";
+                echo getStringInLang('tokens', 2)."\n";
             } else {
                 $response['data'] = array('deleted-tokens' => array());
             }
@@ -33,9 +33,9 @@ function deleteExpiredTokens(DbManager $dbManager, $verbose=0) {
                 if (!$i && $verbose==2) {
                     echo "\n";
                 }
-                echo getTranslatedString('tokens', 3).$toDelete[$i]['token'].getTranslatedString('tokens', 4).$toDelete[$i]['id'];
+                echo getStringInLang('tokens', 3).$toDelete[$i]['token'].getStringInLang('tokens', 4).$toDelete[$i]['id'];
                 if ($verbose==2) {
-                    echo ' ('.$toDelete[$i]['name'].getTranslatedString('tokens', 5).$toDelete[$i]['friendly_name'].')'.getTranslatedString('tokens', 6).$toDelete[$i]['device'].getTranslatedString('tokens', 6).$toDelete[$i]['expires_at'];
+                    echo ' ('.$toDelete[$i]['name'].getStringInLang('tokens', 5).$toDelete[$i]['friendly_name'].')'.getStringInLang('tokens', 6).$toDelete[$i]['device'].getStringInLang('tokens', 6).$toDelete[$i]['expires_at'];
                 }
                 echo ".\n";
             } else {

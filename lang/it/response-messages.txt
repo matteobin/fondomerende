@@ -30,3 +30,7 @@ Al momento non ci sono abbastanza Quattrini nel Fondo per ritirare
  €.
 Nessuna cassa che contiene la merendina con id 
 l'utente non è un amministratore.
+Formato default mancante: non c'è il file del formato gb.
+Formato
+non c'è la riga numero 
+ nel file del formato 

@@ -9,7 +9,7 @@ function withdraw(DbManager $dbManager, $userId, $amount) {
     $response['success'] = true;
     if ($amount>$fundAmount) {
         $response['status'] = 404;
-        $response['message'] = getTranslatedString('response-messages', 29).$amount.getTranslatedString('response-messages', 30);
+        $response['message'] = getStringInLang('response-messages', 29).$amount.getStringInLang('response-messages', 30);
     } else {
         executeDepositOrWithdrawQueries($dbManager, $userId, $amount, false);
         $response['status'] = 200;

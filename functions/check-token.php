@@ -1,7 +1,7 @@
 <?php
 function checkToken(&$response, &$dbManager) {
     $isValid = false;
-    $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 6));
+    $response = array('success'=>false, 'status'=>401, 'message'=>getStringInLang('response-messages', 2).getStringInLang('response-messages', 3).getStringInLang('response-messages', 6));
     $token = API_REQUEST ? filter_input(INPUT_SERVER, 'Token', FILTER_SANITIZE_STRING) : filter_input(INPUT_COOKIE, 'token', FILTER_SANITIZE_STRING);
     if ($token) {
         if (isset($_SESSION['user-id'], $_SESSION['user-friendly-name'], $_SESSION['token'])) {

@@ -7,10 +7,11 @@ if (API_REQUEST) {
     define('FUNCTIONS_PATH', BASE_DIR_PATH.'functions'.DIRECTORY_SEPARATOR);
     require BASE_DIR_PATH.'config.php';
     session_start();
-    require FUNCTIONS_PATH.'get-translated-string.php';
+    require FUNCTIONS_PATH.'get-string-in-lang.php';
+    require FUNCTIONS_PATH.'get-format.php';
 }
 if (MAINTENANCE) {
-    $response = array('success'=>true, 'status'=>503, 'message'=>getTranslatedString('response-messages', 1));
+    $response = array('success'=>true, 'status'=>503, 'message'=>getStringInLang('response-messages', 1));
 } else {
     define('COMMANDS_PATH', FUNCTIONS_PATH.'commands'.DIRECTORY_SEPARATOR);
     if (API_REQUEST) {
@@ -28,20 +29,20 @@ if (MAINTENANCE) {
         }
         if (!$options['boolean'] && is_null($value)) {
             $valid = false;
-            $message = getTranslatedString('response-messages', 9);
+            $message = getStringInLang('response-messages', 9);
         } else if (($options['boolean'] && is_null($value)) || ((!$options['boolean'] && $value===false || $value==='') && !$options['can-be-empty'])) {
             $valid = false;
-            $message = getTranslatedString('response-messages', 10);
+            $message = getStringInLang('response-messages', 10);
         } else if (isset($options['max-length']) && strlen($value)>$options['max-length']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('response-messages', 11).$options['max-length'].getTranslatedString('response-messages', 12);
+            $message = '\''.$value.'\''.getStringInLang('response-messages', 11).$options['max-length'].getStringInLang('response-messages', 12);
         } else if (isset($options['greater-than']) || isset($options['less-than'])) {
             if (isset($options['greater-than']) && $value<=$options['greater-than']) {
                 $valid = false;
-                $message = '\''.$value.'\''.getTranslatedString('response-messages', 13).$options['greater-than'].'.';
+                $message = '\''.$value.'\''.getStringInLang('response-messages', 13).$options['greater-than'].'.';
             } else if (isset($options['less-than']) && $value>=$options['less-than']) {
                 $valid = false;
-                $message = '\''.$value.'\''.getTranslatedString('response-messages', 14).$options['less-than'].'.';
+                $message = '\''.$value.'\''.getStringInLang('response-messages', 14).$options['less-than'].'.';
             }
         } else if (isset($options['timestamp']) || isset($options['date'])) {
             require INJECTIONS_PATH.'timestamp-or-date-check.php';
@@ -51,7 +52,7 @@ if (MAINTENANCE) {
         }
         if ($valid && isset($options['decimals-number']) && strlen($value)-(strpos($value, '.')+1)>$options['decimals-number']) {
             $valid = false;
-            $message = '\''.$value.'\''.getTranslatedString('response-messages', 16).$options['decimals-number'].'.'; 
+            $message = '\''.$value.'\''.getStringInLang('response-messages', 16).$options['decimals-number'].'.'; 
         }
         if ($valid && isset($options['database'])) {
             require INJECTIONS_PATH.'database-check.php';
@@ -80,13 +81,13 @@ if (MAINTENANCE) {
                 }
             } else {
                 global $response;
-                $response = array('success'=>false, 'status'=>400, 'message'=>ucfirst(str_replace('-', ' ', $requestVariableName)).getTranslatedString('response-messages', 3).$checkResult['message']);
+                $response = array('success'=>false, 'status'=>400, 'message'=>ucfirst(str_replace('-', ' ', $requestVariableName)).getStringInLang('response-messages', 3).$checkResult['message']);
                 $noInputError = false;
             }
         }
         return $noInputError;
     }
-    $response = array('success'=>false, 'status'=>400, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 23));
+    $response = array('success'=>false, 'status'=>400, 'message'=>getStringInLang('response-messages', 2).getStringInLang('response-messages', 3).getStringInLang('response-messages', 23));
     if (!API_REQUEST || filter_input(INPUT_SERVER, 'API-Key', FILTER_SANITIZE_STRING)==API_KEY) {
         try {
             $commandName = filter_input(constant('INPUT_'.REQUEST_METHOD), 'command-name', FILTER_SANITIZE_STRING);
@@ -105,7 +106,7 @@ if (MAINTENANCE) {
             $response = array('success'=>false, 'status'=>500, 'message'=>$e->getMessage());
         }
     } else {
-        $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('response-messages', 2).getTranslatedString('response-messages', 3).getTranslatedString('response-messages', 27));
+        $response = array('success'=>false, 'status'=>401, 'message'=>getStringInLang('response-messages', 2).getStringInLang('response-messages', 3).getStringInLang('response-messages', 27));
     }
 }
 if (API_REQUEST) {

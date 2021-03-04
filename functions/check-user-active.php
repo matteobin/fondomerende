@@ -9,7 +9,7 @@ function checkUserActive(DbManager $dbManager, &$response, $readTransaction=fals
         $isActive = (bool)$row[0];
     }
     if (!$isActive) {
-        $response = array('success'=>true, 'status'=>401, 'message'=>getTranslatedString('response-messages', 7).getTranslatedString('response-messages', 8));
+        $response = array('success'=>true, 'status'=>401, 'message'=>getStringInLang('response-messages', 7).getStringInLang('response-messages', 8));
     }
     return $isActive;
 }

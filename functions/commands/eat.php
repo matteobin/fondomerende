@@ -12,6 +12,6 @@ function eat(DbManager $dbManager, $userId, $snackId, $quantity) {
         $dbManager->query('INSERT INTO actions (user_id, command_id, snack_id, snack_quantity, funds_amount, outflow_id) VALUES (?, ?, ?, ?, ?, ?)', array($userId, 8, $snackId, $quantity, $totalPrice, $outflowId), 'iiiidi');
         return array('success'=>true, 'status'=>200);
     } else {
-        return array('success'=>false, 'status'=>404, 'message'=>getTranslatedString('response-messages', 31).$snackId.'.');
+        return array('success'=>false, 'status'=>404, 'message'=>getStringInLang('response-messages', 31).$snackId.'.');
     }
 }

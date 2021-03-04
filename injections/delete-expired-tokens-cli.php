@@ -14,11 +14,11 @@ foreach($argv as $arg) {
     }
 }
 if (MAINTENANCE) {
-    echo getTranslatedString('maintenance', 5)."\n";
+    echo getStringInLang('maintenance', 5)."\n";
     if ($verbose) {
-        echo getTranslatedString('maintenance', 6)."\n";
+        echo getStringInLang('maintenance', 6)."\n";
         if ($verbose==2) {
-            echo getTranslatedString('maintenance', 7).' '.getTranslatedString('maintenance', 8)."!\n"; 
+            echo getStringInLang('maintenance', 7).' '.getStringInLang('maintenance', 8)."!\n"; 
         }
     }
 } else {

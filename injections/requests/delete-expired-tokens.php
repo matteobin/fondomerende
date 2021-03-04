@@ -6,7 +6,7 @@ function checkUserAdmin(DbManager $dbManager, &$response) {
         $isAdmin = (bool)$row[0];
     }
     if (!$isAdmin) {
-        $response = array('success'=>true, 'status'=>401, 'message'=>getTranslatedString('response-messages', 7).getTranslatedString('response-messages', 32));
+        $response = array('success'=>true, 'status'=>401, 'message'=>getStringInLang('response-messages', 7).getStringInLang('response-messages', 32));
     }
     return $isAdmin;
 }

@@ -38,7 +38,7 @@ while (true) {
             return password_verify($password, $hashedPassword);
         }
         if (!checkUserPassword($_SESSION['user-id'], $currentPassword)) {
-            $response = array('success'=>false, 'status'=>401, 'message'=>getTranslatedString('edit-user', 6));
+            $response = array('success'=>false, 'status'=>401, 'message'=>getStringInLang('edit-user', 6));
             break;
         }
     }
