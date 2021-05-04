@@ -13,10 +13,10 @@ Fondo Merende is a web management software for office snacks supplies.
 
 ### Options  
 
-#### BASE\_DIR
+#### WEB\_BASE\_DIR
 The base dir of the website. You need to change the default value if you want to install Fondo Merende in a subdirectory.
 
-#### AUTH\_KEY
+#### API\_KEY
 The authorization key to access the API. Like for passwords long is better.  
 **YOU SHOULD ALWAYS CHANGE THE DEFAULT VALUE!**
 

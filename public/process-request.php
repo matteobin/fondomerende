@@ -88,7 +88,7 @@ if (MAINTENANCE) {
         return $noInputError;
     }
     $response = array('success'=>false, 'status'=>400, 'message'=>getStringInLang('response-messages', 2).getStringInLang('response-messages', 3).getStringInLang('response-messages', 23));
-    if (!API_REQUEST || filter_input(INPUT_SERVER, 'API-Key', FILTER_SANITIZE_STRING)==API_KEY) {
+    if (!API_REQUEST || filter_input(INPUT_SERVER, 'HTTP_API_KEY', FILTER_SANITIZE_STRING)==API_KEY) {
         try {
             $commandName = filter_input(constant('INPUT_'.REQUEST_METHOD), 'command-name', FILTER_SANITIZE_STRING);
             $processRequestFilePath = INJECTIONS_PATH.'requests'.DIRECTORY_SEPARATOR.$commandName.'.php';
